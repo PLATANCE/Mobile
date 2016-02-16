@@ -2,7 +2,7 @@
 import React, { Component, AppRegistry, Navigator, StyleSheet, Text, View } from 'react-native';
 import ReactNativeRouter, { Route, Schema, Animations, TabBar } from 'react-native-router-flux';
 
-import { Provider, connect } from 'react-redux';
+import { Provider, connect } from 'react-redux/native';
 import { createStore } from 'redux'
 import Reducers from './Reducers';
 
