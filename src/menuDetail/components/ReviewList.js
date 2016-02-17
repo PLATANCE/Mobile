@@ -4,7 +4,8 @@ import React, {
     View,
     Text,
     StyleSheet,
-    ListView
+    ListView,
+    TouchableHighlight
 } from 'react-native';
 
 /*
@@ -23,7 +24,7 @@ export default class ReviewList extends React.Component {
             content: PropTypes.string.isRequired,
             maskedPhoneNumber: PropTypes.string.isRequired
         }))
-    }
+    };
     constructor(props) {
         super(props);
         let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -41,7 +42,7 @@ export default class ReviewList extends React.Component {
                 <View>
                     <TouchableHighlight>
                         <View>
-                            <Text>{더 보기}</Text>
+                            <Text>더 보기</Text>
                         </View>
                     </TouchableHighlight>
                 </View>
@@ -53,9 +54,9 @@ export default class ReviewList extends React.Component {
                 <View>
                     <Text>고객님들의 평가</Text>
                 </View>
-                <ListView {/* https://facebook.github.io/react-native/docs/listview.html */}
-                    dataSource={dataSource}
-                    renderRow={(rowData) => <Text>{rowData}</Text>}
+                <ListView //https://facebook.github.io/react-native/docs/listview.html
+                    dataSource={this.state.dataSource}
+                    renderRow={(rowData, sectionID, rowID) => <Text key={'${sectionID}-${rowID}'}>{JSON.stringify(rowData)}</Text>}
                 />
                 {showMoreButton}
             </View>
