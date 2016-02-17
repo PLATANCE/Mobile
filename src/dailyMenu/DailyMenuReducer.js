@@ -1,6 +1,9 @@
 'use strict';
-export default (state = {}, action) => {
+import { ADD_CART, CHANGE_DATE } from './DailyMenuActions'
+
+export default function dailyMenus(state = {}, action)  {
     switch (action.type) {
-        default: return state;
+        default: 
+        	return state;
     }
-};
+}
