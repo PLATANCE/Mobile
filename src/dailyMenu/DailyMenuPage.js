@@ -7,7 +7,8 @@ export default class DailyMenuPage extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <DailyMenuList dailyMenus={this.props.dailyMenus} style={styles.listview}/>
+                <Text>모든 메인 메뉴는 당일 조리, 당일 배송 됩니다.</Text>
+                <DailyMenuList menus={this.props.menus} />
             </View>
         );
     }
@@ -16,6 +17,6 @@ export default class DailyMenuPage extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: 'red',
     }
 });

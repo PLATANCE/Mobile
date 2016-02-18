@@ -8,14 +8,14 @@ export default class DailyMenuList extends React.Component {
         });
 
         this.state = {
-            dataSource: dataSource.cloneWithRows(props.dailyMenus)
+            dataSource: dataSource.cloneWithRows(props.menus)
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.dailyMenus !== this.props.dailyMenus) {
+        if (nextProps.menus !== this.props.menus) {
             this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(nextProps.dailyMenus)
+                dataSource: this.state.dataSource.cloneWithRows(nextProps.menus)
             })
         }
     }
@@ -48,9 +48,8 @@ export default class DailyMenuList extends React.Component {
 
 let styles = StyleSheet.create({
 	row: {
-		flexDirection: 'column',
-	    justifyContent: 'center',
-	    padding: 10,
-	    backgroundColor: '#F6F6F6',
+	    margin: 10,
+	    backgroundColor: 'orange',
+        justifyContent: 'center',
 	}
 });
