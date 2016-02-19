@@ -3,13 +3,15 @@ export default (state) => ({
     menu: {
         name: "수비드 연어 스테이크",
         foreignName: "Sous Vide Salmon Steak",
+        url: 'http://plating.co.kr/app/media/2015.11.06-salmon_steak.jpg',
         averageReviewScore: 4.5,
         reviewCount: 93,
         originalPrice: 11000,
         sellingPrice: 8000,
         chef: {
             name: "Andrew Kim Chef",
-            affiliation: "前 Purearena Executive Chef"
+            affiliation: "前 Purearena Executive Chef",
+            url: 'http://plating.co.kr/app/media/chef/2015.11.06-chef_andrew.png'
         },
         description: "신선하고 촉촉한 노르웨이산 연어의 부드러운 참 맛을 느낄 수 있도록 연어휠렛을 수비드로 조리하여 시어링으로 마무리했습니다. 한끼 식사로 충분하도록 라임으로 깔끔함을 더한 완두콩 매쉬에 로스트 포테이토, 그리고 라따뚜이를 곁들였습니다.",
         ingredients: "연어, 딜, 케이퍼, 사워크림, 완두콩, 빈스트링, 감자, 라임, 주끼니, 당근, 가지, 토마토 (야채 가니쉬는 당일 가장 신선한 제철 재료로 변경될 수 있습니다)",

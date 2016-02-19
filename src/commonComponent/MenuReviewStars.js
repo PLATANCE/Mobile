@@ -16,12 +16,7 @@ export default class MenuReviewStars extends React.Component {
             score
         } = this.props;
 
-        /*
-         * Style
-         */
-        let styles = StyleSheet.create({
 
-        });
 
         return (
             <View>
@@ -30,3 +25,10 @@ export default class MenuReviewStars extends React.Component {
         );
     }
 }
+
+/*
+ * Style
+ */
+let styles = StyleSheet.create({
+
+});

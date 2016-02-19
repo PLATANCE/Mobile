@@ -20,7 +20,7 @@ export default class Routes extends Component {
         return (
             <Provider store={store}>
                 <Router hideNavBar={true}>
-                    <Route name="DailyMenuPage" component={connect(DailyMenuSelector)(DailyMenuPage)}  wrapRouter={true} title="DailyMenu"/>
+                    <Route name="DailyMenuPage" component={connect(DailyMenuSelector)(DailyMenuPage)}  title="DailyMenu"/>
                     <Route name="MenuDetailPage" component={connect(MenuDetailSelector)(MenuDetailPage)} initial={true} title="MenuDetailPage"/>
                 </Router>
             </Provider>

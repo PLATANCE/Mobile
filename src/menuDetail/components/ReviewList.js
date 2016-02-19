@@ -8,13 +8,6 @@ import React, {
     TouchableHighlight
 } from 'react-native';
 
-/*
- * Style
- */
-let styles = StyleSheet.create({
-
-});
-
 export default class ReviewList extends React.Component {
     static propTypes = {
         isCurrentShowALL: PropTypes.bool.isRequired,
@@ -52,7 +45,7 @@ export default class ReviewList extends React.Component {
         return (
             <View>
                 <View>
-                    <Text>고객님들의 평가</Text>
+                    <Text style={styles.header}>고객님들의 평가</Text>
                 </View>
                 <ListView //https://facebook.github.io/react-native/docs/listview.html
                     dataSource={this.state.dataSource}
@@ -63,3 +56,17 @@ export default class ReviewList extends React.Component {
         );
     }
 }
+
+/*
+ * Style
+ */
+let styles = StyleSheet.create({
+    header: {
+        paddingTop: 10,
+        textAlign: 'center',
+        fontSize: 18,
+    },
+    headerText: {
+        fontSize: 18,
+    }
+});

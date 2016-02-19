@@ -6,6 +6,8 @@ import React, {
     StyleSheet
 } from 'react-native';
 
+import Color from '../const/Color';
+
 export default class MenuPriceText extends React.Component {
     static propTypes = {
         originalPrice: PropTypes.number.isRequired,
@@ -18,12 +20,6 @@ export default class MenuPriceText extends React.Component {
             sellingPrice,
         } = this.props;
 
-        /*
-         * Style
-         */
-        let styles = StyleSheet.create({
-
-        });
 
         return (
             <View>
@@ -33,3 +29,10 @@ export default class MenuPriceText extends React.Component {
         );
     }
 }
+
+/*
+ * Style
+ */
+let styles = StyleSheet.create({
+    
+});
