@@ -29,7 +29,6 @@ export default class DailyMenuList extends React.Component {
     renderRow(rowData) {
         return (
             <View style={styles.row}>
-
                 <View style={styles.menuImageBox}>
                     <Image style={styles.menuImage}
                         source={{uri: rowData.menu.url}} />
@@ -55,7 +54,7 @@ export default class DailyMenuList extends React.Component {
                         <Text style={styles.reviewCountText}>({rowData.menu.reviewCount})</Text>
                     </View>
                     <View style={styles.priceBox}>
-                        <MenuPriceText originalPrice={rowData.menu.originalPrice} sellingPrice={rowData.menu.sellingPrice}/>
+                        <MenuPriceText originalPrice={rowData.menu.originalPrice} sellingPrice={rowData.menu.sellingPrice} align={{textAlign: 'right'}}/>
                     </View>
                     <View style={styles.cartButtonBox}>
                         <AddCartButton  />
@@ -82,10 +81,10 @@ let styles = StyleSheet.create({
         flex: 1,
     },
 	row: {
-	    margin: 10,
         justifyContent: 'center',
         height: 400,
         backgroundColor: 'white',
+        marginBottom: 10,
 	},
     menuImageBox: {
         flex: 7,
@@ -140,11 +139,14 @@ let styles = StyleSheet.create({
     },
     reviewCountText: {
         color: Color.PRIMARY_GRAY,
+        flex: 1,
+        marginLeft: 5,
     },
     priceBox: {
         flex: 3,
         flexDirection: 'row',
         justifyContent: 'flex-end',
+        alignItems: 'center',
         marginRight: 10,
     },
     cartButtonBox: {

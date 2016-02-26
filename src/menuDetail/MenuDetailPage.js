@@ -57,7 +57,6 @@ export default class MenuDetailPage extends React.Component {
         return (
             <ScrollView>
             <View style={styles.container}>
-                <Toolbar />
                 <View style={styles.pageCommentBox}>
                     <Text>모든 메인메뉴는 전자렌지 조리용입니다.</Text>
                 </View>
@@ -127,7 +126,6 @@ export default class MenuDetailPage extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'stretch'
     },
     content: {
         marginLeft: 10,

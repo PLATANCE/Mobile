@@ -6,14 +6,25 @@ import React, {
     TouchableHighlight
 } from 'react-native';
 
+import Color from '../const/Color';
+
 export default class Toolbar extends React.Component {
+
 	render() {
+        let {
+            leftIcon,
+            text,
+            rightIcon
+        } = this.props;
+
 		return (
 			<View>
 				<View style={styles.toolbar}>
-					<Text style={styles.toolbarButton}>Back</Text>
-                    <Text style={styles.toolbarTitle}>TODAY'S MENU</Text>
-                    <Text style={styles.toolbarButton}>장바구니</Text>
+                    <Image style={styles.imageLeft}
+                        source={{uri: leftIcon}}/>
+                    <Text style={styles.toolbarTitle}>{text}</Text>
+                    <Image style={styles.imageRight}
+                        source={{uri: rightIcon}}/>
 				</View>
 			</View>
 		)
@@ -22,20 +33,32 @@ export default class Toolbar extends React.Component {
 
 var styles = StyleSheet.create({
 	toolbar: {
-        backgroundColor:'#E27149',
-        paddingTop:30,
-        paddingBottom:10,
-        flexDirection:'row'    //Step 1
+        backgroundColor: Color.PRIMARY_ORANGE,
+        paddingTop: 30,
+        paddingBottom: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
     },
-    toolbarButton: {
-        width: 50,            //Step 2
-        color:'#fff',
-        textAlign:'center'
+    button: {
+        width: 50,
+        backgroundColor: 'red'
+    },
+    imageLeft: {
+        height: 20,
+        width: 20,
+        resizeMode: 'contain',
+        marginLeft: 10
+    },
+    imageRight: {
+        height: 20,
+        width: 20,
+        resizeMode: 'contain',
+        marginRight: 10
     },
     toolbarTitle: {
-        color:'#fff',
-        textAlign:'center',
-        fontWeight:'bold',
-        flex:1                //Step 3
+        color: 'white',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        flex: 1          
     }
 });

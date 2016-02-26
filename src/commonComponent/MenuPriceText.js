@@ -3,10 +3,11 @@ import React, {
     PropTypes,
     View,
     Text,
-    StyleSheet
+    StyleSheet,
 } from 'react-native';
 
 import Color from '../const/Color';
+import Modal from 'react-native-modal';
 
 export default class MenuPriceText extends React.Component {
     static propTypes = {
@@ -18,15 +19,24 @@ export default class MenuPriceText extends React.Component {
         let {
             originalPrice,
             sellingPrice,
+            align
         } = this.props;
 
+        if (originalPrice == sellingPrice) {
+            return (
+                <View style={styles.container}>
+                    <Text style={[styles.sellingPriceText, align]}>{sellingPrice.toLocaleString()}원</Text>
+                </View>
 
-        return (
-            <View>
-                <Text>{originalPrice.toLocaleString()}원</Text>
-                <Text>{sellingPrice.toLocaleString()}원</Text>
-            </View>
-        );
+            );
+        } else {
+            return (
+                <View style={styles.container}>
+                    <Text style={[styles.originalPriceText, align]} >{originalPrice.toLocaleString()}원</Text>
+                    <Text style={[styles.sellingPriceText, align]}>{sellingPrice.toLocaleString()}원</Text>
+                </View>
+            );
+        }
     }
 }
 
@@ -34,5 +44,22 @@ export default class MenuPriceText extends React.Component {
  * Style
  */
 let styles = StyleSheet.create({
-    
+    container: {
+        flex: 1,
+    },
+    originalPriceText: {
+        color: Color.PRIMARY_GRAY,
+        textDecorationLine: 'line-through'
+    },
+    sellingPriceText: {
+        color: Color.PRIMARY_BLACK,
+        textAlign: 'right',
+    },
+    line: {
+        borderColor: 'red',
+        borderWidth: 0.5,
+        overflow: 'visible',
+        position: 'absolute',
+    },
+
 });

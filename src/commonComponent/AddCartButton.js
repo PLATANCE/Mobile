@@ -6,6 +6,7 @@ import React, {
     StyleSheet,
     TouchableHighlight
 } from 'react-native';
+
 import Color from '../const/Color';
 
 export default class AddCartButton extends React.Component {
@@ -27,6 +28,10 @@ let styles = StyleSheet.create({
         backgroundColor: Color.PRIMARY_ORANGE,
         alignItems: 'center',
         justifyContent: 'center',
+        borderWidth: 1,
+        borderRadius: 5,
+        overflow: 'hidden',
+        borderColor: Color.PRIMARY_ORANGE,
     },
     addCartButton: {
         color: 'white',

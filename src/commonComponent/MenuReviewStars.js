@@ -3,7 +3,8 @@ import React, {
     PropTypes,
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    Image
 } from 'react-native';
 
 export default class MenuReviewStars extends React.Component {
@@ -16,11 +17,16 @@ export default class MenuReviewStars extends React.Component {
             score
         } = this.props;
 
-
-
+        var scoreStar = [];
+        for(var i = 0; i < 5; i++) {
+            scoreStar.push(
+                <Image style={styles.star} key={"star_"+i}
+                    source={require('./img/icon_star_filled_yellow.png')}/>
+            );
+        }
         return (
-            <View>
-                <Text>{score}</Text>
+            <View style={styles.container}>
+                {scoreStar}
             </View>
         );
     }
@@ -30,5 +36,11 @@ export default class MenuReviewStars extends React.Component {
  * Style
  */
 let styles = StyleSheet.create({
-
+    container: {
+        flexDirection: 'row',
+    },
+    star: {
+        width: 20,
+        height: 20,
+    }
 });
