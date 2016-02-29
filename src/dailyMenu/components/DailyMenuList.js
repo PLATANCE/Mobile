@@ -1,9 +1,10 @@
-import React, { View, ListView, Text, StyleSheet, Image } from 'react-native';
+import React, { View, ListView, Text, StyleSheet, Image, TouchableHighlight } from 'react-native';
 import Color from '../../const/Color';
 import MenuReviewStars from '../../commonComponent/MenuReviewStars';
 import MenuPriceText from '../../commonComponent/MenuPriceText';
 import AddCartButton from '../../commonComponent/AddCartButton';
-
+import AmountInCart from '../../commonComponent/AmountInCart';
+import {Actions} from 'react-native-router-flux'
 
 
 export default class DailyMenuList extends React.Component {
@@ -28,22 +29,28 @@ export default class DailyMenuList extends React.Component {
 
     renderRow(rowData) {
         return (
+            <TouchableHighlight onPress={Actions.MenuDetailPage}>
             <View style={styles.row}>
-                <View style={styles.menuImageBox}>
-                    <Image style={styles.menuImage}
-                        source={{uri: rowData.menu.url}} />
-                </View>
-
-                <View style={styles.menuChefBox}>
-                    <View style={styles.chefImageBox}>
-                        <Image style={styles.chefImage}
-                            source={{uri: rowData.chef.url}} /> 
+                <View style={styles.menuDetailBox}>
+                    <View style={styles.menuImageBox}>
+                        <Image style={styles.menuImage}
+                            source={{uri: rowData.menu.url}} >
+                            <View style={styles.amountInCart}>
+                                <AmountInCart amount={2}/>
+                            </View>
+                        </Image>
                     </View>
-                    <View style={styles.menuChef}>
-                        <Text style={styles.menuNameText}>{rowData.menu.name}</Text>
-                        <Text style={styles.menuNameText}>{rowData.menu.foreignName}</Text>
-                        <View style={styles.chefNameBox}>
-                            <Text style={styles.chefNameText}>{rowData.chef.name}</Text>
+                    <View style={styles.menuChefBox}>
+                        <View style={styles.chefImageBox}>
+                            <Image style={styles.chefImage}
+                                source={{uri: rowData.chef.url}} /> 
+                        </View>
+                        <View style={styles.menuChef}>
+                            <Text style={styles.menuNameText}>{rowData.menu.name}</Text>
+                            <Text style={styles.menuNameText}>{rowData.menu.foreignName}</Text>
+                            <View style={styles.chefNameBox}>
+                                <Text style={styles.chefNameText}>{rowData.chef.name}</Text>
+                            </View>
                         </View>
                     </View>
                 </View>
@@ -61,6 +68,7 @@ export default class DailyMenuList extends React.Component {
                     </View>
                 </View>
     		</View>
+            </TouchableHighlight>
         );
     }
 
@@ -84,24 +92,34 @@ let styles = StyleSheet.create({
         justifyContent: 'center',
         height: 400,
         backgroundColor: 'white',
-        marginBottom: 10,
+        marginTop: 10,
 	},
+    menuDetailBox: {
+        height: 350,
+    },  
     menuImageBox: {
-        flex: 7,
+        height: 250,
     },
     menuImage: {
         flex: 1,
         resizeMode: 'cover',
     },
-    menuChefBox: {
-        flex: 3,
+    amountInCart: {
+        height: 30,
         flexDirection: 'row',
+        position: 'relative',
+        left: 0,
+        top: 220,
+    },
+    menuChefBox: {
+        height: 100,
+        flexDirection: 'row',
+        marginLeft: 10,
+        marginTop: 10,
+        marginRight: 10,
     },
     chefImageBox: {
         flex: 1,
-        marginLeft: 10,
-        marginTop: 10,
-        marginBottom: 10,
     },
     chefImage: {
         flex: 1,
@@ -109,7 +127,7 @@ let styles = StyleSheet.create({
     },
     menuChef: {
         flex: 4,
-        marginTop: 20,
+        marginTop: 15,
         marginBottom: 15,
         marginLeft: 5,
     },
@@ -126,16 +144,15 @@ let styles = StyleSheet.create({
         color: Color.PRIMARY_ORANGE,
     },
     reviewPriceBox: {
-        flex: 1,
+        height: 50,
         flexDirection: 'row',
-        margin: 10,
-        marginLeft: 5,
+        marginLeft: 10,
+        marginRight: 10,
     },
     reviewBox: {
         flex: 4,
         flexDirection: 'row',
         alignItems: 'center',
-        marginLeft: 10,
     },
     reviewCountText: {
         color: Color.PRIMARY_GRAY,
@@ -151,5 +168,7 @@ let styles = StyleSheet.create({
     },
     cartButtonBox: {
         flex: 2,
+        paddingBottom: 5,
+        paddingTop: 5,
     }
 });

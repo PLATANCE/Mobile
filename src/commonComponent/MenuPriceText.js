@@ -7,7 +7,6 @@ import React, {
 } from 'react-native';
 
 import Color from '../const/Color';
-import Modal from 'react-native-modal';
 
 export default class MenuPriceText extends React.Component {
     static propTypes = {
@@ -49,7 +48,8 @@ let styles = StyleSheet.create({
     },
     originalPriceText: {
         color: Color.PRIMARY_GRAY,
-        textDecorationLine: 'line-through'
+        textDecorationLine: 'line-through',
+        textAlign: 'right',
     },
     sellingPriceText: {
         color: Color.PRIMARY_BLACK,

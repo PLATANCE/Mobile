@@ -1,6 +1,6 @@
 'use strict';
-import React, { Component, AppRegistry, Navigator, StyleSheet, Text, View, Image } from 'react-native';
-import ReactNativeRouter, { Route, Schema, Animations, TabBar } from 'react-native-router-flux';
+import React, { Component, AppRegistry, Navigator, StyleSheet, Text, View, Image, TouchableHighlight, Platform } from 'react-native';
+import ReactNativeRouter, { Route, Schema, Animations, TabBar, Actions } from 'react-native-router-flux';
 
 import { Provider, connect } from 'react-redux';
 import { createStore } from 'redux'
@@ -39,67 +39,133 @@ import ReviewSelector from '../review/ReviewSelector';
 const Router = connect()(ReactNativeRouter.Router);
 let store = createStore(Reducers);
 
+const hideNavBar = Platform.OS === 'android'
+const paddingTop = Platform.OS === 'android' ? 0 : 8
+
 export default class Routes extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isDrawerOpen: true
+        }
+    }
     renderDrawerButton() {
+
         return (
-            <View style={styles.leftButton}>
+            <TouchableHighlight style={styles.leftButton} onPress={this.drawerOpen.bind(this)}>
                 <Image style={styles.image}
                     source={require('../commonComponent/img/drawer_white.png')}/>
-            </View>
+            </TouchableHighlight>
         );
     }
     renderCartButton() {
         return (
-            <View style={styles.rightButton}>
+            <TouchableHighlight style={styles.rightButton} onPress={Actions.CartPage}>
                 <Image style={styles.image}
                     source={require('../commonComponent/img/cart_white.png')}/>
-            </View>
+            </TouchableHighlight>
         );
     }
     renderBackButton() {
         return (
-            <View style={styles.leftButton}>
+            <TouchableHighlight style={styles.leftButton} onPress={Actions.pop}>
                 <Image style={styles.image}
                     source={require('../commonComponent/img/back_white.png')}/>
-            </View>
+            </TouchableHighlight>
         );
     }
+
+    drawerOpen() {
+        this.setState({ isDrawerOpen: !this.state.isDrawerOpen });
+    }
+
     render() {
+        console.log(this.state.isDrawerOpen);
         return (
             <Provider store={store}>
-                <Router hideNavBar={true}>
+                
+                <Router navigationBarStyle={styles.navigationBar} titleStyle={styles.title} >
                     <Schema name="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom}/>
                     <Schema name="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight}/>
                     <Schema name="withoutAnimation"/>
 
-                    <Route name="DailyMenuPage" component={connect(DailyMenuSelector)(DailyMenuPage)} 
-                        initial={true} wrapRouter={true} title="TODAY'S MENU" 
-                        navigationBarStyle={styles.navigationBar} titleStyle={styles.title} 
-                        renderLeftButton={this.renderDrawerButton} 
-                        renderRightButton={this.renderCartButton} />
+                    <Route name='DrawerPage' hideNavBar={true} type='reset' initial={true} >
+                        <SideDrawer isDrawerOpen={this.state.isDrawerOpen}>
+                            <Router
+                                sceneStyle={styles.scene}
+                                navigationBarStyle={styles.navigationBar}
+                                titleStyle={styles.title} >
+                                <Route name="DailyMenuPage" 
+                                        component={connect(DailyMenuSelector)(DailyMenuPage)} 
+                                        title="TODAY'S MENU" 
+                                        renderLeftButton={this.renderDrawerButton.bind(this)} 
+                                        renderRightButton={this.renderCartButton} />
+                            </Router>
+                        </SideDrawer>
+                    </Route>
 
-                    <Route name="MenuDetailPage"  component={connect(MenuDetailSelector)(MenuDetailPage)}  wrapRouter={true} title="TODAY'S MENU" navigationBarStyle={styles.navigationBar} titleStyle={styles.title}/>
-                    <Route name="CartPage"  component={connect(CartSelector)(CartPage)}  title="CartPage"/>
-                    <Route name="ChefDetailPage" component={connect(ChefDetailSelector)(ChefDetailPage)}  title="ChefDetailPage"/>
+                    
+                    <Route name="MenuDetailPage" component={connect(MenuDetailSelector)(MenuDetailPage)} 
+                        title="TODAY'S MENU" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
+                        titleStyle={styles.title} renderLeftButton={this.renderBackButton} 
+                        renderRightButton={this.renderCartButton}/>
 
-                    <Route name="MyAddressPage"  component={connect(MyAddressSelector)(MyAddressPage)}  title="MyAddressPage"/>
-                    <Route name="AddAddressPage"  component={connect(AddAddressSelector)(AddAddressPage)}  title="AddAddressPage"/>
-                    <Route name="AddressCoveragePage" component={connect(AddressCoverageSelector)(AddressCoveragePage)}  title="AddressCoveragePage"/>
+                    <Route name="CartPage" component={connect(CartSelector)(CartPage)} title="Cart"
+                        wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
+                        titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
 
-                    <Route name="ReferPage"  component={connect(ReferSelector)(ReferPage)}  title="ReferPage"/>
-                    <Route name="MyPointPage"  component={connect(MyPointSelector)(MyPointPage)}  title="MyPointPage"/>
-                    <Route name="MyCouponPage"  component={connect(MyCouponSelector)(MyCouponPage)}  title="MyCouponPage"/>
-                    <Route name="MyOrderPage"  component={connect(MyOrderSelector)(MyOrderPage)}  title="MyOrderPage"/>
-                    <Route name="OrderDetailPage"  component={connect(OrderDetailSelector)(OrderDetailPage)}  title="OrderDetailPage"/>
-                    <Route name="ReviewPage"  component={connect(ReviewSelector)(ReviewPage)}  title="ReviewPage"/>
+                    <Route name="ChefDetailPage" component={connect(ChefDetailSelector)(ChefDetailPage)}  
+                        title="ChefDetailPage" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
+                        titleStyle={styles.title} renderLeftButton={this.renderBackButton} 
+                        renderRightButton={this.renderCartButton}/>
+
+                    <Route name="MyAddressPage" component={connect(MyAddressSelector)(MyAddressPage)}  
+                        title="배달 주소" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
+                        titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
+
+                    <Route name="AddAddressPage" component={connect(AddAddressSelector)(AddAddressPage)} 
+                        title="배달 주소 입력" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
+                        titleStyle={styles.title} renderLeftButton={this.renderBackButton} 
+                        renderRightButton={this.renderCartButton}/>
+
+                    <Route name="AddressCoveragePage" component={connect(AddressCoverageSelector)(AddressCoveragePage)}  
+                        title="배달 가능 지역" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
+                        titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
+
+                    <Route name="ReferPage" component={connect(ReferSelector)(ReferPage)} 
+                        title="친구 초대" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
+                        titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
+
+                    <Route name="MyPointPage" component={connect(MyPointSelector)(MyPointPage)} 
+                        title="포인트 조회" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
+                        titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
+                        
+                    <Route name="MyCouponPage" component={connect(MyCouponSelector)(MyCouponPage)} 
+                        title="내 쿠폰" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
+                        titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
+
+                    <Route name="MyOrderPage" component={connect(MyOrderSelector)(MyOrderPage)}  
+                        title="주문 내역" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
+                        titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
+
+                    <Route name="OrderDetailPage" component={connect(OrderDetailSelector)(OrderDetailPage)}  
+                        title="주문 상세 보기" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
+                        titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
+
+                    <Route name="ReviewPage"  component={connect(ReviewSelector)(ReviewPage)} 
+                        title="리뷰 남기기" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
+                        titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
+                    
                 </Router>
             </Provider>
         );
     }
 }
 let styles = StyleSheet.create({
+
     navigationBar: {
-        backgroundColor: Color.PRIMARY_ORANGE
+        backgroundColor: Color.PRIMARY_ORANGE,
     },
     title: {
         color: 'white',

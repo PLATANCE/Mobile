@@ -9,10 +9,10 @@ export default (state) => ({
 export default (state) => ({
     chef: {
         idx: 2,
-        url: 'http://plating.co.kr/app/media/chef/2015.11.06-chef_jang_big.png',
-        name: '장정은 Chef',
-        career: '現 류니끄 Sous Chef',
-        summary: '고전적 요리에 현대적 감각을 더해 새로운 즐거움을 만들어내는 컨템포러리 요리에 매료되어 류니끄에서 3년간 수 셰프로 근무하고 있습니다. 현재 촉망받는 젊은 셰프로써 류니끄만의 정신을 가장 잘 계승하고 유지시켜 나가고 있습니다.',
+        url: 'http://plating.co.kr/app/media/chef/2015.11.24-chef_andrew_big_2.jpg',
+        name: 'Andrew Kim Chef',
+        affiliation: '前 Purearena Executive Chef',
+        summary: '대학에서 분자생물학 전공 후, 요리사의 꿈을 이루기 위해 경희대 조리과학과를 수료했습니다. 호주의 정통 French Restaurant인 The Botanical에서 셰프가 갖춰야할 덕목에 대해 배우고 한국에 돌아와 Pure Areana에서 Executive Chef를 담당했습니다.',
     },
     toolbar: {
         leftIcon: 'http://plating.co.kr/app/media/icon/Back-White-100.png',

@@ -1,9 +1,9 @@
 'use strict';
 import React, { View, Text, StyleSheet, TouchableHighlight, ScrollView } from 'react-native';
-import Toolbar from '../commonComponent/Toolbar';
 import Separator from '../commonComponent/Separator';
 import CartMenuList from './components/CartMenuList';
 import Color from '../const/Color';
+import Const from '../const/Const';
 import PaymentInfoRow from './components/PaymentInfoRow';
 import AddressInfoRow from './components/AddressInfoRow';
 
@@ -25,7 +25,6 @@ export default class DailyMenuPage extends React.Component {
         return (
             <ScrollView>
             <View style={styles.container}>
-                <Toolbar leftIcon={this.props.toolbar.leftIcon} text={this.props.toolbar.text} rightIcon={this.props.toolbar.rightIcon}/>
                 <View style={styles.pageCommentBox}>
                     <Text style={styles.pageCommentText}>모든 메인메뉴는 전자렌지 조리용입니다.</Text>
                 </View>
@@ -42,11 +41,6 @@ export default class DailyMenuPage extends React.Component {
                     <AddressInfoRow headerText={'연락처'} data={this.props.cart.mobile} type='input'/>
                     <AddressInfoRow headerText={'배달 시간'} data={this.props.cart.timeSlot} type='picker'/>
                     
-                    
-                    
-            
-                    
-                    
                     <View style={styles.orderbtn}>
                         <Text style={styles.orderbtnText}>{this.props.cart.buttonText}</Text>
                     </View>
@@ -61,6 +55,7 @@ let styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: Color.PRIMARY_BACKGROUND,
+        marginTop: Const.CONTAINER_MARGIN_TOP,
     },
     pageCommentBox: {
         backgroundColor: 'white',

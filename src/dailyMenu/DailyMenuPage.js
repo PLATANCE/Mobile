@@ -1,8 +1,8 @@
 'use strict';
 import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
-import Toolbar from '../commonComponent/Toolbar';
 import DailyMenuList from './components/DailyMenuList';
 import Color from '../const/Color';
+import Const from '../const/Const';
 
 export default class DailyMenuPage extends React.Component {
 
@@ -28,8 +28,7 @@ export default class DailyMenuPage extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'stretch',
-        marginTop: 65
+        marginTop: Const.CONTAINER_MARGIN_TOP,
     },
     pageCommentBox: {
         backgroundColor: 'white',

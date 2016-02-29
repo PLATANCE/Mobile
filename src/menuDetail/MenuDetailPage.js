@@ -9,12 +9,14 @@ import React, {
     ScrollView,
 } from 'react-native';
 
+import {Actions} from 'react-native-router-flux'
 import MenuReviewStars from '../commonComponent/MenuReviewStars';
 import AddCartButton from '../commonComponent/AddCartButton';
 import MenuPriceText from '../commonComponent/MenuPriceText';
 import ReviewList from './components/ReviewList';
-import Toolbar from '../commonComponent/Toolbar';
 import Color from '../const/Color';
+import Const from '../const/Const';
+
 
 export default class MenuDetailPage extends React.Component {
     static propTypes = {
@@ -58,7 +60,7 @@ export default class MenuDetailPage extends React.Component {
             <ScrollView>
             <View style={styles.container}>
                 <View style={styles.pageCommentBox}>
-                    <Text>모든 메인메뉴는 전자렌지 조리용입니다.</Text>
+                    <Text style={styles.pageCommentText}>모든 메인메뉴는 전자렌지 조리용입니다.</Text>
                 </View>
                 <View style={styles.content} >
 
@@ -72,8 +74,6 @@ export default class MenuDetailPage extends React.Component {
                             style={styles.imageview}
                             source={{uri: menu.url}}/>
                     </View>
-
-                    
 
                     <View style={styles.reviewPriceBox}>
                         <View style={styles.reviewBox}>
@@ -89,7 +89,7 @@ export default class MenuDetailPage extends React.Component {
                     </View>
 
 
-
+                    <TouchableHighlight onPress={Actions.ChefDetailPage}>
                     <View style={styles.chefBox}>
                         <Image style={styles.chefImage}
                             source={{uri: chef.url}}></Image>
@@ -101,6 +101,7 @@ export default class MenuDetailPage extends React.Component {
                             <Text style={styles.detailText}>></Text>
                         </View>
                     </View>
+                    </TouchableHighlight>
                     <View style={styles.menuInfoBox}>
                         <Text style={styles.menuInfoTitle}>Description</Text>
                         <Text style={styles.menuInfoDetail}>{menu.description}</Text>
@@ -126,6 +127,7 @@ export default class MenuDetailPage extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
+        marginTop: Const.CONTAINER_MARGIN_TOP,
     },
     content: {
         marginLeft: 10,
@@ -137,6 +139,9 @@ let styles = StyleSheet.create({
         alignItems: 'center',
         height: 30,
         justifyContent: 'center',
+    },
+    pageCommentText: {
+        color: Color.PRIMARY_ORANGE
     },
     menuNameBox: {
         marginTop: 10,
