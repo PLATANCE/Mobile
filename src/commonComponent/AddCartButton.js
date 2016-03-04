@@ -4,6 +4,7 @@ import React, {
     View,
     Text,
     StyleSheet,
+    Image,
     TouchableHighlight
 } from 'react-native';
 
@@ -13,7 +14,9 @@ export default class AddCartButton extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.addCartButton}>+추가하기</Text>
+                <Image style={styles.image} 
+                    source={require('./img/icon_plus.png')}/>
+                <Text style={styles.addCartButton}>추가하기</Text>
             </View>
         );
     }
@@ -25,6 +28,7 @@ export default class AddCartButton extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
+        flexDirection: 'row',
         backgroundColor: Color.PRIMARY_ORANGE,
         alignItems: 'center',
         justifyContent: 'center',
@@ -35,5 +39,11 @@ let styles = StyleSheet.create({
     },
     addCartButton: {
         color: 'white',
-    }
+    },
+    image: {
+        width: 10,
+        height: 10,
+        marginRight: 3,
+        resizeMode: 'contain',
+    },
 });

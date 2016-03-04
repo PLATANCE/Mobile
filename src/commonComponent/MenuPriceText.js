@@ -13,6 +13,10 @@ export default class MenuPriceText extends React.Component {
         originalPrice: PropTypes.number.isRequired,
         sellingPrice: PropTypes.number.isRequired
     };
+    commaPrice(price) {
+        price = String(price);
+        return price.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+    }
 
     render() {
         let {
@@ -24,15 +28,15 @@ export default class MenuPriceText extends React.Component {
         if (originalPrice == sellingPrice) {
             return (
                 <View style={styles.container}>
-                    <Text style={[styles.sellingPriceText, align]}>{sellingPrice.toLocaleString()}원</Text>
+                    <Text style={[styles.sellingPriceText, align]}>{this.commaPrice(sellingPrice)}원</Text>
                 </View>
 
             );
         } else {
             return (
                 <View style={styles.container}>
-                    <Text style={[styles.originalPriceText, align]} >{originalPrice.toLocaleString()}원</Text>
-                    <Text style={[styles.sellingPriceText, align]}>{sellingPrice.toLocaleString()}원</Text>
+                    <Text style={[styles.originalPriceText, align]} >{this.commaPrice(originalPrice)}원</Text>
+                    <Text style={[styles.sellingPriceText, align]} >{this.commaPrice(sellingPrice)}원</Text>
                 </View>
             );
         }
@@ -54,6 +58,7 @@ let styles = StyleSheet.create({
     sellingPriceText: {
         color: Color.PRIMARY_BLACK,
         textAlign: 'right',
+        fontWeight: 'bold',
     },
     line: {
         borderColor: 'red',

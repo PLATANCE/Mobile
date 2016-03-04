@@ -3,7 +3,8 @@ import React, {
     PropTypes,
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    Image,
 } from 'react-native';
 
 import Color from '../../const/Color';
@@ -25,23 +26,24 @@ export default class PaymentInfoRow extends React.Component {
             price,
             userInput,
             headerStyle,
-            priceStyle
+            priceStyle,
+            marginStyle
         } = this.props;
 
         if(userInput == 'Y') {
             return (
-                <View style={styles.container}>
+                <View style={[styles.container, marginStyle]}>
                     <Text style={[styles.headerText, headerStyle]}>{headerText}</Text>
                     <Text style={[styles.price, priceStyle]}>{this.commaPrice(price.toLocaleString())}원</Text>
-                    <Text style={styles.userInput}>></Text>
+                    
                 </View>
             );
         } else {
             return (
-                <View style={styles.container}>
+                <View style={[styles.container, marginStyle]}>
                     <Text style={[styles.headerText, headerStyle]}>{headerText}</Text>
                     <Text style={[styles.price, priceStyle]}>{this.commaPrice(price.toLocaleString())}원</Text>
-                    <Text style={styles.userInput}></Text>
+                    <View style={styles.iconImage}/>
                 </View>
             );
         }
@@ -57,19 +59,19 @@ let styles = StyleSheet.create({
         height: 40,
         backgroundColor: 'white',
         alignItems: 'center',
-        marginBottom: 1,
+        padding: 10,
     },
     headerText: {
-        paddingLeft: 5,
+        color: Color.PRIMARY_BLACK,
     },
     price: {
         flex: 4,
         textAlign: 'right',
         paddingRight: 5,
+        color: Color.PRIMARY_BLACK,
     },
-    userInput: {
-        width: 30,
-        textAlign: 'center',
-        paddingRight: 5,
+    iconImage: {
+        width: 10,
+        height: 10,
     }
 });

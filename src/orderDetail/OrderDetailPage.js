@@ -2,6 +2,7 @@
 import React, { View, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
 
 import Color from '../const/Color';
+import Const from '../const/Const';
 import OrderedMenu from './components/OrderedMenu';
 
 export default class OrderDetailPage extends React.Component {
@@ -9,10 +10,10 @@ export default class OrderDetailPage extends React.Component {
     render() {
         var menus = this.props.order.menus;
         var orderedMenuList = [];
-        for (var i = 0; i < menus.length; i++) {
-            let menu = menus[i].menu;
+        menus.forEach(menu => {
             orderedMenuList.push(<OrderedMenu key={menu.idx} name={menu.name} foreignName={menu.foreignName} amount={menu.amount} status={this.props.order.status}/>);
-        }
+        })
+        
         let order = this.props.order;
         return (
             <View style={styles.container}>
@@ -23,21 +24,17 @@ export default class OrderDetailPage extends React.Component {
                     {orderedMenuList}
                     <View style={styles.orderInfoBox}>
                         <View style={styles.orderInfoRow}>
-                            <Text style={styles.leftText}>합계</Text>
+                            <Text style={styles.textBlack}>합계</Text>
                             <Text style={styles.rightText}>{order.totalPrice}</Text>
                         </View>
                         <View style={styles.orderInfoRow}>
-                            <Text style={styles.leftText}>배달 시간</Text>
+                            <Text style={styles.textBlack}>배달 시간</Text>
                             <Text style={styles.rightText}>{order.requestTime}</Text>
                         </View>
                     </View>
                     <View style={styles.reviewBox}>
-                        <Image style={styles.img}
-                            source={require('../commonComponent/img/icon_star_empty_yellow.png')}/>
-                        <View style={styles.leftBox}>
-                            <Text>리뷰를 남겨주세요 :)</Text>
-                            <Text>추첨을 통해 무료 시식권을 드립니다.</Text>
-                        </View>
+                        <Text style={styles.textBlack}>리뷰를 남겨주세요 :)</Text>
+                        <Text style={styles.textBlack}>추첨을 통해 무료 시식권을 드립니다 :)</Text>
                     </View>
                 </View>
             </View>
@@ -49,49 +46,50 @@ let styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: Color.PRIMARY_BACKGROUND,
-
+        marginTop: Const.MARGIN_TOP,
     },
     content: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        marginTop: 10,
     },
     statusBox: {
-        width: 300,
+        flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'white',
+        paddingTop: 10,
     },
     orderInfoBox: {
-        width: 300,
         backgroundColor: 'white',
-        marginTop: 10,
+        marginTop: 1,
     },
     orderInfoRow: {
         flexDirection: 'row',
-    },
-    leftText: {
-
+        margin: 10,
     },
     rightText: {
         flex: 1,
-        textAlign: 'right'
+        textAlign: 'right',
+        color: Color.PRIMARY_BLACK,
+    },
+    textBold: {
+        fontWeight: 'bold',
     },
     reviewBox: {
-        width: 300,
         marginTop: 10,
+        marginLeft: 20,
+        marginRight: 20,
+        paddingTop: 20,
+        paddingBottom: 20,
         backgroundColor: 'white',
-        flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
+        borderColor: 'white',
+        borderRadius: 5,
+        borderWidth: 1,
+        overflow: 'hidden',
     },
-    img: {
-        width: 50,
-        height: 50,
-        resizeMode: 'contain'
-    },
-    leftBox: {
-        flex: 1,
+    textBlack: {
+        color: Color.PRIMARY_BLACK,
     }
-
 });

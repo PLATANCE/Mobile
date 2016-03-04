@@ -1,4 +1,4 @@
-import React, { View, ListView, Text, StyleSheet, Image } from 'react-native';
+import React, { View, ListView, Text, StyleSheet, Image, TouchableHighlight } from 'react-native';
 import Color from '../../const/Color';
 import MenuPriceText from '../../commonComponent/MenuPriceText';
 
@@ -28,20 +28,20 @@ export default class CartMenuList extends React.Component {
                 <Image style={styles.menuImage}
                 	source={{uri:rowData.url}} />
                 <View style={styles.menuInfoBox}>
-                	<Text>{rowData.name}</Text>
-                	<Text>{rowData.foreignName}</Text>
-                	<View style={styles.spaceBox} />
+                	<Text style={[styles.textBlack, styles.textBold]}>{rowData.name}</Text>
+                	<Text style={[styles.textBlack, {flex: 1}]}>{rowData.foreignName}</Text>
                 	<View style={styles.priceBox}>
                 		<MenuPriceText originalPrice={rowData.originalPrice} sellingPrice={rowData.sellingPrice} align={{textAlign: 'left'}}/>
-                        <View style={styles.spaceBox} />
-                		<View style={styles.setamountBox}>
-                			<View style={styles.setAmount}>
-                				<Text style={styles.setAmountText}>-</Text>
-                			</View>
+                		<View style={styles.setAmountBox}>
+                            <TouchableHighlight underlayColor={'transparent'}>
+                    			<Image style={styles.iconImage}
+                                    source={require('../img/icon_minus.png')}/>
+                            </TouchableHighlight>
                 			<Text style={styles.amountText}>{rowData.amount}</Text>
-                			<View style={styles.setAmount}>
-                				<Text style={styles.setAmountText}>+</Text>
-                			</View>
+                            <TouchableHighlight underlayColor={'transparent'}>
+                        		<Image style={styles.iconImage}
+                                    source={require('../img/icon_plus.png')}/>
+                            </TouchableHighlight>
                 		</View>
                 	</View>
                 </View>
@@ -68,8 +68,7 @@ let styles = StyleSheet.create({
     row: {
     	height: 90,
     	flexDirection: 'row',
-    	marginTop: 10,
-    	marginLeft: 10,
+    	margin: 10,
     },
     menuImage: {
     	flex: 2,
@@ -77,40 +76,32 @@ let styles = StyleSheet.create({
     },
     menuInfoBox: {
     	flex: 5,
-    	marginLeft: 5,
-    },
-    spaceBox: {
-    	flex: 1,
+    	marginLeft: 10,
     },
     priceBox: {
     	flexDirection: 'row',
-    	alignItems: 'center',
+    	alignItems: 'flex-end',
         marginBottom: 5,
     },
-    setamountBox: {
+    setAmountBox: {
     	flexDirection: 'row',
-    	justifyContent: 'flex-end',
-    	alignItems: 'flex-end',
+    	flex: 1,
+        alignSelf: 'center',
+        alignItems: 'center',
     },
     amountText: {
-    	marginRight: 20,
+        color: Color.PRIMARY_BLACK,
+        flex: 1,
+        textAlign: 'center',
     },
-    setAmount: {
-    	height: 20,
-    	width: 20,
-        backgroundColor: Color.PRIMARY_ORANGE,
-        borderColor: Color.PRIMARY_ORANGE,
-        borderWidth: 1,
-        borderRadius: 10,
-        overflow: 'hidden',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginRight: 20,
+    iconImage: {
+        width: 20,
+        height: 20,
     },
-    setAmountText: {
-    	color: 'white',
-    	fontSize: 17,
-    	fontWeight: 'bold'
-    }
-
+    textBlack: {
+        color: Color.PRIMARY_BLACK,
+    },
+    textBold: {
+        fontWeight: 'bold',
+    },
 });

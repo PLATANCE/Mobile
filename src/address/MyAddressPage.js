@@ -1,20 +1,24 @@
 'use strict';
 import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import MyAddressList from './components/MyAddressList';
 import Color from '../const/Color';
+import Const from '../const/Const';
 
 export default class MyAddressPage extends React.Component {
 
     render() {
         return (
             <View style={styles.container}>
-                <View style={styles.content}>
+                <View>
                     <MyAddressList addressList={this.props.addressList} />
+                    <TouchableHighlight onPress={Actions.AddAddressPage}>
                     <View style={styles.addBox}>
                     	<Image style={styles.img}
                     		source={require('./img/address_add.png')} />
                     	<Text style={styles.addAddressText}>주소 추가하기</Text>
                     </View>
+                    </TouchableHighlight>
                 </View>
             </View>
         );
@@ -24,8 +28,7 @@ export default class MyAddressPage extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
-    },
-    content: {
+        marginTop: Const.MARGIN_TOP,
     },
     addBox: {
     	height: 50,

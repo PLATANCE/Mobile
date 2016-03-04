@@ -68,24 +68,24 @@ let styles = StyleSheet.create({
         flex: 1,
     },
     row: {
-        marginTop: 10,
+        padding: 10,
         flex: 1,
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        borderColor: Color.PRIMARY_GRAY,
     },
     img: {
         width: 30,
         height: 30,
-        marginLeft: 10,
     },
     addressBox: {
     	flex: 1,
-    	marginLeft: 10,
-    	justifyContent: 'center'
+        marginLeft: 10,
+    	justifyContent: 'center',
     },
     deleteText: {
     	color: Color.PRIMARY_ORANGE,
-    	marginRight: 10,
     	textDecorationLine: 'underline'
     }
 });

@@ -8,9 +8,11 @@ import React, {
     TouchableHighlight
 } from 'react-native';
 
+import MenuReviewStars from '../../commonComponent/MenuReviewStars';
+import Color from '../../const/Color';
+
 export default class ReviewList extends React.Component {
     static propTypes = {
-        isCurrentShowALL: PropTypes.bool.isRequired,
         reviews: PropTypes.arrayOf(PropTypes.shape({
             score: PropTypes.number.isRequired,
             dateString: PropTypes.string.isRequired,
@@ -26,32 +28,44 @@ export default class ReviewList extends React.Component {
         }
     }
 
-    render() {
-        const { isCurrentShowALL, reviews } = this.props;
-
-        let showMoreButton = false;
-        if (isCurrentShowALL == false) {
-            showMoreButton = (
-                <View>
-                    <TouchableHighlight>
-                        <View>
-                            <Text>더 보기</Text>
-                        </View>
-                    </TouchableHighlight>
-                </View>
-            );
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.reviews !== this.props.reviews) {
+            this.setState({
+                dataSource: this.state.dataSource.cloneWithRows(nextProps.reviews)
+            })
         }
+    }
+
+    renderRow(rowData) {
+        return (
+            <View style={styles.row}>
+                <View style={styles.scoreDateBox}>
+                    <MenuReviewStars score={rowData.score} />
+                    <Text style={styles.dateStringText}>{rowData.dateString}</Text>
+                </View>
+                <View style={styles.contentBox}>
+                    <Text style={styles.textBlack}>{rowData.content}</Text>
+                </View>
+                <View style={styles.phoneBox}>
+                    <Text style={styles.textBlack}>{rowData.maskedPhoneNumber}</Text>
+                </View>
+            </View>
+        )
+    }
+
+    render() {
+        const { reviews } = this.props;
 
         return (
             <View>
-                <View>
-                    <Text style={styles.header}>고객님들의 평가</Text>
+                <View style={styles.headerBox}>
+                    <Text style={styles.headerText}>고객님들의 평가</Text>
                 </View>
-                <ListView //https://facebook.github.io/react-native/docs/listview.html
+
+                <ListView style={styles.listView}
+                    //https://facebook.github.io/react-native/docs/listview.html
                     dataSource={this.state.dataSource}
-                    renderRow={(rowData, sectionID, rowID) => <Text key={'${sectionID}-${rowID}'}>{JSON.stringify(rowData)}</Text>}
-                />
-                {showMoreButton}
+                    renderRow={this.renderRow} />
             </View>
         );
     }
@@ -61,12 +75,43 @@ export default class ReviewList extends React.Component {
  * Style
  */
 let styles = StyleSheet.create({
-    header: {
+    headerBox: {
+        backgroundColor: 'white',
+    },
+    headerText: {
         paddingTop: 10,
         textAlign: 'center',
         fontSize: 18,
+        color: Color.PRIMARY_BLACK,
     },
-    headerText: {
-        fontSize: 18,
+    row: {
+        flex: 1,
+        padding: 10,
+        paddingBottom: 15,
+        marginBottom: 10,
+        backgroundColor: 'white',
+    },
+    scoreDateBox: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 5,
+    },
+    dateStringText: {
+        flex: 1,
+        textAlign: 'right',
+        color: Color.PRIMARY_BLACK,
+    },
+    contentBox: {
+        marginTop: 5,
+    },
+    phoneBox: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        marginTop: 5,
+    },
+    textBlack: {
+        color: Color.PRIMARY_BLACK,
+        lineHeight: 20,
     }
+
 });

@@ -1,6 +1,9 @@
 'use strict';
-import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
+import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image, ScrollView } from 'react-native';
 import DailyMenuList from './components/DailyMenuList';
+import AddressBar from './components/AddressBar';
+import Banner from './components/Banner';
+import PageComment from '../commonComponent/PageComment';
 import Color from '../const/Color';
 import Const from '../const/Const';
 
@@ -9,16 +12,13 @@ export default class DailyMenuPage extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <View style={styles.pageCommentBox}>
-                    <Text style={styles.pageCommentText}>모든 메인메뉴는 전자렌지 조리용입니다.</Text>
-                </View>
+                <PageComment text='모든 메뉴는 당일 조리, 당일 배송 됩니다(5:30pm~10:00pm)' />
                 <View style={styles.content}>
-                    <DailyMenuList styles={styles.menuList} menus={this.props.menus} />
-                    <View style={styles.addressBox}>
-                        <Image style={styles.img}
-                            source={require('./img/address_marker.png')} />
-                        <Text style={styles.addressText}>{this.props.address.address}&nbsp;{this.props.address.addressDetail}</Text>
-                    </View>
+                    <ScrollView>
+                        <Banner isBannerOpen={this.props.banner.isBannerOpen} url={this.props.banner.url}/>
+                        <DailyMenuList styles={styles.menuList} menus={this.props.menus} />
+                    </ScrollView>
+                    <AddressBar address={this.props.address.address} addressDetail={this.props.address.addressDetail}/>
                 </View>
             </View>
         );
@@ -28,7 +28,7 @@ export default class DailyMenuPage extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: Const.CONTAINER_MARGIN_TOP,
+        marginTop: Const.MARGIN_TOP,
     },
     pageCommentBox: {
         backgroundColor: 'white',
@@ -46,21 +46,9 @@ let styles = StyleSheet.create({
     menuList: {
         flex: 1,
     },
-    addressBox: {
-        height: 30,
-        backgroundColor: 'white',
-        marginTop: 10,
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
     img: {
         marginLeft: 10,
         width: 20,
         height: 20,
     },
-    addressText: {
-        flex: 1,
-        color: Color.PRIMARY_ORANGE,
-        marginLeft: 10,
-    }
 });

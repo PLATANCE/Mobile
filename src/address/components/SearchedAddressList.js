@@ -1,5 +1,6 @@
 import React, { View, ListView, Text, StyleSheet, Image } from 'react-native';
 import Color from '../../const/Color';
+import Separator from '../../commonComponent/Separator';
 
 export default class SearchedAddressList extends React.Component {
     constructor(props) {
@@ -27,6 +28,7 @@ export default class SearchedAddressList extends React.Component {
         return (
             <View style={styles.row}>
                 <Text style={textStyle}>{rowData.address.address}</Text>
+                <Separator />
             </View>
         );
 
@@ -52,7 +54,5 @@ let styles = StyleSheet.create({
     row: {
         marginTop: 10,
         flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center'
     },
 });

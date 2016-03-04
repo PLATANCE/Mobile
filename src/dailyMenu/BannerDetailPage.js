@@ -1,5 +1,6 @@
 'use strict';
 import React, { View, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
+import Const from '../const/Const';
 
 export default class BannerDetailPage extends React.Component {
 
@@ -16,6 +17,7 @@ export default class BannerDetailPage extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
+        marginTop: Const.MARGIN_TOP,
     },
     img: {
         flex: 1,

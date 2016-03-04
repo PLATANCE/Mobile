@@ -1,6 +1,6 @@
-import React, { View, ListView, Text, StyleSheet, Image } from 'react-native';
+import React, { View, ListView, Text, StyleSheet, Image, TouchableHighlight } from 'react-native';
 import Color from '../../const/Color';
-import Separator from '../../commonComponent/Separator';
+import {Actions} from 'react-native-router-flux';
 
 export default class MyOrderList extends React.Component {
     constructor(props) {
@@ -25,23 +25,30 @@ export default class MyOrderList extends React.Component {
     renderRow(rowData) {
         return (
             <View style={styles.row}>
-                <View style={styles.mainBox}>
-                    <View style={styles.leftBox}>
-                        <Text>{rowData.order.date}<Text>({rowData.order.day})</Text></Text>
-                        <Text>{rowData.order.address}</Text>
-                        <Text>{rowData.order.addressDetail}</Text>
-                        <Text>{rowData.order.requestTime}</Text>
-                    </View>
-                    <View style={styles.rightBox}>
-                        <View style={styles.button}>
-                            <Text style={styles.textWhite}>자세히보기</Text>
-                        </View>
-                        <View style={styles.button}>
-                            <Text style={styles.textWhite}>리뷰남기기</Text>
-                        </View>
+                <View>
+                    <Text style={styles.dateText}>{rowData.date}<Text>({rowData.day})</Text></Text>
+                    <Text style={styles.addressText}>{rowData.address}</Text>
+                    <Text style={styles.addressDetailText}>{rowData.addressDetail}</Text>
+                </View>
+                <View style={styles.footerBox}>
+                    <Text style={styles.requestTimeText}>{rowData.requestTime}</Text>
+                    <View style={styles.buttonBox}>
+                        <TouchableHighlight onPress={Actions.OrderDetailPage}>
+                            <View style={styles.button}>
+                                <Image style={styles.buttonIconImage} 
+                                    source={require('../../commonComponent/img/icon_detail.png')}/>
+                                <Text style={styles.textWhite}>상세 보기</Text>
+                            </View>
+                        </TouchableHighlight>
+                        <TouchableHighlight  onPress={Actions.WriteReviewPage}>
+                            <View style={styles.button}>
+                                <Image style={styles.buttonIconImage} 
+                                    source={require('../../commonComponent/img/icon_detail.png')}/>
+                                <Text style={styles.textWhite}>리뷰 작성</Text>
+                            </View>
+                        </TouchableHighlight>
                     </View>
                 </View>
-                <Separator />
             </View>
         );
     }
@@ -51,8 +58,7 @@ export default class MyOrderList extends React.Component {
             <View style={styles.container}>
                 <ListView
                     dataSource={this.state.dataSource}
-                    renderRow={this.renderRow}
-                />
+                    renderRow={this.renderRow} />
             </View>
         );
     }
@@ -63,29 +69,37 @@ let styles = StyleSheet.create({
         flex: 1,
     },
     row: {
-        marginLeft: 10,
-        marginRight: 10,
         flex: 1,
+        marginBottom: 10,
         backgroundColor: 'white',
+        padding: 10,
     },
-    mainBox: {
-        flex: 1,
+    dateText: {
+        color: Color.PRIMARY_BLACK,
+    },
+    addressText: {
+        color: Color.PRIMARY_BLACK,
+        marginTop: 10,
+    },
+    addressDetailText :{
+        color: Color.PRIMARY_BLACK,
+    },
+    requestTimeText: {
+        color: Color.PRIMARY_BLACK,
+    },
+    footerBox: {
         flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginLeft: 5,
-        marginRight: 5,
-    },
-    leftBox: {
-        justifyContent: 'center',
-    },
-    rightBox: {
         flex: 1,
-        alignItems: 'flex-end',
-        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    buttonBox: {
+        flexDirection: 'row',
+        flex: 1,
+        justifyContent: 'flex-end',
     },
     button: {
-        width: 100,
+        width: 90,
+        height: 30,
         borderColor: Color.PRIMARY_ORANGE,
         backgroundColor: Color.PRIMARY_ORANGE,
         borderRadius: 5,
@@ -93,10 +107,18 @@ let styles = StyleSheet.create({
         overflow: 'hidden',
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 5,
+        margin: 5,
+        alignSelf: 'flex-end',
+        flexDirection: 'row',
+    },
+    buttonIconImage: {
+        width: 15,
+        height: 15,
+        resizeMode: 'contain',
+        marginRight: 5,
     },
     textWhite: {
         color: 'white',
-    }
+    },
 
 });

@@ -43,6 +43,7 @@ export default (state) => ({
         addressDetail: '533-9'
     },
     banner: {
-        url: 'http://plating.co.kr/app/media/banner/2016.02.14-banner_detail.jpg'
+        isBannerOpen: true,
+        url: 'http://plating.co.kr/app/media/banner/admin_banner.png'
     }
 });
