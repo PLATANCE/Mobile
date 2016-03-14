@@ -3,12 +3,14 @@ import React, {
     PropTypes,
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    TouchableHighlight,
+    Image,
 } from 'react-native';
 
 import Color from '../../const/Color';
-import DropDown, {Select, Option, OptionList, updatePosition } from 'react-native-dropdown';
-import Picker from 'react-native-picker';
+import DropDown, { Select, Option, OptionList, updatePosition } from 'react-native-dropdown';
+
 
 export default class PaymentInfoRow extends React.Component {
 
@@ -16,23 +18,23 @@ export default class PaymentInfoRow extends React.Component {
         headerText: PropTypes.string.isRequired,
         type: PropTypes.string.isRequired
     };
-
+    
     render() {
         let {
             headerText,
             data,
-            type
+            type,
+            marginStyle
         } = this.props;
-        let test = [1, 2, 3, 4];
 
         switch (type) {
             case 'input':
                 return (
-                    <View style={styles.container}>
-                        <Text style={styles.headerText}>{headerText}</Text>
-                        <Text style={styles.data}>{data}</Text>
-                        <Text style={styles.input}>></Text>
-                    </View>
+                    <View style={[styles.container, marginStyle]}>
+                    <Text style={styles.headerText}>{headerText}</Text>
+                    <Text style={styles.data}>{data}</Text>
+                    
+                </View>
                 );
             case 'radio':
                 return (
@@ -48,8 +50,7 @@ export default class PaymentInfoRow extends React.Component {
             case 'picker':
                 return (
                     <View style={styles.container}>
-                        <Text style={styles.headerText}>{headerText}</Text>
-                        <Picker style={{height:300}} showDuration={300} pickerData={[1, 2, 3, 4]} selectedValue={1}/>
+
                     </View>
                 );
         }
@@ -64,20 +65,20 @@ let styles = StyleSheet.create({
         height: 40,
         backgroundColor: 'white',
         alignItems: 'center',
-        marginBottom: 1,
+        padding: 10,
     },
     headerText: {
-        paddingLeft: 5,
+        color: Color.PRIMARY_BLACK,
     },
     data: {
-        flex: 4,
+        flex: 1,
         textAlign: 'right',
         paddingRight: 5,
+        color: Color.PRIMARY_BLACK,
     },
-    input: {
-        width: 30,
-        textAlign: 'center',
-        paddingRight: 5,
+    iconImage: {
+        width: 10,
+        height: 10,
     },
     radio: {
         flex: 1,

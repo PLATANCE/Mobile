@@ -50,6 +50,7 @@ let styles = StyleSheet.create({
         backgroundColor: 'transparent'
     },
     text: {
+        fontSize: 16,
         color: 'white',
     }
 });

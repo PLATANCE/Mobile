@@ -13,6 +13,7 @@ import {Actions} from 'react-native-router-flux'
 import MenuReviewStars from '../commonComponent/MenuReviewStars';
 import AddCartButton from '../commonComponent/AddCartButton';
 import MenuPriceText from '../commonComponent/MenuPriceText';
+import PageComment from '../commonComponent/PageComment';
 import ReviewList from './components/ReviewList';
 import Color from '../const/Color';
 import Const from '../const/Const';
@@ -57,66 +58,73 @@ export default class MenuDetailPage extends React.Component {
 
 
         return (
-            <ScrollView>
+            
             <View style={styles.container}>
-                <View style={styles.pageCommentBox}>
-                    <Text style={styles.pageCommentText}>모든 메인메뉴는 전자렌지 조리용입니다.</Text>
-                </View>
-                <View style={styles.content} >
-
-                    <View style={styles.menuNameBox}>
-                        <Text style={styles.menuName}>{menu.name}</Text>
-                        <Text style={styles.menuName}>{menu.foreignName}</Text>
-                    </View>
-
-                    <View style={styles.menuImageBox}>
-                        <Image 
-                            style={styles.imageview}
-                            source={{uri: menu.url}}/>
-                    </View>
-
-                    <View style={styles.reviewPriceBox}>
-                        <View style={styles.reviewBox}>
-                            <MenuReviewStars score={menu.averageReviewScore}/>
-                            <Text style={styles.reviewCountText}>({menu.reviewCount})</Text>
+                <PageComment text="모든 메인메뉴는 전자렌지 조리용입니다."/>
+                <ScrollView>
+                    <View style={styles.content} >
+                        <View style={styles.menuNameBox}>
+                            <Text style={[styles.textBlack, {fontSize: 16, fontWeight: 'bold'}]}>{menu.name}</Text>
+                            <Text style={[styles.textBlack]}>{menu.foreignName}</Text>
                         </View>
-                        <View style={styles.priceBox}>
-                            <MenuPriceText originalPrice={menu.originalPrice} sellingPrice={menu.sellingPrice}/>
+                        <View style={styles.menuImageBox}>
+                            <Image 
+                                style={styles.imageview}
+                                source={{uri: menu.url}}/>
                         </View>
-                        <View style={styles.cartButtonBox}>
-                            <AddCartButton  />
+                        <View style={styles.reviewPriceBox}>
+                            <View style={styles.reviewBox}>
+                                <MenuReviewStars score={menu.averageReviewScore}/>
+                                <TouchableHighlight onPress={Actions.MenuReviewPage} underlayColor={'transparent'}>
+                                    <View style={styles.reviewTextBox}>
+                                        <Text style={[styles.textGray, {textDecorationLine: 'underline', marginLeft: 3, fontSize: 15}]}>{menu.reviewCount}개의 리뷰보기</Text>
+                                    </View>
+                                </TouchableHighlight>
+                            </View>
+                            <View style={styles.priceBox}>
+                                <MenuPriceText originalPrice={menu.originalPrice} sellingPrice={menu.sellingPrice}/>
+                            </View>
+                            <View style={styles.cartButtonBox}>
+                                <AddCartButton  />
+                            </View>
                         </View>
+                        <TouchableHighlight onPress={Actions.ChefDetailPage} underlayColor={'transparent'}>
+                            <View style={styles.chefBox}>
+                                <Image style={styles.chefImage}
+                                    source={{uri: chef.url}}></Image>
+                                <View style={styles.chefSummaryBox}>
+                                    <Text style={[styles.textBlack, {marginBottom: 2}]}>{chef.name}</Text>
+                                    <Text style={styles.textGray}>{chef.affiliation}</Text>
+                                </View>
+                                <View style={styles.iconBox}>
+                                    <View style={styles.iconView}>
+                                        <Image style={styles.iconImage} 
+                                            source={require('../commonComponent/img/icon_detail.png')}/>
+                                    </View>
+                                </View>
+                            </View>
+                        </TouchableHighlight>
+                        <View style={styles.menuInfoBox}>
+                            <Text style={styles.textOrange}>Description</Text>
+                            <Text style={styles.textBlack}>{menu.description}{'\n'}</Text>
+                            <Text style={styles.textOrange}>Ingredients</Text>
+                            <Text style={styles.textBlack}>{menu.ingredients}{'\n'}</Text>
+                            <Text style={styles.textOrange}>Calories</Text>
+                            <Text style={styles.textBlack}>{menu.calories.toLocaleString()}Kcal</Text>
+                        </View>
+                        <View style={styles.reviewListBox}>
+                            <ReviewList reviews={menu.reviews}/>
+                        </View>
+                        <TouchableHighlight onPress={Actions.MenuReviewPage} underlayColor={'transparent'}>
+                            <View style={styles.showMoreButtonBox}>
+                                <Text style={styles.textWhite}>리뷰 더 보기</Text>
+                            </View>
+                        </TouchableHighlight>
                     </View>
 
-
-                    <TouchableHighlight onPress={Actions.ChefDetailPage}>
-                    <View style={styles.chefBox}>
-                        <Image style={styles.chefImage}
-                            source={{uri: chef.url}}></Image>
-                        <View style={styles.chefSummaryBox}>
-                            <Text style={styles.chefName}>{chef.name}</Text>
-                            <Text style={styles.chefAffiliation}>{chef.affiliation}</Text>
-                        </View>
-                        <View style={styles.chefDetailButton}>
-                            <Text style={styles.detailText}>></Text>
-                        </View>
-                    </View>
-                    </TouchableHighlight>
-                    <View style={styles.menuInfoBox}>
-                        <Text style={styles.menuInfoTitle}>Description</Text>
-                        <Text style={styles.menuInfoDetail}>{menu.description}</Text>
-                        <Text style={styles.menuInfoTitle}>Ingredients</Text>
-                        <Text style={styles.menuInfoDetail}>{menu.ingredients}</Text>
-                        <Text style={styles.menuInfoTitle}>Calories</Text>
-                        <Text style={styles.menuInfoDetail}>{menu.calories.toLocaleString()}Kcal</Text>
-                    </View>
-                    <View style={styles.reviewListBox}>
-                        <ReviewList reviews={menu.reviews} isCurrentShowALL={isShowAllReview}/>
-                    </View>
-                </View>
+                </ScrollView>
             </View>
             
-            </ScrollView>
         );
     }
 }
@@ -127,55 +135,32 @@ export default class MenuDetailPage extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: Const.CONTAINER_MARGIN_TOP,
+        marginTop: Const.MARGIN_TOP,
     },
     content: {
-        marginLeft: 10,
-        marginRight: 10,
         backgroundColor: Color.PRIMARY_BACKGROUND
     },
-    pageCommentBox: {
-        backgroundColor: 'white',
-        alignItems: 'center',
-        height: 30,
-        justifyContent: 'center',
-    },
-    pageCommentText: {
-        color: Color.PRIMARY_ORANGE
-    },
     menuNameBox: {
-        marginTop: 10,
-        marginBottom: 10,
+        marginTop: 20,
+        marginBottom: 20,
         alignItems: 'center'
     },
-    menuName: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: Color.PRIMARY_BLACK,
-    },
-
     menuImageBox: {
-        height: 300,
+        height: 250,
     },
     imageview: {
         flex: 1,
         resizeMode: 'cover',
     },
     reviewPriceBox: {
-        height: 40,
+        height: 50,
         flexDirection: 'row',
-        marginTop: 10,
+        marginTop: 20,
         marginRight: 10,
-        marginLeft: 5,
+        marginLeft: 10,
     },
     reviewBox: {
         flex: 4,
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginLeft: 10,
-    },
-    reviewCountText: {
-        color: Color.PRIMARY_GRAY,
     },
     priceBox: {
         flex: 3,
@@ -186,128 +171,85 @@ let styles = StyleSheet.create({
     },
     cartButtonBox: {
         flex: 2,
+        marginTop: 5,
+        marginBottom: 5,
     },
     chefBox: {
         flexDirection: 'row',
-        marginTop: 10,
+        marginTop: 20,
         backgroundColor: 'white',
         height: 70,
         justifyContent: 'center',
     },
     chefImage: {
-        flex: 1,
+        flex: 2,
         margin: 3,
         resizeMode: 'contain',
     },
     chefSummaryBox: {
-        flex: 3,
+        flex: 6,
         justifyContent: 'center',
     },
-    chefName: {
-        fontSize: 16,
-        color: Color.PRIMARY_BLACK,
-    },
-    chefAffiliation: {
-        fontSize: 13,
-        color: Color.PRIMARY_GRAY,
-    },
-    chefDetailButton: {
-        alignItems: 'flex-end',
+    iconBox: {
+        flex: 1,
         justifyContent: 'center',
-        width: 50,
         marginRight: 10,
     },
-    detailText: {
-        fontSize: 20,
-        color: Color.PRIMARY_GRAY,
+    iconView: {
+        width: 35,
+        height: 35,
+        backgroundColor: Color.PRIMARY_ORANGE,
+        alignItems: 'center',
+        justifyContent: 'center',
+        margin: 5,
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: Color.PRIMARY_ORANGE,
+        overflow: 'hidden',
+    },
+    iconImage: {
+        width: 15,
+        height: 15,
+        resizeMode: 'contain',
     },
     menuInfoBox: {
-        marginTop: 10,
+        marginTop: 20,
         backgroundColor: 'white',
-    },
-    menuInfoTitle: {
-        paddingTop: 10,
-        paddingLeft: 10,
-        color: Color.PRIMARY_ORANGE,
-        fontSize: 16,
-    },
-    menuInfoDetail: {
-        paddingLeft: 10,
-        paddingRight: 10,
-        fontSize: 16,
-        color: Color.PRIMARY_GRAY,
+        padding: 10,
+        paddingBottom: 15,
     },
     reviewListBox: {
-        backgroundColor: 'white',
-        marginTop: 10,
+        marginTop: 20,
     },
-    
-
+    showMoreButtonBox: {
+        height: 40,
+        backgroundColor: Color.PRIMARY_ORANGE,
+        borderColor: Color.PRIMARY_ORANGE,
+        borderWidth: 1,
+        borderRadius: 5,
+        overflow: 'hidden',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 10,
+        marginBottom: 20,
+        marginLeft: 10,
+        marginRight: 10,
+    },
+    textBlack: {
+        color: Color.PRIMARY_BLACK,
+        lineHeight: 20,
+    },
+    textGray: {
+        color: Color.PRIMARY_GRAY,
+    },
+    textOrange: {
+        color: Color.PRIMARY_ORANGE,
+        lineHeight: 20,
+    },
+    textWhite: {
+        color: 'white',        
+    },
+    reviewTextBox: {
+        marginTop: 3,
+    }
 });
-
-
-
-/*
-        return (
-            <View style={styles.container}>
-                <View style={styles.content}>
-                    <View style={styles.pageCommentBox}>
-                        <Text>모든 메인메뉴는 전자렌지 조리용입니다.</Text>
-                    </View>
-                    <View style={styles.menuNameBox}>
-                        <Text style={styles.menuName}>{menu.name}</Text>
-                        <Text style={styles.menuName}>{menu.foreignName}</Text>
-                    </View>
-                    <View>
-                        <Image
-                            //style={}
-                            //source={}
-                        />
-                    </View>
-                    <View>
-                        <View>
-                            <MenuReviewStars score={menu.averageReviewScore}/>
-                            <Text>({menu.reviewCount})</Text>
-                        </View>
-                        <View>
-                            <MenuPriceText originalPrice={menu.originalPrice} sellingPrice={menu.sellingPrice}/>
-                        </View>
-                        <View>
-                            <AddCartButton cartCount={cartCount}/>
-                        </View>
-                    </View>
-                    <View>
-                        <TouchableHighlight>
-                            <View>
-                                <View>
-                                    <Image
-                                        //style={}
-                                        //source={}
-                                    />
-                                </View>
-                                <View>
-                                    <Text>{chef.name}</Text>
-                                    <Text>{chef.affiliation}</Text>
-                                </View>
-                                <View>
-                                    <Image
-                                        //style={}
-                                        //source={}
-                                    />
-                                </View>
-                            </View>
-                        </TouchableHighlight>
-                    </View>
-                    <View>
-                        <Text>Description</Text>
-                        <Text>{menu.description}</Text>
-                        <Text>Ingredients</Text>
-                        <Text>{menu.ingredients}</Text>
-                        <Text>Calories</Text>
-                        <Text>{menu.calories.toLocaleString()}Kcal</Text>
-                    </View>
-                    <ReviewList reviews={menu.reviews} isCurrentShowALL={isShowAllReview}/>
-                </View>
-            </View>
-        );
-        */

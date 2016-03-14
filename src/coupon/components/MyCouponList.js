@@ -25,7 +25,7 @@ export default class MyCouponList extends React.Component {
         return (
             <View style={styles.row}>
                 <Image style={styles.img}
-                    source={{uri:rowData.coupon.url}} />
+                    source={{uri:rowData.url}} />
             </View>
         );
     }
@@ -47,8 +47,8 @@ let styles = StyleSheet.create({
         flex: 1,
     },
     row: {
-        margin: 10,
         height: 170,
+        marginBottom: 10,
     },
     img: {
         flex: 1,

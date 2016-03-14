@@ -8,9 +8,13 @@ import Reducers from './Reducers';
 
 import Color from '../const/Color';
 import SideDrawer from '../commonComponent/SideDrawer';
+import TabView from '../cs/components/TabView';
 
+import TutorialPage from '../tutorial/TutorialPage';
 import DailyMenuPage from '../dailyMenu/DailyMenuPage';
 import DailyMenuSelector from '../dailyMenu/DailyMenuSelector';
+import BannerDetailPage from '../dailyMenu/BannerDetailPage';
+import BannerDetailSelector from '../dailyMenu/BannerDetailSelector';
 import MenuDetailPage from '../menuDetail/MenuDetailPage';
 import MenuDetailSelector from '../menuDetail/MenuDetailSelector';
 import CartPage from '../cart/CartPage';
@@ -33,8 +37,18 @@ import MyOrderPage from '../order/MyOrderPage';
 import MyOrderSelector from '../order/MyOrderSelector';
 import OrderDetailPage from '../orderDetail/OrderDetailPage';
 import OrderDetailSelector from '../orderDetail/OrderDetailSelector';
-import ReviewPage from '../review/ReviewPage';
-import ReviewSelector from '../review/ReviewSelector';
+import MenuReviewPage from '../review/MenuReviewPage';
+import MenuReviewSelector from '../review/MenuReviewSelector';
+import WriteReviewPage from '../review/WriteReviewPage';
+import WriteReviewSelector from '../review/WriteReviewSelector';
+import CSMainPage from '../cs/CSMainPage';
+import CSAddressCoveragePage from '../cs/CSAddressCoveragePage';
+import CSAddressCoverageSelector from '../cs/CSAddressCoverageSelector';
+import CSFAQPage from '../cs/CSFAQPage';
+import CSFAQSelector from '../cs/CSFAQSelector';
+import CSEnquiryPage from '../cs/CSEnquiryPage';
+import CSPolicyPage from '../cs/CSPolicyPage';
+import PlatingPage from '../plating/PlatingPage';
 
 const Router = connect()(ReactNativeRouter.Router);
 let store = createStore(Reducers);
@@ -43,17 +57,11 @@ const hideNavBar = Platform.OS === 'android'
 const paddingTop = Platform.OS === 'android' ? 0 : 8
 
 export default class Routes extends Component {
-    constructor(props) {
-        super(props);
 
-        this.state = {
-            isDrawerOpen: true
-        }
-    }
     renderDrawerButton() {
 
         return (
-            <TouchableHighlight style={styles.leftButton} onPress={this.drawerOpen.bind(this)}>
+            <TouchableHighlight style={styles.leftButton} onPress={this.drawerOpen.bind(this)} underlayColor={'transparent'}>
                 <Image style={styles.image}
                     source={require('../commonComponent/img/drawer_white.png')}/>
             </TouchableHighlight>
@@ -61,7 +69,7 @@ export default class Routes extends Component {
     }
     renderCartButton() {
         return (
-            <TouchableHighlight style={styles.rightButton} onPress={Actions.CartPage}>
+            <TouchableHighlight style={styles.rightButton} onPress={Actions.CartPage} underlayColor={'transparent'}>
                 <Image style={styles.image}
                     source={require('../commonComponent/img/cart_white.png')}/>
             </TouchableHighlight>
@@ -69,7 +77,7 @@ export default class Routes extends Component {
     }
     renderBackButton() {
         return (
-            <TouchableHighlight style={styles.leftButton} onPress={Actions.pop}>
+            <TouchableHighlight style={styles.leftButton} onPress={Actions.pop} underlayColor={'transparent'}>
                 <Image style={styles.image}
                     source={require('../commonComponent/img/back_white.png')}/>
             </TouchableHighlight>
@@ -77,21 +85,21 @@ export default class Routes extends Component {
     }
 
     drawerOpen() {
-        this.setState({ isDrawerOpen: !this.state.isDrawerOpen });
+        this.refs.sideDrawer.refs.drawer.open();
     }
 
     render() {
-        console.log(this.state.isDrawerOpen);
         return (
             <Provider store={store}>
-                
                 <Router navigationBarStyle={styles.navigationBar} titleStyle={styles.title} >
                     <Schema name="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom}/>
                     <Schema name="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight}/>
                     <Schema name="withoutAnimation"/>
 
-                    <Route name='DrawerPage' hideNavBar={true} type='reset' initial={true} >
-                        <SideDrawer isDrawerOpen={this.state.isDrawerOpen}>
+                    <Route name="TutorialPage"  hideNavBar={true}component={connect()(TutorialPage)} />
+
+                    <Route name='DrawerPage' initial={true} hideNavBar={true}  >
+                        <SideDrawer ref='sideDrawer'>
                             <Router
                                 sceneStyle={styles.scene}
                                 navigationBarStyle={styles.navigationBar}
@@ -111,12 +119,16 @@ export default class Routes extends Component {
                         titleStyle={styles.title} renderLeftButton={this.renderBackButton} 
                         renderRightButton={this.renderCartButton}/>
 
-                    <Route name="CartPage" component={connect(CartSelector)(CartPage)} title="Cart"
+                    <Route name="BannerDetailPage" component={connect(BannerDetailSelector)(BannerDetailPage)} 
+                        title="배너 상세보기" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
+                        titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
+
+                    <Route name="CartPage" component={connect(CartSelector)(CartPage)} title="CART"
                         wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
                         titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
 
                     <Route name="ChefDetailPage" component={connect(ChefDetailSelector)(ChefDetailPage)}  
-                        title="ChefDetailPage" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
+                        title="CHEF" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
                         titleStyle={styles.title} renderLeftButton={this.renderBackButton} 
                         renderRightButton={this.renderCartButton}/>
 
@@ -153,10 +165,42 @@ export default class Routes extends Component {
                         title="주문 상세 보기" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
                         titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
 
-                    <Route name="ReviewPage"  component={connect(ReviewSelector)(ReviewPage)} 
+                    <Route name="MenuReviewPage"  component={connect(MenuReviewSelector)(MenuReviewPage)} 
+                        title="REVIEW" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
+                        titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
+
+                    <Route name="WriteReviewPage"  component={connect(WriteReviewSelector)(WriteReviewPage)} 
                         title="리뷰 남기기" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
                         titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
-                    
+
+                    <Route name="CSMainPage"  component={connect()(CSMainPage)} 
+                        title="고객 센터" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
+                        titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
+                    <Route name="CSAddressCoveragePage"  component={connect(CSAddressCoverageSelector)(CSAddressCoveragePage)} 
+                        title="고객 센터" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
+                        titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
+                    <Route name="CSFAQPage"  component={connect(CSFAQSelector)(CSFAQPage)} 
+                        title="고객 센터" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
+                        titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
+                    <Route name="CSEnquiryPage"  component={connect()(CSEnquiryPage)} 
+                        title="고객 센터" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
+                        titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
+                    <Route name="CSPolicyPage"  component={connect()(CSPolicyPage)} 
+                        title="고객 센터" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
+                        titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
+                    <Route name="tabbar">
+                        <Router footer={TabBar} hideNavBar={true} tabBarStyle={{borderTopColor:'#00bb00',borderTopWidth:1,backgroundColor:'white'}}>
+                            <Route name="tab1" schema="tab" title="Tab #1" >
+                                <Router>
+                                    <Route name="tab1_1" component={TabView} title="Tab #1_1" />
+                                    <Route name="tab1_2" component={TabView} title="Tab #1_2" />
+                                </Router>
+                            </Route>
+                        </Router>
+                    </Route>
+                    <Route name="PlatingPage"  component={connect()(PlatingPage)} 
+                        title="PLATING" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
+                        titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
                 </Router>
             </Provider>
         );

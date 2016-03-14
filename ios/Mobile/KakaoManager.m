@@ -6,10 +6,13 @@
 //  Copyright © 2016년 Facebook. All rights reserved.
 //
 
-#import "RCTKakaoManager.h"
+#import "KakaoManager.h"
 #import <KakaoOpenSDK/KakaoOpenSDK.h>
 
-@implementation RCTKakaoManager
+@implementation KakaoManager
+
+RCT_EXPORT_MODULE();
+
 
 RCT_REMAP_METHOD(onLogin,
                   resolver:(RCTPromiseResolveBlock)resolve
@@ -29,6 +32,5 @@ RCT_REMAP_METHOD(onLogin,
   }];
 }
 
-RCT_EXPORT_MODULE();
 
 @end

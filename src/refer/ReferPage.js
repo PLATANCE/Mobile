@@ -2,6 +2,7 @@
 import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
 
 import Color from '../const/Color';
+import Const from '../const/Const';
 
 export default class ReferPage extends React.Component {
 
@@ -47,6 +48,7 @@ export default class ReferPage extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
+        marginTop: Const.MARGIN_TOP,
     },
     imageBox: {
         flex: 5,

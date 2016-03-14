@@ -25,12 +25,12 @@ export default class OrderedMenu extends React.Component {
         return (
             <View style={styles.container}>
                 <View style={styles.menuBox}>
-                    <View style={styles.leftBox}>
-                        <Text>{name}</Text>
-                        <Text>{foreignName}</Text>
+                    <View>
+                        <Text style={[styles.textBlack, styles.textBold]}>{name}</Text>
+                        <Text style={styles.textBlack}>{foreignName}</Text>
                     </View>
                     <View style={styles.rightBox}>
-                        <Text>{amount}인분</Text>
+                        <Text style={styles.textBlack}>{amount}인분</Text>
                     </View>
                 </View>
             </View>
@@ -43,23 +43,24 @@ export default class OrderedMenu extends React.Component {
  * Style
  */
 let styles = StyleSheet.create({
-    container: {        
+    container: { 
         backgroundColor: 'white',
+        padding: 10,
     },
     menuBox: {
         flexDirection: 'row',
-        width: 300,
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    statusText: {
-    },
-    leftBox: {
-
     },
     rightBox: {
         flex: 1,
         alignItems: 'flex-end',
         justifyContent: 'center',
+    },
+    textBlack: {
+        color: Color.PRIMARY_BLACK,
+    },
+    textBold: {
+        fontWeight: 'bold',
     }
 });

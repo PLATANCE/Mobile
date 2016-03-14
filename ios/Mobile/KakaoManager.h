@@ -6,8 +6,7 @@
 //  Copyright © 2016년 Facebook. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "RCTBridgeModule.h"
-@interface RCTKakaoManager : NSObject <RCTBridgeModule>
+@interface KakaoManager : NSObject<RCTBridgeModule>
 
 @end
