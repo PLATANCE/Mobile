@@ -11,6 +11,8 @@
 
 #import "RCTRootView.h"
 
+#import <KakaoOpenSDK/KakaoOpenSDK.h>
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -54,4 +56,21 @@
   return YES;
 }
 
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+  if ([KOSession isKakaoAccountLoginCallback:url]) {
+    return [KOSession handleOpenURL:url];
+  }
+  return false;
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+  [KOSession handleDidBecomeActive];
+}
+
 @end
+
+//[KOSession sharedSession].accessToken
+
