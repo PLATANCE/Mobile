@@ -21,11 +21,13 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		5F19C9AC1C97D8B000B7E30F /* FacebookManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F19C9AB1C97D8B000B7E30F /* FacebookManager.m */; };
-		5F19C9B11C97DA0000B7E30F /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F19C9B01C97DA0000B7E30F /* FBSDKCoreKit.framework */; };
-		5F19C9B31C97E9A500B7E30F /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F19C9B21C97E9A500B7E30F /* FBSDKLoginKit.framework */; };
+		5F19C9AC1C97D8B000B7E30F /* FacebookManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5F19C9AB1C97D8B000B7E30F /* FacebookManager.mm */; };
+		5F19C9BA1C97F5C700B7E30F /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F19C9B91C97F55C00B7E30F /* libRNDeviceInfo.a */; };
 		5F31DEE51C96957300D55930 /* KakaoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F31DEE41C96957300D55930 /* KakaoManager.m */; };
+		5F65CE961C982101002B4B1E /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F65CE951C9820CA002B4B1E /* libRCTPushNotification.a */; };
+		5F65CE981C9825F3002B4B1E /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F65CE971C9825F3002B4B1E /* SafariServices.framework */; };
 		5F70DE441C90222700D3A533 /* KakaoOpenSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F70DE431C90222600D3A533 /* KakaoOpenSDK.framework */; };
+		810CB411089FE3EB7F25ADDB /* Pods_Mobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5BF4EF0A021A74EA257D5DB /* Pods_Mobile.framework */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 /* End PBXBuildFile section */
 
@@ -93,6 +95,20 @@
 			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
 			remoteInfo = React;
 		};
+		5F19C9B81C97F55C00B7E30F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F19C9B41C97F55C00B7E30F /* RNDeviceInfo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DA5891D81BA9A9FC002B4DB2;
+			remoteInfo = RNDeviceInfo;
+		};
+		5F65CE941C9820CA002B4B1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F65CE901C9820CA002B4B1E /* RCTPushNotification.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTPushNotification;
+		};
 		78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
@@ -129,15 +145,22 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Mobile/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Mobile/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		4B956C6708901EADCB37D3EB /* Pods-Mobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobile.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mobile/Pods-Mobile.release.xcconfig"; sourceTree = "<group>"; };
 		5F19C9AA1C97D8B000B7E30F /* FacebookManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FacebookManager.h; path = Mobile/FacebookManager.h; sourceTree = "<group>"; };
-		5F19C9AB1C97D8B000B7E30F /* FacebookManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FacebookManager.m; path = Mobile/FacebookManager.m; sourceTree = "<group>"; };
-		5F19C9B01C97DA0000B7E30F /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
-		5F19C9B21C97E9A500B7E30F /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		5F19C9AB1C97D8B000B7E30F /* FacebookManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = FacebookManager.mm; path = Mobile/FacebookManager.mm; sourceTree = "<group>"; };
+		5F19C9B41C97F55C00B7E30F /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
+		5F19CA5A1C9813D500B7E30F /* deviceToken.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = deviceToken.h; sourceTree = "<group>"; };
 		5F31DEE31C96957300D55930 /* KakaoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KakaoManager.h; path = Mobile/KakaoManager.h; sourceTree = "<group>"; };
 		5F31DEE41C96957300D55930 /* KakaoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KakaoManager.m; path = Mobile/KakaoManager.m; sourceTree = "<group>"; };
+		5F65CE901C9820CA002B4B1E /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
+		5F65CE971C9825F3002B4B1E /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		5F70DE431C90222600D3A533 /* KakaoOpenSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = KakaoOpenSDK.framework; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		D5BF4EF0A021A74EA257D5DB /* Pods_Mobile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mobile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8691EB403E44449E3D42734 /* Pods-Mobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobile.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mobile/Pods-Mobile.debug.xcconfig"; sourceTree = "<group>"; };
+		DCBF36F833CD2D13CE06090C /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		F1C92D7EFF08333E93FF582E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +175,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F65CE981C9825F3002B4B1E /* SafariServices.framework in Frameworks */,
+				5F65CE961C982101002B4B1E /* libRCTPushNotification.a in Frameworks */,
+				5F19C9BA1C97F5C700B7E30F /* libRNDeviceInfo.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
@@ -159,12 +185,11 @@
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
-				5F19C9B31C97E9A500B7E30F /* FBSDKLoginKit.framework in Frameworks */,
-				5F19C9B11C97DA0000B7E30F /* FBSDKCoreKit.framework in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
+				810CB411089FE3EB7F25ADDB /* Pods_Mobile.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,6 +281,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				5F19CA5A1C9813D500B7E30F /* deviceToken.h */,
 			);
 			name = Mobile;
 			sourceTree = "<group>";
@@ -272,7 +298,7 @@
 			isa = PBXGroup;
 			children = (
 				5F19C9AA1C97D8B000B7E30F /* FacebookManager.h */,
-				5F19C9AB1C97D8B000B7E30F /* FacebookManager.m */,
+				5F19C9AB1C97D8B000B7E30F /* FacebookManager.mm */,
 			);
 			name = Facebook;
 			sourceTree = "<group>";
@@ -280,11 +306,19 @@
 		5F19C9AD1C97D9DB00B7E30F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5F19C9B21C97E9A500B7E30F /* FBSDKLoginKit.framework */,
-				5F19C9B01C97DA0000B7E30F /* FBSDKCoreKit.framework */,
+				5F65CE971C9825F3002B4B1E /* SafariServices.framework */,
 				5F70DE431C90222600D3A533 /* KakaoOpenSDK.framework */,
+				D5BF4EF0A021A74EA257D5DB /* Pods_Mobile.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5F19C9B51C97F55C00B7E30F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5F19C9B91C97F55C00B7E30F /* libRNDeviceInfo.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		5F31DEE61C96958D00D55930 /* Kakao */ = {
@@ -294,6 +328,14 @@
 				5F31DEE41C96957300D55930 /* KakaoManager.m */,
 			);
 			name = Kakao;
+			sourceTree = "<group>";
+		};
+		5F65CE911C9820CA002B4B1E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5F65CE951C9820CA002B4B1E /* libRCTPushNotification.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
@@ -307,6 +349,8 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				5F65CE901C9820CA002B4B1E /* RCTPushNotification.xcodeproj */,
+				5F19C9B41C97F55C00B7E30F /* RNDeviceInfo.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
 				00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */,
@@ -337,6 +381,7 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* MobileTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
+				F31553C4859D3C2583436C81 /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -349,6 +394,17 @@
 				00E356EE1AD99517003FC87E /* MobileTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		F31553C4859D3C2583436C81 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DCBF36F833CD2D13CE06090C /* Pods.debug.xcconfig */,
+				F1C92D7EFF08333E93FF582E /* Pods.release.xcconfig */,
+				D8691EB403E44449E3D42734 /* Pods-Mobile.debug.xcconfig */,
+				4B956C6708901EADCB37D3EB /* Pods-Mobile.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -376,10 +432,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Mobile" */;
 			buildPhases = (
+				E94CCC4EDDA94C3EA65CBA00 /* Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				787C0BC4BB6FAC6C194A217F /* Embed Pods Frameworks */,
+				F7C3B541249586826DB17A3A /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -441,6 +500,10 @@
 					ProjectRef = 00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */;
 				},
 				{
+					ProductGroup = 5F65CE911C9820CA002B4B1E /* Products */;
+					ProjectRef = 5F65CE901C9820CA002B4B1E /* RCTPushNotification.xcodeproj */;
+				},
+				{
 					ProductGroup = 139105B71AF99BAD00B5F7CC /* Products */;
 					ProjectRef = 139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */;
 				},
@@ -459,6 +522,10 @@
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = 5F19C9B51C97F55C00B7E30F /* Products */;
+					ProjectRef = 5F19C9B41C97F55C00B7E30F /* RNDeviceInfo.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -526,6 +593,20 @@
 			remoteRef = 146834031AC3E56700842450 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		5F19C9B91C97F55C00B7E30F /* libRNDeviceInfo.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNDeviceInfo.a;
+			remoteRef = 5F19C9B81C97F55C00B7E30F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5F65CE951C9820CA002B4B1E /* libRCTPushNotification.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTPushNotification.a;
+			remoteRef = 5F65CE941C9820CA002B4B1E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		78C398B91ACF4ADC00677621 /* libRCTLinking.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -576,6 +657,51 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/packager/react-native-xcode.sh";
 		};
+		787C0BC4BB6FAC6C194A217F /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Mobile/Pods-Mobile-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E94CCC4EDDA94C3EA65CBA00 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F7C3B541249586826DB17A3A /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Mobile/Pods-Mobile-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -592,7 +718,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
-				5F19C9AC1C97D8B000B7E30F /* FacebookManager.m in Sources */,
+				5F19C9AC1C97D8B000B7E30F /* FacebookManager.mm in Sources */,
 				5F31DEE51C96957300D55930 /* KakaoManager.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
@@ -660,6 +786,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D8691EB403E44449E3D42734 /* Pods-Mobile.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -673,12 +800,15 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
+					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS",
 				);
 				INFOPLIST_FILE = Mobile/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
+					"$(inherited)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.plating.app;
 				PRODUCT_NAME = Mobile;
@@ -688,6 +818,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4B956C6708901EADCB37D3EB /* Pods-Mobile.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -698,12 +829,15 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
+					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS",
 				);
 				INFOPLIST_FILE = Mobile/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
+					"$(inherited)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.plating.app;
 				PRODUCT_NAME = Mobile;
@@ -753,6 +887,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "$(inherited)";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -792,6 +927,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "$(inherited)";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

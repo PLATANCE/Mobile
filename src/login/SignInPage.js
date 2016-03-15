@@ -1,21 +1,95 @@
 'use strict';
 import React, { View, Text, StyleSheet, TouchableHighlight, Image, Dimensions, NativeModules } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import DeviceInfo from 'react-native-device-info';
+import Color from '../const/Color';
+import Const from '../const/Const';
+import PushNotification from '../app/PushNotification';
 
 const KakaoManager = NativeModules.KakaoManager,
     FacebookManager = NativeModules.FacebookManager;
 
-import Color from '../const/Color';
-import Const from '../const/Const';
 
 export default class SignInPage extends React.Component {
     constructor(props) {
         super(props);
     }
     facebookLogin() {
-        console.log("facebook login");
-        FacebookManager.login().then(() => {
-            console.log('success');
+        console.log("trying facebook login");
+        FacebookManager.login().then((result) => {
+            console.log("fb login success", result);
+
+            let facebookSignUpParams = {
+                "os_type": "iOS",
+                "login_type": "fb",
+                "user_id": result.id,
+                "name": result.name,
+                "push_token": PushNotification.deviceToken,
+                "os_version": DeviceInfo.getSystemVersion(),
+                "device": DeviceInfo.getModel(),
+                "email": result.email
+            };
+            console.log(facebookSignUpParams);
+                /*
+
+                                                    request(.POST, "\(Constant.API_URL)/signup", parameters: params)
+                                                        .responseJSON {
+                                                            (_, _, result) in
+                                                            switch result {
+                                                                case .Success(let data):
+                                                                    let result = JSON(data)
+                                                                    let user_info = result["user_info"]
+
+                                                                    let user_idx = user_info["user_idx"].intValue
+                                                                    let by = result["from"].string!
+
+                                                                        UserInfo.sharedInstance.set_user_idx(user_idx)
+
+
+
+
+                                                                    if by == "i" { // insert
+
+                                                                        Util.sharedInstance.mixPanel.createAlias("\(user_idx) - \(name)", forDistinctID: Util.sharedInstance.mixPanel.distinctId)
+                                                                        UserInfo.sharedInstance.CreatedAlias()
+                                                                        if login_type == "kakao" {
+                                                                            Util.sharedInstance.track_action("Sign Up Success", properties: ["Type": "KakaoAPI"])
+                                                                        } else if login_type == "facebook" {
+                                                                            Util.sharedInstance.track_action("Sign Up Success", properties: ["Type": "FacebookAPI"])
+                                                                        } else {
+                                                                            Util.sharedInstance.track_action("Sign Up Success", properties: ["Type": "Auto"])
+                                                                        }
+                                                                    } else { // update
+                                                                        if login_type == "kakao" {
+                                                                            Util.sharedInstance.track_action("Log In Success", properties: ["Type": "KakaoAPI"])
+                                                                        } else if login_type == "facebook" {
+                                                                            Util.sharedInstance.track_action("Log In Success", properties: ["Type": "FacebookAPI"])
+                                                                        } else {
+                                                                            Util.sharedInstance.track_action("Log In Success", properties: ["Type": "Auto"])
+                                                                        }
+                                                                    }
+
+                                                                    Util.sharedInstance.mixPanel.identify("\(user_idx) - \(name)")
+
+                                                                    // AppsFlyerTracker.sharedTracker().
+
+
+
+                                                                    Util.sharedInstance.mixPanel.people.set(["name": "\(user_idx) - \(name)"])
+                                                                    Util.sharedInstance.mixPanel.people.set(["media_source": UserInfo.sharedInstance.appsflyer_media_source(), "campaign": UserInfo.sharedInstance.appsflyer_campaign()])
+
+
+
+                                                                    if UserInfo.push_token_nsdata != nil {
+                                                                        Util.sharedInstance.mixPanel.people.addPushDeviceToken(UserInfo.push_token_nsdata)
+                                                                    }
+
+
+
+
+                                                                    self.dismissViewControllerAnimated(true, completion: nil)
+                                                                    self.SignUP("facebook", name: FBSDKProfile.currentProfile().name, params: parameters3)
+                            */
         }).catch((err) => {
             console.log(err);
         });

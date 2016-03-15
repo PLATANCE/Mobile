@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 
 #import "RCTRootView.h"
+#import "RCTPushNotificationManager.h"
 
 #import <KakaoOpenSDK/KakaoOpenSDK.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
@@ -33,8 +34,8 @@
    * `inet` value under `en0:`) and make sure your computer and iOS device are
    * on the same Wi-Fi network.
    */
-  jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
-
+  jsCodeLocation = [NSURL URLWithString:@"http://192.168.0.2:8081/index.ios.bundle?platform=ios&dev=true"];
+  
   /**
    * OPTION 2
    * Load from pre-bundled file on disk. The static bundle is automatically
@@ -56,6 +57,19 @@
   
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
+  /*
+   * APNS
+   */
+#ifdef __IPHONE_8_0
+  //Right, that is the point
+  UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound) categories:nil];
+  [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+#else
+  //register to receive notifications
+  UIRemoteNotificationType myTypes = UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound;
+  [[UIApplication sharedApplication] registerForRemoteNotificationTypes:myTypes];
+#endif
+  
   
   return YES;
 }
@@ -71,13 +85,30 @@
                                                 sourceApplication:sourceApplication
                                                        annotation:annotation
             ];
-
+    
   }
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
   [KOSession handleDidBecomeActive];
+  [FBSDKAppEvents activateApp];
+}
+
+// Required to register for notifications
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
+{
+  [RCTPushNotificationManager didRegisterUserNotificationSettings:notificationSettings];
+}
+// Required for the register event.
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+  [RCTPushNotificationManager didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+// Required for the notification event.
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)notification
+{
+  [RCTPushNotificationManager didReceiveRemoteNotification:notification];
 }
 
 @end
