@@ -107,10 +107,10 @@ export default class Routes extends Component {
                     <Schema name="withoutAnimation"/>
 
                     <Route name="TutorialPage"  hideNavBar={true} component={connect()(TutorialPage)} />
-                    <Route name="SignInPage"  hideNavBar={true} component={connect()(SignInPage)} />
+                    <Route name="SignInPage"  initial={true} hideNavBar={true} component={connect()(SignInPage)} />
                     <Route name="SignUpPage" hideNavBar={true} component={connect()(SignUpPage)} />
 
-                    <Route name='DrawerPage' initial={true} hideNavBar={true}  >
+                    <Route name='DrawerPage' hideNavBar={true}  >
                         <SideDrawer ref='sideDrawer'>
                             <Router
                                 sceneStyle={styles.scene}
