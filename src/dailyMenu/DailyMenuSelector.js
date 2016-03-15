@@ -15,8 +15,8 @@ export default (state) => ({
             foreignName: 'Spicy Ribs & Glazed Apple',
             originalPrice: 11000,
             sellingPrice: 8000,
-            averageReviewScore: 4.5,
-            reviewCount: 93
+            averageReviewScore: 3.8,
+            reviewCount: 93,
         },
         chef: {
             url: 'http://plating.co.kr/app/media/chef/2015.11.24-chef_bong_2.png',
@@ -30,8 +30,8 @@ export default (state) => ({
             foreignName: 'Shrimp Cannelloni Pasta',
             originalPrice: 10000,
             sellingPrice: 10000,
-            averageReviewScore: 4.5,
-            reviewCount: 134
+            averageReviewScore: 5,
+            reviewCount: 134,
         },
         chef: {
             url: 'http://plating.co.kr/app/media/chef/2015.11.06-chef_jang.png',

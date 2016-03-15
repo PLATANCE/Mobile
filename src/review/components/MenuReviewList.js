@@ -7,6 +7,7 @@ import React, {
     ListView,
     TouchableHighlight
 } from 'react-native';
+import Color from '../../const/Color';
 
 import MenuReviewStars from '../../commonComponent/MenuReviewStars';
 
@@ -43,10 +44,10 @@ export default class MenuReviewList extends React.Component {
                     <Text style={styles.dateStringText}>{rowData.dateString}</Text>
                 </View>
                 <View style={styles.contentBox}>
-                    <Text>{rowData.content}</Text>
+                    <Text style={styles.textBlack}>{rowData.content}</Text>
                 </View>
                 <View style={styles.phoneBox}>
-                    <Text>{rowData.maskedPhoneNumber}</Text>
+                    <Text style={styles.textBlack}>{rowData.maskedPhoneNumber}</Text>
                 </View>
             </View>
         )
@@ -67,24 +68,23 @@ export default class MenuReviewList extends React.Component {
 }
 
 let styles = StyleSheet.create({
-
+    listView: {
+        marginTop: 10,
+    },
     row: {
         flex: 1,
-        marginTop: 10,
-        paddingTop: 10,
-        paddingBottom: 10,
-        paddingLeft: 5,
-        paddingRight: 5,
+        marginBottom: 10,
+        padding: 10,
         backgroundColor: 'white',
     },
     scoreDateBox: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 5,
     },
     dateStringText: {
         flex: 1,
         textAlign: 'right',
+        color: Color.PRIMARY_BLACK,
     },
     contentBox: {
         marginTop: 5,
@@ -93,6 +93,10 @@ let styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-end',
         marginTop: 5,
+    },
+    textBlack: {
+        color: Color.PRIMARY_BLACK,
+        lineHeight: 20,
     }
 
 });

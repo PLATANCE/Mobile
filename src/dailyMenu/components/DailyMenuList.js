@@ -1,5 +1,6 @@
-import React, { View, ListView, Text, StyleSheet, Image, TouchableHighlight } from 'react-native';
+import React, { View, ListView, Text, StyleSheet, Image, TouchableHighlight, Dimensions } from 'react-native';
 import Color from '../../const/Color';
+import Const from '../../const/Const';
 import MenuReviewStars from '../../commonComponent/MenuReviewStars';
 import MenuPriceText from '../../commonComponent/MenuPriceText';
 import AddCartButton from '../../commonComponent/AddCartButton';
@@ -28,6 +29,9 @@ export default class DailyMenuList extends React.Component {
     }
 
     renderRow(rowData) {
+        if(rowData.menu.isEvent) {
+            
+        }
         return (
             <View style={styles.row}>
                 <View style={styles.menuDetailBox}>
@@ -113,7 +117,6 @@ let styles = StyleSheet.create({
     amountInCart: {
         height: 40,
         flexDirection: 'row',
-        position: 'relative',
         left: 0,
         top: 210,
     },

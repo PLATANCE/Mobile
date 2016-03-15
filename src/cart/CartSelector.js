@@ -33,6 +33,7 @@ export default (state) => ({
         address: '서울 강남구 신사동',
         addressDetail: '533-9번지 402호',
         mobile: '010-3648-5294',
+        deliveryTime: '배달 시간을 선택해 주세요',
         timeSlot: ['05:30pm - 06:00pm', '06:00pm - 06:30pm', '06:30pm - 07:00pm',
             '07:00pm - 07:30pm', '07:30pm - 08:00pm', '08:00pm - 08:30pm',
             '08:30pm - 09:00pm', '09:00pm - 09:30pm', '09:30pm - 10:00pm'
