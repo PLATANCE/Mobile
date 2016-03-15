@@ -6,19 +6,64 @@ import Banner from './components/Banner';
 import PageComment from '../commonComponent/PageComment';
 import Color from '../const/Color';
 import Const from '../const/Const';
+import RequestURL from '../const/RequestURL';
 
 export default class DailyMenuPage extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            menus: [],
+            address: '',
+            addressDetail: '',
+        }
+    }
+    
+    componentDidMount() {
+
+        this.fetchDailyMenu();
+        this.fetchMyAddress();
+    }
+
+    fetchDailyMenu() {
+        fetch(RequestURL.REQUEST_DAILY_MENU)
+            .then((response) => response.json())
+            .then((responseData) => {
+                console.log(responseData);
+                this.setState({
+                    menus: responseData
+                });
+            })
+            .catch((error)=> {
+                console.warn(error);
+            })
+            .done();
+    }
+    fetchMyAddress() {
+        fetch(RequestURL.REQUEST_MY_ADDRESS)
+            .then((response) => response.json())
+            .then((responseData) => {
+                console.log(responseData);
+                this.setState({
+                    address: responseData[0].address,
+                    addressDetail: responseData[0].address_detail
+                });
+            }).catch((error)=> {
+                console.warn(error);
+            })
+            .done();
+    }
+    
     render() {
         return (
             <View style={styles.container}>
                 <PageComment text='모든 메뉴는 당일 조리, 당일 배송 됩니다(5:30pm~10:00pm)' />
                 <View style={styles.content}>
                     <ScrollView>
-                        <Banner isBannerOpen={this.props.banner.isBannerOpen} url={this.props.banner.url}/>
-                        <DailyMenuList styles={styles.menuList} menus={this.props.menus} />
+                        <Banner />
+                        <DailyMenuList styles={styles.menuList} menus={this.state.menus} />
                     </ScrollView>
-                    <AddressBar address={this.props.address.address} addressDetail={this.props.address.addressDetail}/>
+                    <AddressBar address={this.state.address} addressDetail={this.state.addressDetail}/>
                 </View>
             </View>
         );

@@ -9,7 +9,7 @@ import React, {
 
 export default class MenuReviewStars extends React.Component {
     static propTypes = {
-        score: PropTypes.number.isRequired
+        
     };
 
     render() {
@@ -35,7 +35,7 @@ export default class MenuReviewStars extends React.Component {
                         <Image style={styles.star} key={"star_" + i}
                             source={require('./img/icon_star_empty_yellow.png')}/>
                     );
-                } else if (decimalScore < 5) {
+                } else if (decimalScore <= 5) {
                     scoreStar.push(
                         <Image style={styles.star} key={"star_" + i}
                             source={require('./img/icon_star_half_yellow.png')}/>
@@ -54,8 +54,6 @@ export default class MenuReviewStars extends React.Component {
             }
         }
 
-
-        console.log("int: " + intScore + " decimal: " + decimalScore);
         return (
             <View style={styles.container}>
                 {scoreStar}

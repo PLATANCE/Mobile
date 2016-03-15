@@ -106,18 +106,18 @@ export default class Routes extends Component {
                     <Schema name="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight}/>
                     <Schema name="withoutAnimation"/>
 
-                    <Route name="TutorialPage"  hideNavBar={true} component={connect()(TutorialPage)} />
+                    <Route name="TutorialPage" hideNavBar={true} component={connect()(TutorialPage)} />
                     <Route name="SignInPage"  hideNavBar={true} component={connect()(SignInPage)} />
                     <Route name="SignUpPage" hideNavBar={true} component={connect()(SignUpPage)} />
 
-                    <Route name='DrawerPage' initial={true} hideNavBar={true}  >
+                    <Route name='DrawerPage' initial={true}  hideNavBar={true}  >
                         <SideDrawer ref='sideDrawer'>
                             <Router
                                 sceneStyle={styles.scene}
                                 navigationBarStyle={styles.navigationBar}
                                 titleStyle={styles.title} >
                                 <Route name="DailyMenuPage" 
-                                        component={connect(DailyMenuSelector)(DailyMenuPage)} 
+                                        component={connect()(DailyMenuPage)} 
                                         title="TODAY'S MENU" 
                                         renderLeftButton={this.renderDrawerButton.bind(this)} 
                                         renderRightButton={this.renderCartButton} />
@@ -126,7 +126,7 @@ export default class Routes extends Component {
                     </Route>
 
                     
-                    <Route name="MenuDetailPage"  component={connect(MenuDetailSelector)(MenuDetailPage)} 
+                    <Route name="MenuDetailPage"  component={connect()(MenuDetailPage)} 
                         wrapRouter={true}  navigationBarStyle={this.navigationBar} 
                         title="TODAY'S MENU" renderLeftButton={this.renderBackButton} 
                         renderRightButton={this.renderCartButton}/>

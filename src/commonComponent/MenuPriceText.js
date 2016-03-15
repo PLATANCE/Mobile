@@ -10,8 +10,7 @@ import Color from '../const/Color';
 
 export default class MenuPriceText extends React.Component {
     static propTypes = {
-        originalPrice: PropTypes.number.isRequired,
-        sellingPrice: PropTypes.number.isRequired
+        
     };
     commaPrice(price) {
         price = String(price);

@@ -1,4 +1,5 @@
 'use strict';
+
 export default (state) => ({
     menu: {
         name: "수비드 연어 스테이크",
@@ -36,3 +37,4 @@ export default (state) => ({
     cartCount: 3,
     isShowAllReview: false
 });
+

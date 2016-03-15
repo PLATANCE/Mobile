@@ -9,7 +9,7 @@ import React, {
     ScrollView,
 } from 'react-native';
 
-import {Actions} from 'react-native-router-flux'
+import { Actions } from 'react-native-router-flux'
 import MenuReviewStars from '../commonComponent/MenuReviewStars';
 import AddCartButton from '../commonComponent/AddCartButton';
 import MenuPriceText from '../commonComponent/MenuPriceText';
@@ -17,72 +17,68 @@ import PageComment from '../commonComponent/PageComment';
 import ReviewList from './components/ReviewList';
 import Color from '../const/Color';
 import Const from '../const/Const';
+import RequestURL from '../const/RequestURL';
+import MediaURL from '../const/MediaURL';
 
 
 export default class MenuDetailPage extends React.Component {
-    static propTypes = {
-        menu: PropTypes.shape({
-            name: PropTypes.string.isRequired,
-            foreignName: PropTypes.string.isRequired,
-            averageReviewScore: PropTypes.number.isRequired,
-            reviewCount: PropTypes.number.isRequired,
-            originalPrice: PropTypes.number.isRequired,
-            sellingPrice: PropTypes.number.isRequired,
-            chef: PropTypes.shape({
-                name: PropTypes.string.isRequired,
-                affiliation: PropTypes.string.isRequired
-            }).isRequired,
-            description: PropTypes.string.isRequired,
-            ingredients: PropTypes.string.isRequired,
-            calories: PropTypes.number.isRequired,
-            reviews: PropTypes.arrayOf(PropTypes.shape({
-                score: PropTypes.number.isRequired,
-                dateString: PropTypes.string.isRequired,
-                content: PropTypes.string.isRequired,
-                maskedPhoneNumber: PropTypes.string.isRequired
-            })).isRequired,
-        }).isRequired,
-        cartCount: PropTypes.number.isRequired,
-        isShowAllReview: PropTypes.bool.isRequired
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            menuIdx: this.props.menuIdx,
+            menu: [],
+            reviews: [],
+        }
+    }
 
+    componentDidMount() {
+        this.fetchMenuDetail();
+    }
+
+    fetchMenuDetail() {
+        fetch(RequestURL.REQUEST_MENU_DETAIL + "?menu_idx=" + this.state.menuIdx)
+            .then((response) => response.json())
+            .then((responseData) => {
+                this.setState({
+                    menu: responseData[0],
+                    reviews: responseData[0].review,
+                });
+            })
+            .catch((error) => {
+                console.warn(error);
+            })
+            .done();
+    }
     render() {
-        let {
-            menu,
-            cartCount,
-            isShowAllReview
-        } = this.props;
-        let {
-            chef
-        } = menu;
-
+        let menu = this.state.menu;
+        let menuURL = MediaURL.MENU_URL + menu.image_url_menu;
+        let chefURL = MediaURL.CHEF_URL + menu.image_url_chef;
 
         return (
-            
             <View style={styles.container}>
                 <PageComment text="모든 메인메뉴는 전자렌지 조리용입니다."/>
                 <ScrollView>
                     <View style={styles.content} >
                         <View style={styles.menuNameBox}>
-                            <Text style={[styles.textBlack, {fontSize: 16, fontWeight: 'bold'}]}>{menu.name}</Text>
-                            <Text style={[styles.textBlack]}>{menu.foreignName}</Text>
+                            <Text style={[styles.textBlack, {fontSize: 16, fontWeight: 'bold'}]}>{menu.name_menu}</Text>
+                            <Text style={[styles.textBlack]}>{menu.name_menu_eng}</Text>
                         </View>
                         <View style={styles.menuImageBox}>
                             <Image 
                                 style={styles.imageview}
-                                source={{uri: menu.url}}/>
+                                source={{uri: menuURL}}/>
                         </View>
                         <View style={styles.reviewPriceBox}>
                             <View style={styles.reviewBox}>
-                                <MenuReviewStars score={menu.averageReviewScore}/>
+                                <MenuReviewStars score={menu.rating}/>
                                 <TouchableHighlight onPress={Actions.MenuReviewPage} underlayColor={'transparent'}>
                                     <View style={styles.reviewTextBox}>
-                                        <Text style={[styles.textGray, {textDecorationLine: 'underline', marginLeft: 3, fontSize: 15}]}>{menu.reviewCount}개의 리뷰보기</Text>
+                                        <Text style={[styles.textGray, {textDecorationLine: 'underline', marginLeft: 3, fontSize: 15}]}>{menu.review_count}개의 리뷰보기</Text>
                                     </View>
                                 </TouchableHighlight>
                             </View>
                             <View style={styles.priceBox}>
-                                <MenuPriceText originalPrice={menu.originalPrice} sellingPrice={menu.sellingPrice}/>
+                                <MenuPriceText originalPrice={menu.price} sellingPrice={menu.alt_price}/>
                             </View>
                             <View style={styles.cartButtonBox}>
                                 <AddCartButton  />
@@ -91,10 +87,10 @@ export default class MenuDetailPage extends React.Component {
                         <TouchableHighlight onPress={Actions.ChefDetailPage} underlayColor={'transparent'}>
                             <View style={styles.chefBox}>
                                 <Image style={styles.chefImage}
-                                    source={{uri: chef.url}}></Image>
+                                    source={{uri: chefURL}}></Image>
                                 <View style={styles.chefSummaryBox}>
-                                    <Text style={[styles.textBlack, {marginBottom: 2}]}>{chef.name}</Text>
-                                    <Text style={styles.textGray}>{chef.affiliation}</Text>
+                                    <Text style={[styles.textBlack, {marginBottom: 2}]}>{menu.name_chef}</Text>
+                                    <Text style={styles.textGray}>{menu.career_summ}</Text>
                                 </View>
                                 <View style={styles.iconBox}>
                                     <View style={styles.iconView}>
@@ -106,14 +102,14 @@ export default class MenuDetailPage extends React.Component {
                         </TouchableHighlight>
                         <View style={styles.menuInfoBox}>
                             <Text style={styles.textOrange}>Description</Text>
-                            <Text style={styles.textBlack}>{menu.description}{'\n'}</Text>
+                            <Text style={styles.textBlack}>{menu.story}{'\n'}</Text>
                             <Text style={styles.textOrange}>Ingredients</Text>
                             <Text style={styles.textBlack}>{menu.ingredients}{'\n'}</Text>
                             <Text style={styles.textOrange}>Calories</Text>
-                            <Text style={styles.textBlack}>{menu.calories.toLocaleString()}Kcal</Text>
+                            <Text style={styles.textBlack}>{menu.calories}Kcal</Text>
                         </View>
                         <View style={styles.reviewListBox}>
-                            <ReviewList reviews={menu.reviews}/>
+                            <ReviewList reviews={this.state.reviews}/>
                         </View>
                         <TouchableHighlight onPress={Actions.MenuReviewPage} underlayColor={'transparent'}>
                             <View style={styles.showMoreButtonBox}>
@@ -121,10 +117,10 @@ export default class MenuDetailPage extends React.Component {
                             </View>
                         </TouchableHighlight>
                     </View>
-
+                
                 </ScrollView>
             </View>
-            
+
         );
     }
 }
@@ -247,7 +243,7 @@ let styles = StyleSheet.create({
         lineHeight: 20,
     },
     textWhite: {
-        color: 'white',        
+        color: 'white',
     },
     reviewTextBox: {
         marginTop: 3,
