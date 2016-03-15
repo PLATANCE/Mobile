@@ -6,7 +6,7 @@ import Const from '../const/Const';
 import Tabs from 'react-native-tabs';
 
 let TEST_URL = 'http://api.plating.co.kr/app/term.html';
-let width = Dimensions.get('window').width;
+
 
 export default class CSPolicyPage extends React.Component {
     constructor(props) {
@@ -59,13 +59,12 @@ let styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 10,
-        marginBottom: 10,
     },
     textBlack: {
         color: Color.PRIMARY_BLACK,
     },
     webView: {
-        width: width,
+        width: Const.WIDTH,
         margin: 10,
     }
 });

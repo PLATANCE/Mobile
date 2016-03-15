@@ -6,7 +6,7 @@ import Color from '../const/Color';
 import Const from '../const/Const';
 
 
-export default class LoginPage extends React.Component {
+export default class SignInPage extends React.Component {
     fbLogin() {
         console.log("facebook login");
     }
@@ -55,12 +55,13 @@ export default class LoginPage extends React.Component {
                             <Text style={styles.textWhite}>카카오계정으로 로그인</Text>
                         </View>
                         <View style={[styles.row, styles.backgroundColorTransparent, {marginTop: 10,}]}>
-                            <View style={[styles.textButton, {alignItems: 'flex-start'}]}>
+                            <TouchableHighlight style={[styles.textButton, {alignItems: 'flex-start'}]} underlayColor={'transparent'} 
+                                onPress={Actions.SignUpPage} >
                                 <Text style={styles.textWhite}>회원가입</Text>
-                            </View>
-                            <View style={[styles.textButton, {alignItems: 'flex-end'}]}>
+                            </TouchableHighlight>
+                            <TouchableHighlight style={[styles.textButton, {alignItems: 'flex-end'}]} underlayColor={'transparent'}>
                                 <Text style={styles.textWhite}>비밀번호를 잊어버리셨어요?</Text>
-                            </View>
+                            </TouchableHighlight>
                         </View>
                     </View>
                 </View>
@@ -75,8 +76,8 @@ let styles = StyleSheet.create({
         backgroundColor: 'orange',
     },
     content: {
-      margin: 30,
-      flex: 1,
+        margin: 30,
+        flex: 1,
     },
     contentBox: {
         flex: 1,
@@ -109,8 +110,8 @@ let styles = StyleSheet.create({
     },
     textButton: {
         flex: 1,
-        alignSelf: 'flex-end',    
-    },  
+        alignSelf: 'flex-end',
+    },
     buttonLogo: {
         width: 30,
         height: 30,

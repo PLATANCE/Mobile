@@ -7,10 +7,13 @@ import { createStore } from 'redux'
 import Reducers from './Reducers';
 
 import Color from '../const/Color';
+import Const from '../const/Const';
 import SideDrawer from '../commonComponent/SideDrawer';
 import TabView from '../cs/components/TabView';
 
 import TutorialPage from '../tutorial/TutorialPage';
+import SignInPage from '../login/SignInPage';
+import SignUpPage from '../login/SignUpPage';
 import DailyMenuPage from '../dailyMenu/DailyMenuPage';
 import DailyMenuSelector from '../dailyMenu/DailyMenuSelector';
 import BannerDetailPage from '../dailyMenu/BannerDetailPage';
@@ -83,6 +86,13 @@ export default class Routes extends Component {
             </TouchableHighlight>
         );
     }
+    renderTitle(title) {
+        return(
+            <View style={styles.titleBox}>
+                <Text style={styles.title}>{title}</Text>
+            </View>
+        );
+    }
 
     drawerOpen() {
         this.refs.sideDrawer.refs.drawer.open();
@@ -96,7 +106,9 @@ export default class Routes extends Component {
                     <Schema name="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight}/>
                     <Schema name="withoutAnimation"/>
 
-                    <Route name="TutorialPage"  hideNavBar={true}component={connect()(TutorialPage)} />
+                    <Route name="TutorialPage"  hideNavBar={true} component={connect()(TutorialPage)} />
+                    <Route name="SignInPage"  hideNavBar={true} component={connect()(SignInPage)} />
+                    <Route name="SignUpPage" hideNavBar={true} component={connect()(SignUpPage)} />
 
                     <Route name='DrawerPage' initial={true} hideNavBar={true}  >
                         <SideDrawer ref='sideDrawer'>
@@ -114,12 +126,12 @@ export default class Routes extends Component {
                     </Route>
 
                     
-                    <Route name="MenuDetailPage" component={connect(MenuDetailSelector)(MenuDetailPage)} 
-                        title="TODAY'S MENU" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
-                        titleStyle={styles.title} renderLeftButton={this.renderBackButton} 
+                    <Route name="MenuDetailPage"  component={connect(MenuDetailSelector)(MenuDetailPage)} 
+                        wrapRouter={true}  navigationBarStyle={this.navigationBar} 
+                        title="TODAY'S MENU" renderLeftButton={this.renderBackButton} 
                         renderRightButton={this.renderCartButton}/>
 
-                    <Route name="BannerDetailPage" component={connect(BannerDetailSelector)(BannerDetailPage)} 
+                    <Route name="BannerDetailPage"  component={connect(BannerDetailSelector)(BannerDetailPage)} 
                         title="배너 상세보기" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
                         titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
 
@@ -210,6 +222,16 @@ let styles = StyleSheet.create({
 
     navigationBar: {
         backgroundColor: Color.PRIMARY_ORANGE,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: Const.MARGIN_TOP,
+    },
+    titleBox: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'red',
+        alignSelf: 'center',
+        flex: 1,
     },
     title: {
         color: 'white',
