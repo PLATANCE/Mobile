@@ -26,9 +26,15 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>kakao35c3983a3275c9d0372965f9aed3b366</string>
+				<string>fb1628165434090487</string>
 			</array>
 		</dict>
 	</array>
+	<key>FacebookAppID</key>
+	<string>1628165434090487</string>
+	<key>FacebookDisplayName</key>
+	<string>Plating</string>
+
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -39,6 +45,10 @@
 		<string>kakaolink</string>
 		<string>kakaotalk-4.5.0</string>
 		<string>kakaostory-2.9.0</string>
+		<string>fbapi</string>
+		<string>fb-messenger-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
@@ -84,6 +94,21 @@
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
+			<key>facebook.com</key>
+		    <dict>
+		    	<key>NSIncludesSubdomains</key> <true/>        
+		    	<key>NSThirdPartyExceptionRequiresForwardSecrecy</key> <false/>
+		    </dict>
+		    <key>fbcdn.net</key>
+		    <dict>
+		    	<key>NSIncludesSubdomains</key> <true/>
+		    	<key>NSThirdPartyExceptionRequiresForwardSecrecy</key>  <false/>
+		    </dict>
+		    <key>akamaihd.net</key>
+		    <dict>
+		    	<key>NSIncludesSubdomains</key> <true/>
+		    	<key>NSThirdPartyExceptionRequiresForwardSecrecy</key> <false/>
+		    </dict>
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>

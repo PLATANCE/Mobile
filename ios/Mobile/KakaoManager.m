@@ -14,7 +14,7 @@
 RCT_EXPORT_MODULE();
 
 
-RCT_REMAP_METHOD(onLogin,
+RCT_REMAP_METHOD(login,
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
@@ -25,9 +25,11 @@ RCT_REMAP_METHOD(onLogin,
     if ([[KOSession sharedSession] isOpen]) {
       // login success
       NSLog(@"login succeeded.");
+      resolve(NULL);
     } else {
       // failed
       NSLog(@"login failed.");
+      reject(@"kakao_login_fail", @"login failed. need debuging.", error);
     }
   }];
 }

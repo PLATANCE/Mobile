@@ -12,6 +12,7 @@
 #import "RCTRootView.h"
 
 #import <KakaoOpenSDK/KakaoOpenSDK.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 @implementation AppDelegate
 
@@ -52,6 +53,10 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  
+  [[FBSDKApplicationDelegate sharedInstance] application:application
+                           didFinishLaunchingWithOptions:launchOptions];
+  
   return YES;
 }
 
@@ -60,8 +65,14 @@
          annotation:(id)annotation {
   if ([KOSession isKakaoAccountLoginCallback:url]) {
     return [KOSession handleOpenURL:url];
+  } else {
+    return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                          openURL:url
+                                                sourceApplication:sourceApplication
+                                                       annotation:annotation
+            ];
+
   }
-  return false;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application

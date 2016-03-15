@@ -1,6 +1,9 @@
 'use strict';
-import React, { View, Text, StyleSheet, TouchableHighlight, Image, Dimensions } from 'react-native';
+import React, { View, Text, StyleSheet, TouchableHighlight, Image, Dimensions, NativeModules } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+
+const KakaoManager = NativeModules.KakaoManager,
+    FacebookManager = NativeModules.FacebookManager;
 
 import Color from '../const/Color';
 import Const from '../const/Const';
@@ -11,9 +14,19 @@ export default class SignInPage extends React.Component {
     }
     facebookLogin() {
         console.log("facebook login");
+        FacebookManager.login().then(() => {
+            console.log('success');
+        }).catch((err) => {
+            console.log(err);
+        });
     }
     kakaoLogin() {
         console.log("kakao` login");
+        KakaoManager.login().then(() => {
+            console.log('success');
+        }).catch((err) => {
+            console.log(err);
+        });
     }
     render() {
         return (
