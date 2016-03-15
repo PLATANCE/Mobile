@@ -18,20 +18,22 @@ RCT_REMAP_METHOD(login,
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
-  // ensure old session was closed
-  [[KOSession sharedSession] close];
-  
-  [[KOSession sharedSession] openWithCompletionHandler:^(NSError *error) {
-    if ([[KOSession sharedSession] isOpen]) {
-      // login success
-      NSLog(@"login succeeded.");
-      resolve(NULL);
-    } else {
-      // failed
-      NSLog(@"login failed.");
-      reject(@"kakao_login_fail", @"login failed. need debuging.", error);
-    }
-  }];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    // ensure old session was closed
+    [[KOSession sharedSession] close];
+    
+    [[KOSession sharedSession] openWithCompletionHandler:^(NSError *error) {
+      if ([[KOSession sharedSession] isOpen]) {
+        // login success
+        NSLog(@"login succeeded.");
+        resolve(NULL);
+      } else {
+        // failed
+        NSLog(@"login failed.");
+        reject(@"kakao_login_fail", @"login failed. need debuging.", error);
+      }
+    }];
+  });
 }
 
 
