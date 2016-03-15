@@ -1,6 +1,7 @@
 import React, { View, ListView, Text, StyleSheet, Image, TouchableHighlight, Dimensions } from 'react-native';
 import Color from '../../const/Color';
 import Const from '../../const/Const';
+import MediaURL from '../../const/MediaURL';
 import MenuReviewStars from '../../commonComponent/MenuReviewStars';
 import MenuPriceText from '../../commonComponent/MenuPriceText';
 import AddCartButton from '../../commonComponent/AddCartButton';
@@ -29,15 +30,18 @@ export default class DailyMenuList extends React.Component {
     }
 
     renderRow(rowData) {
-        if(rowData.menu.isEvent) {
-            
-        }
+        let menuName = rowData.name_menu;
+        let menuNameKor = menuName.split('.')[0];
+        let menuNameEng = menuName.split('.')[1];
+
+        let menuURL = MediaURL.MENU_URL + rowData.image_url_menu;
+        let chefURL = MediaURL.CHEF_URL + rowData.image_url_chef;
         return (
             <View style={styles.row}>
                 <View style={styles.menuDetailBox}>
-                    <TouchableHighlight style={styles.menuImageBox} onPress={Actions.MenuDetailPage} underlayColor={'transparent'}>
+                    <TouchableHighlight style={styles.menuImageBox} onPress={()=>Actions.MenuDetailPage({menuIdx: rowData.menu_idx, title: menuNameKor})} underlayColor={'transparent'}>
                         <Image style={styles.menuImage}
-                            source={{uri: rowData.menu.url}} >
+                            source={{uri: menuURL}} >
                             <View style={styles.amountInCart}>
                                 <AmountInCart amount={2}/>
                             </View>
@@ -46,13 +50,13 @@ export default class DailyMenuList extends React.Component {
                     <View style={styles.menuChefBox}>
                         <View style={styles.chefImageBox}>
                             <Image style={styles.chefImage}
-                                source={{uri: rowData.chef.url}} /> 
+                                source={{uri: chefURL}} /> 
                         </View>
                         <View style={styles.menuChef}>
-                            <Text style={[styles.textBlack, styles.textBold]}>{rowData.menu.name}</Text>
-                            <Text style={styles.textBlack}>{rowData.menu.foreignName}</Text>
+                            <Text style={[styles.textBlack, styles.textBold]}>{menuNameKor}</Text>
+                            <Text style={styles.textBlack}>{menuNameEng}</Text>
                             <View style={styles.chefNameBox}>
-                                <Text style={styles.chefNameText}>{rowData.chef.name}</Text>
+                                <Text style={styles.chefNameText}>{rowData.name_chef}</Text>
                             </View>
                         </View>
                     </View>
@@ -60,14 +64,14 @@ export default class DailyMenuList extends React.Component {
                 
                 <View style={styles.reviewPriceBox}>
                     <View style={styles.reviewBox}>
-                        <MenuReviewStars score={rowData.menu.averageReviewScore}/>
-                        <Text style={styles.reviewCountText}>({rowData.menu.reviewCount})</Text>
+                        <MenuReviewStars score={rowData.rating}/>
+                        <Text style={styles.reviewCountText}>({rowData.review_count})</Text>
                     </View>
                     <View style={styles.priceBox}>
-                        <MenuPriceText originalPrice={rowData.menu.originalPrice} sellingPrice={rowData.menu.sellingPrice} align={{textAlign: 'right'}}/>
+                        <MenuPriceText originalPrice={rowData.price} sellingPrice={rowData.alt_price} align={{textAlign: 'right'}}/>
                     </View>
                     <View style={styles.cartButtonBox}>
-                        <TouchableHighlight style={[styles.iconView, {marginRight: 5}]} onPress={Actions.MenuDetailPage} underlayColor={'transparent'}>
+                        <TouchableHighlight style={[styles.iconView, {marginRight: 5}]} onPress={()=>Actions.MenuDetailPage({menuIdx: rowData.menu_idx, title: menuNameKor})} underlayColor={'transparent'}>
                             <Image style={styles.iconImage} 
                                 source={require('../../commonComponent/img/icon_detail.png')}/>
                         </TouchableHighlight>

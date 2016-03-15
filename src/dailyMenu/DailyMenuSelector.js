@@ -6,6 +6,7 @@ export default (state) => ({
 });
 */
 
+/*
 export default (state) => ({
     menus: [{
         menu: {
@@ -47,3 +48,4 @@ export default (state) => ({
         url: 'http://plating.co.kr/app/media/banner/admin_banner.png'
     }
 });
+*/

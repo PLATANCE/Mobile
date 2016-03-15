@@ -13,30 +13,23 @@ import Color from '../../const/Color';
 
 export default class Banner extends React.Component {
     static propTypes = {
-        isBannerOpen: PropTypes.bool.isRequired,
+
     };
 
     render() {
         let {
-            isBannerOpen,
             url,
         } = this.props;
 
-        if (isBannerOpen) {
-            return (
-                <TouchableHighlight onPress={Actions.BannerDetailPage} underlayColor={'transparent'}>
-	                <View style={styles.container}>
-	                    <Image style={styles.img}
-	                        source={{uri: url}} />
-	                </View>
-                </TouchableHighlight>
+        return (
+            <TouchableHighlight onPress={Actions.BannerDetailPage} underlayColor={'transparent'}>
+                <View style={styles.container}>
+                    <Image style={styles.img}
+                        source={{uri: "http://plating.co.kr/app/media/banner/admin_banner.png"}} />
+                </View>
+            </TouchableHighlight>
+        );
 
-            );
-        } else {
-            return (
-	            <View style={styles.containerNothing} />
-            );
-        }
     }
 }
 
