@@ -6,7 +6,8 @@ import MenuReviewStars from '../../commonComponent/MenuReviewStars';
 import MenuPriceText from '../../commonComponent/MenuPriceText';
 import AddCartButton from '../../commonComponent/AddCartButton';
 import AmountInCart from '../../commonComponent/AmountInCart';
-import {Actions} from 'react-native-router-flux';
+import SoldOutView from '../../commonComponent/SoldOutView';
+import { Actions } from 'react-native-router-flux';
 
 
 export default class DailyMenuList extends React.Component {
@@ -39,12 +40,10 @@ export default class DailyMenuList extends React.Component {
         return (
             <View style={styles.row}>
                 <View style={styles.menuDetailBox}>
-                    <TouchableHighlight style={styles.menuImageBox} onPress={()=>Actions.MenuDetailPage({menuIdx: rowData.menu_idx, title: menuNameKor})} underlayColor={'transparent'}>
+                    <TouchableHighlight style={styles.menuImageBox} onPress={()=>Actions.MenuDetailPage({menuIdx: rowData.menu_idx, title: menuNameKor, stock: rowData.stock})} underlayColor={'transparent'}>
                         <Image style={styles.menuImage}
                             source={{uri: menuURL}} >
-                            <View style={styles.amountInCart}>
-                                <AmountInCart amount={2}/>
-                            </View>
+                            <SoldOutView stock={rowData.stock}/>
                         </Image>
                     </TouchableHighlight>
                     <View style={styles.menuChefBox}>
@@ -71,28 +70,28 @@ export default class DailyMenuList extends React.Component {
                         <MenuPriceText originalPrice={rowData.price} sellingPrice={rowData.alt_price} align={{textAlign: 'right'}}/>
                     </View>
                     <View style={styles.cartButtonBox}>
-                        <TouchableHighlight style={[styles.iconView, {marginRight: 5}]} onPress={()=>Actions.MenuDetailPage({menuIdx: rowData.menu_idx, title: menuNameKor})} underlayColor={'transparent'}>
+                        <TouchableHighlight style={[styles.iconView, {marginRight: 5}]} onPress={()=>Actions.MenuDetailPage({menuIdx: rowData.menu_idx, title: menuNameKor})} underlayColor={Color.PRIMARY_ORANGE}>
                             <Image style={styles.iconImage} 
                                 source={require('../../commonComponent/img/icon_detail.png')}/>
                         </TouchableHighlight>
-                        <TouchableHighlight style={styles.iconView} underlayColor={'transparent'}>
+                        <TouchableHighlight style={styles.iconView} underlayColor={Color.PRIMARY_ORANGE}>
                             <Image style={styles.iconImage} 
                                 source={require('../../commonComponent/img/icon_plus.png')}/>
                         </TouchableHighlight>
                     </View>
                 </View>
-    		</View>
+            </View>
         );
     }
 
     render() {
         return (
             <View style={styles.container}>
-	        	<ListView
-	        		dataSource={this.state.dataSource}
-	        		renderRow={this.renderRow}
-	        	/>
-        	</View>
+                <ListView
+                    dataSource={this.state.dataSource}
+                    renderRow={this.renderRow}
+                />
+            </View>
         );
     }
 }
@@ -101,18 +100,19 @@ let styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-	row: {
+    row: {
         justifyContent: 'center',
         height: 400,
         backgroundColor: 'white',
         marginTop: 10,
         marginBottom: 10,
-	},
+    },
     menuDetailBox: {
         height: 350,
-    },  
+    },
     menuImageBox: {
         height: 250,
+        backgroundColor: 'black',
     },
     menuImage: {
         flex: 1,

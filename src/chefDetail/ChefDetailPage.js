@@ -3,23 +3,47 @@ import React, { View, Text, StyleSheet, TouchableHighlight, ScrollView, Image } 
 import Color from '../const/Color';
 import Const from '../const/Const';
 import Separator from '../commonComponent/Separator';
+import RequestURL from '../const/RequestURL';
+import MediaURL from '../const/MediaURL';
 
 export default class ChefDetailPage extends React.Component {
-
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            chef: [],
+        }
+    }
+    componentDidMount() {
+        this.fetchChefDetail();
+    }
+    fetchChefDetail() {
+        fetch(RequestURL.REQUEST_CHEF_DETAIL + "?chef_idx=" + this.props.chefIdx)
+            .then((response) => response.json())
+            .then((responseData) => {
+                console.log(responseData);
+                this.setState({
+                    chef: responseData[0],
+                });
+            })
+            .catch((error) => {
+                console.warn(error);
+            })
+            .done();
+    }
     render() {
+        let chef = this.state.chef;
+        let chefURL = MediaURL.CHEF_URL + chef.image_url_chef2;
         return (
             <ScrollView>
             <View style={styles.container}>
                 <View style={styles.content}>
                     <Image style={styles.chefImage}
-                        source={{uri: this.props.chef.url}} />
- 
+                        source={{uri: chefURL}} />
                     <View style={styles.chefInfoBox}>
-                        <Text style={styles.textBlack}>{this.props.chef.name}</Text>
-                        <Text style={styles.textGray}>{this.props.chef.affiliation}</Text>
+                        <Text style={styles.textBlack}>{chef.name_chef}</Text>
+                        <Text style={styles.textGray}>{chef.career_summ}</Text>
                         <Separator />
-                        <Text style={styles.textGray}>{this.props.chef.summary}</Text>
+                        <Text style={styles.textGray}>{chef.career}</Text>
                     </View>
                 </View>
             </View>
@@ -38,7 +62,7 @@ let styles = StyleSheet.create({
     },
     chefImage: {
         height: 400,
-        resizeMode: 'cover',
+        resizeMode: 'contain',
     },
     chefInfoBox: {
         backgroundColor: 'white',
