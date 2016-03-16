@@ -55,6 +55,8 @@ import PlatingPage from '../plating/PlatingPage';
 
 import userInfo from '../util/userInfo';
 
+import cart from '../util/cart';
+
 const Router = connect()(ReactNativeRouter.Router);
 let store = createStore(Reducers);
 
@@ -101,6 +103,12 @@ export default class Routes extends Component {
     }
 
     render() {
+        cart.pushMenu(1,1);
+        cart.pushMenu(1,1);
+        cart.pushMenu(1,1);
+        cart.pushMenu(2,2);
+        cart.pushMenu(2,2);
+        console.log(cart.getMenus());
         return (
             <Provider store={store}>
                 <Router navigationBarStyle={styles.navigationBar} titleStyle={styles.title} >
