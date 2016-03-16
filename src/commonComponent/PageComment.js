@@ -10,7 +10,7 @@ import Color from '../const/Color';
 
 export default class PageComment extends React.Component {
     static propTypes = {
-        text: PropTypes.string.isRequired,
+        
     };
 
     render() {

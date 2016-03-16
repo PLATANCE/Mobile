@@ -14,6 +14,7 @@ import MenuReviewStars from '../commonComponent/MenuReviewStars';
 import AddCartButton from '../commonComponent/AddCartButton';
 import MenuPriceText from '../commonComponent/MenuPriceText';
 import PageComment from '../commonComponent/PageComment';
+import SoldOutView from '../commonComponent/PageComment';
 import ReviewList from './components/ReviewList';
 import Color from '../const/Color';
 import Const from '../const/Const';
@@ -25,7 +26,6 @@ export default class MenuDetailPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            menuIdx: this.props.menuIdx,
             menu: [],
             reviews: [],
         }
@@ -36,7 +36,7 @@ export default class MenuDetailPage extends React.Component {
     }
 
     fetchMenuDetail() {
-        fetch(RequestURL.REQUEST_MENU_DETAIL + "?menu_idx=" + this.state.menuIdx)
+        fetch(RequestURL.REQUEST_MENU_DETAIL + "?menu_idx=" + this.props.menuIdx)
             .then((response) => response.json())
             .then((responseData) => {
                 this.setState({
@@ -53,6 +53,15 @@ export default class MenuDetailPage extends React.Component {
         let menu = this.state.menu;
         let menuURL = MediaURL.MENU_URL + menu.image_url_menu;
         let chefURL = MediaURL.CHEF_URL + menu.image_url_chef;
+        let soldoutView;
+        if(this.props.stock == 0) {
+            soldoutView = <View style={styles.menuImageAlpha}>
+                                    <Text style={styles.textEng}>SOLD OUT</Text>
+                                    <Text style={styles.textKor}>금일 메뉴가 매진 되었습니다.</Text>
+                                </View>;
+        } else {
+            soldoutView = <View style={styles.menuImageNotAlpha}></View>;
+        }
 
         return (
             <View style={styles.container}>
@@ -64,14 +73,15 @@ export default class MenuDetailPage extends React.Component {
                             <Text style={[styles.textBlack]}>{menu.name_menu_eng}</Text>
                         </View>
                         <View style={styles.menuImageBox}>
-                            <Image 
-                                style={styles.imageview}
-                                source={{uri: menuURL}}/>
+                            <Image style={styles.menuImage}
+                                source={{uri: menuURL}} >
+                                {soldoutView}
+                            </Image>
                         </View>
                         <View style={styles.reviewPriceBox}>
                             <View style={styles.reviewBox}>
                                 <MenuReviewStars score={menu.rating}/>
-                                <TouchableHighlight onPress={Actions.MenuReviewPage} underlayColor={'transparent'}>
+                                <TouchableHighlight onPress={() =>Actions.MenuReviewPage({menuIdx: this.props.menuIdx})} underlayColor={'transparent'}>
                                     <View style={styles.reviewTextBox}>
                                         <Text style={[styles.textGray, {textDecorationLine: 'underline', marginLeft: 3, fontSize: 15}]}>{menu.review_count}개의 리뷰보기</Text>
                                     </View>
@@ -84,7 +94,7 @@ export default class MenuDetailPage extends React.Component {
                                 <AddCartButton  />
                             </View>
                         </View>
-                        <TouchableHighlight onPress={Actions.ChefDetailPage} underlayColor={'transparent'}>
+                        <TouchableHighlight onPress={()=>Actions.ChefDetailPage({chefIdx: menu.idx_chef})} underlayColor={'transparent'}>
                             <View style={styles.chefBox}>
                                 <Image style={styles.chefImage}
                                     source={{uri: chefURL}}></Image>
@@ -111,7 +121,7 @@ export default class MenuDetailPage extends React.Component {
                         <View style={styles.reviewListBox}>
                             <ReviewList reviews={this.state.reviews}/>
                         </View>
-                        <TouchableHighlight onPress={Actions.MenuReviewPage} underlayColor={'transparent'}>
+                        <TouchableHighlight onPress={() =>Actions.MenuReviewPage({menuIdx: this.props.menuIdx})} underlayColor={'transparent'}>
                             <View style={styles.showMoreButtonBox}>
                                 <Text style={styles.textWhite}>리뷰 더 보기</Text>
                             </View>
@@ -143,8 +153,9 @@ let styles = StyleSheet.create({
     },
     menuImageBox: {
         height: 250,
+        backgroundColor: 'black',
     },
-    imageview: {
+    menuImage: {
         flex: 1,
         resizeMode: 'cover',
     },
@@ -247,5 +258,24 @@ let styles = StyleSheet.create({
     },
     reviewTextBox: {
         marginTop: 3,
+    },
+    menuImageAlpha: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    },
+    textEng: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 25,
+    },
+    textKor: {
+        color: 'white',
+        marginTop: 10,
+        fontSize: 17,
+    },
+    menuImageNotAlpha: {
+        backgroundColor: 'transparent',
     }
 });

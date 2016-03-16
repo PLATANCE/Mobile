@@ -13,25 +13,20 @@ import MenuReviewStars from '../../commonComponent/MenuReviewStars';
 
 export default class MenuReviewList extends React.Component {
     static propTypes = {
-        reviews: PropTypes.arrayOf(PropTypes.shape({
-            score: PropTypes.number.isRequired,
-            dateString: PropTypes.string.isRequired,
-            content: PropTypes.string.isRequired,
-            maskedPhoneNumber: PropTypes.string.isRequired
-        }))
+        
     };
     constructor(props) {
         super(props);
         let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
         this.state = {
-            dataSource: dataSource.cloneWithRows(props.reviews)
+            dataSource: dataSource.cloneWithRows(props.reviews),
         }
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.reviews !== this.props.reviews) {
             this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(nextProps.reviews)
+                dataSource: this.state.dataSource.cloneWithRows(nextProps.reviews),
             })
         }
     }
@@ -40,22 +35,22 @@ export default class MenuReviewList extends React.Component {
         return (
             <View style={styles.row}>
                 <View style={styles.scoreDateBox}>
-                    <MenuReviewStars score={rowData.score} />
-                    <Text style={styles.dateStringText}>{rowData.dateString}</Text>
+                    <MenuReviewStars score={rowData.rating} />
+                    <Text style={styles.dateStringText}>{rowData.rated_time}</Text>
                 </View>
                 <View style={styles.contentBox}>
-                    <Text style={styles.textBlack}>{rowData.content}</Text>
+                    <Text style={styles.textBlack}>{rowData.comment}</Text>
                 </View>
                 <View style={styles.phoneBox}>
-                    <Text style={styles.textBlack}>{rowData.maskedPhoneNumber}</Text>
+                    <Text style={styles.textBlack}>{rowData.mobile}</Text>
                 </View>
             </View>
         )
     }
-
+    
     render() {
         const { reviews } = this.props;
-
+        
         return (
             <View>
                 <ListView style={styles.listView}

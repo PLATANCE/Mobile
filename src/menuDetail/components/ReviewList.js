@@ -17,7 +17,6 @@ export default class ReviewList extends React.Component {
     };
     constructor(props) {
         super(props);
-        console.log(props.reviews);
         let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
         this.state = {
             dataSource: dataSource.cloneWithRows(props.reviews)

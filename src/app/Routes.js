@@ -139,7 +139,7 @@ export default class Routes extends Component {
                         wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
                         titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
 
-                    <Route name="ChefDetailPage" component={connect(ChefDetailSelector)(ChefDetailPage)}  
+                    <Route name="ChefDetailPage" component={connect()(ChefDetailPage)}  
                         title="CHEF" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
                         titleStyle={styles.title} renderLeftButton={this.renderBackButton} 
                         renderRightButton={this.renderCartButton}/>
@@ -177,7 +177,7 @@ export default class Routes extends Component {
                         title="주문 상세 보기" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
                         titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
 
-                    <Route name="MenuReviewPage"  component={connect(MenuReviewSelector)(MenuReviewPage)} 
+                    <Route name="MenuReviewPage"  component={connect()(MenuReviewPage)} 
                         title="REVIEW" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
                         titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
 

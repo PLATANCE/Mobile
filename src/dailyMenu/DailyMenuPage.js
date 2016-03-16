@@ -20,7 +20,6 @@ export default class DailyMenuPage extends React.Component {
     }
     
     componentDidMount() {
-
         this.fetchDailyMenu();
         this.fetchMyAddress();
     }
