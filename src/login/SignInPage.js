@@ -18,36 +18,62 @@ export default class SignInPage extends React.Component {
         super(props);
     }
     facebookLogin() {
+
         console.log("trying facebook login");
-        let signUp = this.signUp;
+
+        const signUp = this.signUp;
+
         FacebookManager.login().then((result) => {
+
             console.log("fb login success", result);
 
-            let facebookSignUpParams = {
+            const facebookSignUpParams = {
                 "os_type": "iOS",
                 "login_type": "fb",
                 "user_id": result.id,
                 "name": result.name,
-                "push_token": PushNotification.deviceToken,
+                "push_token": PushNotification.deviceToken.token,
                 "os_version": DeviceInfo.getSystemVersion(),
                 "device": DeviceInfo.getModel(),
-                "email": result.email
+                "email": result.email,
             };
+
             console.log(facebookSignUpParams);
+
             signUp(facebookSignUpParams);
+
         }).catch((err) => {
             console.log(err);
         });
     }
     kakaoLogin() {
+
         console.log("kakao` login");
-        KakaoManager.login().then(() => {
-            console.log('success');
+
+        const signUp = this.signUp;
+
+        KakaoManager.login().then((result) => {
+
+            console.log('success', result);
+
+            let params = {
+                "os_type": "iOS",
+                "login_type": "kakao",
+                "user_id": result.ID,
+                "push_token": PushNotification.deviceToken.token,
+                "os_version": DeviceInfo.getSystemVersion(),
+                "device": DeviceInfo.getModel(),
+                "nickname": result.properties.nickname,
+            };
+
+            signUp(params);
+
         }).catch((err) => {
             console.log(err);
         });
     }
     signUp(param) {
+        console.log(`sign up body : ${JSON.stringify(param)}`);
         fetch(RequestURL.REQUEST_FB_SIGN_UP, {
                 method: 'POST',
                 headers: {
@@ -56,7 +82,10 @@ export default class SignInPage extends React.Component {
                 },
                 body: JSON.stringify(param)
             })
-            .then((response) => response.json())
+            .then((response) => {
+                console.log(response);
+                return response.json()
+            })
             .then((json) => {
                 console.log('signUp successful!', json);
                 const userIdx = json.user_info.user_idx;
@@ -64,10 +93,15 @@ export default class SignInPage extends React.Component {
                     userInfo.idx = parseInt(userIdx);
                 });
                 console.log(userInfo);
+
+                Actions.DrawerPage();
             })
             .catch((error) => {
                 console.warn('signUp Fail!!', error);
-            }); 
+
+                // TODO
+                // 에러창 띄어야 함.
+            });
     }
     render() {
         return (

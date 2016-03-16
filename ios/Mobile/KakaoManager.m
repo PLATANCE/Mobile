@@ -15,7 +15,7 @@ RCT_EXPORT_MODULE();
 
 
 RCT_REMAP_METHOD(login,
-                  resolver:(RCTPromiseResolveBlock)resolve
+                  loginWithResolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
   dispatch_async(dispatch_get_main_queue(), ^{
@@ -26,7 +26,20 @@ RCT_REMAP_METHOD(login,
       if ([[KOSession sharedSession] isOpen]) {
         // login success
         NSLog(@"login succeeded.");
-        resolve(NULL);
+        
+        [KOSessionTask meTaskWithCompletionHandler:^(KOUser* result, NSError *error) {
+          if (result) {
+            NSLog(@"kakao getUserInfo succeeded.");
+            // success
+            resolve(@{@"ID": result.ID,
+                      @"properties": result.properties});
+          } else {
+            // failed
+            NSLog(@"kakao getUserInfo failed.");
+            reject(@"kakao_getUserInfo_fail", @"getUserInfo failed. need debuging.", error);
+          }
+        }];
+        
       } else {
         // failed
         NSLog(@"login failed.");
@@ -35,6 +48,5 @@ RCT_REMAP_METHOD(login,
     }];
   });
 }
-
 
 @end
