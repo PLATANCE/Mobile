@@ -26,6 +26,8 @@
 		5F31DEE51C96957300D55930 /* KakaoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F31DEE41C96957300D55930 /* KakaoManager.m */; };
 		5F65CE961C982101002B4B1E /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F65CE951C9820CA002B4B1E /* libRCTPushNotification.a */; };
 		5F65CE981C9825F3002B4B1E /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F65CE971C9825F3002B4B1E /* SafariServices.framework */; };
+		5F65CEC41C99289E002B4B1E /* RealmReact.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F65CEC21C9927ED002B4B1E /* RealmReact.framework */; };
+		5F65CEC51C99289E002B4B1E /* RealmReact.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F65CEC21C9927ED002B4B1E /* RealmReact.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F70DE441C90222700D3A533 /* KakaoOpenSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F70DE431C90222600D3A533 /* KakaoOpenSDK.framework */; };
 		810CB411089FE3EB7F25ADDB /* Pods_Mobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5BF4EF0A021A74EA257D5DB /* Pods_Mobile.framework */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -109,6 +111,48 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RCTPushNotification;
 		};
+		5F65CEB91C9927ED002B4B1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F65CEA51C9927ED002B4B1E /* RealmJS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F63FF2F01C16405C00B3B8E0;
+			remoteInfo = GCDWebServers;
+		};
+		5F65CEBB1C9927ED002B4B1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F65CEA51C9927ED002B4B1E /* RealmJS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F63FF2B11C1241E500B3B8E0;
+			remoteInfo = "RealmJS static";
+		};
+		5F65CEBD1C9927ED002B4B1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F65CEA51C9927ED002B4B1E /* RealmJS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 02B58CB11AE99CEC009B348C;
+			remoteInfo = RealmJS;
+		};
+		5F65CEBF1C9927ED002B4B1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F65CEA51C9927ED002B4B1E /* RealmJS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 02B58CBC1AE99CEC009B348C;
+			remoteInfo = RealmJSTests;
+		};
+		5F65CEC11C9927ED002B4B1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F65CEA51C9927ED002B4B1E /* RealmJS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 02B29A161B7CF7C9008A7E6B;
+			remoteInfo = RealmReact;
+		};
+		5F65CEC61C99289E002B4B1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F65CEA51C9927ED002B4B1E /* RealmJS.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 02B29A151B7CF7C9008A7E6B;
+			remoteInfo = RealmReact;
+		};
 		78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
@@ -124,6 +168,20 @@
 			remoteInfo = RCTText;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5F65CEC81C99289E002B4B1E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5F65CEC51C99289E002B4B1E /* RealmReact.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
@@ -154,6 +212,7 @@
 		5F31DEE41C96957300D55930 /* KakaoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KakaoManager.m; path = Mobile/KakaoManager.m; sourceTree = "<group>"; };
 		5F65CE901C9820CA002B4B1E /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		5F65CE971C9825F3002B4B1E /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
+		5F65CEA51C9927ED002B4B1E /* RealmJS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RealmJS.xcodeproj; path = ../node_modules/realm/RealmJS.xcodeproj; sourceTree = "<group>"; };
 		5F70DE431C90222600D3A533 /* KakaoOpenSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = KakaoOpenSDK.framework; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
@@ -175,6 +234,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F65CEC41C99289E002B4B1E /* RealmReact.framework in Frameworks */,
 				5F65CE981C9825F3002B4B1E /* SafariServices.framework in Frameworks */,
 				5F65CE961C982101002B4B1E /* libRCTPushNotification.a in Frameworks */,
 				5F19C9BA1C97F5C700B7E30F /* libRNDeviceInfo.a in Frameworks */,
@@ -338,6 +398,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		5F65CEA61C9927ED002B4B1E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5F65CEBA1C9927ED002B4B1E /* libGCDWebServers.a */,
+				5F65CEBC1C9927ED002B4B1E /* libRealmJS.a */,
+				5F65CEBE1C9927ED002B4B1E /* RealmJS.framework */,
+				5F65CEC01C9927ED002B4B1E /* RealmJSTests.xctest */,
+				5F65CEC21C9927ED002B4B1E /* RealmReact.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -349,6 +421,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				5F65CEA51C9927ED002B4B1E /* RealmJS.xcodeproj */,
 				5F65CE901C9820CA002B4B1E /* RCTPushNotification.xcodeproj */,
 				5F19C9B41C97F55C00B7E30F /* RNDeviceInfo.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -439,10 +512,12 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				787C0BC4BB6FAC6C194A217F /* Embed Pods Frameworks */,
 				F7C3B541249586826DB17A3A /* Copy Pods Resources */,
+				5F65CEC81C99289E002B4B1E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				5F65CEC71C99289E002B4B1E /* PBXTargetDependency */,
 			);
 			name = Mobile;
 			productName = "Hello World";
@@ -522,6 +597,10 @@
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = 5F65CEA61C9927ED002B4B1E /* Products */;
+					ProjectRef = 5F65CEA51C9927ED002B4B1E /* RealmJS.xcodeproj */;
 				},
 				{
 					ProductGroup = 5F19C9B51C97F55C00B7E30F /* Products */;
@@ -605,6 +684,41 @@
 			fileType = archive.ar;
 			path = libRCTPushNotification.a;
 			remoteRef = 5F65CE941C9820CA002B4B1E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5F65CEBA1C9927ED002B4B1E /* libGCDWebServers.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libGCDWebServers.a;
+			remoteRef = 5F65CEB91C9927ED002B4B1E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5F65CEBC1C9927ED002B4B1E /* libRealmJS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRealmJS.a;
+			remoteRef = 5F65CEBB1C9927ED002B4B1E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5F65CEBE1C9927ED002B4B1E /* RealmJS.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = RealmJS.framework;
+			remoteRef = 5F65CEBD1C9927ED002B4B1E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5F65CEC01C9927ED002B4B1E /* RealmJSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RealmJSTests.xctest;
+			remoteRef = 5F65CEBF1C9927ED002B4B1E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5F65CEC21C9927ED002B4B1E /* RealmReact.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = RealmReact.framework;
+			remoteRef = 5F65CEC11C9927ED002B4B1E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		78C398B91ACF4ADC00677621 /* libRCTLinking.a */ = {
@@ -731,6 +845,11 @@
 			isa = PBXTargetDependency;
 			target = 13B07F861A680F5B00A75B9A /* Mobile */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
+		};
+		5F65CEC71C99289E002B4B1E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RealmReact;
+			targetProxy = 5F65CEC61C99289E002B4B1E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

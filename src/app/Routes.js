@@ -9,7 +9,7 @@ import Reducers from './Reducers';
 import Color from '../const/Color';
 import Const from '../const/Const';
 import SideDrawer from '../commonComponent/SideDrawer';
-import TabView from '../cs/components/TabView';
+import TabView from '../customerService/components/TabView';
 
 import TutorialPage from '../tutorial/TutorialPage';
 import SignInPage from '../login/SignInPage';
@@ -44,14 +44,16 @@ import MenuReviewPage from '../review/MenuReviewPage';
 import MenuReviewSelector from '../review/MenuReviewSelector';
 import WriteReviewPage from '../review/WriteReviewPage';
 import WriteReviewSelector from '../review/WriteReviewSelector';
-import CSMainPage from '../cs/CSMainPage';
-import CSAddressCoveragePage from '../cs/CSAddressCoveragePage';
-import CSAddressCoverageSelector from '../cs/CSAddressCoverageSelector';
-import CSFAQPage from '../cs/CSFAQPage';
-import CSFAQSelector from '../cs/CSFAQSelector';
-import CSEnquiryPage from '../cs/CSEnquiryPage';
-import CSPolicyPage from '../cs/CSPolicyPage';
+import CSMainPage from '../customerService/CSMainPage';
+import CSAddressCoveragePage from '../customerService/CSAddressCoveragePage';
+import CSAddressCoverageSelector from '../customerService/CSAddressCoverageSelector';
+import CSFAQPage from '../customerService/CSFAQPage';
+import CSFAQSelector from '../customerService/CSFAQSelector';
+import CSEnquiryPage from '../customerService/CSEnquiryPage';
+import CSPolicyPage from '../customerService/CSPolicyPage';
 import PlatingPage from '../plating/PlatingPage';
+
+import userInfo from '../util/userInfo';
 
 const Router = connect()(ReactNativeRouter.Router);
 let store = createStore(Reducers);
@@ -87,7 +89,7 @@ export default class Routes extends Component {
         );
     }
     renderTitle(title) {
-        return(
+        return (
             <View style={styles.titleBox}>
                 <Text style={styles.title}>{title}</Text>
             </View>
@@ -107,10 +109,10 @@ export default class Routes extends Component {
                     <Schema name="withoutAnimation"/>
 
                     <Route name="TutorialPage" hideNavBar={true} component={connect()(TutorialPage)} />
-                    <Route name="SignInPage"  hideNavBar={true} component={connect()(SignInPage)} />
+                    <Route name="SignInPage"  hideNavBar={true} initial={userInfo.isLogin ? false : true} component={connect()(SignInPage)} />
                     <Route name="SignUpPage" hideNavBar={true} component={connect()(SignUpPage)} />
 
-                    <Route name='DrawerPage' initial={true}  hideNavBar={true}  >
+                    <Route name='DrawerPage' hideNavBar={true} initial={userInfo.isLogin ? true : false}  >
                         <SideDrawer ref='sideDrawer'>
                             <Router
                                 sceneStyle={styles.scene}
