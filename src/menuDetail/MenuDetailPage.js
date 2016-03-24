@@ -9,10 +9,12 @@ import React, {
     ScrollView,
 } from 'react-native';
 
-import { Actions } from 'react-native-router-flux'
+import { Actions } from 'react-native-router-flux';
+import StarRating from 'react-native-star-rating';
 import MenuReviewStars from '../commonComponent/MenuReviewStars';
 import AddCartButton from '../commonComponent/AddCartButton';
 import MenuPriceText from '../commonComponent/MenuPriceText';
+import AmountInCart from '../commonComponent/AmountInCart';
 import PageComment from '../commonComponent/PageComment';
 import SoldOutView from '../commonComponent/PageComment';
 import ReviewList from './components/ReviewList';
@@ -21,6 +23,7 @@ import Const from '../const/Const';
 import RequestURL from '../const/RequestURL';
 import MediaURL from '../const/MediaURL';
 
+import { addItemToCart } from '../app/actions/CartActions';
 
 export default class MenuDetailPage extends React.Component {
     constructor(props) {
@@ -49,18 +52,25 @@ export default class MenuDetailPage extends React.Component {
             })
             .done();
     }
+    onStarRatingPress(rating) {
+    console.log(rating);
+  }
+
     render() {
+        const { dispatch, cart } = this.props;
         let menu = this.state.menu;
+        //let amount = (cart[menu.idx].amount == 'undefined') ? 0 : cart[menu.idx].amount;
         let menuURL = MediaURL.MENU_URL + menu.image_url_menu;
         let chefURL = MediaURL.CHEF_URL + menu.image_url_chef;
-        let soldoutView;
-        if(this.props.stock == 0) {
-            soldoutView = <View style={styles.menuImageAlpha}>
-                                    <Text style={styles.textEng}>SOLD OUT</Text>
-                                    <Text style={styles.textKor}>금일 메뉴가 매진 되었습니다.</Text>
-                                </View>;
-        } else {
-            soldoutView = <View style={styles.menuImageNotAlpha}></View>;
+        let isSoldOut = (this.props.stock == 0) ? true : false;
+        let contentInnerMenu = <View style={styles.amountInCart}>
+                                    <AmountInCart amount={2}/>
+                                </View>;;
+        if(isSoldOut) {
+            contentInnerMenu = <View style={styles.menuImageAlpha}>
+                                <Text style={styles.textEng}>SOLD OUT</Text>
+                                <Text style={styles.textKor}>금일 메뉴가 매진 되었습니다.</Text>
+                            </View>;
         }
 
         return (
@@ -75,12 +85,17 @@ export default class MenuDetailPage extends React.Component {
                         <View style={styles.menuImageBox}>
                             <Image style={styles.menuImage}
                                 source={{uri: menuURL}} >
-                                {soldoutView}
+                                {contentInnerMenu}
                             </Image>
                         </View>
                         <View style={styles.reviewPriceBox}>
                             <View style={styles.reviewBox}>
                                 <MenuReviewStars score={menu.rating}/>
+                                {/*<StarRating 
+                                    disabled={false}
+                                    maxStars={5}
+                                    rating={menu.rating}
+                                    selectedStar={(rating) => this.onStarRatingPress(rating)} /> */}
                                 <TouchableHighlight onPress={() =>Actions.MenuReviewPage({menuIdx: this.props.menuIdx})} underlayColor={'transparent'}>
                                     <View style={styles.reviewTextBox}>
                                         <Text style={[styles.textGray, {textDecorationLine: 'underline', marginLeft: 3, fontSize: 15}]}>{menu.review_count}개의 리뷰보기</Text>
@@ -91,7 +106,7 @@ export default class MenuDetailPage extends React.Component {
                                 <MenuPriceText originalPrice={menu.price} sellingPrice={menu.alt_price}/>
                             </View>
                             <View style={styles.cartButtonBox}>
-                                <AddCartButton  />
+                                <AddCartButton addItemToCart={ () => dispatch(addItemToCart(menu)) } />
                             </View>
                         </View>
                         <TouchableHighlight onPress={()=>Actions.ChefDetailPage({chefIdx: menu.idx_chef})} underlayColor={'transparent'}>
@@ -127,7 +142,6 @@ export default class MenuDetailPage extends React.Component {
                             </View>
                         </TouchableHighlight>
                     </View>
-                
                 </ScrollView>
             </View>
 
@@ -158,6 +172,12 @@ let styles = StyleSheet.create({
     menuImage: {
         flex: 1,
         resizeMode: 'cover',
+    },
+    amountInCart: {
+        height: 40,
+        flexDirection: 'row',
+        left: 0,
+        top: 210,
     },
     reviewPriceBox: {
         height: 50,

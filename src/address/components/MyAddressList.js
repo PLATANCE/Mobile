@@ -22,18 +22,17 @@ export default class MyAddressList extends React.Component {
     }
 
     renderRow(rowData) {
-        let leftIcon = rowData.address.inUse ? require('../img/check_circle.png') : require('../img/empty_circle.png');
-        let textStyle = rowData.address.deliveryAvailable ? {color: Color.PRIMARY_BLACK} : {color: Color.PRIMARY_GRAY};
+        let leftIcon = (rowData.in_use == 1) ? require('../img/check_circle.png') : require('../img/empty_circle.png');
+        let textStyle = (rowData.delivery_available == 1) ? {color: Color.PRIMARY_BLACK} : {color: Color.PRIMARY_GRAY};
         
-        if (rowData.address.deliveryAvailable) {
+        if (rowData.delivery_available) {
             return (
                 <View style={styles.row}>
             	<Image style={styles.img} source={leftIcon}/>
             	<View style={styles.addressBox}>
-                	<Text style={textStyle}>{rowData.address.address}</Text>
-                	<Text style={textStyle}>{rowData.address.addressDetail}</Text>
+                	<Text style={textStyle}>{rowData.address}</Text>
+                	<Text style={textStyle}>{rowData.address_detail}</Text>
                 </View>
-                <Text style={styles.deleteText}>삭제</Text>
     		</View>
             );
         } else {
@@ -41,11 +40,10 @@ export default class MyAddressList extends React.Component {
                 <View style={styles.row}>
             	<Image style={styles.img} source={leftIcon}/>
             	<View style={styles.addressBox}>
-                	<Text style={textStyle}>{rowData.address.address}</Text>
-                	<Text style={textStyle}>{rowData.address.addressDetail}</Text>
+                	<Text style={textStyle}>{rowData.address}</Text>
+                	<Text style={textStyle}>{rowData.address_detail}</Text>
                 	<Text style={{color:'red'}}>배달이 불가능한 지역입니다.</Text>
                 </View>
-                <Text style={styles.deleteText}>삭제</Text>
     		</View>
             );
         }
@@ -69,11 +67,11 @@ let styles = StyleSheet.create({
     },
     row: {
         padding: 10,
-        flex: 1,
+        height: 70,
         flexDirection: 'row',
         alignItems: 'center',
-        borderBottomWidth: 1,
-        borderColor: Color.PRIMARY_GRAY,
+        backgroundColor: 'white',
+        marginTop: 10,
     },
     img: {
         width: 30,

@@ -6,10 +6,9 @@ export default class BannerDetailPage extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View style={styles.container} >
                 <WebView style={styles.webView}
                     automaticallyAdjustContentInsets={false}
-                    style={styles.webView}
                     source={{uri: "http://www.plating.co.kr/admin/admin_banner_main.php"}}
                     javaScriptEnabled={true}
                     domStorageEnabled={true}

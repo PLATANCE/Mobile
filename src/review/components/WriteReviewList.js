@@ -1,5 +1,6 @@
 import React, { View, ListView, Text, StyleSheet, Image, TextInput } from 'react-native';
 import Color from '../../const/Color';
+import MediaURL from '../../const/MediaURL';
 
 export default class WriteReviewList extends React.Component {
     constructor(props) {
@@ -22,15 +23,19 @@ export default class WriteReviewList extends React.Component {
     }
 
     renderRow(rowData) {
+        let menuName = rowData.name_menu;
+        let menuNameKor = menuName.split('.')[0];
+        let menuNameEng = menuName.split('.')[1];
+        let menuURL = MediaURL.MENU_URL + rowData.image_url_menu;
         return (
             <View style={styles.row}>
                 <View style={styles.menuBox}>
                     <Image style={styles.menuImage}
-                        source={{uri: rowData.menu.url}} />
+                        source={{uri: menuURL}}/>
                     <View style={styles.menuInfoBox}>
-                        <Text style={[styles.textBlack, styles.textBold]}>{rowData.menu.name}</Text>
-                        <Text style={styles.textBlack}>{rowData.menu.foreignName}</Text>
-                        <Text style={styles.chefNameText}>{rowData.chef.name}</Text>
+                        <Text style={[styles.textBlack, styles.textBold]}>{menuNameKor}</Text>
+                        <Text style={styles.textBlack}>{menuNameEng}</Text>
+                        <Text style={styles.chefNameText}>{rowData.name_chef}</Text>
                         <View style={styles.starBox}>
                             <Image style={styles.starImage}
                                 source={require('../../commonComponent/img/icon_star_empty_yellow.png')} />
@@ -47,7 +52,8 @@ export default class WriteReviewList extends React.Component {
                 </View>
                 <View style={styles.reviewBox}>
                     <TextInput style={styles.textInput} 
-                        placeholder='솔직한 리뷰는,플레이팅을 더 맛있게 합니다 :)' multiline={true}/>
+                        keyboardType="default" autoCorrect={false} 
+                        placeholder='솔직한 리뷰는, 플레이팅을 더 맛있게 합니다 :)' multiline={true}/>
                 </View>
                 <View style={styles.buttonBox}>
                     <Text style={styles.textWhite}>리뷰 저장</Text>

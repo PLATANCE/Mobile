@@ -4,7 +4,7 @@ import ReactNativeRouter, { Route, Schema, Animations, TabBar, Actions } from 'r
 
 import { Provider, connect } from 'react-redux';
 import { createStore } from 'redux'
-import Reducers from './Reducers';
+import Reducers from './reducers';
 
 import Color from '../const/Color';
 import Const from '../const/Const';
@@ -54,19 +54,18 @@ import CSPolicyPage from '../customerService/CSPolicyPage';
 import PlatingPage from '../plating/PlatingPage';
 
 import userInfo from '../util/userInfo';
-
-import cart from '../util/cart';
+const userIdx = userInfo.idx;
 
 const Router = connect()(ReactNativeRouter.Router);
 let store = createStore(Reducers);
-
 const hideNavBar = Platform.OS === 'android'
 const paddingTop = Platform.OS === 'android' ? 0 : 8
 
 export default class Routes extends Component {
-
+    constructor(props) {
+        super(props);
+    }
     renderDrawerButton() {
-
         return (
             <TouchableHighlight style={styles.leftButton} onPress={this.drawerOpen.bind(this)} underlayColor={'transparent'}>
                 <Image style={styles.image}
@@ -103,13 +102,8 @@ export default class Routes extends Component {
     }
 
     render() {
-        cart.pushMenu(1,1);
-        cart.pushMenu(1,1);
-        cart.pushMenu(1,1);
-        cart.pushMenu(2,2);
-        cart.pushMenu(2,2);
-        console.log(cart.getMenus());
         return (
+            
             <Provider store={store}>
                 <Router navigationBarStyle={styles.navigationBar} titleStyle={styles.title} >
                     <Schema name="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom}/>
@@ -136,7 +130,7 @@ export default class Routes extends Component {
                     </Route>
 
                     
-                    <Route name="MenuDetailPage"  component={connect()(MenuDetailPage)} 
+                    <Route name="MenuDetailPage"  component={connect(MenuDetailSelector)(MenuDetailPage)} 
                         wrapRouter={true}  navigationBarStyle={this.navigationBar} 
                         title="TODAY'S MENU" renderLeftButton={this.renderBackButton} 
                         renderRightButton={this.renderCartButton}/>
@@ -175,15 +169,15 @@ export default class Routes extends Component {
                         title="포인트 조회" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
                         titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
                         
-                    <Route name="MyCouponPage" component={connect(MyCouponSelector)(MyCouponPage)} 
+                    <Route name="MyCouponPage" component={connect()(MyCouponPage)} 
                         title="내 쿠폰" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
                         titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
 
-                    <Route name="MyOrderPage" component={connect(MyOrderSelector)(MyOrderPage)}  
+                    <Route name="MyOrderPage" component={connect()(MyOrderPage)}  
                         title="주문 내역" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
                         titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
 
-                    <Route name="OrderDetailPage" component={connect(OrderDetailSelector)(OrderDetailPage)}  
+                    <Route name="OrderDetailPage" component={connect()(OrderDetailPage)}  
                         title="주문 상세 보기" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
                         titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
 
@@ -191,7 +185,7 @@ export default class Routes extends Component {
                         title="REVIEW" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
                         titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
 
-                    <Route name="WriteReviewPage"  component={connect(WriteReviewSelector)(WriteReviewPage)} 
+                    <Route name="WriteReviewPage"  component={connect()(WriteReviewPage)} 
                         title="리뷰 남기기" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
                         titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
 

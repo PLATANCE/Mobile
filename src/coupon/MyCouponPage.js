@@ -4,14 +4,40 @@ import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image } fr
 import Color from '../const/Color';
 import Const from '../const/Const';
 import MyCouponList from './components/MyCouponList';
+import RequestURL from '../const/RequestURL';
+
+import userInfo from '../util/userInfo';
+const userIdx = userInfo.idx;
 
 export default class MyCouponPage extends React.Component {
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            coupons: [],
+        }
+    }
+    componentDidMount() {
+        this.fetchMyCoupons();
+    }
+    fetchMyCoupons() {
+        fetch(RequestURL.REQUEST_MY_COUPON_LIST + 'user_idx=' + userIdx)
+            .then((response) => response.json())
+            .then((responseData) => {
+                console.log(responseData);
+                this.setState({
+                    coupons: responseData
+                });
+            })
+            .catch((error)=> {
+                console.warn(error);
+            })
+            .done();
+    }
     render() {
         return (
             <View style={styles.container}>
                 <View style={styles.content} >
-                    <MyCouponList coupons={this.props.coupons} />
+                    <MyCouponList coupons={this.state.coupons} />
                 </View>
             </View>
         );

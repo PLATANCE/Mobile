@@ -4,37 +4,72 @@ import React, { View, Text, StyleSheet, TouchableHighlight, Image } from 'react-
 import Color from '../const/Color';
 import Const from '../const/Const';
 import OrderedMenu from './components/OrderedMenu';
+import RequestURL from '../const/RequestURL';
 
 export default class OrderDetailPage extends React.Component {
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            order: [],
+            menus: [],
+        }
+    }
+    componentDidMount() {
+        this.fetchMyOrderDetail();
+    }
+    fetchMyOrderDetail() {
+        fetch(RequestURL.REQUEST_MY_ORDER_DETAIL + 'order_idx=' + this.props.orderIdx)
+            .then((response) => response.json())
+            .then((responseData) => {
+                this.setState({
+                    order: responseData,
+                    menus: responseData.order_detail,
+                });
+            })
+            .catch((error)=> {
+                console.warn(error);
+            })
+            .done();
+    }
     render() {
-        var menus = this.props.order.menus;
-        var orderedMenuList = [];
+        let order = this.state.order;
+        let menus = this.state.menus;
+
+        let orderedMenuList = [];
         menus.forEach(menu => {
-            orderedMenuList.push(<OrderedMenu key={menu.idx} name={menu.name} foreignName={menu.foreignName} amount={menu.amount} status={this.props.order.status}/>);
+            let menuName = menu.name_menu;
+            let menuNameKor = menuName.split('.')[0];
+            let menuNameEng = menuName.split('.')[1];
+            orderedMenuList.push(<OrderedMenu key={menu.idx} name={menuNameKor} foreignName={menuNameEng} amount={menu.amount} />);
         })
+
+        let reviewButtonText = (order.review_status) ? '리뷰를 남겨주셔서 감사합니다.' : '리뷰를 남겨주세요 :)';
+        let reviewButtonSubText = (order.review_status) ? '앞으로도 더욱 좋은 음식으로 보답하겠습니다.':'추첨을 통해 무료 시식권을 드립니다 :) ';
         
-        let order = this.props.order;
         return (
             <View style={styles.container}>
                 <View style={styles.content} >
                     <View style={styles.statusBox}>
-                        <Text>{order.status}</Text>
+                        <Text style={[styles.textBlack, styles.textFont20]}>{order.description}</Text>
                     </View>
                     {orderedMenuList}
                     <View style={styles.orderInfoBox}>
                         <View style={styles.orderInfoRow}>
-                            <Text style={styles.textBlack}>합계</Text>
-                            <Text style={styles.rightText}>{order.totalPrice}</Text>
+                            <Text style={[styles.textBlack, styles.textBold]}>합계</Text>
+                            <Text style={styles.rightText}>{order.total_price}</Text>
                         </View>
                         <View style={styles.orderInfoRow}>
-                            <Text style={styles.textBlack}>배달 시간</Text>
-                            <Text style={styles.rightText}>{order.requestTime}</Text>
+                            <Text style={[styles.textBlack, styles.textBold]}>배달 시간</Text>
+                            <Text style={styles.rightText}>{order.time_slot}</Text>
                         </View>
                     </View>
                     <View style={styles.reviewBox}>
-                        <Text style={styles.textBlack}>리뷰를 남겨주세요 :)</Text>
-                        <Text style={styles.textBlack}>추첨을 통해 무료 시식권을 드립니다 :)</Text>
+                        <Image style={styles.imageStar}
+                            source={require('../commonComponent/img/icon_star_filled_yellow.png')}/>
+                        <View style={styles.reviewTextBox} >
+                            <Text style={styles.textWhite}>{reviewButtonText}</Text>
+                            <Text style={styles.textWhite}>{reviewButtonSubText}</Text>
+                        </View>
                     </View>
                 </View>
             </View>
@@ -57,7 +92,7 @@ let styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'white',
-        paddingTop: 10,
+        padding: 10,
     },
     orderInfoBox: {
         backgroundColor: 'white',
@@ -77,19 +112,37 @@ let styles = StyleSheet.create({
     },
     reviewBox: {
         marginTop: 10,
-        marginLeft: 20,
-        marginRight: 20,
+        marginLeft: 10,
+        marginRight: 10,
         paddingTop: 20,
         paddingBottom: 20,
-        backgroundColor: 'white',
+        paddingLeft: 50,
+        paddingRight: 50,
+        backgroundColor: Color.PRIMARY_ORANGE,
         justifyContent: 'center',
         alignItems: 'center',
         borderColor: 'white',
         borderRadius: 5,
         borderWidth: 1,
         overflow: 'hidden',
+        flexDirection: 'row',
+    },
+    imageStar: {
+        width: 50,
+        height: 50,
+    },
+    reviewTextBox: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,
     },
     textBlack: {
         color: Color.PRIMARY_BLACK,
+    },
+    textFont20: {
+        fontSize: 20,
+    },
+    textWhite: {
+        color: 'white',
     }
 });

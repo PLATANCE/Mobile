@@ -1,10 +1,9 @@
-'use strict';
 import { combineReducers } from 'redux';
-import DailyMenuReducer from '../dailyMenu/DailyMenuReducer';
 
+import CartReducers from './CartReducers';
 
 const Reducers = combineReducers({
-	DailyMenuReducer
+	CartReducers
 });
 
 export default Reducers;

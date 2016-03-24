@@ -26,21 +26,21 @@ export default class MyOrderList extends React.Component {
         return (
             <View style={styles.row}>
                 <View>
-                    <Text style={styles.dateText}>{rowData.date}<Text>({rowData.day})</Text></Text>
+                    <Text style={styles.dateText}>{rowData.request_date}</Text>
                     <Text style={styles.addressText}>{rowData.address}</Text>
-                    <Text style={styles.addressDetailText}>{rowData.addressDetail}</Text>
+                    <Text style={styles.addressDetailText}>{rowData.address_detail}</Text>
                 </View>
                 <View style={styles.footerBox}>
-                    <Text style={styles.requestTimeText}>{rowData.requestTime}</Text>
+                    <Text style={styles.requestTimeText}>{rowData.time_slot}</Text>
                     <View style={styles.buttonBox}>
-                        <TouchableHighlight onPress={Actions.OrderDetailPage}>
+                        <TouchableHighlight onPress={ () => Actions.OrderDetailPage({ orderIdx: rowData.order_idx }) } underlayColor={'transparent'} >
                             <View style={styles.button}>
                                 <Image style={styles.buttonIconImage} 
                                     source={require('../../commonComponent/img/icon_detail.png')}/>
                                 <Text style={styles.textWhite}>상세 보기</Text>
                             </View>
                         </TouchableHighlight>
-                        <TouchableHighlight  onPress={Actions.WriteReviewPage}>
+                        <TouchableHighlight  onPress={ () => Actions.WriteReviewPage({ orderIdx: rowData.order_idx }) } underlayColor={'transparent'} >
                             <View style={styles.button}>
                                 <Image style={styles.buttonIconImage} 
                                     source={require('../../commonComponent/img/icon_detail.png')}/>

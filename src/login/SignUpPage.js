@@ -53,11 +53,9 @@ let styles = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 1,
         overflow: 'hidden',
-        height: 50,
         alignItems: 'center',
         justifyContent: 'center',
         padding: 10,
-        alignSelf: 'stretch',
     },
     header: {
         alignItems: 'flex-start',

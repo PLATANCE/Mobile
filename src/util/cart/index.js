@@ -5,17 +5,20 @@ let cart = realm.objects('Cart');
 
 const pushMenu = function(idx, dailyMenuIdx) {
     let result = cart.filtered(`dailyMenuIdx = ${dailyMenuIdx}`);
+    let menu;
     if (result.length == 0) {
         realm.write(() => {
             // 책 객체를 생성하고 저장합니다
-            realm.create('Cart', { idx: idx, dailyMenuIdx: dailyMenuIdx, amount: 1 });
+           menu = realm.create('Cart', { idx: idx, dailyMenuIdx: dailyMenuIdx, amount: 1 });
         });
     } else {
-        let menu = result[0];
+        menu = result[0];
         realm.write(() => {
             menu.amount++;
         });
     }
+    console.log("pushMenu: idx=" + idx + "&dailyMenuIdx=" + dailyMenuIdx + "&amount=" + menu.amount);
+    return menu.amount;
 };
 
 const pullMenu = function(idx, dailyMenuIdx) {
@@ -32,6 +35,7 @@ const pullMenu = function(idx, dailyMenuIdx) {
             realm.delete(menu);
         }
     }
+    console.log("pullMenu: idx=" + idx + "&dailyMenuIdx=" + dailyMenuIdx);
 };
 
 const getMenus = function() {

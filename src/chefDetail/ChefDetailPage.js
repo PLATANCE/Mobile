@@ -17,7 +17,7 @@ export default class ChefDetailPage extends React.Component {
         this.fetchChefDetail();
     }
     fetchChefDetail() {
-        fetch(RequestURL.REQUEST_CHEF_DETAIL + "?chef_idx=" + this.props.chefIdx)
+        fetch(RequestURL.REQUEST_CHEF_DETAIL + "chef_idx=" + this.props.chefIdx)
             .then((response) => response.json())
             .then((responseData) => {
                 console.log(responseData);

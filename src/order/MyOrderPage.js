@@ -4,14 +4,39 @@ import React, { View, ListView, Text, StyleSheet, TouchableHighlight } from 'rea
 import Color from '../const/Color';
 import Const from '../const/Const';
 import MyOrderList from './components/MyOrderList';
+import RequestURL from '../const/RequestURL';
+
+import userInfo from '../util/userInfo';
+const userIdx = userInfo.idx;
 
 export default class MyOrderPage extends React.Component {
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            orderHistory: [],
+        }
+    }
+    componentDidMount() {
+        this.fetchMyOrders();
+    }
+    fetchMyOrders() {
+        fetch(RequestURL.REQUEST_MY_ORDER_LIST + 'user_idx=' + userIdx)
+            .then((response) => response.json())
+            .then((responseData) => {
+                this.setState({
+                    orderHistory: responseData.order_history
+                });
+            })
+            .catch((error)=> {
+                console.warn(error);
+            })
+            .done();
+    }
     render() {
         return (
             <View style={styles.container}>
                 <View style={styles.content} >
-                    <MyOrderList orders={this.props.orders} />
+                    <MyOrderList orders={this.state.orderHistory}/>
                 </View>
             </View>
         );

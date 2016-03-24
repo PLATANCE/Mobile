@@ -34,7 +34,6 @@
 	<string>1628165434090487</string>
 	<key>FacebookDisplayName</key>
 	<string>Plating</string>
-
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -95,20 +94,26 @@
 				<true/>
 			</dict>
 			<key>facebook.com</key>
-		    <dict>
-		    	<key>NSIncludesSubdomains</key> <true/>        
-		    	<key>NSThirdPartyExceptionRequiresForwardSecrecy</key> <false/>
-		    </dict>
-		    <key>fbcdn.net</key>
-		    <dict>
-		    	<key>NSIncludesSubdomains</key> <true/>
-		    	<key>NSThirdPartyExceptionRequiresForwardSecrecy</key>  <false/>
-		    </dict>
-		    <key>akamaihd.net</key>
-		    <dict>
-		    	<key>NSIncludesSubdomains</key> <true/>
-		    	<key>NSThirdPartyExceptionRequiresForwardSecrecy</key> <false/>
-		    </dict>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
+				<false/>
+			</dict>
+			<key>fbcdn.net</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
+				<false/>
+			</dict>
+			<key>akamaihd.net</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
+				<false/>
+			</dict>
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
@@ -127,6 +132,17 @@
 	</array>
 	<key>KAKAO_APP_KEY</key>
 	<string>35c3983a3275c9d0372965f9aed3b366</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>FontAwesome.ttf</string>
+		<string>Foundation.ttf</string>
+		<string>Ionicons.ttf</string>
+		<string>Entypo.ttf</string>
+		<string>EvilIcons.ttf</string>
+		<string>MaterialIcons.ttf</string>
+		<string>Octicons.ttf</string>
+		<string>Zocial.ttf</string>
+	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>

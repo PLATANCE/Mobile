@@ -1,5 +1,6 @@
 'use strict';
 import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image, ScrollView } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import DailyMenuList from './components/DailyMenuList';
 import AddressBar from './components/AddressBar';
 import Banner from './components/Banner';
@@ -7,6 +8,9 @@ import PageComment from '../commonComponent/PageComment';
 import Color from '../const/Color';
 import Const from '../const/Const';
 import RequestURL from '../const/RequestURL';
+
+import userInfo from '../util/userInfo';
+const userIdx = userInfo.idx;
 
 export default class DailyMenuPage extends React.Component {
 
@@ -22,13 +26,13 @@ export default class DailyMenuPage extends React.Component {
     componentDidMount() {
         this.fetchDailyMenu();
         this.fetchMyAddress();
+        this.fetchReviewAvailable();
     }
 
     fetchDailyMenu() {
         fetch(RequestURL.REQUEST_DAILY_MENU)
             .then((response) => response.json())
             .then((responseData) => {
-                console.log(responseData);
                 this.setState({
                     menus: responseData
                 });
@@ -39,10 +43,9 @@ export default class DailyMenuPage extends React.Component {
             .done();
     }
     fetchMyAddress() {
-        fetch(RequestURL.REQUEST_MY_ADDRESS)
+        fetch(RequestURL.REQUEST_MY_ADDRESS + 'user_idx=' + userIdx)
             .then((response) => response.json())
             .then((responseData) => {
-                console.log(responseData);
                 this.setState({
                     address: responseData[0].address,
                     addressDetail: responseData[0].address_detail
@@ -52,7 +55,18 @@ export default class DailyMenuPage extends React.Component {
             })
             .done();
     }
-    
+    fetchReviewAvailable() {
+        fetch(RequestURL.REQUEST_REVIEW_AVAILABLE + 'user_idx=' + userIdx)
+            .then((response) => response.json())
+            .then((responseData) => {
+                if(responseData.available == 'true') {
+                    Actions.WriteReviewPage({ orderIdx: responseData.order_idx })
+                }
+            }).catch((error)=> {
+                console.warn(error);
+            })
+            .done();
+    }
     render() {
         return (
             <View style={styles.container}>

@@ -1,5 +1,6 @@
 import React, { View, ListView, Text, StyleSheet, Image } from 'react-native';
 import Color from '../../const/Color';
+import MediaURL from '../../const/MediaURL';
 
 export default class MyCouponList extends React.Component {
     constructor(props) {
@@ -22,10 +23,11 @@ export default class MyCouponList extends React.Component {
     }
 
     renderRow(rowData) {
+        let imageURL = MediaURL.COUPON_URL + rowData.image_url_coupon;
         return (
-            <View style={styles.row}>
+            <View style={styles.row} >
                 <Image style={styles.img}
-                    source={{uri:rowData.url}} />
+                    source={{uri: imageURL}} />                
             </View>
         );
     }
@@ -47,7 +49,7 @@ let styles = StyleSheet.create({
         flex: 1,
     },
     row: {
-        height: 170,
+        height: 190,
         marginBottom: 10,
     },
     img: {

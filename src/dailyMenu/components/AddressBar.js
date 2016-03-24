@@ -53,7 +53,7 @@ export default class AddressBar extends React.Component {
  */
 let styles = StyleSheet.create({
     container: {
-        height: 30,
+        height: 35,
         backgroundColor: 'white',
         flexDirection: 'row',
         alignItems: 'center',

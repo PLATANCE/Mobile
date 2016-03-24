@@ -9,6 +9,8 @@ import AmountInCart from '../../commonComponent/AmountInCart';
 import SoldOutView from '../../commonComponent/SoldOutView';
 import { Actions } from 'react-native-router-flux';
 
+import cart from '../../util/cart';
+
 
 export default class DailyMenuList extends React.Component {
     constructor(props) {
@@ -18,7 +20,7 @@ export default class DailyMenuList extends React.Component {
         });
 
         this.state = {
-            dataSource: dataSource.cloneWithRows(props.menus)
+            dataSource: dataSource.cloneWithRows(props.menus),
         }
     }
 
@@ -30,6 +32,10 @@ export default class DailyMenuList extends React.Component {
         }
     }
 
+    pushMenu(idx, dailyMenuIdx) {
+        console.log("add menu");
+    }
+
     renderRow(rowData) {
         let menuName = rowData.name_menu;
         let menuNameKor = menuName.split('.')[0];
@@ -37,13 +43,20 @@ export default class DailyMenuList extends React.Component {
 
         let menuURL = MediaURL.MENU_URL + rowData.image_url_menu;
         let chefURL = MediaURL.CHEF_URL + rowData.image_url_chef;
+        let isSoldOut = (rowData.stock == 0) ? true : false;
+        let contentInnerMenu = <View style={styles.amountInCart}>
+                                    <AmountInCart amount={2}/>
+                                </View>;
+        if(isSoldOut) {
+            contentInnerMenu = <SoldOutView stock={rowData.stock} />
+        }
         return (
             <View style={styles.row}>
                 <View style={styles.menuDetailBox}>
                     <TouchableHighlight style={styles.menuImageBox} onPress={()=>Actions.MenuDetailPage({menuIdx: rowData.menu_idx, title: menuNameKor, stock: rowData.stock})} underlayColor={'transparent'}>
                         <Image style={styles.menuImage}
                             source={{uri: menuURL}} >
-                            <SoldOutView stock={rowData.stock}/>
+                            {contentInnerMenu}
                         </Image>
                     </TouchableHighlight>
                     <View style={styles.menuChefBox}>
@@ -74,7 +87,7 @@ export default class DailyMenuList extends React.Component {
                             <Image style={styles.iconImage} 
                                 source={require('../../commonComponent/img/icon_detail.png')}/>
                         </TouchableHighlight>
-                        <TouchableHighlight style={styles.iconView} underlayColor={Color.PRIMARY_ORANGE}>
+                        <TouchableHighlight style={styles.iconView} underlayColor={Color.PRIMARY_ORANGE} onPress={() => this.pushMenu(rowData.menu_idx, rowData.idx)}>
                             <Image style={styles.iconImage} 
                                 source={require('../../commonComponent/img/icon_plus.png')}/>
                         </TouchableHighlight>
@@ -89,7 +102,7 @@ export default class DailyMenuList extends React.Component {
             <View style={styles.container}>
                 <ListView
                     dataSource={this.state.dataSource}
-                    renderRow={this.renderRow}
+                    renderRow={this.renderRow.bind(this)}
                 />
             </View>
         );

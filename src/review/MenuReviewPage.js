@@ -11,7 +11,6 @@ export default class ReviewPage extends React.Component {
         super(props);
         this.state = {
             reviews: [],
-            loaded: false,
         }
     }
     componentDidMount() {
@@ -30,17 +29,7 @@ export default class ReviewPage extends React.Component {
             })
             .done();
     }
-    renderLoadingView() {
-        return(
-            <View style={styles.container}>
-                <Text>Loading...</Text>
-            </View>
-        );
-    }
     render() {
-        if (!this.state.loaded) {
-            return this.renderLoadingView();
-        }
         return (
             <ScrollView>
                 <View style={styles.container}>

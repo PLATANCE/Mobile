@@ -18,9 +18,7 @@ export default class OrderedMenu extends React.Component {
             name,
             foreignName,
             amount,
-            status
         } = this.props;
-
 
         return (
             <View style={styles.container}>

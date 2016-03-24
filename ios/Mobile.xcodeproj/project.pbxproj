@@ -31,6 +31,14 @@
 		5F70DE441C90222700D3A533 /* KakaoOpenSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F70DE431C90222600D3A533 /* KakaoOpenSDK.framework */; };
 		810CB411089FE3EB7F25ADDB /* Pods_Mobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5BF4EF0A021A74EA257D5DB /* Pods_Mobile.framework */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		F457B5921CA298360072D817 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F457B58A1CA298350072D817 /* Entypo.ttf */; };
+		F457B5931CA298360072D817 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F457B58B1CA298360072D817 /* EvilIcons.ttf */; };
+		F457B5941CA298360072D817 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F457B58C1CA298360072D817 /* FontAwesome.ttf */; };
+		F457B5951CA298360072D817 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F457B58D1CA298360072D817 /* Foundation.ttf */; };
+		F457B5961CA298360072D817 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F457B58E1CA298360072D817 /* Ionicons.ttf */; };
+		F457B5971CA298360072D817 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F457B58F1CA298360072D817 /* MaterialIcons.ttf */; };
+		F457B5981CA298360072D817 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F457B5901CA298360072D817 /* Octicons.ttf */; };
+		F457B5991CA298360072D817 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F457B5911CA298360072D817 /* Zocial.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -220,6 +228,14 @@
 		D8691EB403E44449E3D42734 /* Pods-Mobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobile.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mobile/Pods-Mobile.debug.xcconfig"; sourceTree = "<group>"; };
 		DCBF36F833CD2D13CE06090C /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F1C92D7EFF08333E93FF582E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		F457B58A1CA298350072D817 /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Entypo.ttf; sourceTree = "<group>"; };
+		F457B58B1CA298360072D817 /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EvilIcons.ttf; sourceTree = "<group>"; };
+		F457B58C1CA298360072D817 /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
+		F457B58D1CA298360072D817 /* Foundation.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Foundation.ttf; sourceTree = "<group>"; };
+		F457B58E1CA298360072D817 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ionicons.ttf; sourceTree = "<group>"; };
+		F457B58F1CA298360072D817 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
+		F457B5901CA298360072D817 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
+		F457B5911CA298360072D817 /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -339,6 +355,7 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
+				F457B5891CA298350072D817 /* Fonts */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				5F19CA5A1C9813D500B7E30F /* deviceToken.h */,
@@ -478,6 +495,22 @@
 				4B956C6708901EADCB37D3EB /* Pods-Mobile.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		F457B5891CA298350072D817 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				F457B58A1CA298350072D817 /* Entypo.ttf */,
+				F457B58B1CA298360072D817 /* EvilIcons.ttf */,
+				F457B58C1CA298360072D817 /* FontAwesome.ttf */,
+				F457B58D1CA298360072D817 /* Foundation.ttf */,
+				F457B58E1CA298360072D817 /* Ionicons.ttf */,
+				F457B58F1CA298360072D817 /* MaterialIcons.ttf */,
+				F457B5901CA298360072D817 /* Octicons.ttf */,
+				F457B5911CA298360072D817 /* Zocial.ttf */,
+			);
+			name = Fonts;
+			path = "../node_modules/react-native-vector-icons/Fonts";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -749,7 +782,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F457B5971CA298360072D817 /* MaterialIcons.ttf in Resources */,
+				F457B5981CA298360072D817 /* Octicons.ttf in Resources */,
+				F457B5991CA298360072D817 /* Zocial.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				F457B5941CA298360072D817 /* FontAwesome.ttf in Resources */,
+				F457B5931CA298360072D817 /* EvilIcons.ttf in Resources */,
+				F457B5961CA298360072D817 /* Ionicons.ttf in Resources */,
+				F457B5951CA298360072D817 /* Foundation.ttf in Resources */,
+				F457B5921CA298360072D817 /* Entypo.ttf in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

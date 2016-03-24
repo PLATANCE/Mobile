@@ -13,11 +13,16 @@ import Color from '../const/Color';
 export default class AddCartButton extends React.Component {
     render() {
         return (
-            <View style={styles.container}>
-                <Image style={styles.image} 
-                    source={require('./img/icon_plus.png')}/>
-                <Text style={styles.addCartButton}>추가하기</Text>
-            </View>
+            <TouchableHighlight style={styles.container} onPress={ () => {
+                console.log(this.props.addItemToCart);
+                this.props.addItemToCart();
+            }} underlayColor={Color.PRIMARY_ORANGE}>
+                <View style={styles.container}>
+                    <Image style={styles.image} 
+                        source={require('./img/icon_plus.png')}/>
+                    <Text style={styles.addCartButton}>추가하기</Text>
+                </View>
+            </TouchableHighlight>
         );
     }
 }
