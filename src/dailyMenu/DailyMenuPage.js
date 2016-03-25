@@ -13,6 +13,7 @@ import { addItemToCart } from '../app/actions/CartActions';
 import userInfo from '../util/userInfo';
 const userIdx = userInfo.idx;
 
+
 export default class DailyMenuPage extends React.Component {
 
     constructor(props) {

@@ -8,42 +8,52 @@ import AddCartButton from '../../commonComponent/AddCartButton';
 import AmountInCart from '../../commonComponent/AmountInCart';
 import SoldOutView from '../../commonComponent/SoldOutView';
 import { Actions } from 'react-native-router-flux';
+import _ from 'lodash';
 
 export default class DailyMenuList extends React.Component {
     constructor(props) {
         super(props);
         let dataSource = new ListView.DataSource({
-            rowHasChanged: (row1, row2) => JSON.stringify(row1) !== JSON.stringify(row2),
+            rowHasChanged: (prevRow, nextRow) => (_.isEqual(prevRow, nextRow) == false),
         });
 
+        const rows = this.generateRows(props.cart, props.menus);
+
         this.state = {
-            rows: JSON.stringify(this.props.menus),
-            dataSource: dataSource.cloneWithRows(this.props.menus),
+            dataSource: dataSource.cloneWithRows(rows),
         }
     }
 
     componentWillReceiveProps(nextProps) {
+        const rows = this.generateRows(nextProps.cart, nextProps.menus);
+
+        this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(rows),
+        });
+    }
+
+
+    generateRows(cart, menus) {
         let rows = [];
-        nextProps.menus.forEach(menu => {
-            const cart = nextProps.cart;
-            let row;
-            if(cart && cart[menu.menu_idx]) {
-                row = Object.assign({}, menu, {
-                    amount: cart[menu.menu_idx].amount
-                });
+
+        menus.forEach(menu => {
+            const menuIdx = menu.menu_idx;
+            let amount;
+
+            if(cart && cart[menuIdx]) {
+                amount = cart[menuIdx].amount;
             } else {
-                row = Object.assign({}, menu, {
-                    amount: 0
-                });
+                amount = 0;
             }
+
+            let row = Object.assign({}, menu, {
+                amount
+            });
+
             rows.push(row);
         });
-        if(JSON.stringify(this.state.rows) != JSON.stringify(rows)){
-            this.setState({
-                rows: JSON.stringify(rows),
-                dataSource: this.state.dataSource.cloneWithRows(rows),
-            });
-        }
+
+        return rows;
     }
 
     renderRow(rowData) {      

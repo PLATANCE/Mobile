@@ -2,6 +2,8 @@ import {
     CartActions
 } from '../actions/CartActions';
 
+import _ from 'lodash';
+
 
 const cartReducer = function(state = {
     cart: {
@@ -16,7 +18,7 @@ const cartReducer = function(state = {
                 const cartItem = action.cartItem;
                 const menuIdx = cartItem.menuIdx;
 
-                let newCart = Object.assign({}, cart);
+                let newCart = _.cloneDeep(cart);
                 let itemInCart = newCart[menuIdx];
 
                 if (itemInCart) {
@@ -35,7 +37,7 @@ const cartReducer = function(state = {
                 const item = action.item;
                 const menuIdx = item.menuIdx;
 
-                let newCart = Object.assign({}, cart);
+                let newCart = _.cloneDeep(cart);
                 let itemInCart = cart[menuIdx];
 
                 if (itemInCart) {
