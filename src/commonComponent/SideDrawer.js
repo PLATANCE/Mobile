@@ -62,7 +62,7 @@ class SideDrawerContent extends Component {
         const rowInfo = [
             { text: "Home (메뉴보기)", action: Actions.DrawerPage },
             { text: "주문 내역", action: Actions.MyOrderPage },
-            { text: "내 쿠폰함", action: Actions.MyCouponPage },
+            { text: "내 쿠폰함", action: () => Actions.MyCouponPage({ disable: false }) },
             { text: "포인트·코드 등록", action: ()=>this.openPromptDialog()},
             { text: "고객 센터", action: Actions.CSMainPage },
             { text: "Plating 이란?", action: Actions.PlatingPage },

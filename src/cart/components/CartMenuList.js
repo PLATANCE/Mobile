@@ -17,16 +17,17 @@ export default class CartMenuList extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-            this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(nextProps.cart),
-            });
+        this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(nextProps.cart),
+        });
     }
 
     renderRow(rowData) {
         const {
             addItemToCart,
+            decreaseItemFromCart,
         } = this.props;
-        console.log(rowData);
+
         let imageURL = MediaURL.MENU_URL + rowData.imageUrlMenu;
         return (
             <View style={styles.row}>
@@ -38,13 +39,16 @@ export default class CartMenuList extends React.Component {
                     <View style={styles.priceBox}>
                         <MenuPriceText originalPrice={rowData.price} sellingPrice={rowData.altPrice} align={{textAlign: 'left'}}/>
                         <View style={styles.setAmountBox}>
-                            <TouchableHighlight underlayColor={'transparent'}>
+                            <TouchableHighlight underlayColor={'transparent'}
+                                onPress={ () => decreaseItemFromCart(rowData.menuDIdx, rowData.menuIdx, rowData.price, rowData.altPrice, rowData.imageUrlMenu, rowData.menuNameKor, rowData.menuNameEng) }  
+                            >
                                 <Image style={styles.iconImage}
                                     source={require('../img/icon_minus.png')}/>
                             </TouchableHighlight>
                             <Text style={styles.amountText}>{rowData.amount}</Text>
                             <TouchableHighlight underlayColor={'transparent'}
-                                onPress={ () => addItemToCart(rowData.menuDIdx, rowData.menuIdx, rowData.price, rowData.altPrice, rowData.imageUrlMenu, rowData.menuNameKor, rowData.menuNameEng) }  >
+                                onPress={ () => addItemToCart(rowData.menuDIdx, rowData.menuIdx, rowData.price, rowData.altPrice, rowData.imageUrlMenu, rowData.menuNameKor, rowData.menuNameEng) }  
+                            >
                                 <Image style={styles.iconImage}
                                     source={require('../img/icon_plus.png')}/>
                             </TouchableHighlight>

@@ -60,7 +60,6 @@ export default class DailyMenuList extends React.Component {
         const {
             addItemToCart
         } = this.props;
-        console.log(rowData);
 
         let menuName = rowData.name_menu;
         let menuNameKor = menuName.split('.')[0];

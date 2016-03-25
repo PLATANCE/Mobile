@@ -23,7 +23,6 @@ export default class MyCouponPage extends React.Component {
         fetch(RequestURL.REQUEST_MY_COUPON_LIST + 'user_idx=' + userIdx)
             .then((response) => response.json())
             .then((responseData) => {
-                console.log(responseData);
                 this.setState({
                     coupons: responseData
                 });
@@ -34,10 +33,14 @@ export default class MyCouponPage extends React.Component {
             .done();
     }
     render() {
+        const {
+            disable,
+            cart,
+        } = this.props;
         return (
             <View style={styles.container}>
                 <View style={styles.content} >
-                    <MyCouponList coupons={this.state.coupons} />
+                    <MyCouponList coupons={this.state.coupons} cart={cart} disable={disable}/>
                 </View>
             </View>
         );

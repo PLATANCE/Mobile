@@ -1,4 +1,5 @@
 import React, { View, ListView, Text, StyleSheet, Image, TouchableHighlight, Alert } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import Color from '../../const/Color';
 import RequestURL from '../../const/RequestURL';
 
@@ -45,11 +46,13 @@ export default class MyAddressList extends React.Component {
         })
         .then((response) => response.json())
         .then((responseData) => {
-            const message = responseData.result_msg;
+            //console.log(responseData);
+            let message = responseData.result;
                 Alert.alert(
                    '주소 변경',
                     message,
                 );
+                Actions.refresh();
         })
         .catch((error)=> {
             console.warn(error);

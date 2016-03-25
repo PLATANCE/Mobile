@@ -54,7 +54,6 @@ import CSPolicyPage from '../customerService/CSPolicyPage';
 import PlatingPage from '../plating/PlatingPage';
 
 import userInfo from '../util/userInfo';
-console.log(userInfo);
 const userIdx = userInfo.idx;
 
 const Router = connect()(ReactNativeRouter.Router);
@@ -170,7 +169,7 @@ export default class Routes extends Component {
                         title="포인트 조회" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
                         titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
                         
-                    <Route name="MyCouponPage" component={connect()(MyCouponPage)} 
+                    <Route name="MyCouponPage" component={connect(MyCouponSelector)(MyCouponPage)} 
                         title="내 쿠폰" wrapRouter={true}  navigationBarStyle={styles.navigationBar} 
                         titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
 

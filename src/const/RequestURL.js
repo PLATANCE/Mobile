@@ -37,6 +37,7 @@ const RequestURL = {
 
     // coupon
     REQUEST_MY_COUPON_LIST: 'http://api.plating.co.kr/coupon/my_coupon?',   // user_idx
+    REQUEST_COUPON_AVAILABLE: 'http://api.plating.co.kr/coupon/coupon_available?',   // user_idx
     
     // cart
     REQUEST_CART_INFO: 'http://api.plating.co.kr/cart_info?', // user_idx

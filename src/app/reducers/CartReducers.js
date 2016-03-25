@@ -31,14 +31,14 @@ const cartReducer = function(state = {
                     cart: newCart
                 });
             }
-        case CartActions.REMOVE_ITEM_FROM_CART:
+        case CartActions.DECREASE_ITEM_FROM_CART:
             {
                 const cart = state.cart;
-                const item = action.item;
-                const menuIdx = item.menuIdx;
+                const cartItem = action.cartItem;
+                const menuIdx = cartItem.menuIdx;
 
                 let newCart = _.cloneDeep(cart);
-                let itemInCart = cart[menuIdx];
+                let itemInCart = newCart[menuIdx];
 
                 if (itemInCart) {
 
