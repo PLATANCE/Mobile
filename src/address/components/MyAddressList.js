@@ -1,5 +1,6 @@
-import React, { View, ListView, Text, StyleSheet, Image } from 'react-native';
+import React, { View, ListView, Text, StyleSheet, Image, TouchableHighlight, Alert } from 'react-native';
 import Color from '../../const/Color';
+import RequestURL from '../../const/RequestURL';
 
 export default class MyAddressList extends React.Component {
     constructor(props) {
@@ -21,30 +22,68 @@ export default class MyAddressList extends React.Component {
         }
     }
 
+    changeInUseAddress(idx, user_idx, in_use) {        
+        if(!in_use)
+            this.updateInUserAddress(idx, user_idx);
+    }
+    updateInUserAddress(idx, user_idx) {
+        console.log(this.props.fetchMyAddressList);
+        
+        const param = {
+            idx: idx,
+            user_idx: user_idx,
+            mode: 'update'
+        };
+
+        fetch(RequestURL.SUBMIT_IN_USE_ADDRESS, {
+            method: 'POST',
+            headers: {
+                'Accept': 'applcation/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(param)
+        })
+        .then((response) => response.json())
+        .then((responseData) => {
+            const message = responseData.result_msg;
+                Alert.alert(
+                   '주소 변경',
+                    message,
+                );
+        })
+        .catch((error)=> {
+            console.warn(error);
+        })
+        .done();
+    }
     renderRow(rowData) {
         let leftIcon = (rowData.in_use == 1) ? require('../img/check_circle.png') : require('../img/empty_circle.png');
         let textStyle = (rowData.delivery_available == 1) ? {color: Color.PRIMARY_BLACK} : {color: Color.PRIMARY_GRAY};
         
         if (rowData.delivery_available) {
             return (
-                <View style={styles.row}>
-            	<Image style={styles.img} source={leftIcon}/>
-            	<View style={styles.addressBox}>
-                	<Text style={textStyle}>{rowData.address}</Text>
-                	<Text style={textStyle}>{rowData.address_detail}</Text>
-                </View>
-    		</View>
+                <TouchableHighlight underlayColor={'transparent'} onPress={ () => this.changeInUseAddress(rowData.idx, rowData.user_idx, rowData.in_use)}>
+                    <View style={styles.row}>
+                    	<Image style={styles.img} source={leftIcon}/>
+                    	<View style={styles.addressBox}>
+                        	<Text style={textStyle}>{rowData.address}</Text>
+                        	<Text style={textStyle}>{rowData.address_detail}</Text>
+                        </View>
+                    </View>
+                </TouchableHighlight>
             );
         } else {
             return (
-                <View style={styles.row}>
-            	<Image style={styles.img} source={leftIcon}/>
-            	<View style={styles.addressBox}>
-                	<Text style={textStyle}>{rowData.address}</Text>
-                	<Text style={textStyle}>{rowData.address_detail}</Text>
-                	<Text style={{color:'red'}}>배달이 불가능한 지역입니다.</Text>
-                </View>
-    		</View>
+                <TouchableHighlight underlayColor={'transparent'} >
+                    <View style={styles.row}>
+                    	<Image style={styles.img} source={leftIcon}/>
+                    	<View style={styles.addressBox}>
+                        	<Text style={textStyle}>{rowData.address}</Text>
+                        	<Text style={textStyle}>{rowData.address_detail}</Text>
+                        	<Text style={{color:'red'}}>배달이 불가능한 지역입니다.</Text>
+                        </View>
+                    </View>
+                </TouchableHighlight>
             );
         }
     }
@@ -54,7 +93,7 @@ export default class MyAddressList extends React.Component {
             <View style={styles.container}>
 	        	<ListView
 	        		dataSource={this.state.dataSource}
-	        		renderRow={this.renderRow}
+	        		renderRow={this.renderRow.bind(this)}
 	        	/>
         	</View>
         );
@@ -67,7 +106,7 @@ let styles = StyleSheet.create({
     },
     row: {
         padding: 10,
-        height: 70,
+        height: 80,
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: 'white',

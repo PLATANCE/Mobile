@@ -53,26 +53,36 @@ export default class MenuDetailPage extends React.Component {
             .done();
     }
     onStarRatingPress(rating) {
-    console.log(rating);
-  }
+        console.log(rating);
+    }
 
     render() {
-        const { dispatch, cart } = this.props;
+        const { dispatch, cart, menuIdx, menuDIdx } = this.props;
         let menu = this.state.menu;
-        //let amount = (cart[menu.idx].amount == 'undefined') ? 0 : cart[menu.idx].amount;
-        let menuURL = MediaURL.MENU_URL + menu.image_url_menu;
-        let chefURL = MediaURL.CHEF_URL + menu.image_url_chef;
-        let isSoldOut = (this.props.stock == 0) ? true : false;
-        let contentInnerMenu = <View style={styles.amountInCart}>
-                                    <AmountInCart amount={2}/>
-                                </View>;;
-        if(isSoldOut) {
-            contentInnerMenu = <View style={styles.menuImageAlpha}>
-                                <Text style={styles.textEng}>SOLD OUT</Text>
-                                <Text style={styles.textKor}>금일 메뉴가 매진 되었습니다.</Text>
-                            </View>;
-        }
+        let menuURL;
+        let chefURL;
+        let contentInnerMenu = false;
 
+        if(menu){
+            menuURL = MediaURL.MENU_URL + menu.image_url_menu;
+            chefURL = MediaURL.CHEF_URL + menu.image_url_chef;
+            let isSoldOut = (this.props.stock == 0) ? true : false;
+            
+            if(isSoldOut) {
+
+                contentInnerMenu = <View style={styles.menuImageAlpha}>
+                                    <Text style={styles.textEng}>SOLD OUT</Text>
+                                    <Text style={styles.textKor}>금일 메뉴가 매진 되었습니다.</Text>
+                                </View>;
+            } else if(cart[menu.idx] && cart[menu.idx].amount > 0){
+
+                const amount = cart[menu.idx].amount;
+                contentInnerMenu = <View style={styles.amountInCart}>
+                                        <AmountInCart amount={amount}/>
+                                    </View>;
+            }
+        }
+        
         return (
             <View style={styles.container}>
                 <PageComment text="모든 메인메뉴는 전자렌지 조리용입니다."/>
@@ -106,7 +116,7 @@ export default class MenuDetailPage extends React.Component {
                                 <MenuPriceText originalPrice={menu.price} sellingPrice={menu.alt_price}/>
                             </View>
                             <View style={styles.cartButtonBox}>
-                                <AddCartButton addItemToCart={ () => dispatch(addItemToCart(menu)) } />
+                                <AddCartButton addItemToCart={ () => dispatch(addItemToCart(menuDIdx, menuIdx, menu.price, menu.alt_price, menu.image_url_menu, menu.name_menu, menu.name_menu_eng)) } />
                             </View>
                         </View>
                         <TouchableHighlight onPress={()=>Actions.ChefDetailPage({chefIdx: menu.idx_chef})} underlayColor={'transparent'}>

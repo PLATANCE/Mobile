@@ -9,34 +9,49 @@ import AmountInCart from '../../commonComponent/AmountInCart';
 import SoldOutView from '../../commonComponent/SoldOutView';
 import { Actions } from 'react-native-router-flux';
 
-import cart from '../../util/cart';
-
-
 export default class DailyMenuList extends React.Component {
     constructor(props) {
         super(props);
         let dataSource = new ListView.DataSource({
-            rowHasChanged: (row1, row2) => row1 !== row2,
+            rowHasChanged: (row1, row2) => JSON.stringify(row1) !== JSON.stringify(row2),
         });
 
         this.state = {
-            dataSource: dataSource.cloneWithRows(props.menus),
+            rows: JSON.stringify(this.props.menus),
+            dataSource: dataSource.cloneWithRows(this.props.menus),
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.menus !== this.props.menus) {
+        let rows = [];
+        nextProps.menus.forEach(menu => {
+            const cart = nextProps.cart;
+            let row;
+            if(cart && cart[menu.menu_idx]) {
+                row = Object.assign({}, menu, {
+                    amount: cart[menu.menu_idx].amount
+                });
+            } else {
+                row = Object.assign({}, menu, {
+                    amount: 0
+                });
+            }
+            rows.push(row);
+        });
+        if(JSON.stringify(this.state.rows) != JSON.stringify(rows)){
             this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(nextProps.menus)
-            })
+                rows: JSON.stringify(rows),
+                dataSource: this.state.dataSource.cloneWithRows(rows),
+            });
         }
     }
 
-    pushMenu(idx, dailyMenuIdx) {
-        console.log("add menu");
-    }
+    renderRow(rowData) {      
+        const {
+            addItemToCart
+        } = this.props;
+        console.log(rowData);
 
-    renderRow(rowData) {
         let menuName = rowData.name_menu;
         let menuNameKor = menuName.split('.')[0];
         let menuNameEng = menuName.split('.')[1];
@@ -44,16 +59,23 @@ export default class DailyMenuList extends React.Component {
         let menuURL = MediaURL.MENU_URL + rowData.image_url_menu;
         let chefURL = MediaURL.CHEF_URL + rowData.image_url_chef;
         let isSoldOut = (rowData.stock == 0) ? true : false;
-        let contentInnerMenu = <View style={styles.amountInCart}>
-                                    <AmountInCart amount={2}/>
-                                </View>;
+        let contentInnerMenu = false;
+
         if(isSoldOut) {
             contentInnerMenu = <SoldOutView stock={rowData.stock} />
+        } else if(rowData.amount && rowData.amount > 0){
+            contentInnerMenu = <View style={styles.amountInCart}>
+                                    <AmountInCart amount={rowData.amount}/>
+                                </View>;
         }
+        
         return (
+
             <View style={styles.row}>
                 <View style={styles.menuDetailBox}>
-                    <TouchableHighlight style={styles.menuImageBox} onPress={()=>Actions.MenuDetailPage({menuIdx: rowData.menu_idx, title: menuNameKor, stock: rowData.stock})} underlayColor={'transparent'}>
+                    <TouchableHighlight style={styles.menuImageBox} 
+                        onPress={()=>Actions.MenuDetailPage({ menuIdx: rowData.menu_idx, menuDIdx: rowData.idx, stock: rowData.stock })} 
+                        underlayColor={'transparent'}>
                         <Image style={styles.menuImage}
                             source={{uri: menuURL}} >
                             {contentInnerMenu}
@@ -83,11 +105,13 @@ export default class DailyMenuList extends React.Component {
                         <MenuPriceText originalPrice={rowData.price} sellingPrice={rowData.alt_price} align={{textAlign: 'right'}}/>
                     </View>
                     <View style={styles.cartButtonBox}>
-                        <TouchableHighlight style={[styles.iconView, {marginRight: 5}]} onPress={()=>Actions.MenuDetailPage({menuIdx: rowData.menu_idx, title: menuNameKor})} underlayColor={Color.PRIMARY_ORANGE}>
+                        <TouchableHighlight style={[styles.iconView, {marginRight: 5}]} onPress={ () => Actions.MenuDetailPage({ menuIdx: rowData.menu_idx, menuDIdx: rowData.idx }) } underlayColor={Color.PRIMARY_ORANGE}>
                             <Image style={styles.iconImage} 
                                 source={require('../../commonComponent/img/icon_detail.png')}/>
                         </TouchableHighlight>
-                        <TouchableHighlight style={styles.iconView} underlayColor={Color.PRIMARY_ORANGE} onPress={() => this.pushMenu(rowData.menu_idx, rowData.idx)}>
+                        <TouchableHighlight style={styles.iconView} 
+                            underlayColor={Color.PRIMARY_ORANGE} 
+                            onPress={ () => addItemToCart(rowData.idx, rowData.menu_idx, rowData.price, rowData.alt_price, rowData.image_url_menu, menuNameKor, menuNameEng) } >
                             <Image style={styles.iconImage} 
                                 source={require('../../commonComponent/img/icon_plus.png')}/>
                         </TouchableHighlight>

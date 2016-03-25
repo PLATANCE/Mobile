@@ -13,10 +13,9 @@ import Color from '../const/Color';
 export default class AddCartButton extends React.Component {
     render() {
         return (
-            <TouchableHighlight style={styles.container} onPress={ () => {
-                console.log(this.props.addItemToCart);
-                this.props.addItemToCart();
-            }} underlayColor={Color.PRIMARY_ORANGE}>
+            <TouchableHighlight style={styles.container} 
+                onPress={ () => {this.props.addItemToCart();} } 
+                underlayColor={Color.PRIMARY_ORANGE}>
                 <View style={styles.container}>
                     <Image style={styles.image} 
                         source={require('./img/icon_plus.png')}/>

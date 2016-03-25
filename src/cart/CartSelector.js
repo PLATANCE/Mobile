@@ -1,11 +1,10 @@
 'use strict';
-/*
-export default (state) => ({
-    menus: state.menus,
-    address: state.address
-});
-*/
 
+export default (state) => ({
+    cart: state.CartReducers.cart,
+});
+
+/*
 export default (state) => ({
     cart: {
         menus: [{
@@ -50,3 +49,4 @@ export default (state) => ({
         rightIcon: ''
     }
 });
+*/

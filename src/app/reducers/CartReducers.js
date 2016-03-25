@@ -11,10 +11,10 @@ const cartReducer = function(state = {
     switch (action.type) {
         case CartActions.ADD_ITEM_TO_CART:
             {
-                console.log(action.item);
+
                 const cart = state.cart;
-                const item = action.item;
-                const menuIdx = item.idx;
+                const cartItem = action.cartItem;
+                const menuIdx = cartItem.menuIdx;
 
                 let newCart = Object.assign({}, cart);
                 let itemInCart = newCart[menuIdx];
@@ -22,9 +22,9 @@ const cartReducer = function(state = {
                 if (itemInCart) {
                     itemInCart.amount++;
                 } else {
-                    newCart[menuIdx] = Object.assign({}, item, { amount: 1 });
+                    newCart[menuIdx] = Object.assign({}, cartItem, { amount: 1 });
                 }
-
+                
                 return Object.assign({}, state, {
                     cart: newCart
                 });

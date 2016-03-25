@@ -54,6 +54,7 @@ import CSPolicyPage from '../customerService/CSPolicyPage';
 import PlatingPage from '../plating/PlatingPage';
 
 import userInfo from '../util/userInfo';
+console.log(userInfo);
 const userIdx = userInfo.idx;
 
 const Router = connect()(ReactNativeRouter.Router);
@@ -121,7 +122,7 @@ export default class Routes extends Component {
                                 navigationBarStyle={styles.navigationBar}
                                 titleStyle={styles.title} >
                                 <Route name="DailyMenuPage" 
-                                        component={connect()(DailyMenuPage)} 
+                                        component={connect(DailyMenuSelector)(DailyMenuPage)} 
                                         title="TODAY'S MENU" 
                                         renderLeftButton={this.renderDrawerButton.bind(this)} 
                                         renderRightButton={this.renderCartButton} />

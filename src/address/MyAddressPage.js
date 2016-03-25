@@ -37,7 +37,7 @@ export default class MyAddressPage extends React.Component {
         return (
             <View style={styles.container}>
                 <ScrollView>
-                    <MyAddressList addressList={this.state.addressList} />
+                    <MyAddressList addressList={this.state.addressList} fetchMyAddressList={this.fetchMyAddressList}/>
                     <TouchableHighlight onPress={Actions.AddAddressPage} underlayColor={'transparent'}>
                     <View style={styles.addBox}>
                         <Image style={styles.img}

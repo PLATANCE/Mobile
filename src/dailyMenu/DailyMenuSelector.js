@@ -1,10 +1,9 @@
 'use strict';
-/*
+
 export default (state) => ({
-    menus: state.menus,
-    address: state.address
+    cart: state.CartReducers.cart,
 });
-*/
+
 
 /*
 export default (state) => ({

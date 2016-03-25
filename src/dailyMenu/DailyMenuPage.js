@@ -9,6 +9,7 @@ import Color from '../const/Color';
 import Const from '../const/Const';
 import RequestURL from '../const/RequestURL';
 
+import { addItemToCart } from '../app/actions/CartActions';
 import userInfo from '../util/userInfo';
 const userIdx = userInfo.idx;
 
@@ -27,6 +28,7 @@ export default class DailyMenuPage extends React.Component {
         this.fetchDailyMenu();
         this.fetchMyAddress();
         this.fetchReviewAvailable();
+        //this.fetchCheckUpdate();
     }
 
     fetchDailyMenu() {
@@ -67,14 +69,33 @@ export default class DailyMenuPage extends React.Component {
             })
             .done();
     }
+    fetchCheckUpdate() {
+        fetch(RequestURL.REQUEST_APP_UPDATE_AVAILABLE)
+            .then((response) => response.json())
+            .then((responseData) => {
+                let available = responseData.available;
+                if(available) {
+                    console.log('업데이트 처리 해야대요!');
+                }
+            })
+            .catch((error)=> {
+                console.warn(error);
+            })
+            .done();
+    }
     render() {
+        const { dispatch, cart } = this.props;
         return (
             <View style={styles.container}>
                 <PageComment text='모든 메뉴는 당일 조리, 당일 배송 됩니다(5:30pm~10:00pm)' />
                 <View style={styles.content}>
                     <ScrollView>
                         <Banner />
-                        <DailyMenuList styles={styles.menuList} menus={this.state.menus} />
+                        <DailyMenuList styles={styles.menuList}
+                            menus={this.state.menus}
+                            addItemToCart={ (menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng) => dispatch(addItemToCart(menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng)) }
+                            cart={cart}
+                        />
                     </ScrollView>
                     <AddressBar address={this.state.address} addressDetail={this.state.addressDetail}/>
                 </View>

@@ -1,91 +1,101 @@
 'use strict';
-import React, { View, Text, StyleSheet, TouchableHighlight, ScrollView, Image, Modal, TextInput } from 'react-native';
-import Picker from 'react-native-picker';
+import React, { View, Text, StyleSheet, TouchableHighlight, ScrollView, Image, TextInput, Picker} from 'react-native';
+import { Actions } from 'react-native-router-flux';
 
 import PageComment from '../commonComponent/PageComment';
 import CartMenuList from './components/CartMenuList';
-import Color from '../const/Color';
-import Const from '../const/Const';
 import PaymentInfoRow from './components/PaymentInfoRow';
 import AddressInfoRow from './components/AddressInfoRow';
+import Color from '../const/Color';
+import Const from '../const/Const';
+import RequestURL from '../const/RequestURL';
+import { addItemToCart } from '../app/actions/CartActions';
 
+import userInfo from '../util/userInfo';
+const userIdx = userInfo.idx;
 
-let radio_include_cutlery = [
-    { label: '예', value: 'Y' },
-    { label: '아니오', value: 'N' }
-];
-let radio_pay_method = [
-    { label: '카드', value: 'CARD' },
-    { label: '현장카드', value: 'PHYSICAL_CARD' },
-    { label: '현금', value: 'CASH' }
-];
 
 export default class CartPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            modalVisible: false,
-        };
+            deliveryFee: 0,
+            myInfo: [],
+            cardNo: '',
+            timeSlot: [],
+        }
+
     }
 
-    openModal() {
-        this.setState({
-            modalVisible: true
-        });
+    componentDidMount() {
+        this.fetchCartInfo();
     }
 
-    closeModal() {
-        this.setState({
-            modalVisible: false
-        });
+    fetchCartInfo() {
+        fetch(RequestURL.REQUEST_CART_INFO + "user_idx=" + userIdx)
+            .then((response) => response.json())
+            .then((responseData) => {
+                this.setState({
+                    deliveryFee: responseData.delivery_fee,
+                    myInfo: responseData.my_info,
+                    cardNo: responseData.card_no,
+                    timeSlot: responseData.time_slot,
+                });
+            })
+            .catch((error) => {
+                console.warn(error);
+            })
+            .done();
     }
-
-    _onPickerDone(pickedValue) {
-        this.setState({
-
-        });
-    }
-
+    
     commaPrice(price) {
         price = String(price);
         return price.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,') + '원';
     }
 
-    toggleTimePicker() {
-        this.picker.toggle();
-    }
-
     render() {
-        let cart = this.props.cart;
+        const { dispatch, cart } = this.props;
+        console.log(cart);
+        //cart.forEach(cart => {
+        //    console.log(cart.price);
+        //});
+        const myInfo = this.state.myInfo;
+        const deliveryFee = this.state.deliveryFee;
+        const cardNo = this.state.cardNo;
+        const timeSlot = this.state.timeSlot;
         return (
             <ScrollView>
                 <View style={styles.container}>
                     <PageComment text={"모든 메인메뉴는 전자렌지 조리용입니다."} />
                     <View style={styles.content}>
-                        <CartMenuList menus={this.props.cart.menus}/>
+
+                        <CartMenuList cart={cart}
+                            addItemToCart={ (menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng) => 
+                            dispatch(addItemToCart(menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng)) } 
+                        />
                         
-                        {/*합계*/}
+                        
                         <View style={[styles.row, styles.rowMarginTop10]}>
                             <Text style={styles.textBlack}>합계</Text>
                             <Text style={[styles.data, styles.textBlack]}>{this.commaPrice(cart.menuTotalPrice)}</Text>
                             <View style={styles.iconDetailImage} />
                         </View>
 
-                        {/*배달비*/}
+                        
                         <View style={[styles.row, styles.rowMarginTop1]}>
                             <Text style={styles.textBlack}>배달비</Text>
-                            <Text style={[styles.data, styles.textBlack]}>{this.commaPrice(cart.deliveryFee)}</Text>
+                            <Text style={[styles.data, styles.textBlack]}>{this.commaPrice(deliveryFee)}</Text>
                             <View style={styles.iconDetailImage} />
                         </View>
 
-                        {/*포인트 할인*/}
+                        
                         <View style={styles.row}>
                             <Text style={styles.textBlack}>포인트 할인</Text>
-                            <Text style={[styles.data, styles.textBlack]}>-{this.commaPrice(cart.pointUsed)}</Text>
+                            <Text style={[styles.data, styles.textBlack]}>-{this.commaPrice(myInfo.point)}</Text>
                             <View style={styles.iconDetailImage} />
                         </View>
 
-                        {/*쿠폰 할인*/}
+                         
                         <TouchableHighlight underlayColor={'transparent'}>
                             <View style={styles.row}>
                                 <Text style={styles.textBlack}>쿠폰 할인</Text>
@@ -95,35 +105,35 @@ export default class CartPage extends React.Component {
                             </View>
                         </TouchableHighlight>
 
-                        {/*총 결제액*/}
+                        
                         <View style={[styles.row, styles.rowMarginTop1]}>
                             <Text style={styles.textBlack, styles.textBold}>총 결제액</Text>
                             <Text style={[styles.data, styles.textOrange, styles.textBold]}>{this.commaPrice(cart.totalPrice)}</Text>
                             <View style={styles.iconDetailImage} />
                         </View>
 
-                        {/*배달 주소*/}
-                        <TouchableHighlight underlayColor={'transparent'}>
+                        
+                        <TouchableHighlight underlayColor={'transparent'} onPress={() => Actions.MyAddressPage()} >
                             <View style={[styles.row, styles.rowMarginTop10]}>
                                 <Text style={styles.textBlack}>배달 주소</Text>
-                                <Text style={[styles.data, styles.textBlack]}>{cart.address + ' ' + cart.addressDetail}</Text>
+                                <Text style={[styles.data, styles.textBlack]}>{myInfo.address + ' ' + myInfo.address_detail}</Text>
                                 <Image style={styles.iconDetailImage}
                                     source={require('../commonComponent/img/icon_input.png')}/>
                             </View>
                         </TouchableHighlight> 
 
-                        {/*연락처*/}
-                        <TouchableHighlight underlayColor={'transparent'} onPress={()=>this.openModal()}>
+                        
+                        <TouchableHighlight underlayColor={'transparent'} >
                             <View style={styles.row}>
                                 <Text style={styles.textBlack}>연락처</Text>
-                                <Text style={[styles.data, styles.textBlack]}>{cart.mobile}</Text>
+                                <Text style={[styles.data, styles.textBlack]}>{myInfo.mobile}</Text>
                                 <Image style={styles.iconDetailImage}
                                     source={require('../commonComponent/img/icon_input.png')}/>
                             </View>
                         </TouchableHighlight>
 
-                        {/*배달 시간*/}
-                        <TouchableHighlight onPress={this.toggleTimePicker.bind(this)} underlayColor={'transparent'}>
+                        
+                        <TouchableHighlight underlayColor={'transparent'} >
                             <View style={styles.row}>
                                 <Text style={styles.textBlack}>배달 시간</Text>
                                 <Text style={[styles.data, styles.textOrange]}>{cart.deliveryTime}</Text>
@@ -134,17 +144,20 @@ export default class CartPage extends React.Component {
                             </View>
                         </TouchableHighlight>
                    
-                        {/*포크 / 나이프를 넣어주세요.*/}
+
+                        
                         <View style={styles.row}>
                             <Text style={styles.textBlack}>포크 / 나이프를 넣어주세요</Text>
                             <Text></Text>
                         </View>
-                        {/*결제수단*/}
+                        
+
                         <View style={styles.row}>
                             <Text style={styles.textBlack}>결제수단</Text>
                             <Text></Text>
                         </View>
-                        {/*카드*/}
+                        
+
                         <View style={styles.row}>
                             <Text style={styles.textBlack}>카드</Text>
                             <Text></Text>
@@ -152,40 +165,10 @@ export default class CartPage extends React.Component {
 
                         
                         <View style={styles.orderbtn}>
-                            <Text style={styles.orderbtnText}>{this.props.cart.buttonText}</Text>
+                            <Text style={styles.orderbtnText}>주문하기</Text>
                         </View>
                     </View>
-                    <Modal
-                        animated={true}
-                        transparent={true}
-                        visible={this.state.modalVisible}>
-                        <View style={[styles.container, styles.modalBackgroundStyle]}>
-                            <View style={styles.innerContainer}>
-                                <View style={styles.modalContentBox}>
-                                    <Text>전화번호</Text>
-                                    <Text>연락받을 수 있는 번호를 입력해주세요.</Text>
-                                    <TextInput style={styles.textInput} maxLength={11} autoFocus={true}
-                                        placeholder='5자리 이상 11자리 이하:)' multiline={true}/>
-                                </View>
-                                <View style={styles.modalButtonBox}>
-                                    <TouchableHighlight style={[styles.modalButton, {borderRightWidth: 0.5}]} onPress={()=>this.closeModal()} underlayColor={'transparent'}>
-                                        <Text>취소</Text>
-                                    </TouchableHighlight>
-                                    <TouchableHighlight style={styles.modalButton} underlayColor={'transparent'} >
-                                        <Text>확인</Text>
-                                    </TouchableHighlight>
-                                </View>
-                            </View>
-                        </View>
-                    </Modal>
                 </View>
-                {/*}
-                <Picker ref={picker => this.picker = picker} style={styles.picker} pickerToolBarStyle={styles.pickerToolbar}
-                            showDuration={300} showMask={true} pickerData={this.props.cart.timeSlot}
-                            selectedValue={3} onPickerDone={(pickedValue) => {
-                                this._onPickerDone(pickedValue);
-                            }} />
-                {*/}
             </ScrollView>
         );
     }
@@ -234,7 +217,8 @@ let styles = StyleSheet.create({
         height: 10,
     },
     picker: {
-        backgroundColor: 'white',
+        flex: 1,
+        flexDirection: 'column',
     },
     pickerToolbar: {
         backgroundColor: 'white',
