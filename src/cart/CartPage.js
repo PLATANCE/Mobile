@@ -1,6 +1,16 @@
 'use strict';
-import React, { View, Text, StyleSheet, TouchableHighlight, ScrollView, Image, TextInput, PickerIOS } from 'react-native';
+import React, 
+{ View, 
+    Text, 
+    StyleSheet, 
+    TouchableHighlight, 
+    ScrollView, 
+    Image, 
+    TextInput, 
+    PickerIOS,
+    AlertIOS,  } from 'react-native';
 const PickerItemIOS = PickerIOS.Item;
+
 import { Actions } from 'react-native-router-flux';
 
 import PageComment from '../commonComponent/PageComment';
@@ -38,7 +48,6 @@ export default class CartPage extends React.Component {
             cardNo: '',
             timeSlot: [],
         }
-        console.log(this.refs.picker);
     }
 
     componentDidMount() {
@@ -74,6 +83,42 @@ export default class CartPage extends React.Component {
     commaPrice(price) {
         price = String(price);
         return price.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,') + '원';
+    }
+
+    openAlertMoble() {
+        //console.log("openAlertMoble");
+        AlertIOS.prompt(
+            '전화 번호',
+            '배달 시, 연락 받으실 전화번호를 입력해주세요.(-제외)',
+            [
+                { text: '취소', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+                { text: '확인', onPress: (mobile) => this.setMobileNumber(mobile) }
+            ]
+        )
+    }
+
+    setMobileNumber(mobile) {
+        //console.log(mobile);
+        const param = {
+            user_idx: userIdx,
+            phone_no: mobile,
+        };
+
+        fetch(RequestURL.SUBMIT_UPDATE_MOBILE, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(param)
+        })
+        .then((response) => response.json())
+        .then((responseData) => {
+            console.log(responseData);  // {update: 'mobile'}
+        })
+        .catch((error) => {
+            console.warn(error);
+        })
+        .done();
     }
 
     render() {
@@ -182,7 +227,9 @@ export default class CartPage extends React.Component {
                         </TouchableHighlight> 
 
                         
-                        <TouchableHighlight underlayColor={'transparent'} >
+                        <TouchableHighlight underlayColor={'transparent'} 
+                            onPress={ () => this.openAlertMoble() }
+                        >
                             <View style={styles.row}>
                                 <Text style={styles.textBlack}>연락처</Text>
                                 <Text style={[styles.data, styles.textBlack]}>{myInfo.mobile}</Text>

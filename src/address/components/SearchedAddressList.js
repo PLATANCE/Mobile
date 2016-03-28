@@ -28,8 +28,8 @@ export default class SearchedAddressList extends React.Component {
             title,
             message,
             [
-                {text: '취소', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-                {text: '등록', onPress: password => console.log('OK Pressed')},
+                { text: '취소', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+                { text: '등록', onPress: (address) => console.log('OK Pressed') },
             ],
         );
     }
