@@ -20,7 +20,7 @@ export default class DailyMenuPage extends React.Component {
         super(props);
         this.state = {
             menus: [],
-            address: '',
+            address: '먼저, 배달 가능 지역을 확인해주세요 :)',
             addressDetail: '',
         }
     }
@@ -49,10 +49,12 @@ export default class DailyMenuPage extends React.Component {
         fetch(RequestURL.REQUEST_MY_ADDRESS + 'user_idx=' + userIdx)
             .then((response) => response.json())
             .then((responseData) => {
-                this.setState({
-                    address: responseData[0].address,
-                    addressDetail: responseData[0].address_detail
-                });
+                if(responseData > 0) {
+                    this.setState({
+                        address: responseData[0].address,
+                        addressDetail: responseData[0].address_detail
+                    });
+                }
             }).catch((error)=> {
                 console.warn(error);
             })
