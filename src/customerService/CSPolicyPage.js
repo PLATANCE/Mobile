@@ -5,13 +5,33 @@ import Color from '../const/Color';
 import Const from '../const/Const';
 import Tabs from 'react-native-tabs';
 
-let TEST_URL = 'http://api.plating.co.kr/app/term.html';
+const TERM_URL = 'http://api.plating.co.kr/app/term.html';
+const PRIVACY_URL = 'http://api.plating.co.kr/app/privacy.html';
 
 
 export default class CSPolicyPage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { page: 'servicePolicy' };
+        this.state = { 
+            page: 'servicePolicy',
+            uri: TERM_URL,
+        };
+    }
+
+    changeWebViewURI(element) {
+        this.setState({ 
+            page: element.props.name,
+        });
+        if(element.props.name == 'privacyPolicy') {
+            this.setState({ 
+                uri: PRIVACY_URL,
+            });
+        } else {
+            this.setState({ 
+                uri: TERM_URL,
+            });
+        }
+        
     }
     render() {
         return (
@@ -23,14 +43,17 @@ export default class CSPolicyPage extends React.Component {
                 <WebView 
                     automaticallyAdjustContentInsets={false}
                     style={styles.webView}
-                    source={{uri: TEST_URL}}
+                    source={{ uri: this.state.uri }}
                     javaScriptEnabled={true}
                     domStorageEnabled={true}
                     decelerationRate="normal"
                     startInLoadingState={true}
                 />
-                <Tabs style={styles.tabStyle} selected={this.state.page} selectedStyle={styles.tabSelectedStyle}
-                    onSelect={el=>this.setState({page:el.props.name})}>
+                <Tabs style={styles.tabStyle} 
+                    selected={this.state.page} 
+                    selectedStyle={styles.tabSelectedStyle}
+                    onSelect={ (el) => this.changeWebViewURI(el) } 
+                >
                     <Text name={"servicePolicy"}>서비스 이용약관</Text>
                     <Text name={"privacyPolicy"}>개인정보 취급방침</Text>
                 </Tabs>
