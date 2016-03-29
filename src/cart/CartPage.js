@@ -6,10 +6,12 @@ import React,
     TouchableHighlight, 
     ScrollView, 
     Image, 
-    TextInput, 
+    TextInput,
+    Alert, 
     PickerIOS,
     AlertIOS,  } from 'react-native';
 const PickerItemIOS = PickerIOS.Item;
+import Picker from 'react-native-picker';
 
 import { Actions } from 'react-native-router-flux';
 
@@ -25,28 +27,28 @@ import { addItemToCart, decreaseItemFromCart } from '../app/actions/CartActions'
 import userInfo from '../util/userInfo';
 const userIdx = userInfo.idx;
 
-const PAY_METHOD = {
-    ONLINE_CARD: {
-        value: 0,
-        text: '카드',
-    },
-    OFFLINE_CARD: {
-        value: 1,
-        text: '현장카드',
-    },
-    OFFLINE_CASH: {
-        value: 2,
-        text: '현금',
-    },
-};
+const PICKER_PAY_METHOD_DATA = [
+    "카드", "현장카드", "현금"
+];
+const PICKER_CUTLERY_DATA = [
+    "예", "아니요"
+];
 export default class CartPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             deliveryFee: 0,
             myInfo: [],
-            cardNo: '',
+            cardNo: Const.CART_CARD_INPUT_MESSAGE,
             timeSlot: [],
+            timeSlotPickerData: [],
+            selectedTimeSlot: '',
+            selectedTimeSlotParam: 14,
+            selectedCutlery: '예',
+            selectedCutleryParam: 0,
+            selectedPayMethod: '카드',
+            selectedPayMethodParam: 1,
+            totalPrice: 0,
         }
     }
 
@@ -67,11 +69,19 @@ export default class CartPage extends React.Component {
         fetch(RequestURL.REQUEST_CART_INFO + "user_idx=" + userIdx)
             .then((response) => response.json())
             .then((responseData) => {
+                let timeSlot = responseData.time_slot;
+                let timeSlotPickerData = [];
+                timeSlot.map((timeSlot) => {
+                    timeSlotPickerData.push(timeSlot.time_slot);
+                });
+                console.log(timeSlotPickerData);
                 this.setState({
                     deliveryFee: responseData.delivery_fee,
                     myInfo: responseData.my_info,
                     cardNo: responseData.card_no,
                     timeSlot: responseData.time_slot,
+                    timeSlotPickerData: timeSlotPickerData,
+                    selectedTimeSlot: timeSlotPickerData[0],
                 });
             })
             .catch((error) => {
@@ -89,16 +99,74 @@ export default class CartPage extends React.Component {
         //console.log("openAlertMoble");
         AlertIOS.prompt(
             '전화 번호',
-            '배달 시, 연락 받으실 전화번호를 입력해주세요.(-제외)',
+            '배달 시, 연락 받으실 전화번호를 입력해주세요.(-제외)\n 예) 010-1234-5678',
             [
                 { text: '취소', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-                { text: '확인', onPress: (mobile) => this.setMobileNumber(mobile) }
-            ]
+                { text: '확인', onPress: (mobile) => this.submitUserMobile(mobile) }
+            ],
         )
     }
 
-    setMobileNumber(mobile) {
-        //console.log(mobile);
+    openPickerDeliveryTime() {
+        this.timeSlotPicker.toggle();
+    }
+    openPickerPayMethod() {
+        this.payMethodPicker.toggle();
+    }
+    openPickerCutlery() {
+        this.cutleryPicker.toggle();
+    }
+
+    setDeliveryTime(selectedTimeSlot) {
+        console.log(selectedTimeSlot);
+        // find timeslot index
+        let timeSlot = this.state.timeSlot;
+        let selectedTimeSlotParam = this.state.selectedTimeSlotParam;
+        timeSlot.map((timeSlot) => {
+            if(selectedTimeSlot == Const.CART_DELIVERY_TIME_INPUT_MESSAGE) {
+                this.setState({
+                    selectedTimeSlot: timeSlot.time_slot,
+                    selectedTimeSlotParam: null,
+                });
+            }else if(selectedTimeSlot == timeSlot.time_slot) {
+                this.setState({
+                    selectedTimeSlot: timeSlot.time_slot,
+                    selectedTimeSlotParam: timeSlot.idx,
+                });
+            }
+        })
+    }
+
+    setPayMethod(selectedPayMethod) {
+        let selectedPayMethodParam = 0;
+        if(selectedPayMethod == '카드') {
+            selectedPayMethodParam = 1;
+        } else if(selectedPayMethod == '현장카드') {
+            selectedPayMethodParam = 2;
+        } else if(selectedPayMethod == '현금') {
+            selectedPayMethodParam = 3;
+        }
+        this.setState({
+            selectedPayMethod: selectedPayMethod,
+            selectedPayMethodParam: selectedPayMethodParam,
+        });
+    }
+
+    setCutlery(selectedCutlery) {
+        let selectedCutleryParam = 0;
+        if(selectedCutlery == '예') {
+            selectedCutleryParam = 1;
+        } else {
+            selectedCutleryParam = 0;
+        }
+        this.setState({
+            selectedCutlery: selectedCutlery,
+            selectedCutleryParam: selectedCutleryParam,
+        });
+        console.log(this.state.selectedCutlery, this.state.selectedCutleryParam);
+    }
+
+    submitUserMobile(mobile) {
         const param = {
             user_idx: userIdx,
             phone_no: mobile,
@@ -107,6 +175,7 @@ export default class CartPage extends React.Component {
         fetch(RequestURL.SUBMIT_UPDATE_MOBILE, {
             method: 'POST',
             headers: {
+                'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(param)
@@ -121,18 +190,128 @@ export default class CartPage extends React.Component {
         .done();
     }
 
+    openAlertToConfirmOrder(cart, totalPrice, point, couponIdx) {
+        let selectedTimeSlot = this.state.selectedTimeSlot;
+        let myInfo = this.state.myInfo;
+        
+        Alert.alert(
+            '주문 요약',
+            '배달 시간\n' + selectedTimeSlot + '\n\n' + 
+            '배달 주소\n' + myInfo.address + myInfo.address_detail + '\n\n' + 
+            '최종 결제 금액\n' + this.commaPrice(totalPrice),
+            [
+                { text: '취소', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+                { text: '주문', onPress: () => this.submitPlaceOrder(cart, totalPrice, point, couponIdx) }
+            ],
+        );
+        
+    }
+    submitPlaceOrder(cart, totalPrice, point, couponIdx) {
+        // user_idx, time_slot, total_price, menu_d_idx, order_amount, point, pay_method, coupon_idx, include_cutlery
+        //console.log(cart, totalPrice, point, couponIdx);
+        let menuDIdxParam = '';
+        let menuAmountParam = '';
+        for(let menuIdx in cart) {
+            menuDIdxParam += cart[menuIdx].menuDIdx + '|';
+            menuAmountParam += cart[menuIdx].amount + '|';
+        }
+        menuDIdxParam = menuDIdxParam.substring(0, menuDIdxParam.length - 1);
+        menuAmountParam = menuAmountParam.substring(0, menuAmountParam.length - 1);
+        const param = {
+            user_idx: userIdx,
+            time_slot: this.state.selectedTimeSlotParam,
+            total_price: totalPrice,
+            menu_d_idx: menuDIdxParam,
+            order_amount: menuAmountParam,
+            point: point,
+            pay_method: this.state.selectedPayMethodParam,
+            coupon_idx: couponIdx,
+            include_cutlery: this.state.selectedCutleryParam,
+        };
+        //console.log(param)
+        
+        fetch(RequestURL.SUBMIT_PLACE_ORDER, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(param)
+        })
+        .then((response) => response.json())
+        .then((responseData) => {
+            let status = responseData.status;
+            if(status == 'fail_to_pay') {
+                let description = responseData.description;
+                Alert.alert(
+                    '주문 실패',
+                    description,
+                );
+            } else if(status == 'oos') {
+                let outOfStockList = responseData.oos_list;
+                let outOfStockMessage = '';
+                outOfStockList.forEach((outOfStockMenu, index) => {
+                    outOfStockMessage += outOfStockMenu.split('.')[0];
+                    if(index != outOfStockList.length - 1) {
+                        outOfStockMessage += '\n';
+                    }
+                });
+                Alert.alert(
+                    '재고 부족',
+                    '아래 항목에 대한 재고가 부족합니다.\n\n' + 
+                    outOfStockMessage,
+                );
+            } else if(status == 'done') {
+                let orderIdx = responseData.order_idx;
+                let description = responseData.description;
+                Alert.alert(
+                    '주문 성공',
+                    description + '\n' + 
+                    '주문내역을 확인하세요 :)',
+                    [
+                        { text: '주문 확인', onPress: () => Actions.OrderDetailPage({ orderIdx: orderIdx }) }
+                    ]
+                );
+            }
+        })
+        .catch((error) => {
+            console.warn(error);
+        })
+        .done();
+    }
     render() {
         const { dispatch, cart } = this.props;
-        let { couponIdx, discountCouponPrice } = this.props;
-        const myInfo = this.state.myInfo;
         const deliveryFee = this.state.deliveryFee;
-        const cardNo = this.state.cardNo;
         const timeSlot = this.state.timeSlot;
+        let { couponIdx, discountCouponPrice } = this.props;
+        let myInfo = this.state.myInfo;
+        let cardNo = this.state.cardNo;
+        
+        let selectedPayMethod = this.state.selectedPayMethod;
         let point = 0;
         let menuTotalPrice = 0;
         let totalPrice = 0;
 
+        // orage text or black text when properyly input
+        let addressHighlight = (myInfo.address == Const.CART_ADDRESS_INPUT_MESSAGE) ? styles.textOrange : styles.textBlack;
+        let mobileHighlight = (myInfo.mobile == Const.CART_MOBILE_INPUT_MESSAGE) ? styles.textOrange : styles.textBlack;
+        let cardHighlight = (cardNo == Const.CART_CARD_INPUT_MESSAGE) ? styles.textOrange : styles.textBlack;
 
+        // card layout visible
+        let cardLayout = false;
+        if(selectedPayMethod == '카드') {
+            cardLayout = <TouchableHighlight underlayColor={'transparent'} 
+                            onPress={ () => this.openPickerPayMethod() }>
+                            <View style={styles.row}>
+                                <Text style={styles.textBlack}>카드</Text>
+                                <Text style={[styles.data, cardHighlight]}>{cardNo}</Text>
+                                <View>
+                                    <Image style={styles.iconDetailImage}
+                                        source={require('../commonComponent/img/icon_input.png')}/>
+                                </View>
+                            </View>
+                        </TouchableHighlight>
+        }
 
         // couponIdx, discountCouponPrice
         if(!couponIdx) couponIdx = 0;
@@ -220,7 +399,7 @@ export default class CartPage extends React.Component {
                         >
                             <View style={[styles.row, styles.rowMarginTop10]}>
                                 <Text style={styles.textBlack}>배달 주소</Text>
-                                <Text style={[styles.data, styles.textBlack]}>{myInfo.address + ' ' + myInfo.address_detail}</Text>
+                                <Text style={[styles.data, addressHighlight]}>{myInfo.address + ' ' + myInfo.address_detail}</Text>
                                 <Image style={styles.iconDetailImage}
                                     source={require('../commonComponent/img/icon_input.png')}/>
                             </View>
@@ -232,60 +411,78 @@ export default class CartPage extends React.Component {
                         >
                             <View style={styles.row}>
                                 <Text style={styles.textBlack}>연락처</Text>
-                                <Text style={[styles.data, styles.textBlack]}>{myInfo.mobile}</Text>
+                                <Text style={[styles.data, mobileHighlight]}>{myInfo.mobile}</Text>
                                 <Image style={styles.iconDetailImage}
                                     source={require('../commonComponent/img/icon_input.png')}/>
                             </View>
                         </TouchableHighlight>
 
                         
-                        <TouchableHighlight underlayColor={'transparent'} >
+                        <TouchableHighlight underlayColor={'transparent'} 
+                            onPress={ () => this.openPickerDeliveryTime() }>
                             <View style={styles.row}>
                                 <Text style={styles.textBlack}>배달 시간</Text>
-                                <Text style={[styles.data, styles.textOrange]}>{cart.deliveryTime}</Text>
-                                    <View>
-                                        <Image style={styles.iconDetailImage}
-                                            source={require('../commonComponent/img/icon_input.png')}/>
-                                    </View>
+                                <Text style={[styles.data, styles.textBlack]}>{this.state.selectedTimeSlot}</Text>
+                                <View>
+                                    <Image style={styles.iconDetailImage}
+                                        source={require('../commonComponent/img/icon_input.png')}/>
+                                </View>
                             </View>
                         </TouchableHighlight>
                    
 
+                        <TouchableHighlight underlayColor={'transparent'} 
+                            onPress={ () => this.openPickerCutlery() }>
+                            <View style={styles.row}>
+                                <Text style={styles.textBlack}>포크 / 나이프를 넣어주세요</Text>
+                                <Text style={[styles.data, styles.textBlack]}>{this.state.selectedCutlery}</Text>
+                                <View>
+                                    <Image style={styles.iconDetailImage}
+                                        source={require('../commonComponent/img/icon_input.png')}/>
+                                </View>
+                            </View>
+                        </TouchableHighlight>
                         
-                        <View style={styles.row}>
-                            <Text style={styles.textBlack}>포크 / 나이프를 넣어주세요</Text>
-                            <Text></Text>
-                        </View>
+                        <TouchableHighlight underlayColor={'transparent'} 
+                            onPress={ () => this.openPickerPayMethod() }>
+                            <View style={styles.row}>
+                                <Text style={styles.textBlack}>결제수단</Text>
+                                <Text style={[styles.data, styles.textBlack]}>{this.state.selectedPayMethod}</Text>
+                                <View>
+                                    <Image style={styles.iconDetailImage}
+                                        source={require('../commonComponent/img/icon_input.png')}/>
+                                </View>
+                            </View>
+                        </TouchableHighlight>
                         
+                        {cardLayout}
 
-                        <View style={styles.row}>
-                            <Text style={styles.textBlack}>결제수단</Text>
-                            <Text></Text>
-                        </View>
                         
+                        <TouchableHighlight underlayColor={'transparent'} 
+                            onPress={ () => this.openAlertToConfirmOrder(cart, totalPrice, point, couponIdx)}>
+                            <View style={styles.orderbtn}>
+                                <Text style={styles.orderbtnText}>주문하기</Text>
+                            </View>
+                        </TouchableHighlight>
 
-                        <View style={styles.row}>
-                            <Text style={styles.textBlack}>카드</Text>
-                            <Text></Text>
-                        </View>
-
-                        
-                        <View style={styles.orderbtn}>
-                            <Text style={styles.orderbtnText}>주문하기</Text>
-                        </View>
+                        <Picker ref={ picker => this.timeSlotPicker = picker }
+                            style={{ height: 320, backgroundColor: Color.PRIMARY_BACKGROUND } }
+                            pickerData={[this.state.timeSlotPickerData]}
+                            selectedValue={this.state.selectedTimeSlot}
+                            onPickerDone={ (pickedValue) => { this.setDeliveryTime(pickedValue) } }/>
+                        <Picker ref={ picker => this.payMethodPicker = picker }
+                            style={{ height: 320, backgroundColor: Color.PRIMARY_BACKGROUND, top: 100,} }
+                            pickerData={ PICKER_PAY_METHOD_DATA }
+                            selectedValue={this.state.selectedPayMethod}
+                            onPickerDone={ (pickedValue) => { this.setPayMethod(pickedValue) } }/>
+                        <Picker ref={ picker => this.cutleryPicker = picker }
+                            style={{ height: 320, backgroundColor: Color.PRIMARY_BACKGROUND, top: 100,} }
+                            pickerData={ PICKER_CUTLERY_DATA }
+                            selectedValue={this.state.selectedCutlery}
+                            onPickerDone={ (pickedValue) => { this.setCutlery(pickedValue) } }/>
                     </View>
-                    <PickerIOS ref={'picker'}
-                        selectedValue={'PHYSICAL_CARD'}
-                        onValueChange={() => console.log("Sdf")}>
-                        {Object.keys(PAY_METHOD).map((payMethod) => (
-                            <PickerItemIOS
-                                key={PAY_METHOD[payMethod].value}
-                                value={PAY_METHOD[payMethod].value}
-                                label={PAY_METHOD[payMethod].text}
-                            />
-                        ))}
-                    </PickerIOS>
                 </View>
+                
             </ScrollView>
         );
     }
@@ -334,8 +531,9 @@ let styles = StyleSheet.create({
         height: 10,
     },
     picker: {
-        flex: 1,
-        flexDirection: 'column',
+        height: 320,
+        backgroundColor: Color.PRIMARY_BACKGROUND,
+        top: 100,
     },
     pickerToolbar: {
         backgroundColor: 'white',
