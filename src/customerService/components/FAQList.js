@@ -9,28 +9,30 @@ export default class FAQList extends React.Component {
         });
 
         this.state = {
-            dataSource: dataSource.cloneWithRows(props.questions)
+            dataSource: dataSource.cloneWithRows(props.FAQ)
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.questions !== this.props.questions) {
+        if (nextProps.FAQ !== this.props.FAQ) {
             this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(nextProps.questions)
+                dataSource: this.state.dataSource.cloneWithRows(nextProps.FAQ)
             })
         }
     }
-    test(content) {
-        Alert.alert("Plating 이란?", content);
+    openAlertAnswer(question, answer) {
+        Alert.alert(question, answer);
     }
 
     renderRow(rowData) {
+        let question = rowData.question;
+        let answer = rowData.answer;
         return (
-            <TouchableHighlight onPress={() => this.test(rowData.content)} underlayColor={'transparent'}>
+            <TouchableHighlight onPress={() => this.openAlertAnswer(question, answer)} underlayColor={'transparent'}>
                 <View style={styles.row}>
                     <Image style={styles.img} 
                         source={require('../../commonComponent/img/icon_input.png')}/>
-                    <Text style={styles.textBlack}>{rowData.title}</Text>
+                    <Text style={styles.textBlack}>{rowData.question}</Text>
         		</View>
             </TouchableHighlight>
         );
@@ -55,7 +57,7 @@ let styles = StyleSheet.create({
         backgroundColor: 'white',
         alignItems: 'center',
         flexDirection: 'row',
-
+        height: 50,
     },
     textBlack: {
         color: Color.PRIMARY_BLACK,
