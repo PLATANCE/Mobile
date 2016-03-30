@@ -5,7 +5,9 @@ import MyAddressList from './components/MyAddressList';
 import Color from '../const/Color';
 import Const from '../const/Const';
 import RequestURL from '../const/RequestURL';
-
+import {
+  fetchCartInfo,
+} from '../app/actions/CartInfoActions';
 import userInfo from '../util/userInfo';
 const userIdx = userInfo.idx;
 
@@ -34,10 +36,17 @@ export default class MyAddressPage extends React.Component {
             .done();
     }
     render() {
+        const {
+          dispatch,
+        } = this.props;
         return (
             <View style={styles.container}>
                 <ScrollView>
-                    <MyAddressList addressList={this.state.addressList} fetchMyAddressList={this.fetchMyAddressList}/>
+                    <MyAddressList
+                      addressList={this.state.addressList}
+                      fetchMyAddressList={this.fetchMyAddressList}
+                      onUpdateInUseAddress={() => dispatch(fetchCartInfo())}
+                    />
                     <TouchableHighlight onPress={Actions.AddAddressPage} underlayColor={'transparent'}>
                     <View style={styles.addBox}>
                         <Image style={styles.img}

@@ -60,7 +60,16 @@ export default class MyCouponList extends React.Component {
                         '쿠폰 사용',
                         message,
                         [
-                            {text: '확인', onPress: () => Actions.CartPage({ couponIdx: couponIdx, discountCouponPrice: discountCouponPrice })},
+                            {
+                              text: '확인',
+                              onPress: () => {
+                                this.props.onCouponUse();
+                                Actions.CartPage({
+                                  couponIdx,
+                                  discountCouponPrice,
+                                });
+                              },
+                            },
                         ]
                     );
                 } else {
@@ -81,7 +90,7 @@ export default class MyCouponList extends React.Component {
     }
     renderRow(rowData) {
         let imageURL = MediaURL.COUPON_URL + rowData.image_url_coupon;
-        
+
         return (
             <TouchableHighlight underlayColor={'transparent'}
                 onPress={() => this.fetchCouponAvailble(rowData.idx)}

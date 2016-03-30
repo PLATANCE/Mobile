@@ -5,7 +5,9 @@ import Color from '../const/Color';
 import Const from '../const/Const';
 import MyCouponList from './components/MyCouponList';
 import RequestURL from '../const/RequestURL';
-
+import {
+  fetchCartInfo,
+} from '../app/actions/CartInfoActions';
 import userInfo from '../util/userInfo';
 const userIdx = userInfo.idx;
 
@@ -36,11 +38,17 @@ export default class MyCouponPage extends React.Component {
         const {
             disable,
             cart,
+            dispatch,
         } = this.props;
         return (
             <View style={styles.container}>
                 <View style={styles.content} >
-                    <MyCouponList coupons={this.state.coupons} cart={cart} disable={disable}/>
+                    <MyCouponList
+                      coupons={this.state.coupons}
+                      cart={cart}
+                      disable={disable}
+                      onCouponUse={() => dispatch(fetchCartInfo())}
+                    />
                 </View>
             </View>
         );

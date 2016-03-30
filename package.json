@@ -5,6 +5,11 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
+  "devDependencies": {
+    "eslint": "^2.5.1",
+    "eslint-config-airbnb": "^6.2.0",
+    "eslint-plugin-react": "^4.2.3"
+  },
   "dependencies": {
     "lodash": "^4.6.1",
     "react-native": "^0.21",
@@ -28,6 +33,7 @@
     "react-redux": "^4.4.1",
     "realm": "^0.10.0",
     "redux": "^3.3.1",
+    "redux-thunk": "^2.0.1",
     "reselect": "^2.1.0",
     "sha256": "^0.2.0"
   }

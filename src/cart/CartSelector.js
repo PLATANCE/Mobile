@@ -1,8 +1,24 @@
 'use strict';
 
-export default (state) => ({
-    cart: state.CartReducers.cart,
-});
+export default function CartSelector(state) {
+  const {
+    cart,
+  } = state.CartReducers;
+  const {
+    myInfo,
+    timeSlotData,
+    cartNumber,
+    deliveryFee,
+  } = state.CartInfoReducer;
+
+  return {
+    cart,
+    myInfo,
+    timeSlotData,
+    cartNumber,
+    deliveryFee,
+  };
+}
 
 /*
 export default (state) => ({
