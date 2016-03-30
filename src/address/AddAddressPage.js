@@ -1,5 +1,5 @@
 'use strict';
-import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image, TextInput, Modal } from 'react-native';
+import React, { View, Text, StyleSheet, TouchableHighlight, TextInput, ScrollView } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Prompt from 'react-native-prompt';
 
@@ -21,7 +21,7 @@ export default class AddAddressPage extends React.Component {
         this.fetchSearchedAddressList(input);
     }
     fetchSearchedAddressList(address) {
-        fetch(RequestURL.REQUEST_SEARCHED_ADDRESS_LIST + "text=" + address)
+        fetch(RequestURL.REQUEST_SEARCHED_ADDRESS_LIST + "query=" + address)
             .then((response) => response.json())
             .then((responseData) => {
                 console.log(responseData);
@@ -36,6 +36,7 @@ export default class AddAddressPage extends React.Component {
     }
     render() {
         return (
+            <ScrollView>
             <View style={styles.container} >
                 <View style={styles.pageTextBox} >
             	    <Text style={styles.pageText}>요리가 배달될 주소 입력</Text>
@@ -50,6 +51,7 @@ export default class AddAddressPage extends React.Component {
                     <Text style={styles.textOrange}>배달 가능한 지역 보기</Text>
                 </TouchableHighlight>
             </View>
+            </ScrollView>
         );
     }
 }

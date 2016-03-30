@@ -62,11 +62,13 @@ export default class MenuDetailPage extends React.Component {
         let menuURL;
         let chefURL;
         let contentInnerMenu = false;
+        let addButtonEnable;
 
         if(menu){
             menuURL = MediaURL.MENU_URL + menu.image_url_menu;
             chefURL = MediaURL.CHEF_URL + menu.image_url_chef;
             let isSoldOut = (this.props.stock == 0) ? true : false;
+            addButtonEnable = (this.props.stock != 0) ? true : false;
             
             if(isSoldOut) {
 
@@ -116,7 +118,7 @@ export default class MenuDetailPage extends React.Component {
                                 <MenuPriceText originalPrice={menu.price} sellingPrice={menu.alt_price}/>
                             </View>
                             <View style={styles.cartButtonBox}>
-                                <AddCartButton addItemToCart={ () => dispatch(addItemToCart(menuDIdx, menuIdx, menu.price, menu.alt_price, menu.image_url_menu, menu.name_menu, menu.name_menu_eng)) } />
+                                <AddCartButton addItemToCart={ () => dispatch(addItemToCart(menuDIdx, menuIdx, menu.price, menu.alt_price, menu.image_url_menu, menu.name_menu, menu.name_menu_eng, addButtonEnable)) } />
                             </View>
                         </View>
                         <TouchableHighlight onPress={()=>Actions.ChefDetailPage({chefIdx: menu.idx_chef})} underlayColor={'transparent'}>

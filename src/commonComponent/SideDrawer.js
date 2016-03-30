@@ -13,8 +13,28 @@ class SideDrawerContent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            modalVisible: false,
+            point: 0,
         };
+    }
+    componentDidMount() {
+        this.fetchUserPoint();
+    }
+    fetchUserPoint() {
+        fetch(RequestURL.REQUEST_USER_POINT + 'user_idx=' + userIdx)
+            .then((response) => response.json())
+            .then((responseData) => {
+                this.setState({
+                    point: responseData.point,
+                });
+            })
+            .catch((error)=> {
+                console.warn(error);
+            })
+            .done();
+    }
+    commaPrice(price) {
+        price = String(price);
+        return price.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
     }
     openPromptDialog() {
         AlertIOS.prompt(
@@ -81,7 +101,7 @@ class SideDrawerContent extends Component {
                 <View style={styles.headerBox}>
                     <Image style={styles.imageLogo}
                         source={require('./img/plating_logo.png')}/>
-                    <Text style={styles.pointText}>내 포인트: 10,000p</Text>
+                    <Text style={styles.pointText}>내 포인트: {this.commaPrice(this.state.point)}p</Text>
                 </View>
                 <View style={styles.drawerRowBox} >
                    {drawerRow}

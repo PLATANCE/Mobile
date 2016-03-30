@@ -1,7 +1,11 @@
 import React, { View, ListView, Text, StyleSheet, TouchableHighlight, AlertIOS } from 'react-native';
 import Prompt from 'react-native-prompt';
 import Color from '../../const/Color';
+import RequestURL from '../../const/RequestURL';
 import Separator from '../../commonComponent/Separator';
+
+import userInfo from '../../util/userInfo';
+const userIdx = userInfo.idx;
 
 export default class SearchedAddressList extends React.Component {
     constructor(props) {
@@ -12,7 +16,6 @@ export default class SearchedAddressList extends React.Component {
 
         this.state = {
             dataSource: dataSource.cloneWithRows(props.addressList),
-            promptVisible: false,
         }
     }
 
@@ -23,26 +26,57 @@ export default class SearchedAddressList extends React.Component {
             })
         }
     }
-    inputAddressDetail(title, message) {
+    openAlertAddressDetail(title, message, address, deliveryAvailable) {
         AlertIOS.prompt(
             title,
             message,
             [
                 { text: '취소', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-                { text: '등록', onPress: (address) => console.log('OK Pressed') },
+                { text: '등록', onPress: (addressDetail) => this.submitDeliveryAddress(address, addressDetail, deliveryAvailable) },
             ],
         );
     }
     
+    submitDeliveryAddress(address, addressDetail, deliveryAvailable) {
+        console.log(address, addressDetail, deliveryAvailable);
+
+        const param = {
+            user_idx: userIdx,
+            address: address,
+            address_detail: addressDetail,
+            delivery_available: deliveryAvailable,
+        };
+        
+        fetch(RequestURL.SUBMIT_UPDATE_ADDRESS, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(param)
+        })
+        .then((response) => response.json())
+        .then((responseData) => {
+            console.log(responseData);  // {update: 'mobile'}
+        })
+        .catch((error) => {
+            console.warn(error);
+        })
+        .done();
+        
+    }
+
     renderRow(rowData) {
         let textStyle = rowData.available ? { color: Color.PRIMARY_ORANGE } : { color: Color.PRIMARY_GRAY };
         let title = rowData.available ? '주소를 입력해 주세요.' : '배달이 불가능한 지역입니다.';
         let message = rowData.available ? '' : '나머지 주소를 입력하고 확인을 누르면 배달 지역 확장시 알려드리겠습니다.';
 
+        let address = rowData.address;
+        let deliveryAvailable = rowData.available;
         return (
             <View style={styles.row}>
-                <TouchableHighlight onPress={() => this.inputAddressDetail(title, message)}>
-                    <Text style={textStyle}>{rowData.title}</Text>
+                <TouchableHighlight onPress={ () => this.openAlertAddressDetail(title, message, address, deliveryAvailable)} >
+                    <Text style={textStyle}>{address}</Text>
                 </TouchableHighlight>
                 <Separator />
             </View>
@@ -55,12 +89,6 @@ export default class SearchedAddressList extends React.Component {
                 <ListView
                     dataSource={this.state.dataSource}
                     renderRow={this.renderRow.bind(this)} />
-                <Prompt title="1"
-                    placeholder="2"
-                    
-                    visible={ this.state.promptVisible } 
-                    onCancel={ () => this.cancelPrompt() } 
-                    onSubmit={ () => this.submitPrompt() } />
             </View>
         );
     }

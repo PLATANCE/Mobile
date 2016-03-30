@@ -16,7 +16,7 @@ const RequestURL = {
 
     // address
     REQUEST_MY_ADDRESS_LIST: 'http://api.plating.co.kr/user/get_address_list?', // user_idx
-    REQUEST_SEARCHED_ADDRESS_LIST: 'http://api.plating.co.kr/address_search?',  // text
+    REQUEST_SEARCHED_ADDRESS_LIST: 'http://address.plating.co.kr?',  // text
     SUBMIT_IN_USE_ADDRESS: 'http://api.plating.co.kr/user/update_address?', // idx, user_idx, mode
     SUBMIT_UPDATE_ADDRESS: 'http://api.plating.co.kr/update_info?', // user_idx, address, address_detail, delivery_available, lat, lon
 
@@ -44,7 +44,9 @@ const RequestURL = {
     REQUEST_CART_INFO: 'http://api.plating.co.kr/cart_info?', // user_idx
     SUBMIT_UPDATE_MOBILE: 'http://api.plating.co.kr/update_info?', // user_idx, phone_no
     SUBMIT_PLACE_ORDER: 'http://api.plating.co.kr/place_order?',   // user_idx, time_slot, menu_d_idx, order_amount, credit_used, point, total_price, pay_method, coupon_idx, include_cutlery
-    SUBMIT_PLACE_ORDER_TEST: 'http://api.plating.co.kr/policy/test_place',
+    
+    // sidedrawer
+    REQUEST_USER_POINT: 'http://api.plating.co.kr/promo/point?',
     /*
      *---------------------
      * NOT YET

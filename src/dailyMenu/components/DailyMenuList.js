@@ -68,6 +68,7 @@ export default class DailyMenuList extends React.Component {
         let menuURL = MediaURL.MENU_URL + rowData.image_url_menu;
         let chefURL = MediaURL.CHEF_URL + rowData.image_url_chef;
         let isSoldOut = (rowData.stock == 0) ? true : false;
+        let enableAddButton = (rowData.stock != 0) ? true : false;
         let contentInnerMenu = false;
 
         if(isSoldOut) {
@@ -120,7 +121,7 @@ export default class DailyMenuList extends React.Component {
                         </TouchableHighlight>
                         <TouchableHighlight style={styles.iconView} 
                             underlayColor={Color.PRIMARY_ORANGE} 
-                            onPress={ () => addItemToCart(rowData.idx, rowData.menu_idx, rowData.price, rowData.alt_price, rowData.image_url_menu, menuNameKor, menuNameEng) } >
+                            onPress={ () => addItemToCart(rowData.idx, rowData.menu_idx, rowData.price, rowData.alt_price, rowData.image_url_menu, menuNameKor, menuNameEng, enableAddButton) } >
                             <Image style={styles.iconImage} 
                                 source={require('../../commonComponent/img/icon_plus.png')}/>
                         </TouchableHighlight>

@@ -4,7 +4,7 @@ export const CartActions = {
     CLAER_CART: "CLAER_CART"
 };
 
-export const addItemToCart = (menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng) => ({
+export const addItemToCart = (menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng, enable) => ({
 	type: CartActions.ADD_ITEM_TO_CART,
 	cartItem: {
 		menuDIdx: menuDIdx, 
@@ -14,7 +14,8 @@ export const addItemToCart = (menuDIdx, menuIdx, price, altPrice, imageUrlMenu, 
 		imageUrlMenu: imageUrlMenu,
 		menuNameKor: menuNameKor,
 		menuNameEng: menuNameEng,
-	}
+	},
+	enable: enable
 });
 
 export const decreaseItemFromCart = (menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng) => ({

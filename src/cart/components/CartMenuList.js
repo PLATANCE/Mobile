@@ -47,7 +47,7 @@ export default class CartMenuList extends React.Component {
                             </TouchableHighlight>
                             <Text style={styles.amountText}>{rowData.amount}</Text>
                             <TouchableHighlight underlayColor={'transparent'}
-                                onPress={ () => addItemToCart(rowData.menuDIdx, rowData.menuIdx, rowData.price, rowData.altPrice, rowData.imageUrlMenu, rowData.menuNameKor, rowData.menuNameEng) }  
+                                onPress={ () => addItemToCart(rowData.menuDIdx, rowData.menuIdx, rowData.price, rowData.altPrice, rowData.imageUrlMenu, rowData.menuNameKor, rowData.menuNameEng, true) }  
                             >
                                 <Image style={styles.iconImage}
                                     source={require('../img/icon_plus.png')}/>

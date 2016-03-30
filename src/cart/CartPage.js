@@ -3,7 +3,8 @@ import React,
 { View, 
     Text, 
     StyleSheet, 
-    TouchableHighlight, 
+    TouchableHighlight,
+    TouchableWithoutFeedback,
     ScrollView, 
     Image, 
     TextInput,
@@ -71,18 +72,27 @@ export default class CartPage extends React.Component {
             .then((responseData) => {
                 let timeSlot = responseData.time_slot;
                 let timeSlotPickerData = [];
-                timeSlot.map((timeSlot) => {
-                    timeSlotPickerData.push(timeSlot.time_slot);
-                });
-                console.log(timeSlotPickerData);
+
                 this.setState({
                     deliveryFee: responseData.delivery_fee,
                     myInfo: responseData.my_info,
                     cardNo: responseData.card_no,
                     timeSlot: responseData.time_slot,
-                    timeSlotPickerData: timeSlotPickerData,
-                    selectedTimeSlot: timeSlotPickerData[0],
                 });
+                if(timeSlot.length > 0) {
+                    timeSlot.map((timeSlot) => {
+                        timeSlotPickerData.push(timeSlot.time_slot);
+                    });
+                    this.setState({
+                        timeSlotPickerData: timeSlotPickerData,
+                        selectedTimeSlot: timeSlotPickerData[0],
+                    });
+                } else {
+                    this.setState({
+                        timeSlotPickerData: timeSlotPickerData,
+                        selectedTimeSlot: Const.CART_DELIVERY_TIME_CLOSED_MESSAGE,
+                    });
+                }
             })
             .catch((error) => {
                 console.warn(error);
@@ -190,20 +200,22 @@ export default class CartPage extends React.Component {
         .done();
     }
 
-    openAlertToConfirmOrder(cart, totalPrice, point, couponIdx) {
-        let selectedTimeSlot = this.state.selectedTimeSlot;
-        let myInfo = this.state.myInfo;
-        
-        Alert.alert(
-            '주문 요약',
-            '배달 시간\n' + selectedTimeSlot + '\n\n' + 
-            '배달 주소\n' + myInfo.address + myInfo.address_detail + '\n\n' + 
-            '최종 결제 금액\n' + this.commaPrice(totalPrice),
-            [
-                { text: '취소', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-                { text: '주문', onPress: () => this.submitPlaceOrder(cart, totalPrice, point, couponIdx) }
-            ],
-        );
+    openAlertToConfirmOrder(cart, totalPrice, point, couponIdx, enableOrderButton) {
+        if(enableOrderButton) {
+            let selectedTimeSlot = this.state.selectedTimeSlot;
+            let myInfo = this.state.myInfo;
+            
+            Alert.alert(
+                '주문 요약',
+                '배달 시간\n' + selectedTimeSlot + '\n\n' + 
+                '배달 주소\n' + myInfo.address + myInfo.address_detail + '\n\n' + 
+                '최종 결제 금액\n' + this.commaPrice(totalPrice),
+                [
+                    { text: '취소', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+                    { text: '주문', onPress: () => this.submitPlaceOrder(cart, totalPrice, point, couponIdx) }
+                ],
+            );
+        }
         
     }
     submitPlaceOrder(cart, totalPrice, point, couponIdx) {
@@ -286,8 +298,11 @@ export default class CartPage extends React.Component {
         let { couponIdx, discountCouponPrice } = this.props;
         let myInfo = this.state.myInfo;
         let cardNo = this.state.cardNo;
+        let deliveryAvailable = myInfo.delivery_available;
         
         let selectedPayMethod = this.state.selectedPayMethod;
+        let selectedPayMethodParam = this.state.selectedPayMethodParam;
+        let selectedTimeSlot = this.state.selectedTimeSlot;
         let point = 0;
         let menuTotalPrice = 0;
         let totalPrice = 0;
@@ -301,7 +316,7 @@ export default class CartPage extends React.Component {
         let cardLayout = false;
         if(selectedPayMethod == '카드') {
             cardLayout = <TouchableHighlight underlayColor={'transparent'} 
-                            onPress={ () => this.openPickerPayMethod() }>
+                            onPress={ Actions.AddCardPage }>
                             <View style={styles.row}>
                                 <Text style={styles.textBlack}>카드</Text>
                                 <Text style={[styles.data, cardHighlight]}>{cardNo}</Text>
@@ -340,6 +355,34 @@ export default class CartPage extends React.Component {
         // totalPrice
         totalPrice = menuTotalPrice - deliveryFee - point - discountCouponPrice;
 
+        // enable order button with background color
+        let enableOrderButton = true;
+        let enableOrderButtonText = '주문하기';
+        if(myInfo.address == Const.CART_ADDRESS_INPUT_MESSAGE) {
+            enableOrderButton = false;
+            enableOrderButtonText = Const.CART_ADDRESS_INPUT_MESSAGE;
+        } 
+        if(myInfo.mobile == Const.CART_MOBILE_INPUT_MESSAGE) {
+            enableOrderButton = false;
+            enableOrderButtonText = Const.CART_MOBILE_INPUT_MESSAGE;
+        }
+        if(selectedTimeSlot == Const.CART_DELIVERY_TIME_CLOSED_MESSAGE) {
+            enableOrderButton = false;
+            enableOrderButtonText = Const.CART_DELIVERY_TIME_CLOSED_MESSAGE;
+        }
+        if(!deliveryAvailable) {
+            enableOrderButton = false;
+            enableOrderButtonText = '배달 지역이 아닙니다.';
+        }
+        if(selectedPayMethodParam == 1) {
+            if(cardNo == Const.CART_CARD_INPUT_MESSAGE) {
+                enableOrderButton = false;
+                enableOrderButtonText = Const.CART_CARD_INPUT_MESSAGE;
+            }
+        }
+
+        let orderBtnBackgroundStyle = (enableOrderButton) ? styles.orderBtnColorOrange : styles.orderBtnColorBlack;
+        
         return (
             <ScrollView>
                 <View style={styles.container}>
@@ -347,8 +390,8 @@ export default class CartPage extends React.Component {
                     <View style={styles.content}>
 
                         <CartMenuList cart={cart}
-                            addItemToCart={ (menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng) => 
-                            dispatch(addItemToCart(menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng)) }
+                            addItemToCart={ (menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng, enable) => 
+                            dispatch(addItemToCart(menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng, enable)) }
                             decreaseItemFromCart={ (menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng) => 
                             dispatch(decreaseItemFromCart(menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng)) }
                         />
@@ -399,7 +442,7 @@ export default class CartPage extends React.Component {
                         >
                             <View style={[styles.row, styles.rowMarginTop10]}>
                                 <Text style={styles.textBlack}>배달 주소</Text>
-                                <Text style={[styles.data, addressHighlight]}>{myInfo.address + ' ' + myInfo.address_detail}</Text>
+                                <Text style={[styles.data, addressHighlight]}>{myInfo.address + '\n' + myInfo.address_detail}</Text>
                                 <Image style={styles.iconDetailImage}
                                     source={require('../commonComponent/img/icon_input.png')}/>
                             </View>
@@ -458,10 +501,10 @@ export default class CartPage extends React.Component {
                         {cardLayout}
 
                         
-                        <TouchableHighlight underlayColor={'transparent'} 
-                            onPress={ () => this.openAlertToConfirmOrder(cart, totalPrice, point, couponIdx)}>
-                            <View style={styles.orderbtn}>
-                                <Text style={styles.orderbtnText}>주문하기</Text>
+                        <TouchableHighlight underlayColor={'transparent'}
+                            onPress={ () => this.openAlertToConfirmOrder(cart, totalPrice, point, couponIdx, enableOrderButton) }>
+                            <View style={[styles.orderbtn, orderBtnBackgroundStyle]}>
+                                <Text style={styles.orderbtnText}>{enableOrderButtonText}</Text>
                             </View>
                         </TouchableHighlight>
 
@@ -542,7 +585,6 @@ let styles = StyleSheet.create({
     },
     orderbtn: {
         height: 40,
-        backgroundColor: Color.PRIMARY_ORANGE,
         borderColor: Color.PRIMARY_ORANGE,
         borderWidth: 1,
         borderRadius: 5,
@@ -558,6 +600,14 @@ let styles = StyleSheet.create({
         color: 'white',
         fontSize: 17,
         fontWeight: 'bold',
+    },
+    orderBtnColorOrange: {
+        backgroundColor: Color.PRIMARY_ORANGE,
+        borderColor: Color.PRIMARY_ORANGE,
+    },
+    orderBtnColorBlack: {
+        backgroundColor: Color.PRIMARY_BLACK,
+        borderColor: Color.PRIMARY_BLACK,
     },
     innerContainer: {
         borderRadius: 10,

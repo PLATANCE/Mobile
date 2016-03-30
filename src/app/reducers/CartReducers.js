@@ -16,20 +16,26 @@ const cartReducer = function(state = {
 
                 const cart = state.cart;
                 const cartItem = action.cartItem;
+                const enable = action.enable;
                 const menuIdx = cartItem.menuIdx;
+                if(enable) {
+                    let newCart = _.cloneDeep(cart);
+                    let itemInCart = newCart[menuIdx];
 
-                let newCart = _.cloneDeep(cart);
-                let itemInCart = newCart[menuIdx];
-
-                if (itemInCart) {
-                    itemInCart.amount++;
+                    if (itemInCart) {
+                        itemInCart.amount++;
+                    } else {
+                        newCart[menuIdx] = Object.assign({}, cartItem, { amount: 1 });
+                    }
+                    
+                    return Object.assign({}, state, {
+                        cart: newCart
+                    });
                 } else {
-                    newCart[menuIdx] = Object.assign({}, cartItem, { amount: 1 });
+                    return Object.assign({}, state, {
+                        cart: cart
+                    });
                 }
-                
-                return Object.assign({}, state, {
-                    cart: newCart
-                });
             }
         case CartActions.DECREASE_ITEM_FROM_CART:
             {

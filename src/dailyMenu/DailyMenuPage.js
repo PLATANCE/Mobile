@@ -1,5 +1,5 @@
 'use strict';
-import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image, ScrollView } from 'react-native';
+import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image, ScrollView, Modal } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import DailyMenuList from './components/DailyMenuList';
 import AddressBar from './components/AddressBar';
@@ -29,6 +29,7 @@ export default class DailyMenuPage extends React.Component {
         this.fetchDailyMenu();
         this.fetchMyAddress();
         this.fetchReviewAvailable();
+        this.fetchDialog();
         //this.fetchCheckUpdate();
     }
 
@@ -49,7 +50,7 @@ export default class DailyMenuPage extends React.Component {
         fetch(RequestURL.REQUEST_MY_ADDRESS + 'user_idx=' + userIdx)
             .then((response) => response.json())
             .then((responseData) => {
-                if(responseData > 0) {
+                if(responseData.length > 0) {
                     this.setState({
                         address: responseData[0].address,
                         addressDetail: responseData[0].address_detail
@@ -67,6 +68,16 @@ export default class DailyMenuPage extends React.Component {
                 if(responseData.available == 'true') {
                     Actions.WriteReviewPage({ orderIdx: responseData.order_idx })
                 }
+            }).catch((error)=> {
+                console.warn(error);
+            })
+            .done();
+    }
+    fetchDialog() {
+        fetch(RequestURL.REQUEST_DIALOG)
+            .then((response) => response.json())
+            .then((responseData) => {
+                console.log(responseData);
             }).catch((error)=> {
                 console.warn(error);
             })
@@ -96,7 +107,7 @@ export default class DailyMenuPage extends React.Component {
                         <Banner />
                         <DailyMenuList styles={styles.menuList}
                             menus={this.state.menus}
-                            addItemToCart={ (menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng) => dispatch(addItemToCart(menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng)) }
+                            addItemToCart={ (menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng, enable) => dispatch(addItemToCart(menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng, enable)) }
                             cart={cart}
                         />
                     </ScrollView>
@@ -111,6 +122,7 @@ let styles = StyleSheet.create({
     container: {
         flex: 1,
         marginTop: Const.MARGIN_TOP,
+        justifyContent: 'center',
     },
     pageCommentBox: {
         backgroundColor: 'white',

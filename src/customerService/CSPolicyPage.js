@@ -50,7 +50,7 @@ export default class CSPolicyPage extends React.Component {
                     startInLoadingState={true}
                 />
                 <Tabs style={styles.tabStyle} 
-                    selected={this.state.page} 
+                    selected={this.state.page}
                     selectedStyle={styles.tabSelectedStyle}
                     onSelect={ (el) => this.changeWebViewURI(el) } 
                 >
