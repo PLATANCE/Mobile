@@ -3,10 +3,34 @@ import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image } fr
 
 import Color from '../const/Color';
 import Const from '../const/Const';
+import RequestURL from '../const/RequestURL';
 import FAQList from './components/FAQList';
 
-export default class CSFAQPage extends React.Component {
 
+export default class CSFAQPage extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            FAQ: [],
+        }
+    }
+    componentDidMount() {
+        this.fetchFAQList();
+    }
+    fetchFAQList() {
+        fetch(RequestURL.REQUEST_FAQ_LIST)
+            .then((response) => response.json())
+            .then((responseData) => {
+                console.log(responseData);
+                this.setState({
+                    FAQ: responseData.FAQ,
+                });
+            })
+            .catch((error)=> {
+                console.warn(error);
+            })
+            .done();
+    }
     render() {
         return (
             <View style={styles.container}>
@@ -14,7 +38,7 @@ export default class CSFAQPage extends React.Component {
                     <View style={styles.header}>
                         <Text style={[styles.textBlack, styles.textBold, {fontSize: 17}]}>FAQ</Text>
                     </View>
-                    <FAQList questions={this.props.questions}/>
+                    <FAQList FAQ={this.state.FAQ} />
                 </View>
             </View>
         );

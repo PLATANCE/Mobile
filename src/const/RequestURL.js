@@ -47,6 +47,10 @@ const RequestURL = {
     
     // sidedrawer
     REQUEST_USER_POINT: 'http://api.plating.co.kr/promo/point?',
+
+    // customerService
+    REQUEST_FAQ_LIST: 'http://api.plating.co.kr/policy/FAQ',
+
     /*
      *---------------------
      * NOT YET
