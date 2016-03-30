@@ -77,7 +77,7 @@ export default class MyCouponList extends React.Component {
                         '쿠폰 사용 불가',
                         message,
                         [
-                            {text: '확인', onPress: () => Actions.CartPage()},
+                            {text: '확인', onPress: () => Actions.pop},
                         ]
                     );
                 }

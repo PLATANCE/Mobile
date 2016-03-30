@@ -54,8 +54,15 @@ export default class MyAddressList extends React.Component {
     })
     .then((response) => response.json())
     .then((responseData) => {
+      console.log(responseData);
       const message = responseData.result;
-      Alert.alert('주소 변경', message);
+      Alert.alert(
+        '주소 변경', 
+        message,
+        [
+          { text: '확인', onPress: () => Actions.pop() }
+        ]
+      );
       Actions.refresh();
       this.props.onUpdateInUseAddress();
     })

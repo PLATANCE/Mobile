@@ -7,7 +7,7 @@ export default function CartSelector(state) {
   const {
     myInfo,
     timeSlotData,
-    cartNumber,
+    cardNumber,
     deliveryFee,
   } = state.CartInfoReducer;
 
@@ -15,7 +15,7 @@ export default function CartSelector(state) {
     cart,
     myInfo,
     timeSlotData,
-    cartNumber,
+    cardNumber,
     deliveryFee,
   };
 }

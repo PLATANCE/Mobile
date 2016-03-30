@@ -94,33 +94,36 @@ export default class CartPage extends React.Component {
     return returnData;
   }
 
-  setPayMethod(selectedPayMethod) {
+  setPayMethod(selectedItem) {
+    const selectedPayMethod = selectedItem[0]
     let selectedPayMethodParam;
-    if (selectedPayMethod === '카드') {
+    if (selectedPayMethod === PAY_METHOD.ONLINE_CARD) {
       selectedPayMethodParam = 1;
-    } else if (selectedPayMethod === '현장카드') {
+    } else if (selectedPayMethod === PAY_METHOD.OFFLINE_CARD) {
       selectedPayMethodParam = 2;
-    } else if (selectedPayMethod === '현금') {
+    } else if (selectedPayMethod === PAY_METHOD.OFFLINE_CASH) {
       selectedPayMethodParam = 3;
     }
     this.setState({
       selectedPayMethod,
       selectedPayMethodParam,
     });
+    console.log(selectedPayMethod, selectedPayMethodParam);
   }
 
-  setCutlery(selectedCutlery) {
+  setCutlery(selectedItem) {
+    const selectedCutlery = selectedItem[0]
     let selectedCutleryParam;
-    if (selectedCutlery === '예') {
+    if (selectedCutlery === CUTLERY.YES) {
       selectedCutleryParam = 1;
-    } else {
+    } else if(selectedCutlery === CUTLERY.NO){
       selectedCutleryParam = 0;
     }
     this.setState({
       selectedCutlery,
       selectedCutleryParam,
     });
-    console.log(this.state.selectedCutlery, this.state.selectedCutleryParam);
+    console.log(selectedCutlery, selectedCutleryParam);
   }
 
 
@@ -293,13 +296,13 @@ export default class CartPage extends React.Component {
       couponIdx = 0,
       discountCouponPrice = 0,
       myInfo,
-      cardNo,
+      cardNumber,
     } = this.props;
 
     const {
       deliveryAvailable,
       address,
-      address_detail,
+      addressDetail,
       mobile,
     } = myInfo;
 
@@ -318,17 +321,17 @@ export default class CartPage extends React.Component {
     const mobileHighlight = (mobile === Const.CART_MOBILE_INPUT_MESSAGE)
       ? styles.textOrange
       : styles.textBlack;
-    const cardHighlight = (cardNo === Const.CART_CARD_INPUT_MESSAGE)
+    const cardHighlight = (cardNumber === Const.CART_CARD_INPUT_MESSAGE)
       ? styles.textOrange
       : styles.textBlack;
 
     // card layout visible
     let cardLayout = false;
-    if (selectedPayMethod === '카드') {
+    if (selectedPayMethod === PAY_METHOD.ONLINE_CARD) {
       cardLayout = <TouchableHighlight underlayColor={'transparent'} onPress={Actions.AddCardPage}>
         <View style={styles.row}>
           <Text style={styles.textBlack}>카드</Text>
-          <Text style={[styles.data, cardHighlight]}>{cardNo}</Text>
+          <Text style={[styles.data, cardHighlight]}>{cardNumber}</Text>
           <View>
             <Image style={styles.iconDetailImage} source={require('../commonComponent/img/icon_input.png')} />
           </View>
@@ -383,7 +386,7 @@ export default class CartPage extends React.Component {
       enableOrderButtonText = '배달 지역이 아닙니다.';
     }
     if (selectedPayMethodParam === 1) {
-      if (cardNo === Const.CART_CARD_INPUT_MESSAGE) {
+      if (cardNumber === Const.CART_CARD_INPUT_MESSAGE) {
         enableOrderButton = false;
         enableOrderButtonText = Const.CART_CARD_INPUT_MESSAGE;
       }
@@ -445,7 +448,7 @@ export default class CartPage extends React.Component {
             >
               <View style={[styles.row, styles.rowMarginTop10]}>
                 <Text style={styles.textBlack}>배달 주소</Text>
-                <Text style={[styles.data, addressHighlight]}>{`${address}\n${address_detail}`}</Text>
+                <Text style={[styles.data, addressHighlight]}>{`${address}\n${addressDetail}`}</Text>
                 <Image
                   style={styles.iconDetailImage}
                   source={require('../commonComponent/img/icon_input.png')}

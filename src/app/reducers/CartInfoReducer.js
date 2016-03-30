@@ -23,7 +23,6 @@ function cartInfoReducer(state = {
         const cardNumber = cartInfo.card_no;
         const deliveryFee = cartInfo.delivery_fee;
         const timeSlotData = [];
-
         cartInfo.time_slot.forEach(timeSlot => {
           timeSlotData.push({
             idx: timeSlot.idx,
