@@ -114,7 +114,7 @@ export default class Routes extends Component {
                     <Schema name="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom}/>
                     <Schema name="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight}/>
                     <Schema name="withoutAnimation"/>
-
+                    
                     <Route name="TutorialPage" hideNavBar={true} component={connect()(TutorialPage)} />
                     <Route name="SignInPage"  hideNavBar={true} initial={userInfo.isLogin ? false : true} component={connect()(SignInPage)} />
                     <Route name="SignUpPage" hideNavBar={true} component={connect()(SignUpPage)} />

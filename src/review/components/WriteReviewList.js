@@ -126,7 +126,6 @@ let styles = StyleSheet.create({
         height: 40,
     },
     reviewBox: {
-        backgroundColor: 'green',
         marginTop: 10,
         justifyContent: 'center',
         alignItems: 'center',

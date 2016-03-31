@@ -12,11 +12,11 @@ export default class CSEnquiryPage extends React.Component {
     contactPhone() {
         //070-7777-6114
         console.log("전화걸기");
-        Communications.text('070-7777-6114')
+        Communications.phonecall('070-7777-6114', true);
     }
     sendMail() {
         console.log("메일 보내기");
-        Communications.email('contact@plating.co.kr', null, null, '문의하기', '');
+        Communications.email(['contact@plating.co.kr'], null, null, '문의하기', '');
     }
     render() {
         return (
