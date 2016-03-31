@@ -27,7 +27,7 @@ export default class AddressCoverageList extends React.Component {
         dongArray.forEach(dong => {
             dongList += dong.name + ', ';
         });
-       
+        dongList = dongList.substring(0, dongList.length - 2);
         return (
             <View style={styles.row}>
                 <Text style={[styles.textBlack, styles.textBold, styles.textSize15]}>{rowData.gu}</Text>
@@ -54,6 +54,7 @@ let styles = StyleSheet.create({
         padding: 10,
         backgroundColor: 'white',
         justifyContent: 'center',
+        height: 100,
 
     },
     textBlack: {

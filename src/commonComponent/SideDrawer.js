@@ -14,10 +14,14 @@ class SideDrawerContent extends Component {
         super(props);
         this.state = {
             point: 0,
+            referPriceText: '',
+            cntCoupon: 0,
         };
     }
     componentDidMount() {
         this.fetchUserPoint();
+        this.fetchPolicyRefer();
+        this.fetchMyCoupon();
     }
     fetchUserPoint() {
         fetch(RequestURL.REQUEST_USER_POINT + 'user_idx=' + userIdx)
@@ -25,6 +29,34 @@ class SideDrawerContent extends Component {
             .then((responseData) => {
                 this.setState({
                     point: responseData.point,
+                });
+            })
+            .catch((error)=> {
+                console.warn(error);
+            })
+            .done();
+    }
+    fetchPolicyRefer() {
+        fetch(RequestURL.REQUEST_GET_POLICY_REFER_POINT)
+            .then((response) => response.json())
+            .then((responseData) => {
+                //console.log(responseData);
+                this.setState({
+                    referPriceText: responseData.korReferPoint,
+                });
+            })
+            .catch((error)=> {
+                console.warn(error);
+            })
+            .done();
+    }
+    fetchMyCoupon() {
+        fetch(RequestURL.REQUEST_MY_COUPON_LIST + 'user_idx=' + userIdx)
+            .then((response) => response.json())
+            .then((responseData) => {
+                //console.log(responseData.length);
+                this.setState({
+                    cntCoupon: responseData.length,
                 });
             })
             .catch((error)=> {
@@ -79,20 +111,29 @@ class SideDrawerContent extends Component {
         }
     render() {
         const { drawer } = this.context;
-        const rowInfo = [
-            { text: "Home (메뉴보기)", action: Actions.DrawerPage },
-            { text: "주문 내역", action: Actions.MyOrderPage },
-            { text: "내 쿠폰함", action: () => Actions.MyCouponPage({ disable: false }) },
-            { text: "포인트·코드 등록", action: ()=>this.openPromptDialog()},
-            { text: "고객 센터", action: Actions.CSMainPage },
-            { text: "Plating 이란?", action: Actions.PlatingPage },
-        ];
+        let cntCoupon = this.state.cntCoupon;
+        let cntCouponText = (cntCoupon > 0) ? '(' + cntCoupon + ')' : '';
+        let referPriceText = this.state.referPriceText + ' + ' + this.state.referPriceText + ' 포인트 지급';
 
+        const rowInfo = [
+            { text: "주문 내역", image: require('./img/icon_left_order.png'), action: Actions.MyOrderPage },
+            { text: "내 쿠폰함 " + cntCouponText, image: require('./img/icon_left_coupon.png'), action: () => Actions.MyCouponPage({ disable: false }) },
+            { text: "포인트·코드 등록", image: require('./img/icon_left_won.png'), action: ()=>this.openPromptDialog()},
+            { text: "고객 센터", image: require('./img/icon_left_headset.png'), action: Actions.CSMainPage },
+            { text: "Plating 이란?", image: require('./img/icon_plus.png'), action: Actions.PlatingPage },
+        ];
+        
         var drawerRow = [];
         rowInfo.forEach(row => {
-            drawerRow.push(<TouchableHighlight key={row.text} onPress={row.action} underlayColor={'transparent'}>
+            let text = row.text;
+            let image = row.image;
+            let action = row.action;
+
+            drawerRow.push(<TouchableHighlight key={text} onPress={action} underlayColor={'transparent'}>
                                 <View style={styles.drawerRow}>
-                                    <Text style={styles.textBlack}>{row.text}</Text>
+                                    <Image style={styles.drawerImage}
+                                        source={image}/>
+                                    <Text style={[styles.textBlack, { marginLeft: 10 }]}>{text}</Text>
                                 </View>
                             </TouchableHighlight>);
         });
@@ -108,7 +149,8 @@ class SideDrawerContent extends Component {
                 </View>
                 <TouchableHighlight onPress={Actions.ReferPage} underlayColor={'transparent'}>
                     <View style={styles.footerBox}>
-                        <Text style={[styles.textWhite, styles.textBold]}>친구 초대</Text>
+                        <Text style={[styles.textWhite, styles.textBold, { fontSize: 18}]}>친구 초대</Text>
+                        <Text style={[styles.textWhite, styles.textBold]}>{referPriceText}</Text>
                     </View>
                 </TouchableHighlight>
             </View>
@@ -159,27 +201,29 @@ let styles = StyleSheet.create({
     headerBox: {
         height: 150,
         justifyContent: 'center',
-        marginLeft: 10,
-        marginTop: 16,
+        backgroundColor: Color.PRIMARY_ORANGE,
+        paddingLeft: 20,
     },
     imageLogo: {
         height: 20,
         width: 170,
+        marginTop: 32,
         resizeMode: 'contain',
     },
     pointText: {
+        color: 'white',
         marginTop: 10,
-        color: Color.PRIMARY_ORANGE
     },
     drawerRowBox: {
         flex: 1,
-        marginLeft: 10,
+        marginLeft: 20,
     },
     drawerRow: {
-        height: 50,
+        height: 60,
         borderBottomWidth: 0.2,
         borderColor: Color.PRIMARY_GRAY,
-        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
         marginRight: 10,
     },
     drawerImage: {
@@ -202,6 +246,6 @@ let styles = StyleSheet.create({
         height: 100,
         backgroundColor: Color.PRIMARY_ORANGE,
         justifyContent: 'center',
-        paddingLeft: 10,
+        paddingLeft: 20,
     },
 });

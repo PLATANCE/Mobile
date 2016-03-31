@@ -10,7 +10,6 @@ import React, {
 } from 'react-native';
 
 import { Actions } from 'react-native-router-flux';
-import StarRating from 'react-native-star-rating';
 import MenuReviewStars from '../commonComponent/MenuReviewStars';
 import AddCartButton from '../commonComponent/AddCartButton';
 import MenuPriceText from '../commonComponent/MenuPriceText';
@@ -51,9 +50,6 @@ export default class MenuDetailPage extends React.Component {
                 console.warn(error);
             })
             .done();
-    }
-    onStarRatingPress(rating) {
-        console.log(rating);
     }
 
     render() {
@@ -103,11 +99,7 @@ export default class MenuDetailPage extends React.Component {
                         <View style={styles.reviewPriceBox}>
                             <View style={styles.reviewBox}>
                                 <MenuReviewStars score={menu.rating}/>
-                                {/*<StarRating 
-                                    disabled={false}
-                                    maxStars={5}
-                                    rating={menu.rating}
-                                    selectedStar={(rating) => this.onStarRatingPress(rating)} /> */}
+                                
                                 <TouchableHighlight onPress={() =>Actions.MenuReviewPage({menuIdx: this.props.menuIdx})} underlayColor={'transparent'}>
                                     <View style={styles.reviewTextBox}>
                                         <Text style={[styles.textGray, {textDecorationLine: 'underline', marginLeft: 3, fontSize: 15}]}>{menu.review_count}개의 리뷰보기</Text>

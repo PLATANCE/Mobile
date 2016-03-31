@@ -64,7 +64,7 @@ export default class MyCouponList extends React.Component {
                               text: '확인',
                               onPress: () => {
                                 this.props.onCouponUse();
-                                Actions.CartPage({
+                                Actions.pop({
                                   couponIdx,
                                   discountCouponPrice,
                                 });

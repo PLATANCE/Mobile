@@ -1,5 +1,6 @@
 'use strict';
 import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
+import Communications from 'react-native-communications';
 
 import Color from '../const/Color';
 import Const from '../const/Const';
@@ -9,10 +10,13 @@ export default class CSEnquiryPage extends React.Component {
         console.log("카카오톡 채팅하기");
     }
     contactPhone() {
+        //070-7777-6114
         console.log("전화걸기");
+        Communications.text('070-7777-6114')
     }
     sendMail() {
         console.log("메일 보내기");
+        Communications.email('contact@plating.co.kr', null, null, '문의하기', '');
     }
     render() {
         return (

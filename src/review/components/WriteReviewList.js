@@ -1,4 +1,5 @@
 import React, { View, ListView, Text, StyleSheet, Image, TextInput } from 'react-native';
+import StarRating from 'react-native-star-rating';
 import Color from '../../const/Color';
 import MediaURL from '../../const/MediaURL';
 
@@ -22,6 +23,13 @@ export default class WriteReviewList extends React.Component {
         }
     }
 
+    setRating(rating) {
+        console.log(rating);
+    }
+
+    setComment() {
+
+    }
     renderRow(rowData) {
         let menuName = rowData.name_menu;
         let menuNameKor = menuName.split('.')[0];
@@ -37,23 +45,25 @@ export default class WriteReviewList extends React.Component {
                         <Text style={styles.textBlack}>{menuNameEng}</Text>
                         <Text style={styles.chefNameText}>{rowData.name_chef}</Text>
                         <View style={styles.starBox}>
-                            <Image style={styles.starImage}
-                                source={require('../../commonComponent/img/icon_star_empty_yellow.png')} />
-                            <Image style={styles.starImage}
-                                source={require('../../commonComponent/img/icon_star_empty_yellow.png')} />
-                            <Image style={styles.starImage}
-                                source={require('../../commonComponent/img/icon_star_empty_yellow.png')} />
-                            <Image style={styles.starImage}
-                                source={require('../../commonComponent/img/icon_star_empty_yellow.png')} />
-                            <Image style={styles.starImage}
-                                source={require('../../commonComponent/img/icon_star_empty_yellow.png')} />
+                            <StarRating
+                                ref={(rating) => {this.rating = rating;}}
+                                disabled={false}
+                                maxStars={5}
+                                rating={rowData.rating}
+                                starColor={'yellow'}
+                                selectedStar={(rating) => this.setRating(rating)}
+                            />
                         </View>
                     </View>
                 </View>
                 <View style={styles.reviewBox}>
                     <TextInput style={styles.textInput} 
-                        keyboardType="default" autoCorrect={false} 
-                        placeholder='솔직한 리뷰는, 플레이팅을 더 맛있게 합니다 :)' multiline={true}/>
+                        keyboardType="default" 
+                        autoCorrect={false} 
+                        placeholder='솔직한 리뷰는, 플레이팅을 더 맛있게 합니다 :)' 
+                        multiline={true}
+                        onSubmitEditing={this.setComment()}
+                    />
                 </View>
                 <View style={styles.buttonBox}>
                     <Text style={styles.textWhite}>리뷰 저장</Text>
@@ -67,7 +77,7 @@ export default class WriteReviewList extends React.Component {
             <View style={styles.container}>
                 <ListView
                     dataSource={this.state.dataSource}
-                    renderRow={this.renderRow}
+                    renderRow={this.renderRow.bind(this)}
                 />
             </View>
         );

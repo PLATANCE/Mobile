@@ -43,7 +43,8 @@ export default class AddAddressPage extends React.Component {
                 </View>
             	<View style={styles.textInputBox} >
 	                <TextInput style={styles.textInput} autoFocus={true} 
-                        keyboardType='default' autoCorrect={false} onSubmitEditing={this.searchAddress.bind(this)}
+                        keyboardType='default' autoCorrect={false} 
+                        onSubmitEditing={this.searchAddress.bind(this)}
 					    placeholder='동이름을 입력하세요' />
 				</View>
 				<SearchedAddressList addressList={this.state.addressList} />

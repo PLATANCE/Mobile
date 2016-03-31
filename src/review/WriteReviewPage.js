@@ -36,7 +36,7 @@ export default class WriteReviewPage extends React.Component {
             <View style={styles.container}>
                 <View style={styles.content} >
                     <ScrollView>
-                        <WriteReviewList reviews={this.state.reviews} />
+                        <WriteReviewList reviews={this.state.reviews} orderIdx={this.props.orderIdx}/>
                     </ScrollView>
                 </View>
             </View>
