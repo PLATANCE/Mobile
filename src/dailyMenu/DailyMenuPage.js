@@ -11,6 +11,9 @@ import RequestURL from '../const/RequestURL';
 import MediaURL from '../const/MediaURL';
 
 import { addItemToCart } from '../app/actions/CartActions';
+import {
+  fetchMyAddress,
+} from '../app/actions/AddressActions';
 import userInfo from '../util/userInfo';
 const userIdx = userInfo.idx;
 const HEIGHT = Const.HEIGHT;
@@ -21,10 +24,10 @@ export default class DailyMenuPage extends React.Component {
 
     constructor(props) {
         super(props);
+        console.log(props);
+        props.dispatch(fetchMyAddress());
         this.state = {
             menus: [],
-            address: '먼저, 배달 가능 지역을 확인해주세요 :)',
-            addressDetail: '',
             offset: new Animated.Value(-HEIGHT),
             isDialogVisible: false,
             dialogImageURL: '',
@@ -34,7 +37,6 @@ export default class DailyMenuPage extends React.Component {
     
     componentDidMount() {
         this.fetchDailyMenu();
-        this.fetchMyAddress();
         this.fetchReviewAvailable();
         this.fetchDialog();
         //this.fetchCheckUpdate();
@@ -53,21 +55,6 @@ export default class DailyMenuPage extends React.Component {
                 });
             })
             .catch((error)=> {
-                console.warn(error);
-            })
-            .done();
-    }
-    fetchMyAddress() {
-        fetch(RequestURL.REQUEST_MY_ADDRESS + 'user_idx=' + userIdx)
-            .then((response) => response.json())
-            .then((responseData) => {
-                if(responseData.length > 0) {
-                    this.setState({
-                        address: responseData[0].address,
-                        addressDetail: responseData[0].address_detail
-                    });
-                }
-            }).catch((error)=> {
                 console.warn(error);
             })
             .done();
@@ -121,10 +108,10 @@ export default class DailyMenuPage extends React.Component {
         }).start();
     }
     render() {
-        const { dispatch, cart } = this.props;
+        const { dispatch, cart, address, addressDetail } = this.props;
         const isDialogVisible = this.state.isDialogVisible;
         let dialogView = false;
-        if(isDialogVisible) {
+        if(!isDialogVisible) {
             const dialogImageURL = this.state.dialogImageURL;
             const uri = MediaURL.DIALOG_URL + dialogImageURL;
             dialogView = <Animated.View style={[styles.containerDialog, 
@@ -158,7 +145,7 @@ export default class DailyMenuPage extends React.Component {
                             cart={cart}
                         />
                     </ScrollView>
-                    <AddressBar address={this.state.address} addressDetail={this.state.addressDetail}/>
+                    <AddressBar address={address} addressDetail={addressDetail}/>
                 </View>
                 {dialogView}
             </View>

@@ -1,23 +1,12 @@
 'use strict';
 
 export default function CartSelector(state) {
-  const {
-    cart,
-  } = state.CartReducers;
-  const {
-    myInfo,
-    timeSlotData,
-    cardNumber,
-    deliveryFee,
-  } = state.CartInfoReducer;
+    const {
+        CartInfoReducer,
+        CartReducers,
+    } = state;
 
-  return {
-    cart,
-    myInfo,
-    timeSlotData,
-    cardNumber,
-    deliveryFee,
-  };
+  return Object.assign({}, CartReducers, CartInfoReducer);
 }
 
 /*

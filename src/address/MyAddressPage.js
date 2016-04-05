@@ -8,44 +8,38 @@ import RequestURL from '../const/RequestURL';
 import {
   fetchCartInfo,
 } from '../app/actions/CartInfoActions';
+import {
+  fetchMyAddressList,
+  fetchMyAddress,
+} from '../app/actions/AddressActions';
 import userInfo from '../util/userInfo';
 const userIdx = userInfo.idx;
 
 export default class MyAddressPage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            addressList: [],
-        }
+        console.log(props);
+        props.dispatch(fetchMyAddressList());
     }
     componentDidMount() {
-        this.fetchMyAddressList();
-    }
-    fetchMyAddressList() {
-        fetch(RequestURL.REQUEST_MY_ADDRESS_LIST + 'user_idx=' + userIdx)
-            .then((response) => response.json())
-            .then((responseData) => {
-                console.log(responseData);
-                this.setState({
-                    addressList: responseData,
-                });
-            })
-            .catch((error)=> {
-                console.warn(error);
-            })
-            .done();
+        //this.fetchMyAddressList();
     }
     render() {
         const {
           dispatch,
         } = this.props;
+        const {
+            myAddressList
+        } = this.props;
+
         return (
             <View style={styles.container}>
                 <ScrollView>
                     <MyAddressList
-                      addressList={this.state.addressList}
-                      fetchMyAddressList={this.fetchMyAddressList}
-                      onUpdateInUseAddress={() => dispatch(fetchCartInfo())}
+                      myAddressList={myAddressList}
+                      fetchMyAddressList={() => dispatch(fetchMyAddressList())}
+                      fetchCartInfo={() => dispatch(fetchCartInfo())}
+                      fetchMyAddress={() => dispatch(fetchMyAddress())}
                     />
                     <TouchableHighlight onPress={Actions.AddAddressPage} underlayColor={'transparent'}>
                     <View style={styles.addBox}>

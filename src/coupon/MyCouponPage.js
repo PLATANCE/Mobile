@@ -6,7 +6,7 @@ import Const from '../const/Const';
 import MyCouponList from './components/MyCouponList';
 import RequestURL from '../const/RequestURL';
 import {
-  fetchCartInfo,
+  useCoupon,
 } from '../app/actions/CartInfoActions';
 import userInfo from '../util/userInfo';
 const userIdx = userInfo.idx;
@@ -47,7 +47,7 @@ export default class MyCouponPage extends React.Component {
                       coupons={this.state.coupons}
                       cart={cart}
                       disable={disable}
-                      onCouponUse={() => dispatch(fetchCartInfo())}
+                      onUseCoupon={(couponIdx, discountCouponPrice) => dispatch(useCoupon(couponIdx, discountCouponPrice))}
                     />
                 </View>
             </View>

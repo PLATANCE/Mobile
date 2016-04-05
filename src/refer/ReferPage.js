@@ -1,5 +1,6 @@
 'use strict';
-import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image, Clipboard, Alert } from 'react-native';
+import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image, Clipboard, Alert, Linking } from 'react-native';
+import Communications from 'react-native-communications';
 
 import Color from '../const/Color';
 import Const from '../const/Const';
@@ -76,6 +77,19 @@ export default class ReferPage extends React.Component {
             '초대받은 친구가 추천 코드를 입력하고 첫 주문을 하면, 초대하신 분께 ' + this.state.pointPriceKor + ' 포인트를 드립니다',
         );
     }
+    onPressKakao(content) {
+
+    }
+    onPressMMS(content) {
+        let url = 'sms:010-3648-5294?body=123123';
+        Linking.canOpenURL(url).then(supported => {
+            if(!supported) {
+                console.log('Can\'t handle url: ' + url);
+            } else {
+                return Linking.openURL(url);
+            }
+        }).catch(err => console.error('An unexpected error happened', err));
+    }
     render() {
         /*
             셰프의 요리를 집에서 즐겨요! 지금 플레이팅 앱을 다운받고 첫 주문 5천원 할인 받으세요.
@@ -112,14 +126,14 @@ export default class ReferPage extends React.Component {
                     </View>
                 </View>
                 <View style={styles.methodBox}>
-                    <TouchableHighlight underlayColor={'transparent'} >
+                    <TouchableHighlight underlayColor={'transparent'} onPress={ () => this.onPressKakao(clipboardContent) } >
                     <View style={styles.method}>
                         <Image style={styles.methodImage}
                             source={require('./img/refer_kakao_icon.png')}/>
                         <Text style={styles.textBlack}>카카오톡</Text>
                     </View>
                     </TouchableHighlight>
-                    <TouchableHighlight underlayColor={'transparent'}>
+                    <TouchableHighlight underlayColor={'transparent'} onPress={ () => this.onPressMMS(clipboardContent) }>
                     <View style={styles.method}>
                         <Image style={styles.methodImage}
                             source={require('./img/refer_sms_icon.png')}/>

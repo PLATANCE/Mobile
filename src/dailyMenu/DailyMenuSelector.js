@@ -2,6 +2,8 @@
 
 export default (state) => ({
     cart: state.CartReducers.cart,
+    address: state.AddressReducer.address,
+    addressDetail: state.AddressReducer.addressDetail,
 });
 
 

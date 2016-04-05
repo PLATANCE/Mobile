@@ -17,6 +17,7 @@ import SignInPage from '../login/SignInPage';
 import SignUpPage from '../login/SignUpPage';
 import DailyMenuPage from '../dailyMenu/DailyMenuPage';
 import DailyMenuSelector from '../dailyMenu/DailyMenuSelector';
+import SideDrawerSelector from '../commonComponent/SideDrawerSelector';
 import BannerDetailPage from '../dailyMenu/BannerDetailPage';
 import BannerDetailSelector from '../dailyMenu/BannerDetailSelector';
 import MenuDetailPage from '../menuDetail/MenuDetailPage';
@@ -119,13 +120,15 @@ export default class Routes extends Component {
                     <Route name="SignInPage"  hideNavBar={true} initial={userInfo.isLogin ? false : true} component={connect()(SignInPage)} />
                     <Route name="SignUpPage" hideNavBar={true} component={connect()(SignUpPage)} />
 
-                    <Route name='DrawerPage' hideNavBar={true} initial={userInfo.isLogin ? true : false}  >
-                        <SideDrawer ref='sideDrawer'>
+                    <Route name='DrawerPage' hideNavBar={true} 
+                        initial={userInfo.isLogin ? true : false} >
+                        <SideDrawer ref='sideDrawer' >
                             <Router
                                 sceneStyle={styles.scene}
                                 navigationBarStyle={styles.navigationBar}
                                 titleStyle={styles.title} >
                                 <Route name="DailyMenuPage"
+                                        schema='DrawerPage'
                                         component={connect(DailyMenuSelector)(DailyMenuPage)}
                                         title="TODAY'S MENU"
                                         renderLeftButton={this.renderDrawerButton.bind(this)}
@@ -135,7 +138,7 @@ export default class Routes extends Component {
                     </Route>
 
 
-                    <Route name="MenuDetailPage"  component={connect(MenuDetailSelector)(MenuDetailPage)}
+                    <Route name="MenuDetailPage" component={connect(MenuDetailSelector)(MenuDetailPage)}
                         wrapRouter={true}  navigationBarStyle={this.navigationBar}
                         title="TODAY'S MENU" renderLeftButton={this.renderBackButton}
                         renderRightButton={this.renderCartButton}/>

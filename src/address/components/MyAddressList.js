@@ -19,14 +19,14 @@ export default class MyAddressList extends React.Component {
     });
 
     this.state = {
-      dataSource: dataSource.cloneWithRows(props.addressList),
+      dataSource: dataSource.cloneWithRows(props.myAddressList),
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.addressList !== this.props.addressList) {
+    if (nextProps.myAddressList !== this.props.myAddressList) {
       this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(nextProps.addressList),
+        dataSource: this.state.dataSource.cloneWithRows(nextProps.myAddressList),
       });
     }
   }
@@ -39,10 +39,11 @@ export default class MyAddressList extends React.Component {
 
   updateInUseAddress(idx, userIdx) {
     const param = {
-      idx,
-      userIdx,
+      idx: idx,
+      user_idx: userIdx,
       mode: 'update',
     };
+    console.log(param);
 
     fetch(RequestURL.SUBMIT_IN_USE_ADDRESS, {
       method: 'POST',
@@ -60,11 +61,12 @@ export default class MyAddressList extends React.Component {
         '주소 변경', 
         message,
         [
-          { text: '확인', onPress: () => Actions.pop() }
+          { text: '확인', onPress: () => this.props.fetchMyAddressList() }
         ]
       );
       Actions.refresh();
-      this.props.onUpdateInUseAddress();
+      this.props.fetchCartInfo();
+      this.props.fetchMyAddress();
     })
     .catch((error) => {
       console.warn(error);

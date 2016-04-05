@@ -54,7 +54,7 @@ export default class MyCouponList extends React.Component {
                 let couponIdx = responseData.coupon_idx;
                 let discountCouponPrice = responseData.sale_price;
                 let message = responseData.msg;
-                console.log(available);
+                console.log(available, couponIdx, discountCouponPrice, message);
                 if(available) {
                     Alert.alert(
                         '쿠폰 사용',
@@ -63,11 +63,8 @@ export default class MyCouponList extends React.Component {
                             {
                               text: '확인',
                               onPress: () => {
-                                this.props.onCouponUse();
-                                Actions.pop({
-                                  couponIdx,
-                                  discountCouponPrice,
-                                });
+                                this.props.onUseCoupon(couponIdx, discountCouponPrice);
+                                Actions.pop();
                               },
                             },
                         ]

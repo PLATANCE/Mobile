@@ -4,6 +4,7 @@ import userInfo from '../../util/userInfo';
 
 export const CartInfoActions = {
   RECEIVE_CART_INFO: 'RECEIVE_CART_INFO',
+  USE_COUPON: 'USE_COUPON',
 };
 
 export function receiveCartInfo(cartInfo) {
@@ -11,6 +12,14 @@ export function receiveCartInfo(cartInfo) {
     type: CartInfoActions.RECEIVE_CART_INFO,
     cartInfo,
   };
+}
+
+export function useCoupon(couponIdx, discountCouponPrice) {
+  return {
+    type: CartInfoActions.USE_COUPON,
+    couponIdx,
+    discountCouponPrice
+  }
 }
 
 export function fetchCartInfo() {

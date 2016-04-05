@@ -128,7 +128,7 @@ export default class CartPage extends React.Component {
 
 
   openAlertMoble() {
-    AlertIOS.prompt('전화 번호', '배달 시, 연락 받으실 전화번호를 입력해주세요.(-제외)\n 예) 010-1234-5678', [
+    AlertIOS.prompt('전화 번호', '배달 시, 연락 받으실 전화번호를 입력해주세요.(-제외)\n 예) 01012345678', [
       {
         text: '취소',
         onPress: () => console.log('Cancel Pressed'),
@@ -293,8 +293,8 @@ export default class CartPage extends React.Component {
       cart,
       deliveryFee,
       timeSlotData,
-      couponIdx = 0,
-      discountCouponPrice = 0,
+      couponIdx,
+      discountCouponPrice,
       myInfo,
       cardNumber,
     } = this.props;
@@ -318,6 +318,9 @@ export default class CartPage extends React.Component {
     const addressHighlight = (address === Const.CART_ADDRESS_INPUT_MESSAGE)
       ? styles.textOrange
       : styles.textBlack;
+    const addressInfo = (address === Const.CART_ADDRESS_INPUT_MESSAGE)
+      ? Const.CART_ADDRESS_INPUT_MESSAGE
+      : address + '\n' + addressDetail;
     const mobileHighlight = (mobile === Const.CART_MOBILE_INPUT_MESSAGE)
       ? styles.textOrange
       : styles.textBlack;
@@ -448,7 +451,7 @@ export default class CartPage extends React.Component {
             >
               <View style={[styles.row, styles.rowMarginTop10]}>
                 <Text style={styles.textBlack}>배달 주소</Text>
-                <Text style={[styles.data, addressHighlight]}>{`${address}\n${addressDetail}`}</Text>
+                <Text style={[styles.data, addressHighlight]}>{`${addressInfo}`}</Text>
                 <Image
                   style={styles.iconDetailImage}
                   source={require('../commonComponent/img/icon_input.png')}

@@ -6,7 +6,9 @@ function cartInfoReducer(state = {
   timeSlotData: [],
   myInfo: {},
   cardNumber: '',
-  deliveryFee: undefined,
+  deliveryFee: 0,
+  couponIdx: 0,
+  discountCouponPrice: 0,
 }, action) {
   switch (action.type) {
     case CartInfoActions.RECEIVE_CART_INFO:
@@ -35,6 +37,15 @@ function cartInfoReducer(state = {
           cardNumber,
           deliveryFee,
         });
+      }
+      case CartInfoActions.USE_COUPON: {
+        const couponIdx = action.couponIdx;
+        const discountCouponPrice = action.discountCouponPrice;
+        console.log(couponIdx, discountCouponPrice);
+        return Object.assign({}, state, {
+          couponIdx,
+          discountCouponPrice,
+        })
       }
     default:
       return state;
