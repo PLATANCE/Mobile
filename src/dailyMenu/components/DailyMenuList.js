@@ -67,7 +67,7 @@ export default class DailyMenuList extends React.Component {
 
         let menuURL = MediaURL.MENU_URL + rowData.image_url_menu;
         let chefURL = MediaURL.CHEF_URL + rowData.image_url_chef;
-        let isSoldOut = (rowData.stock == 0) ? true : false;
+        let isSoldOut = (rowData.stock == 0 || rowData.stock < 0) ? true : false;
         let enableAddButton = (rowData.stock != 0) ? true : false;
         let contentInnerMenu = false;
 

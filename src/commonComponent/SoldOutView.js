@@ -21,6 +21,13 @@ export default class SoldOutView extends React.Component {
                     <Text style={styles.textKor}>금일 메뉴가 매진 되었습니다.</Text>
                 </View>
             );
+        } else if (stock < 0) {
+            return(
+                <View style={styles.containerAlpha}>
+                    <Text style={styles.textEng}>주문 마감</Text>
+                    <Text style={styles.textKor}>오늘은 플레이팅 쉬는 날 입니다.</Text>
+                </View>
+            );
         } else {
             return(
                 <View style={styles.container}>

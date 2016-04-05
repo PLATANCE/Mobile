@@ -54,24 +54,32 @@ export default class MenuDetailPage extends React.Component {
 
     render() {
         const { dispatch, cart, menuIdx, menuDIdx } = this.props;
-        let menu = this.state.menu;
+        const menu = this.state.menu;
         let menuURL;
         let chefURL;
         let contentInnerMenu = false;
         let addButtonEnable;
 
         if(menu){
+            const stock = this.props.stock;
             menuURL = MediaURL.MENU_URL + menu.image_url_menu;
             chefURL = MediaURL.CHEF_URL + menu.image_url_chef;
-            let isSoldOut = (this.props.stock == 0) ? true : false;
-            addButtonEnable = (this.props.stock != 0) ? true : false;
+            let isSoldOut = (stock == 0 || stock < 0) ? true : false;
+            addButtonEnable = (stock != 0) ? true : false;
             
             if(isSoldOut) {
-
-                contentInnerMenu = <View style={styles.menuImageAlpha}>
+                if(stock == 0) {
+                    contentInnerMenu = <View style={styles.menuImageAlpha}>
                                     <Text style={styles.textEng}>SOLD OUT</Text>
                                     <Text style={styles.textKor}>금일 메뉴가 매진 되었습니다.</Text>
                                 </View>;
+                } else if(stock < 0) {
+                    contentInnerMenu = <View style={styles.menuImageAlpha}>
+                                    <Text style={styles.textEng}>주문 마감</Text>
+                                    <Text style={styles.textKor}>오늘은 플레이팅 쉬는 날 입니다.</Text>
+                                </View>;
+                }
+                
             } else if(cart[menu.idx] && cart[menu.idx].amount > 0){
 
                 const amount = cart[menu.idx].amount;
