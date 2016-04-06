@@ -120,7 +120,7 @@ export default class Routes extends Component {
                     <Route name="SignInPage"  hideNavBar={true} initial={userInfo.isLogin ? false : true} component={connect()(SignInPage)} />
                     <Route name="SignUpPage" hideNavBar={true} component={connect()(SignUpPage)} />
 
-                    <Route name='DrawerPage' hideNavBar={true} 
+                    <Route name='DrawerPage' hideNavBar={true} type='replace'
                         initial={userInfo.isLogin ? true : false} >
                         <SideDrawer ref='sideDrawer' >
                             <Router

@@ -22,6 +22,7 @@ import RequestURL from '../const/RequestURL';
 import {
   addItemToCart,
   decreaseItemFromCart,
+  clearCart,
 } from '../app/actions/CartActions';
 import {
   fetchCartInfo,
@@ -179,6 +180,7 @@ export default class CartPage extends React.Component {
   }
 
   openAlertToConfirmOrder(cart, totalPrice, point, couponIdx, enableOrderButton) {
+    console.log(cart, totalPrice, point, couponIdx, enableOrderButton);
     if (enableOrderButton) {
       const selectedTimeSlot = this.state.selectedTimeSlot;
       const myInfo = this.props.myInfo;
@@ -243,7 +245,7 @@ export default class CartPage extends React.Component {
       include_cutlery: this.state.selectedCutleryParam,
     };
 
-    fetch(RequestURL.SUBMIT_PLACE_ORDER, {
+    fetch(RequestURL.SUBMIT_PLACE_ORDER_TEST, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -271,10 +273,14 @@ export default class CartPage extends React.Component {
         case 'done': {
           const orderIdx = responseData.order_idx;
           const description = responseData.description;
+          this.props.dispatch(clearCart());
+          Actions.DrawerPage();
           Alert.alert('주문 성공', `${description}\n주문내역을 확인하세요 :)`, [
             {
               text: '주문 확인',
-              onPress: () => Actions.OrderDetailPage({orderIdx}),
+              onPress: () => {
+                Actions.OrderDetailPage({orderIdx});
+              }
             },
           ]);
         } break;
@@ -367,7 +373,7 @@ export default class CartPage extends React.Component {
     }
 
     // totalPrice
-    totalPrice = menuTotalPrice - deliveryFee - availablePoint - discountCouponPrice;
+    totalPrice = menuTotalPrice + deliveryFee - availablePoint - discountCouponPrice;
 
     // enable order button with background color
     let enableOrderButton = true;

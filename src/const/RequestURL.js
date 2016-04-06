@@ -44,7 +44,8 @@ const RequestURL = {
     REQUEST_CART_INFO: 'http://api.plating.co.kr/cart_info?', // user_idx
     SUBMIT_UPDATE_MOBILE: 'http://api.plating.co.kr/update_info?', // user_idx, phone_no
     SUBMIT_PLACE_ORDER: 'http://api.plating.co.kr/place_order?',   // user_idx, time_slot, menu_d_idx, order_amount, credit_used, point, total_price, pay_method, coupon_idx, include_cutlery
-    
+    SUBMIT_PLACE_ORDER_TEST: 'http://api.plating.co.kr/test/place_order_test?',
+
     // sidedrawer
     REQUEST_USER_POINT: 'http://api.plating.co.kr/promo/point?',
 

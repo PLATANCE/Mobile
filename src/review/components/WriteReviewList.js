@@ -50,7 +50,7 @@ export default class WriteReviewList extends React.Component {
                                 disabled={false}
                                 maxStars={5}
                                 rating={rowData.rating}
-                                starColor={'yellow'}
+                                starColor={'#FFD057'}
                                 selectedStar={(rating) => this.setRating(rating)}
                             />
                         </View>

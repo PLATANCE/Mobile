@@ -1,5 +1,5 @@
 'use strict';
-import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image, ScrollView, Modal, Animated } from 'react-native';
+import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image, ScrollView, Modal, Animated, AsyncStorage } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import DailyMenuList from './components/DailyMenuList';
 import AddressBar from './components/AddressBar';
@@ -18,13 +18,13 @@ import userInfo from '../util/userInfo';
 const userIdx = userInfo.idx;
 const HEIGHT = Const.HEIGHT;
 const WIDTH = Const.WIDTH;
+const DATE = new Date();
 
 
 export default class DailyMenuPage extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log(props);
         props.dispatch(fetchMyAddress());
         this.state = {
             menus: [],
@@ -76,8 +76,19 @@ export default class DailyMenuPage extends React.Component {
             .then((response) => response.json())
             .then((responseData) => {
                 if(responseData.usedCoupon) {
+                    AsyncStorage.getItem('DATE').then((value) => {
+                        const formattedDate = this.YYYYMMDD(DATE);
+                        if(value === formattedDate) {
+                            this.setState({
+                                isDialogVisible: false,
+                            });
+                        } else {
+                            this.setState({
+                                isDialogVisible: true,
+                            });
+                        }
+                    })
                     this.setState({
-                        isDialogVisible: responseData.usedCoupon,
                         dialogImageURL: responseData.image_url_dialog,
                         redirect: responseData.redirect,
                     });
@@ -101,17 +112,32 @@ export default class DailyMenuPage extends React.Component {
             })
             .done();
     }
+    closeModalWhileToday() {
+        AsyncStorage.setItem('DATE', this.YYYYMMDD(DATE));
+        Animated.timing(this.state.offset, {
+            duration: 150,
+            toValue: -HEIGHT,
+        }).start();
+    }
     closeModal() {
         Animated.timing(this.state.offset, {
             duration: 150,
             toValue: -HEIGHT,
         }).start();
     }
+    pad2(n) {
+        return ((n < 10) ? '0' : '') + n;
+    }
+    YYYYMMDD(date) {
+        return date.getFullYear() + 
+            this.pad2(date.getMonth() + 1) +
+            this.pad2(date.getDate());
+    }
     render() {
         const { dispatch, cart, address, addressDetail } = this.props;
         const isDialogVisible = this.state.isDialogVisible;
         let dialogView = false;
-        if(!isDialogVisible) {
+        if(isDialogVisible) {
             const dialogImageURL = this.state.dialogImageURL;
             const uri = MediaURL.DIALOG_URL + dialogImageURL;
             dialogView = <Animated.View style={[styles.containerDialog, 
@@ -122,11 +148,15 @@ export default class DailyMenuPage extends React.Component {
                                 <Image style={styles.dialogImage}
                                     source={{ uri: uri }}/>
                                 <View style={styles.closeBox}>
-                                    <TouchableHighlight onPress={ () => this.closeModal() }>
-                                        <Text>오늘 그만 보기</Text>                                        
+                                    <TouchableHighlight style={styles.leftCloseBox}
+                                        underlayColor={'transparent'}
+                                        onPress={ () => this.closeModalWhileToday() }>
+                                        <Text style={[styles.textWhite, styles.textUnderLine]}>오늘 그만 보기</Text>                                        
                                     </TouchableHighlight>
-                                    <TouchableHighlight onPress={ () => this.closeModal() }>
-                                        <Text>오늘 그만 보기</Text>
+                                    <TouchableHighlight style={styles.rightCloseBox} 
+                                        underlayColor={'transparent'}
+                                        onPress={ () => this.closeModal() }>
+                                        <Text style={styles.textWhite}>닫기</Text>
                                     </TouchableHighlight>
                                 </View>
                             </View>
@@ -192,20 +222,41 @@ let styles = StyleSheet.create({
         alignItems: 'center',
     },
     dialog: {
-        width: 250,
-        height: 250,
+        width: 270,
+        height: 270,
         justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: Color.PRIMARY_GRAY
+        backgroundColor: Color.PRIMARY_DIALOG_BACKGROUND
     },
     dialogImage: {
-        width: 250,
-        height: 220,
-        resizeMode: 'contain',
+        width: 270,
+        height: 230,
+        resizeMode: 'stretch',
     },
     closeBox: {
-        height: 30,
+        height: 40,
         flexDirection: 'row',
         alignItems: 'center',
     },
+    leftCloseBox: {
+        flex: 1,
+        paddingLeft: 10,
+    },
+    rightCloseBox: {
+        height: 30,
+        width: 50,
+        marginRight: 10,
+        backgroundColor: Color.PRIMARY_GRAY,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: Color.PRIMARY_GRAY,
+        overflow: 'hidden',
+    },
+    textWhite: {
+        color: 'white',
+    },
+    textUnderLine: {
+        textDecorationLine: 'underline',
+    }
 });

@@ -3,6 +3,10 @@ import Drawer from 'react-native-drawer';
 import Color from '../const/Color';
 import Separator from './Separator';
 
+import {
+  fetchMyPoint,
+  fetchMyCoupon,
+} from '../app/actions/SideInfoActions';
 import { Actions } from 'react-native-router-flux';
 import Modal from 'react-native-modalbox';
 import RequestURL from '../const/RequestURL';
@@ -92,7 +96,7 @@ class SideDrawerContent extends Component {
                         responseData.title,
                         responseData.message,
                         [
-                            { text: '확인' }
+                            { text: '확인', onPress: () => this.fetchUserPoint() }
                         ]
                     );
                 } else {
@@ -159,6 +163,12 @@ class SideDrawerContent extends Component {
 }
 
 export default class SideDrawer extends Component {
+    constructor(props) {
+        super(props);
+        props.dispatch(fetchMyPoint());
+        props.dispatch(fetchMyCoupon());
+    }
+
     render() {
         return (
             <Drawer

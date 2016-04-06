@@ -66,6 +66,7 @@ const cartReducer = function(state = {
                 }
             }
         case CartActions.CLEAR_CART:
+            console.log(CartActions.CLEAR_CART);
             {
                 return Object.assign({}, state, {
                     cart: {}

@@ -1,7 +1,7 @@
 export const CartActions = {
     ADD_ITEM_TO_CART: "ADD_ITEM_TO_CART",
     DECREASE_ITEM_FROM_CART: "DECREASE_ITEM_FROM_CART",
-    CLAER_CART: "CLAER_CART"
+    CLEAR_CART: "CLEAR_CART"
 };
 
 export const addItemToCart = (menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng, enable) => ({
@@ -32,5 +32,5 @@ export const decreaseItemFromCart = (menuDIdx, menuIdx, price, altPrice, imageUr
 });
 
 export const clearCart = () => ({
-	type: CartActions.CLAER_CART
+	type: CartActions.CLEAR_CART
 });

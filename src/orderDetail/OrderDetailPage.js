@@ -1,6 +1,6 @@
 'use strict';
 import React, { View, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
-
+import { Actions } from 'react-native-router-flux';
 import Color from '../const/Color';
 import Const from '../const/Const';
 import OrderedMenu from './components/OrderedMenu';
@@ -21,6 +21,7 @@ export default class OrderDetailPage extends React.Component {
         fetch(RequestURL.REQUEST_MY_ORDER_DETAIL + 'order_idx=' + this.props.orderIdx)
             .then((response) => response.json())
             .then((responseData) => {
+                console.log(responseData);
                 this.setState({
                     order: responseData,
                     menus: responseData.order_detail,
@@ -31,11 +32,18 @@ export default class OrderDetailPage extends React.Component {
             })
             .done();
     }
+    onWriteReview(reviewIsAvailable, orderIdx) {
+        if(reviewIsAvailable) 
+            Actions.WriteReviewPage({ orderIdx: orderIdx })
+    }
     render() {
-        let order = this.state.order;
-        let menus = this.state.menus;
-
+        const order = this.state.order;
+        const menus = this.state.menus;
+        const orderIdx = order.order_idx;
         let orderedMenuList = [];
+        let reviewButtonText;
+        let reviewButtonSubText;
+        let reviewButtonStyle;
         menus.forEach(menu => {
             let menuName = menu.name_menu;
             let menuNameKor = menuName.split('.')[0];
@@ -43,9 +51,16 @@ export default class OrderDetailPage extends React.Component {
             orderedMenuList.push(<OrderedMenu key={menu.idx} name={menuNameKor} foreignName={menuNameEng} amount={menu.amount} />);
         })
 
-        let reviewButtonText = (order.review_status) ? '리뷰를 남겨주셔서 감사합니다.' : '리뷰를 남겨주세요 :)';
-        let reviewButtonSubText = (order.review_status) ? '앞으로도 더욱 좋은 음식으로 보답하겠습니다.':'추첨을 통해 무료 시식권을 드립니다 :) ';
-        
+        const reviewIsAvailable = !order.review_status;
+        if(reviewIsAvailable) {
+            reviewButtonText = '리뷰를 남겨주세요 :)';
+            reviewButtonSubText = '추첨을 통해 무료 시식권을 드립니다 :) ';
+            reviewButtonStyle = { backgroundColor: Color.PRIMARY_ORANGE, borderColor: Color.PRIMARY_ORANGE }
+        } else {
+            reviewButtonText = '리뷰를 남겨주셔서 감사합니다.';
+            reviewButtonSubText = '앞으로도 더욱 좋은 음식으로 보답하겠습니다.';
+            reviewButtonStyle = { backgroundColor: Color.PRIMARY_GRAY, borderColor: Color.PRIMARY_GRAY }
+        }
         return (
             <View style={styles.container}>
                 <View style={styles.content} >
@@ -63,14 +78,18 @@ export default class OrderDetailPage extends React.Component {
                             <Text style={styles.rightText}>{order.time_slot}</Text>
                         </View>
                     </View>
-                    <View style={styles.reviewBox}>
-                        <Image style={styles.imageStar}
-                            source={require('../commonComponent/img/icon_star_filled_yellow.png')}/>
-                        <View style={styles.reviewTextBox} >
-                            <Text style={styles.textWhite}>{reviewButtonText}</Text>
-                            <Text style={styles.textWhite}>{reviewButtonSubText}</Text>
+                    <TouchableHighlight
+                        onPress={ () =>  this.onWriteReview(reviewIsAvailable, orderIdx)}
+                        underlayColor={'transparent'} >
+                        <View style={[styles.reviewBox, reviewButtonStyle]}>
+                            <Image style={styles.imageStar}
+                                source={require('../commonComponent/img/icon_star_filled_yellow.png')}/>
+                            <View style={styles.reviewTextBox} >
+                                <Text style={styles.textWhite}>{reviewButtonText}</Text>
+                                <Text style={styles.textWhite}>{reviewButtonSubText}</Text>
+                            </View>
                         </View>
-                    </View>
+                    </TouchableHighlight>
                 </View>
             </View>
         );
@@ -118,10 +137,8 @@ let styles = StyleSheet.create({
         paddingBottom: 20,
         paddingLeft: 50,
         paddingRight: 50,
-        backgroundColor: Color.PRIMARY_ORANGE,
         justifyContent: 'center',
         alignItems: 'center',
-        borderColor: 'white',
         borderRadius: 5,
         borderWidth: 1,
         overflow: 'hidden',
@@ -134,7 +151,6 @@ let styles = StyleSheet.create({
     reviewTextBox: {
         justifyContent: 'center',
         alignItems: 'center',
-        flex: 1,
     },
     textBlack: {
         color: Color.PRIMARY_BLACK,
