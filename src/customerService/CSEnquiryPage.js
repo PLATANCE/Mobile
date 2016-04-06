@@ -25,22 +25,19 @@ export default class CSEnquiryPage extends React.Component {
                     <TouchableHighlight onPress={this.chatKakao} underlayColor={'transparent'}>
                         <View style={styles.row} >
                             <Image style={styles.img} 
-                                source={require('../commonComponent/img/icon_left_meal.png')}/>
-                            <Text style={styles.text}>카카오톡 채팅하기</Text>
+                                source={require('./img/enquiry_kakao.png')}/>
                         </View>
                     </TouchableHighlight> 
                     <TouchableHighlight onPress={this.contactPhone} underlayColor={'transparent'}>
                         <View style={styles.row} >
                             <Image style={styles.img} 
-                                source={require('../commonComponent/img/icon_left_meal.png')}/>
-                            <Text style={styles.text}>전화걸기</Text>
+                                source={require('./img/enquiry_phone.png')}/>
                         </View>
                     </TouchableHighlight>
                     <TouchableHighlight onPress={this.sendMail} underlayColor={'transparent'}>
                         <View style={styles.row} >
                             <Image style={styles.img} 
-                                source={require('../commonComponent/img/icon_left_meal.png')}/>
-                            <Text style={styles.text}>메일 보내기</Text>
+                                source={require('./img/enquiry_mail.png')}/>
                         </View>
                     </TouchableHighlight>
                 </View>
@@ -61,19 +58,26 @@ let styles = StyleSheet.create({
     },
     row: {
         marginTop: 10,
-        backgroundColor: 'white',
         height: 70,
+        backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
-        flexDirection: 'row',
     },
-    text: {
-        fontSize: 20,
-        color: Color.PRIMARY_BLACK,
-        marginLeft: 10,
+    imageBox: {
+        flex: 2,
+        alignItems: 'flex-end',
+        marginRight: 30,
     },
     img: {
-        width: 30,
-        height: 30,
-    }
+        width: 250,
+        height: 25,
+        resizeMode: 'contain',
+    },
+    textBox: {
+        flex: 3,
+    },
+    text: {
+        fontSize: 17,
+        color: Color.PRIMARY_BLACK,
+    },
 });

@@ -8,7 +8,6 @@ const Color = {
     REFER_BACKGROUND: '#3E3A39',
     PRIMARY_FACEBOOK: '#2a549d',
     PRIMARY_KAKAOTALK: '#fbe300',
-
 };
 // #616161
 module.exports = Color;

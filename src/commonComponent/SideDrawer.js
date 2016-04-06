@@ -124,7 +124,7 @@ class SideDrawerContent extends Component {
             { text: "내 쿠폰함 " + cntCouponText, image: require('./img/icon_left_coupon.png'), action: () => Actions.MyCouponPage({ disable: false }) },
             { text: "포인트·코드 등록", image: require('./img/icon_left_won.png'), action: ()=>this.openPromptDialog()},
             { text: "고객 센터", image: require('./img/icon_left_headset.png'), action: Actions.CSMainPage },
-            { text: "Plating 이란?", image: require('./img/icon_plus.png'), action: Actions.PlatingPage },
+            { text: "Plating 이란?", image: require('./img/icon_left_meal.png'), action: Actions.PlatingPage },
         ];
         
         var drawerRow = [];
