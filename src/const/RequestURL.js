@@ -9,6 +9,8 @@ const RequestURL = {
     REQUEST_DAILY_MENU: 'http://api.plating.co.kr/daily_menu',
     REQUEST_MY_ADDRESS: 'http://api.plating.co.kr/user/get_address?',
     REQUEST_REVIEW_AVAILABLE: 'http://api.plating.co.kr/review/isAvailable?', // user_idx
+    REQUEST_DIALOG: 'http://api.plating.co.kr/dialog/get_dialog',
+    REQUEST_APP_UPDATE_AVAILABLE: 'http://api.plating.co.kr/check_app_update_available', //version_code, build, user_agent
 
     // menuDetail
     REQUEST_MENU_DETAIL: 'http://api.plating.co.kr/menu_detail',    // menu_idx
@@ -57,9 +59,6 @@ const RequestURL = {
      * NOT YET
      *---------------------
      */
-    REQUEST_APP_UPDATE_AVAILABLE: 'http://api.plating.co.kr/check_app_update_available', //version_code, build, user_agent
-    REQUEST_DIALOG: 'http://api.plating.co.kr/dialog/get_dialog',
-    
 
     /*
      * SUBMIT REQUEST

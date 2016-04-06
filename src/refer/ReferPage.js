@@ -1,5 +1,5 @@
 'use strict';
-import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image, Clipboard, Alert, Linking } from 'react-native';
+import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image, Clipboard, Alert, Linking, LinkingIOS } from 'react-native';
 import Communications from 'react-native-communications';
 
 import Color from '../const/Color';
@@ -72,6 +72,10 @@ export default class ReferPage extends React.Component {
         );
     }
     showDetailDialog() {
+        /*
+            title: 친구를 초대하세요!
+            content: 초대받은 친구가 추천 코드를 입력하고 첫 주문을 하면, 초대하신 분께 5천원 포인트를 드립니다.
+        */
         Alert.alert(
             '친구를 초대하세요!',
             '초대받은 친구가 추천 코드를 입력하고 첫 주문을 하면, 초대하신 분께 ' + this.state.pointPriceKor + ' 포인트를 드립니다',
@@ -81,14 +85,8 @@ export default class ReferPage extends React.Component {
 
     }
     onPressMMS(content) {
-        let url = 'sms:010-3648-5294?body=123123';
-        Linking.canOpenURL(url).then(supported => {
-            if(!supported) {
-                console.log('Can\'t handle url: ' + url);
-            } else {
-                return Linking.openURL(url);
-            }
-        }).catch(err => console.error('An unexpected error happened', err));
+        const url = '&body=' + content;
+        Communications.text(url);
     }
     render() {
         /*
@@ -96,10 +94,7 @@ export default class ReferPage extends React.Component {
             다운로드 링크: http://goo.gl/t5lrSL
             추천인 코드: {코드}
         */
-        /*
-            title: 친구를 초대하세요!
-            content: 초대받은 친구가 추천 코드를 입력하고 첫 주문을 하면, 초대하신 분께 5천원 포인트를 드립니다.
-        */
+        
         let url = MediaURL.REFER_URL + this.state.url;
         let clipboardContent = '셰프의 요리를 집에서 즐겨요! 지금 플레이팅 앱을 다운받고 첫 주문 ' + this.state.pointPriceKor + ' 포인트를 드립니다.\n'
                             + '다운로드 링크: http://goo.gl/t5lrSL\n'
