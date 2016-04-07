@@ -7,6 +7,9 @@ import SearchedAddressList from './components/SearchedAddressList';
 import Color from '../const/Color';
 import Const from '../const/Const';
 import RequestURL from '../const/RequestURL';
+import {
+  fetchMyAddressList,
+} from '../app/actions/AddressActions';
 
 
 export default class AddAddressPage extends React.Component {
@@ -35,6 +38,9 @@ export default class AddAddressPage extends React.Component {
             .done();
     }
     render() {
+        const {
+            dispatch,
+        } = this.props;
         return (
             <ScrollView>
             <View style={styles.container} >
@@ -47,8 +53,13 @@ export default class AddAddressPage extends React.Component {
                         onSubmitEditing={this.searchAddress.bind(this)}
 					    placeholder='동이름을 입력하세요' />
 				</View>
-				<SearchedAddressList addressList={this.state.addressList} />
-                <TouchableHighlight style={styles.addressCoverBox} onPress={Actions.AddressCoveragePage}>
+				<SearchedAddressList 
+                    fetchMyAddressList={ () => dispatch(fetchMyAddressList()) }
+                    addressList={this.state.addressList} />
+                <TouchableHighlight style={styles.addressCoverBox} 
+                    onPress={Actions.AddressCoveragePage}
+                    underlayColor={'transparent'}
+                >
                     <Text style={styles.textOrange}>배달 가능한 지역 보기</Text>
                 </TouchableHighlight>
             </View>

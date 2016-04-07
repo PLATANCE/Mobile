@@ -125,7 +125,7 @@ export default class ReferPage extends React.Component {
                     </View>
                 </View>
                 <View style={styles.methodBox}>
-                    <TouchableHighlight underlayColor={'transparent'} onPress={ () => this.onPressKakao(clipboardContent) } >
+                    <TouchableHighlight underlayColor={'transparent'} onPress={ () => this.onPressKakao(kakaoContent) } >
                     <View style={styles.method}>
                         <Image style={styles.methodImage}
                             source={require('./img/refer_kakao_icon.png')}/>

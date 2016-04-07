@@ -1,5 +1,6 @@
-import React, { View, ListView, Text, StyleSheet, TouchableHighlight, AlertIOS } from 'react-native';
+import React, { View, ListView, Text, StyleSheet, TouchableHighlight, AlertIOS, Alert } from 'react-native';
 import Prompt from 'react-native-prompt';
+import { Actions } from 'react-native-router-flux';
 import Color from '../../const/Color';
 import RequestURL from '../../const/RequestURL';
 import Separator from '../../commonComponent/Separator';
@@ -57,7 +58,12 @@ export default class SearchedAddressList extends React.Component {
         })
         .then((response) => response.json())
         .then((responseData) => {
-            console.log(responseData);  // {update: 'mobile'}
+            Alert.alert(
+                '주소 추가',
+                '성공적으로 주소를 추가하였습니다.',
+            );
+            Actions.pop();
+            this.props.fetchMyAddressList();
         })
         .catch((error) => {
             console.warn(error);
