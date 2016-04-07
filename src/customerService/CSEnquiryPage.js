@@ -1,83 +1,85 @@
-'use strict';
-import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
+import React, {
+  View,
+  ListView,
+  Text,
+  StyleSheet,
+  TouchableHighlight,
+  Image,
+  NativeModules
+} from 'react-native';
 import Communications from 'react-native-communications';
 
 import Color from '../const/Color';
 import Const from '../const/Const';
 
 export default class CSEnquiryPage extends React.Component {
-    chatKakao() {
-        console.log("카카오톡 채팅하기");
-    }
-    contactPhone() {
-        //070-7777-6114
-        console.log("전화걸기");
-        Communications.phonecall('070-7777-6114', true);
-    }
-    sendMail() {
-        console.log("메일 보내기");
-        Communications.email(['contact@plating.co.kr'], null, null, '문의하기', '');
-    }
-    render() {
-        return (
-            <View style={styles.container}>
-                <View style={styles.content} >
-                    <TouchableHighlight onPress={this.chatKakao} underlayColor={'transparent'}>
-                        <View style={styles.row} >
-                            <Image style={styles.img} 
-                                source={require('./img/enquiry_kakao.png')}/>
-                        </View>
-                    </TouchableHighlight> 
-                    <TouchableHighlight onPress={this.contactPhone} underlayColor={'transparent'}>
-                        <View style={styles.row} >
-                            <Image style={styles.img} 
-                                source={require('./img/enquiry_phone.png')}/>
-                        </View>
-                    </TouchableHighlight>
-                    <TouchableHighlight onPress={this.sendMail} underlayColor={'transparent'}>
-                        <View style={styles.row} >
-                            <Image style={styles.img} 
-                                source={require('./img/enquiry_mail.png')}/>
-                        </View>
-                    </TouchableHighlight>
-                </View>
+  chatKakao() {
+    const KakaoManager = NativeModules.KakaoManager;
+    KakaoManager.openKakaoTalkToCustomerService();
+  }
+  contactPhone() {
+    Communications.phonecall('070-7777-6114', true);
+  }
+  sendMail() {
+    Communications.email(['contact@plating.co.kr'], null, null, '문의하기', '');
+  }
+  render() {
+    return (
+      <View style={styles.container}>
+        <View style={styles.content}>
+          <TouchableHighlight onPress={this.chatKakao} underlayColor={'transparent'}>
+            <View style={styles.row}>
+              <Image style={styles.img} source={require('./img/enquiry_kakao.png')} />
             </View>
-        );
-    }
+          </TouchableHighlight>
+          <TouchableHighlight onPress={this.contactPhone} underlayColor={'transparent'}>
+            <View style={styles.row}>
+              <Image style={styles.img} source={require('./img/enquiry_phone.png')} />
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight onPress={this.sendMail} underlayColor={'transparent'}>
+            <View style={styles.row}>
+              <Image style={styles.img} source={require('./img/enquiry_mail.png')} />
+            </View>
+          </TouchableHighlight>
+        </View>
+      </View>
+    );
+  }
 }
 
-let styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: Color.PRIMARY_BACKGROUND,
-        marginTop: Const.MARGIN_TOP,
-    },
-    content: {
-        flex: 1,
-        justifyContent: 'center',
-    },
-    row: {
-        marginTop: 10,
-        height: 70,
-        backgroundColor: 'white',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    imageBox: {
-        flex: 2,
-        alignItems: 'flex-end',
-        marginRight: 30,
-    },
-    img: {
-        width: 250,
-        height: 25,
-        resizeMode: 'contain',
-    },
-    textBox: {
-        flex: 3,
-    },
-    text: {
-        fontSize: 17,
-        color: Color.PRIMARY_BLACK,
-    },
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Color.PRIMARY_BACKGROUND,
+    marginTop: Const.MARGIN_TOP,
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  row: {
+    marginTop: 10,
+    height: 70,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  imageBox: {
+    flex: 2,
+    alignItems: 'flex-end',
+    marginRight: 30,
+  },
+  img: {
+    width: 250,
+    height: 25,
+    resizeMode: 'contain',
+  },
+  textBox: {
+    flex: 3,
+  },
+  text: {
+    fontSize: 17,
+    color: Color.PRIMARY_BLACK,
+  },
 });

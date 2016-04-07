@@ -38,6 +38,7 @@
 	<string>1</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>kakaoplus</string>
 		<string>kakao35c3983a3275c9d0372965f9aed3b366</string>
 		<string>kakaokompassauth</string>
 		<string>storykompassauth</string>
