@@ -1,5 +1,5 @@
 'use strict';
-import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image, Clipboard, Alert, Linking, LinkingIOS } from 'react-native';
+import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image, Clipboard, Alert, Linking, LinkingIOS, NativeModules } from 'react-native';
 import Communications from 'react-native-communications';
 
 import Color from '../const/Color';
@@ -9,6 +9,7 @@ import RequestURL from '../const/RequestURL';
 
 import userInfo from '../util/userInfo';
 const userIdx = userInfo.idx;
+const KakaoManager = NativeModules.KakaoManager;
 
 export default class ReferPage extends React.Component {
     constructor(props) {
@@ -82,7 +83,8 @@ export default class ReferPage extends React.Component {
         );
     }
     onPressKakao(content) {
-
+      console.log(content);
+      KakaoManager.openKakaoTalkAppLink('Plating 열기', content);
     }
     onPressMMS(content) {
         const url = '&body=' + content;
@@ -94,7 +96,7 @@ export default class ReferPage extends React.Component {
             다운로드 링크: http://goo.gl/t5lrSL
             추천인 코드: {코드}
         */
-        
+
         let url = MediaURL.REFER_URL + this.state.url;
         let clipboardContent = '셰프의 요리를 집에서 즐겨요! 지금 플레이팅 앱을 다운받고 첫 주문 ' + this.state.pointPriceKor + ' 포인트를 드립니다.\n'
                             + '다운로드 링크: http://goo.gl/t5lrSL\n'
@@ -142,7 +144,7 @@ export default class ReferPage extends React.Component {
                         <Text style={styles.textBlack}>URL 복사</Text>
                     </View>
                     </TouchableHighlight>
-                </View>    
+                </View>
             </View>
         );
     }
@@ -180,7 +182,7 @@ let styles = StyleSheet.create({
         color: Color.PRIMARY_ORANGE,
         fontSize: 50,
         fontWeight: 'bold',
-    },  
+    },
     detailTextBox: {
         flex: 2,
         alignItems: 'center',
