@@ -5,38 +5,34 @@ import Color from '../const/Color';
 import Const from '../const/Const';
 import RequestURL from '../const/RequestURL';
 import WriteReviewList from './components/WriteReviewList';
-
+import {
+  fetchWriteReviewList,
+  changeStarRating,
+  changeTextInputComment,
+} from '../app/actions/WriteReviewActions';
 export default class WriteReviewPage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            reviews: [],
-        }
-        console.log(this.props.orderIdx);
+        props.dispatch(fetchWriteReviewList(this.props.orderIdx));
     }
-    componentDidMount() {
-        this.fetchWriteReviews();
-    }
-    fetchWriteReviews() {
-        fetch(RequestURL.REQUEST_WRITE_REVIEW_LIST + 'order_idx=' + this.props.orderIdx)
-            .then((response) => response.json())
-            .then((responseData) => {
-                console.log(responseData);
-                this.setState({
-                    reviews: responseData.review_list,
-                });
-            })
-            .catch((error)=> {
-                console.warn(error);
-            })
-            .done();
-    }
+
     render() {
+        const {
+            dispatch,
+            reviews,
+            orderIdx,
+        } = this.props;
         return (
             <View style={styles.container}>
                 <View style={styles.content} >
                     <ScrollView>
-                        <WriteReviewList reviews={this.state.reviews} orderIdx={this.props.orderIdx}/>
+                        <WriteReviewList 
+                            reviews={reviews} 
+                            orderIdx={orderIdx}
+                            onFetchWriteReviewList={ () => dispatch(fetchWriteReviewList(orderIdx)) }
+                            onChangeStarRating={ (orderDIdx, rating) => dispatch(changeStarRating(orderDIdx, rating)) }
+                            onChangeTextInputComment={ (orderDIdx, rating) => dispatch(changeTextInputComment(orderDIdx, rating)) }
+                        />
                     </ScrollView>
                 </View>
             </View>

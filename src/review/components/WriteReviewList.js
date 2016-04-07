@@ -1,7 +1,8 @@
-import React, { View, ListView, Text, StyleSheet, Image, TextInput } from 'react-native';
+import React, { View, ListView, Text, StyleSheet, Image, TextInput, TouchableHighlight, Alert } from 'react-native';
 import StarRating from 'react-native-star-rating';
 import Color from '../../const/Color';
 import MediaURL from '../../const/MediaURL';
+import RequestURL from '../../const/RequestURL';
 
 export default class WriteReviewList extends React.Component {
     constructor(props) {
@@ -22,19 +23,61 @@ export default class WriteReviewList extends React.Component {
             })
         }
     }
-
-    setRating(rating) {
-        console.log(rating);
-    }
-
-    setComment() {
-
-    }
+    submitReview(orderDIdx, enableButton) {
+        const {
+            orderIdx,
+            reviews,
+            onFetchWriteReviewList,
+        } = this.props;
+        let rating;
+        let comment;
+        reviews.forEach((review) => {
+            if(orderDIdx === review.idx) {
+                rating = review.rating;
+                comment = review.comment;
+            }
+        })
+        const param = {
+            order_idx: orderIdx,
+            order_d_idx: orderDIdx,
+            rating: rating,
+            comment: comment,
+        };
+        if(enableButton) {
+            fetch(RequestURL.SUBMIT_WRITE_REVIEW, {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(param),
+                }).then((response) => response.json())
+                .then((responseData) => {
+                    Alert.alert(
+                        '소중한 의견 감사합니다.',
+                    );
+                    onFetchWriteReviewList();
+                }).catch((error) => {
+                  console.warn(error);
+                }).done();
+        }
+    }   
     renderRow(rowData) {
-        let menuName = rowData.name_menu;
-        let menuNameKor = menuName.split('.')[0];
-        let menuNameEng = menuName.split('.')[1];
-        let menuURL = MediaURL.MENU_URL + rowData.image_url_menu;
+        const {
+            onChangeStarRating,
+            onChangeTextInputComment
+        } = this.props;
+
+        const orderDIdx = rowData.idx;
+        const menuName = rowData.name_menu;
+        const menuNameKor = menuName.split('.')[0];
+        const menuNameEng = menuName.split('.')[1];
+        const menuURL = MediaURL.MENU_URL + rowData.image_url_menu;
+        const rating = rowData.rating;
+        const enableButton = (rating > 0) ? false : true;
+        const enableButtonBackground = (rating > 0) ? 
+            { borderColor: Color.PRIMARY_GRAY, backgroundColor: Color.PRIMARY_GRAY } : 
+            { borderColor: Color.PRIMARY_ORANGE, backgroundColor: Color.PRIMARY_ORANGE };
         return (
             <View style={styles.row}>
                 <View style={styles.menuBox}>
@@ -47,11 +90,11 @@ export default class WriteReviewList extends React.Component {
                         <View style={styles.starBox}>
                             <StarRating
                                 ref={(rating) => {this.rating = rating;}}
-                                disabled={false}
+                                disabled={!enableButton}
                                 maxStars={5}
-                                rating={rowData.rating}
+                                rating={rating}
                                 starColor={'#FFD057'}
-                                selectedStar={(rating) => this.setRating(rating)}
+                                selectedStar={(rating) => onChangeStarRating(orderDIdx,rating)}
                             />
                         </View>
                     </View>
@@ -59,15 +102,19 @@ export default class WriteReviewList extends React.Component {
                 <View style={styles.reviewBox}>
                     <TextInput style={styles.textInput} 
                         keyboardType="default" 
-                        autoCorrect={false} 
-                        placeholder='솔직한 리뷰는, 플레이팅을 더 맛있게 합니다 :)' 
-                        multiline={true}
-                        onSubmitEditing={this.setComment()}
+                        autoCorrect={false}
+                        value={rowData.comment}
+                        placeholder='솔직한 리뷰는, 플레이팅을 더 맛있게 합니다 :)'
+                        onSubmitEditing={(event) => onChangeTextInputComment(orderDIdx, event.nativeEvent.text)}
                     />
                 </View>
-                <View style={styles.buttonBox}>
-                    <Text style={styles.textWhite}>리뷰 저장</Text>
-                </View>
+                <TouchableHighlight 
+                    underlayColor={'transparent'}
+                    onPress={() => this.submitReview(orderDIdx, enableButton)}>
+                    <View style={[styles.buttonBox, enableButtonBackground]}>
+                        <Text style={styles.textWhite}>리뷰 저장</Text>
+                    </View>
+                </TouchableHighlight>
             </View>
         );
     }
@@ -127,7 +174,6 @@ let styles = StyleSheet.create({
     },
     reviewBox: {
         marginTop: 10,
-        justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: Color.PRIMARY_BACKGROUND,
         overflow: 'hidden',
@@ -141,8 +187,6 @@ let styles = StyleSheet.create({
     buttonBox: {
         flexDirection: 'row',
         marginTop: 10,
-        borderColor: Color.PRIMARY_ORANGE,
-        backgroundColor: Color.PRIMARY_ORANGE,
         borderWidth: 1,
         borderRadius: 5,
         overflow: 'hidden',

@@ -31,6 +31,7 @@ const RequestURL = {
 
     // review
     REQUEST_WRITE_REVIEW_LIST: 'http://api.plating.co.kr/review/written_by_user?',  // order_idx
+    SUBMIT_WRITE_REVIEW: 'http://api.plating.co.kr/review/submit_review_one',  // order_idx, order_d_idx, rating, comment
 
     // order
     REQUEST_MY_ORDER_LIST: 'http://api.plating.co.kr/order/history?',   // user_idx
@@ -63,7 +64,7 @@ const RequestURL = {
     /*
      * SUBMIT REQUEST
      */
-    SUBMIT_WRITE_REVIEW: 'http://api.plating.co.kr/submit_review',  // order_idx, order_d_idx, rating, comment
+    
     
     
 };

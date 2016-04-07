@@ -99,6 +99,8 @@ export default class ReferPage extends React.Component {
         let clipboardContent = '셰프의 요리를 집에서 즐겨요! 지금 플레이팅 앱을 다운받고 첫 주문 ' + this.state.pointPriceKor + ' 포인트를 드립니다.\n'
                             + '다운로드 링크: http://goo.gl/t5lrSL\n'
                             + '추천인 코드: ' + this.state.userCode;
+        let kakaoContent = '셰프의 요리를 집에서 즐겨요! 지금 플레이팅 앱을 다운받고 첫 주문 ' + this.state.pointPriceKor + ' 포인트를 드립니다.\n'
+                            + '추천인 코드: ' + this.state.userCode;
 
         return (
             <View style={styles.container}>

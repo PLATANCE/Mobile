@@ -95,17 +95,11 @@ export default class Routes extends Component {
             </TouchableHighlight>
         );
     }
-    renderTitle(title) {
-        return (
-            <View style={styles.titleBox}>
-                <Text style={styles.title}>{title}</Text>
-            </View>
-        );
-    }
 
     drawerOpen() {
         this.refs.sideDrawer.refs.drawer.open();
     }
+
 
     render() {
         return (
@@ -197,7 +191,7 @@ export default class Routes extends Component {
                         title="REVIEW" wrapRouter={true}  navigationBarStyle={styles.navigationBar}
                         titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
 
-                    <Route name="WriteReviewPage"  component={connect()(WriteReviewPage)}
+                    <Route name="WriteReviewPage"  component={connect(WriteReviewSelector)(WriteReviewPage)}
                         title="리뷰 남기기" wrapRouter={true}  navigationBarStyle={styles.navigationBar}
                         titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
 
