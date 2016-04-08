@@ -1,16 +1,22 @@
 'use strict';
-import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
+import React, { View, StyleSheet, WebView } from 'react-native';
 
 import Color from '../const/Color';
 import Const from '../const/Const';
+import MediaURL from '../const/MediaURL';
 
 export default class PlatingPage extends React.Component {
 
     render() {
         return (
             <View style={styles.container}>
-                <View style={styles.content} >
-                </View>
+                <WebView style={styles.webView}
+                    automaticallyAdjustContentInsets={false}
+                    source={{uri: "http://www.plating.co.kr/admin/what_is_plating.php"}}
+                    javaScriptEnabled={true}
+                    domStorageEnabled={true}
+                    decelerationRate="normal"
+                    startInLoadingState={true} />
             </View>
         );
     }
@@ -22,7 +28,7 @@ let styles = StyleSheet.create({
         backgroundColor: Color.PRIMARY_BACKGROUND,
         marginTop: Const.MARGIN_TOP,
     },
-    content: {
+    webView: {
         flex: 1,
-    },
+    }
 });

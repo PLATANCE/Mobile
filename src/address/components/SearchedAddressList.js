@@ -27,26 +27,28 @@ export default class SearchedAddressList extends React.Component {
             })
         }
     }
-    openAlertAddressDetail(title, message, address, deliveryAvailable) {
+    openAlertAddressDetail(title, message, address, deliveryAvailable, latitude, longitude) {
         AlertIOS.prompt(
             title,
             message,
             [
                 { text: '취소', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-                { text: '등록', onPress: (addressDetail) => this.submitDeliveryAddress(address, addressDetail, deliveryAvailable) },
+                { text: '등록', onPress: (addressDetail) => this.submitDeliveryAddress(address, addressDetail, deliveryAvailable, latitude, longitude) },
             ],
         );
     }
     
-    submitDeliveryAddress(address, addressDetail, deliveryAvailable) {
-        console.log(address, addressDetail, deliveryAvailable);
-
+    submitDeliveryAddress(address, addressDetail, deliveryAvailable, latitude, longitude) {
         const param = {
             user_idx: userIdx,
             address: address,
             address_detail: addressDetail,
             delivery_available: deliveryAvailable,
+            lat: latitude,
+            lon: longitude,
         };
+
+        console.log(param);
         
         fetch(RequestURL.SUBMIT_UPDATE_ADDRESS, {
             method: 'POST',
@@ -79,9 +81,11 @@ export default class SearchedAddressList extends React.Component {
 
         let address = rowData.address;
         let deliveryAvailable = rowData.available;
+        const latitude = rowData.latitude;
+        const longitude = rowData.longitude;
         return (
             <View style={styles.row}>
-                <TouchableHighlight onPress={ () => this.openAlertAddressDetail(title, message, address, deliveryAvailable)} >
+                <TouchableHighlight onPress={ () => this.openAlertAddressDetail(title, message, address, deliveryAvailable, latitude, longitude)} >
                     <Text style={textStyle}>{address}</Text>
                 </TouchableHighlight>
                 <Separator />
