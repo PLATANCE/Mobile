@@ -1,6 +1,8 @@
-import React, { Text, View, Component, PropTypes, StyleSheet, Image, TouchableHighlight, AlertIOS, Alert } from 'react-native';
+import React, { Text, View, Component, PropTypes, StyleSheet, Image, TouchableHighlight, AlertIOS, Alert, PixelRatio } from 'react-native';
 import Drawer from 'react-native-drawer';
 import Color from '../const/Color';
+import Const from '../const/Const';
+import Font from '../const/Font';
 import Separator from './Separator';
 
 import {
@@ -11,6 +13,7 @@ import { Actions } from 'react-native-router-flux';
 import Modal from 'react-native-modalbox';
 import RequestURL from '../const/RequestURL';
 import userInfo from '../util/userInfo';
+
 const userIdx = userInfo.idx;
 
 class SideDrawerContent extends Component {
@@ -31,9 +34,11 @@ class SideDrawerContent extends Component {
         fetch(RequestURL.REQUEST_USER_POINT + 'user_idx=' + userIdx)
             .then((response) => response.json())
             .then((responseData) => {
-                this.setState({
-                    point: responseData.point,
-                });
+                if(responseData) {
+                    this.setState({
+                        point: responseData.point,
+                    });
+                }
             })
             .catch((error)=> {
                 console.warn(error);
@@ -137,7 +142,7 @@ class SideDrawerContent extends Component {
                                 <View style={styles.drawerRow}>
                                     <Image style={styles.drawerImage}
                                         source={image}/>
-                                    <Text style={[styles.textBlack, { marginLeft: 10 }]}>{text}</Text>
+                                    <Text style={[Font.DEFAULT_FONT_BLACK, { marginLeft: 10 }]}>{text}</Text>
                                 </View>
                             </TouchableHighlight>);
         });
@@ -146,15 +151,16 @@ class SideDrawerContent extends Component {
                 <View style={styles.headerBox}>
                     <Image style={styles.imageLogo}
                         source={require('./img/plating_logo.png')}/>
-                    <Text style={styles.pointText}>내 포인트: {this.commaPrice(this.state.point)}p</Text>
+                    <Text style={[styles.pointText, Font.DEFAULT_FONT_WHITE]}>내 포인트: {this.commaPrice(this.state.point)}p</Text>
                 </View>
                 <View style={styles.drawerRowBox} >
                    {drawerRow}
                 </View>
                 <TouchableHighlight onPress={Actions.ReferPage} underlayColor={'transparent'}>
                     <View style={styles.footerBox}>
-                        <Text style={[styles.textWhite, styles.textBold, { fontSize: 18}]}>친구 초대</Text>
-                        <Text style={[styles.textWhite, styles.textBold]}>{referPriceText}</Text>
+                        <Text style={[Font.DEFAULT_FONT_WHITE_BOLD, { fontSize: 18 }]}>친구 초대</Text>
+                        <Text style={Font.DEFAULT_FONT_WHITE_BOLD}>{referPriceText}</Text>
+                        <Text style={[Font.DEFAULT_FONT_WHITE, { textDecorationLine: 'underline' }]}>초대하러 가기</Text>
                     </View>
                 </TouchableHighlight>
             </View>
@@ -209,19 +215,18 @@ let styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     headerBox: {
-        height: 150,
+        height: 150 * Const.DEVICE_RATIO,
         justifyContent: 'center',
         backgroundColor: Color.PRIMARY_ORANGE,
         paddingLeft: 20,
     },
     imageLogo: {
-        height: 20,
-        width: 170,
+        height: 20 * Const.DEVICE_RATIO,
+        width: 170 * Const.DEVICE_RATIO,
         marginTop: 32,
         resizeMode: 'contain',
     },
     pointText: {
-        color: 'white',
         marginTop: 10,
     },
     drawerRowBox: {
@@ -229,7 +234,7 @@ let styles = StyleSheet.create({
         marginLeft: 20,
     },
     drawerRow: {
-        height: 60,
+        height: 60 * Const.DEVICE_RATIO,
         borderBottomWidth: 0.2,
         borderColor: Color.PRIMARY_GRAY,
         alignItems: 'center',
@@ -237,23 +242,11 @@ let styles = StyleSheet.create({
         marginRight: 10,
     },
     drawerImage: {
-        width: 20,
-        height: 20,
-    },
-    textBlack: {
-        color: Color.PRIMARY_BLACK
-    },
-    textOrange: {
-        color: Color.PRIMARY_ORANGE
-    },
-    textWhite: {
-        color: 'white'
-    },
-    textBold: {
-        fontWeight: 'bold',
+        width: 20 * Const.DEVICE_RATIO,
+        height: 20 * Const.DEVICE_RATIO,
     },
     footerBox: {
-        height: 100,
+        height: 100 * Const.DEVICE_RATIO,
         backgroundColor: Color.PRIMARY_ORANGE,
         justifyContent: 'center',
         paddingLeft: 20,

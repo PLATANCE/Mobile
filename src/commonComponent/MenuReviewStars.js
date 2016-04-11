@@ -4,8 +4,11 @@ import React, {
     View,
     Text,
     StyleSheet,
-    Image
+    Image,
+    PixelRatio,
 } from 'react-native';
+
+import Const from '../const/Const';
 
 export default class MenuReviewStars extends React.Component {
     static propTypes = {
@@ -70,7 +73,7 @@ let styles = StyleSheet.create({
         flexDirection: 'row',
     },
     star: {
-        width: 25,
-        height: 25,
+        width: 25 * Const.DEVICE_RATIO,
+        height: 25 * Const.DEVICE_RATIO,
     }
 });

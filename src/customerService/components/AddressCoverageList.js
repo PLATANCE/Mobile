@@ -1,5 +1,7 @@
 import React, { View, ListView, Text, StyleSheet, Image, TouchableHighlight } from 'react-native';
 import Color from '../../const/Color';
+import Const from '../../const/Const';
+import Font from '../../const/Font';
 
 export default class AddressCoverageList extends React.Component {
     constructor(props) {
@@ -30,8 +32,8 @@ export default class AddressCoverageList extends React.Component {
         dongList = dongList.substring(0, dongList.length - 2);
         return (
             <View style={styles.row}>
-                <Text style={[styles.textBlack, styles.textBold, styles.textSize15]}>{rowData.gu}</Text>
-                <Text style={[styles.textBlack, {marginTop: 5}]}>{dongList}</Text>
+                <Text style={[Font.DEFAULT_FONT_BLACK_BOLD, styles.textSize15]}>{rowData.gu}</Text>
+                <Text style={[Font.DEFAULT_FONT_BLACK, {marginTop: 5}]}>{dongList}</Text>
     		</View>
         );
     }
@@ -54,16 +56,10 @@ let styles = StyleSheet.create({
         padding: 10,
         backgroundColor: 'white',
         justifyContent: 'center',
-        height: 100,
+        height: 100 * Const.DEVICE_RATIO,
 
     },
-    textBlack: {
-        color: Color.PRIMARY_BLACK,
-    },
-    textBold: {
-        fontWeight: 'bold',
-    },
     textSize15: {
-        fontSize: 15,
+        fontSize: 15 * Const.DEVICE_RATIO,
     },
 });

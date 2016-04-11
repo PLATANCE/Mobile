@@ -5,11 +5,14 @@ import React, {
     Text,
     StyleSheet,
     ListView,
-    TouchableHighlight
+    TouchableHighlight,
+    PixelRatio,
 } from 'react-native';
 
 import MenuReviewStars from '../../commonComponent/MenuReviewStars';
 import Color from '../../const/Color';
+import Const from '../../const/Const';
+import Font from '../../const/Font';
 
 export default class ReviewList extends React.Component {
     static propTypes = {
@@ -36,13 +39,13 @@ export default class ReviewList extends React.Component {
             <View style={styles.row}>
                 <View style={styles.scoreDateBox}>
                     <MenuReviewStars score={rowData.rating} />
-                    <Text style={styles.dateStringText}>{rowData.rated_time}</Text>
+                    <Text style={[styles.dateStringText, Font.DEFAULT_FONT_BLACK]}>{rowData.rated_time}</Text>
                 </View>
                 <View style={styles.contentBox}>
-                    <Text style={styles.textBlack}>{rowData.comment}</Text>
+                    <Text style={[styles.textBlack, Font.DEFAULT_FONT_BLACK]}>{rowData.comment}</Text>
                 </View>
                 <View style={styles.phoneBox}>
-                    <Text style={styles.textBlack}>{rowData.mobile}</Text>
+                    <Text style={[styles.textBlack, Font.DEFAULT_FONT_BLACK]}>{rowData.mobile}</Text>
                 </View>
             </View>
         )
@@ -52,7 +55,7 @@ export default class ReviewList extends React.Component {
         return (
             <View>
                 <View style={styles.headerBox}>
-                    <Text style={styles.headerText}>고객님들의 평가</Text>
+                    <Text style={[styles.headerText, Font.DEFAULT_FONT_BLACK]}>고객님들의 평가</Text>
                 </View>
                 <ListView style={styles.listView}
                     //https://facebook.github.io/react-native/docs/listview.html
@@ -73,8 +76,7 @@ let styles = StyleSheet.create({
     },
     headerText: {
         textAlign: 'center',
-        fontSize: 18,
-        color: Color.PRIMARY_BLACK,
+        fontSize: 18 * Const.DEVICE_RATIO,
     },
     row: {
         flex: 1,
@@ -89,7 +91,6 @@ let styles = StyleSheet.create({
     dateStringText: {
         flex: 1,
         textAlign: 'right',
-        color: Color.PRIMARY_BLACK,
     },
     contentBox: {
         marginTop: 5,
@@ -100,8 +101,7 @@ let styles = StyleSheet.create({
         marginTop: 5,
     },
     textBlack: {
-        color: Color.PRIMARY_BLACK,
-        lineHeight: 20,
+        lineHeight: 20 * Const.DEVICE_RATIO,
     }
 
 });

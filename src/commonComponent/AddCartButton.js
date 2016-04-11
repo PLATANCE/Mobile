@@ -9,6 +9,7 @@ import React, {
 } from 'react-native';
 
 import Color from '../const/Color';
+import Font from '../const/Font';
 
 export default class AddCartButton extends React.Component {
     render() {
@@ -19,7 +20,7 @@ export default class AddCartButton extends React.Component {
                 <View style={styles.container}>
                     <Image style={styles.image} 
                         source={require('./img/icon_plus.png')}/>
-                    <Text style={styles.addCartButton}>추가하기</Text>
+                    <Text style={Font.DEFAULT_FONT_WHITE}>추가하기</Text>
                 </View>
             </TouchableHighlight>
         );

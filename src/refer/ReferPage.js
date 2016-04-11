@@ -4,6 +4,7 @@ import Communications from 'react-native-communications';
 
 import Color from '../const/Color';
 import Const from '../const/Const';
+import Font from '../const/Font';
 import MediaURL from '../const/MediaURL';
 import RequestURL from '../const/RequestURL';
 
@@ -115,11 +116,11 @@ export default class ReferPage extends React.Component {
                         <Text style={styles.codeText}>{this.state.userCode}</Text>
                     </View>
                     <View style={styles.detailTextBox}>
-                        <Text style={styles.textWhite}>친구가 첫 주문을 하면</Text>
+                        <Text style={Font.DEFAULT_FONT_WHITE}>친구가 첫 주문을 하면</Text>
                         <View style={styles.detailTextFooterBox}>
-                            <Text style={styles.textWhite}>나에게도 {this.state.pointPriceNum}이 바로 적립!</Text>
+                            <Text style={Font.DEFAULT_FONT_WHITE}>나에게도 {this.state.pointPriceNum}이 바로 적립!</Text>
                             <TouchableHighlight onPress={() => this.showDetailDialog()}>
-                                <Text style={styles.textDetail}>자세히</Text>
+                                <Text style={[styles.textDetail, Font.DEFAULT_FONT_ORANGE]}>자세히</Text>
                             </TouchableHighlight>
                         </View>
                     </View>
@@ -129,21 +130,21 @@ export default class ReferPage extends React.Component {
                     <View style={styles.method}>
                         <Image style={styles.methodImage}
                             source={require('./img/refer_kakao_icon.png')}/>
-                        <Text style={styles.textBlack}>카카오톡</Text>
+                        <Text style={Font.DEFAULT_FONT_BLACK}>카카오톡</Text>
                     </View>
                     </TouchableHighlight>
                     <TouchableHighlight underlayColor={'transparent'} onPress={ () => this.onPressMMS(clipboardContent) }>
                     <View style={styles.method}>
                         <Image style={styles.methodImage}
                             source={require('./img/refer_sms_icon.png')}/>
-                        <Text style={styles.textBlack}>문자</Text>
+                        <Text style={Font.DEFAULT_FONT_BLACK}>문자</Text>
                     </View>
                     </TouchableHighlight>
                     <TouchableHighlight onPress={() => this.setClipboardContent(clipboardContent)} underlayColor={'transparent'}>
                     <View style={styles.method}>
                         <Image style={styles.methodImage}
                             source={require('./img/refer_url_icon.png')}/>
-                        <Text style={styles.textBlack}>URL 복사</Text>
+                        <Text style={Font.DEFAULT_FONT_BLACK}>URL 복사</Text>
                     </View>
                     </TouchableHighlight>
                 </View>
@@ -182,7 +183,7 @@ let styles = StyleSheet.create({
     },
     codeText: {
         color: Color.PRIMARY_ORANGE,
-        fontSize: 50,
+        fontSize: 50 * Const.DEVICE_RATIO,
         fontWeight: 'bold',
     },
     detailTextBox: {
@@ -196,37 +197,32 @@ let styles = StyleSheet.create({
         justifyContent: 'center',
     },
     textWhite: {
-        color: 'white',
-        fontSize: 16,
-    },
-    textBlack: {
-        color: Color.PRIMARY_BLACK,
+        fontSize: 16 * Const.DEVICE_RATIO,
     },
     textDetail: {
-        color: Color.PRIMARY_ORANGE,
         textDecorationLine: 'underline',
-        fontSize: 18,
+        fontSize: 18 * Const.DEVICE_RATIO,
         marginLeft: 5,
     },
     methodBox: {
         flex: 2,
         paddingTop: 10,
         paddingBottom: 10,
-        paddingLeft: 50,
-        paddingRight: 50,
+        paddingLeft: 50 * Const.DEVICE_RATIO,
+        paddingRight: 50 * Const.DEVICE_RATIO,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
     },
     method: {
-        marginLeft: 20,
-        marginRight: 20,
+        marginLeft: 20 * Const.DEVICE_RATIO,
+        marginRight: 20 * Const.DEVICE_RATIO,
         alignItems: 'center',
         justifyContent: 'center',
     },
     methodImage: {
-        width: 70,
-        height: 70,
+        width: 70 * Const.DEVICE_RATIO,
+        height: 70 * Const.DEVICE_RATIO,
         resizeMode: 'contain',
     }
 });

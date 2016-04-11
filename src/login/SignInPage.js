@@ -4,6 +4,7 @@ import { Actions } from 'react-native-router-flux';
 import DeviceInfo from 'react-native-device-info';
 import Color from '../const/Color';
 import Const from '../const/Const';
+import Font from '../const/Font';
 import PushNotification from '../app/PushNotification';
 import RequestURL from '../const/RequestURL';
 import realm from '../util/realm';
@@ -64,13 +65,32 @@ export default class SignInPage extends React.Component {
                 "os_version": DeviceInfo.getSystemVersion(),
                 "device": DeviceInfo.getModel(),
                 "nickname": result.properties.nickname,
+                "profile_image": result.properties.profile_image,
+                "thumbnail_image": result.properties.thumbnail_image,
             };
-
             signUp(params);
 
         }).catch((err) => {
             console.log(err);
         });
+    }
+    autoLogin() {
+        console.log("auto login");
+
+        const signUp = this.signUp;
+
+        let params = {
+                "os_type": "iOS",
+                "login_type": "auto",
+                "user_id": DeviceInfo.getUniqueID(),
+                "name": "",
+                "push_token": PushNotification.deviceToken,
+                "os_version": DeviceInfo.getSystemVersion(),
+                "device": DeviceInfo.getModel(),
+                "device_name": DeviceInfo.getDeviceName(),
+                "email": "",
+            };
+        signUp(params);
     }
     signUp(param) {
         console.log(`sign up body : ${JSON.stringify(param)}`);
@@ -118,23 +138,23 @@ export default class SignInPage extends React.Component {
                             <Image style={styles.button}
                                 source={require('./img/kakao.png')} />
                         </TouchableHighlight>
-                        <TouchableHighlight onPress={Actions.DrawerPage} underlayColor={'transparent'}>
-                            <Text style={[styles.textOrange, {fontSize: 14, marginTop: 10,}]}>로그인 없이 시작하기</Text>
+                        <TouchableHighlight onPress={this.autoLogin.bind(this)} underlayColor={'transparent'}>
+                            <Text style={[Font.DEFAULT_FONT_ORANGE_UNDERLINE, {fontSize: 14 * Const.DEVICE_RATIO,marginTop: 10,}]}>로그인 없이 시작하기</Text>
                         </TouchableHighlight>
                     </View>
                     <View style={styles.textBox}>
                         <View style={styles.textBoxRow}>
-                            <Text style={styles.textBlack}>회원가입과 동시에 플레이팅의</Text>
-                            <TouchableHighlight onPress={Actions.CSEnquiryPage} underlayColor={'transparent'}>
-                                <Text style={styles.textOrange}> 서비스 이용약관</Text>
+                            <Text style={[Font.DEFAULT_FONT_BLACK], {fontSize: 10 * Const.DEVICE_RATIO}}>회원가입과 동시에 플레이팅의</Text>
+                            <TouchableHighlight onPress={() => Actions.CSPolicyPage({uri: 'http://api.plating.co.kr/app/term.html', page: 'servicePolicy'})} underlayColor={'transparent'}>
+                                <Text style={[Font.DEFAULT_FONT_ORANGE_UNDERLINE, {fontSize: 10 * Const.DEVICE_RATIO}]}> 서비스 이용약관</Text>
                             </TouchableHighlight>
                         </View>
                         
                         <View style={styles.textBoxRow}>
-                            <TouchableHighlight onPress={Actions.CSPolicyPage} underlayColor={'transparent'}>
-                                <Text style={styles.textOrange}>개인정보 취급방침</Text>
+                            <TouchableHighlight onPress={() => Actions.CSPolicyPage({uri: 'http://api.plating.co.kr/app/privacy.html', page: 'privacyPolicy'})} underlayColor={'transparent'}>
+                                <Text style={[Font.DEFAULT_FONT_ORANGE_UNDERLINE, {fontSize: 10 * Const.DEVICE_RATIO,}]}>개인정보 취급방침</Text>
                             </TouchableHighlight>
-                            <Text style={styles.textBlack}>에 동의하시게 됩니다.</Text>
+                            <Text style={[Font.DEFAULT_FONT_BLACK], {fontSize: 10 * Const.DEVICE_RATIO}}>에 동의하시게 됩니다.</Text>
                         </View>
                     </View>
                 </View>
@@ -174,18 +194,9 @@ let styles = StyleSheet.create({
         flexDirection: 'row',
     },
     button: {
-        width: 300,
-        height: 50,
+        width: 300 * Const.DEVICE_RATIO,
+        height: 50 * Const.DEVICE_RATIO,
         resizeMode: 'contain',
         marginBottom: 10,
     },
-    textBlack: {
-        color: Color.PRIMARY_BLACK,
-        fontSize: 10,
-    },
-    textOrange: {
-        color: Color.PRIMARY_ORANGE,
-        textDecorationLine: 'underline',
-        fontSize: 10,
-    }
 });

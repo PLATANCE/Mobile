@@ -7,6 +7,7 @@ import React, {
 } from 'react-native';
 
 import Color from '../const/Color';
+import Font from '../const/Font';
 
 export default class MenuPriceText extends React.Component {
     static propTypes = {
@@ -27,15 +28,15 @@ export default class MenuPriceText extends React.Component {
         if (originalPrice == sellingPrice) {
             return (
                 <View style={styles.container}>
-                    <Text style={[styles.sellingPriceText, align]}>{this.commaPrice(sellingPrice)}원</Text>
+                    <Text style={[styles.sellingPriceText, align, Font.DEFAULT_FONT_BLACK_BOLD]}>{this.commaPrice(sellingPrice)}원</Text>
                 </View>
 
             );
         } else {
             return (
                 <View style={styles.container}>
-                    <Text style={[styles.originalPriceText, align]} >{this.commaPrice(originalPrice)}원</Text>
-                    <Text style={[styles.sellingPriceText, align]} >{this.commaPrice(sellingPrice)}원</Text>
+                    <Text style={[styles.originalPriceText, align, Font.DEFAULT_FONT_GRAY_LINETHROUGH]} >{this.commaPrice(originalPrice)}원</Text>
+                    <Text style={[styles.sellingPriceText, align, Font.DEFAULT_FONT_BLACK_BOLD]} >{this.commaPrice(sellingPrice)}원</Text>
                 </View>
             );
         }
@@ -50,20 +51,9 @@ let styles = StyleSheet.create({
         flex: 1,
     },
     originalPriceText: {
-        color: Color.PRIMARY_GRAY,
-        textDecorationLine: 'line-through',
         textAlign: 'right',
     },
     sellingPriceText: {
-        color: Color.PRIMARY_BLACK,
         textAlign: 'right',
-        fontWeight: 'bold',
     },
-    line: {
-        borderColor: 'red',
-        borderWidth: 0.5,
-        overflow: 'visible',
-        position: 'absolute',
-    },
-
 });

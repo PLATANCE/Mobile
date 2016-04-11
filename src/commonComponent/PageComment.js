@@ -7,6 +7,8 @@ import React, {
 } from 'react-native';
 
 import Color from '../const/Color';
+import Const from '../const/Const';
+import Font from '../const/Font';
 
 export default class PageComment extends React.Component {
     static propTypes = {
@@ -20,7 +22,7 @@ export default class PageComment extends React.Component {
 
         return (
             <View style={styles.container}>
-                <Text style={styles.text}>{text}</Text>
+                <Text style={Font.DEFAULT_FONT_ORANGE}>{text}</Text>
             </View>
 
         );
@@ -32,12 +34,9 @@ export default class PageComment extends React.Component {
  */
 let styles = StyleSheet.create({
     container: {
-        height: 32,
+        height: 32 * Const.DEVICE_RATIO,
         backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
     },
-    text: {
-        color: Color.PRIMARY_ORANGE,
-    }
 });

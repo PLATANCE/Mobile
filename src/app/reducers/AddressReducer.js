@@ -20,15 +20,18 @@ function addressReducer(state = {
       }
     case AddressActions.RECEIVE_MY_ADDRESS:
       {
-        const myAddress = action.myAddress[0];
-        let address = myAddress.address;
-        if(address === Const.CART_ADDRESS_INPUT_MESSAGE) {
-          address = '먼저, 배달 가능 지역을 확인해주세요 :)';
+        if(action.myAddress.length > 0) {
+          const myAddress = action.myAddress[0];
+          let address = myAddress.address;
+          return Object.assign({}, state, {
+            address: myAddress.address,
+            addressDetail: myAddress.address_detail,
+          });
+        } else {
+          return Object.assign({}, state, {
+            address: '먼저, 배달 가능 지역을 확인해주세요 :)',
+          });
         }
-        return Object.assign({}, state, {
-          address: address,
-          addressDetail: myAddress.address_detail,
-        });
       }
     default:
       return state;

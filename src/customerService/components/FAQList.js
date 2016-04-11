@@ -1,5 +1,7 @@
 import React, { Alert, View, ListView, Text, StyleSheet, Image, TouchableHighlight } from 'react-native';
 import Color from '../../const/Color';
+import Const from '../../const/Const';
+import Font from '../../const/Font';
 
 export default class FAQList extends React.Component {
     constructor(props) {
@@ -32,7 +34,7 @@ export default class FAQList extends React.Component {
                 <View style={styles.row}>
                     <Image style={styles.img} 
                         source={require('../../commonComponent/img/icon_input.png')}/>
-                    <Text style={styles.textBlack}>{rowData.question}</Text>
+                    <Text style={[styles.textBlack, Font.DEFAULT_FONT_BLACK]}>{rowData.question}</Text>
         		</View>
             </TouchableHighlight>
         );
@@ -57,14 +59,13 @@ let styles = StyleSheet.create({
         backgroundColor: 'white',
         alignItems: 'center',
         flexDirection: 'row',
-        height: 50,
+        height: 50 * Const.DEVICE_RATIO,
     },
     textBlack: {
-        color: Color.PRIMARY_BLACK,
         marginLeft: 10,
     },
     img: {
-        width: 10,
-        height: 10,
+        width: 10 * Const.DEVICE_RATIO,
+        height: 10 * Const.DEVICE_RATIO,
     }
 });

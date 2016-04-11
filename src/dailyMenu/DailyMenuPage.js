@@ -7,6 +7,7 @@ import Banner from './components/Banner';
 import PageComment from '../commonComponent/PageComment';
 import Color from '../const/Color';
 import Const from '../const/Const';
+import Font from '../const/Font';
 import RequestURL from '../const/RequestURL';
 import MediaURL from '../const/MediaURL';
 
@@ -135,6 +136,7 @@ export default class DailyMenuPage extends React.Component {
     }
     render() {
         const { dispatch, cart, address, addressDetail } = this.props;
+
         const isDialogVisible = this.state.isDialogVisible;
         let dialogView = false;
         if(isDialogVisible) {
@@ -151,12 +153,12 @@ export default class DailyMenuPage extends React.Component {
                                     <TouchableHighlight style={styles.leftCloseBox}
                                         underlayColor={'transparent'}
                                         onPress={ () => this.closeModalWhileToday() }>
-                                        <Text style={[styles.textWhite, styles.textUnderLine]}>오늘 그만 보기</Text>                                        
+                                        <Text style={Font.DEFAULT_FONT_WHITE_UNDERLINE}>오늘 그만 보기</Text>                                        
                                     </TouchableHighlight>
                                     <TouchableHighlight style={styles.rightCloseBox} 
                                         underlayColor={'transparent'}
                                         onPress={ () => this.closeModal() }>
-                                        <Text style={styles.textWhite}>닫기</Text>
+                                        <Text style={Font.DEFAULT_FONT_WHITE}>닫기</Text>
                                     </TouchableHighlight>
                                 </View>
                             </View>
@@ -165,10 +167,10 @@ export default class DailyMenuPage extends React.Component {
 
         return (
             <View style={styles.container}>
-                <PageComment text='모든 메뉴는 당일 조리, 당일 배송 됩니다(5:30pm~10:00pm)' />
+                <PageComment text='메인 메뉴는 당일 조리, 당일 배송 됩니다 (5:00pm~10:00pm)' />
                 <View style={styles.content}>
                     <ScrollView>
-                        <Banner />
+                        <Banner style={styles.banner}/>
                         <DailyMenuList styles={styles.menuList}
                             menus={this.state.menus}
                             addItemToCart={ (menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng, enable) => dispatch(addItemToCart(menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng, enable)) }
@@ -222,18 +224,18 @@ let styles = StyleSheet.create({
         alignItems: 'center',
     },
     dialog: {
-        width: 270,
-        height: 270,
+        width: 300 * Const.DEVICE_RATIO,
+        height: 300 * Const.DEVICE_RATIO,
         justifyContent: 'center',
         backgroundColor: Color.PRIMARY_DIALOG_BACKGROUND
     },
     dialogImage: {
-        width: 270,
-        height: 230,
+        width: 300 * Const.DEVICE_RATIO,
+        height: 260 * Const.DEVICE_RATIO,
         resizeMode: 'stretch',
     },
     closeBox: {
-        height: 40,
+        height: 40 * Const.DEVICE_RATIO,
         flexDirection: 'row',
         alignItems: 'center',
     },
@@ -242,21 +244,15 @@ let styles = StyleSheet.create({
         paddingLeft: 10,
     },
     rightCloseBox: {
-        height: 30,
-        width: 50,
+        height: 30 * Const.DEVICE_RATIO,
+        width: 50 * Const.DEVICE_RATIO,
         marginRight: 10,
         backgroundColor: Color.PRIMARY_GRAY,
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
-        borderRadius: 5,
+        borderRadius: 5 * Const.DEVICE_RATIO,
         borderColor: Color.PRIMARY_GRAY,
         overflow: 'hidden',
     },
-    textWhite: {
-        color: 'white',
-    },
-    textUnderLine: {
-        textDecorationLine: 'underline',
-    }
 });

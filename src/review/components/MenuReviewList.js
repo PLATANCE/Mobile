@@ -8,6 +8,8 @@ import React, {
     TouchableHighlight
 } from 'react-native';
 import Color from '../../const/Color';
+import Const from '../../const/Const';
+import Font from '../../const/Font';
 
 import MenuReviewStars from '../../commonComponent/MenuReviewStars';
 
@@ -36,13 +38,13 @@ export default class MenuReviewList extends React.Component {
             <View style={styles.row}>
                 <View style={styles.scoreDateBox}>
                     <MenuReviewStars score={rowData.rating} />
-                    <Text style={styles.dateStringText}>{rowData.rated_time}</Text>
+                    <Text style={[styles.dateStringText, Font.DEFAULT_FONT_BLACK]}>{rowData.rated_time}</Text>
                 </View>
                 <View style={styles.contentBox}>
-                    <Text style={styles.textBlack}>{rowData.comment}</Text>
+                    <Text style={[styles.textBlack, Font.DEFAULT_FONT_BLACK]}>{rowData.comment}</Text>
                 </View>
                 <View style={styles.phoneBox}>
-                    <Text style={styles.textBlack}>{rowData.mobile}</Text>
+                    <Text style={[styles.textBlack, Font.DEFAULT_FONT_BLACK]}>{rowData.mobile}</Text>
                 </View>
             </View>
         )
@@ -79,7 +81,6 @@ let styles = StyleSheet.create({
     dateStringText: {
         flex: 1,
         textAlign: 'right',
-        color: Color.PRIMARY_BLACK,
     },
     contentBox: {
         marginTop: 5,
@@ -90,8 +91,7 @@ let styles = StyleSheet.create({
         marginTop: 5,
     },
     textBlack: {
-        color: Color.PRIMARY_BLACK,
-        lineHeight: 20,
+        lineHeight: 20 * Const.DEVICE_RATIO,
     }
 
 });

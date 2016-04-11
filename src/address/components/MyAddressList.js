@@ -9,6 +9,8 @@ import React, {
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Color from '../../const/Color';
+import Const from '../../const/Const';
+import Font from '../../const/Font';
 import RequestURL from '../../const/RequestURL';
 
 export default class MyAddressList extends React.Component {
@@ -79,12 +81,8 @@ export default class MyAddressList extends React.Component {
       ? require('../img/check_circle.png')
       : require('../img/empty_circle.png');
     const textStyle = (deliveryAvailable)
-      ? {
-        color: Color.PRIMARY_BLACK,
-      }
-      : {
-        color: Color.PRIMARY_GRAY,
-      };
+      ? Font.DEFAULT_FONT_BLACK
+      : Font.DEFAULT_FONT_GRAY;
 
     if (rowData.delivery_available) {
       return (
@@ -109,7 +107,7 @@ export default class MyAddressList extends React.Component {
           <View style={styles.addressBox}>
             <Text style={textStyle}>{rowData.address}</Text>
             <Text style={textStyle}>{rowData.address_detail}</Text>
-            <Text style={{ color: 'red' }}>배달이 불가능한 지역입니다.</Text>
+            <Text style={Font.DEFAULT_FONT_RED}>배달이 불가능한 지역입니다.</Text>
           </View>
         </View>
       </TouchableHighlight>
@@ -134,23 +132,19 @@ const styles = StyleSheet.create({
   },
   row: {
     padding: 10,
-    height: 80,
+    height: 80 * Const.DEVICE_RATIO,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'white',
     marginTop: 10,
   },
   img: {
-    width: 30,
-    height: 30,
+    width: 30 * Const.DEVICE_RATIO,
+    height: 30 * Const.DEVICE_RATIO,
   },
   addressBox: {
     flex: 1,
     marginLeft: 10,
     justifyContent: 'center',
-  },
-  deleteText: {
-    color: Color.PRIMARY_ORANGE,
-    textDecorationLine: 'underline',
   },
 });

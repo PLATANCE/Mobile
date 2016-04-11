@@ -3,6 +3,7 @@ import React, { View, Text, StyleSheet, WebView, Dimensions } from 'react-native
 
 import Color from '../const/Color';
 import Const from '../const/Const';
+import Font from '../const/Font';
 import Tabs from 'react-native-tabs';
 
 const TERM_URL = 'http://api.plating.co.kr/app/term.html';
@@ -12,10 +13,17 @@ const PRIVACY_URL = 'http://api.plating.co.kr/app/privacy.html';
 export default class CSPolicyPage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { 
-            page: 'servicePolicy',
-            uri: TERM_URL,
-        };
+        if(props.uri && props.page) {
+            this.state = { 
+                page: this.props.page,
+                uri: this.props.uri,
+            };
+        } else {
+            this.state = { 
+                page: 'servicePolicy',
+                uri: TERM_URL,
+            };
+        }
     }
 
     changeWebViewURI(element) {
@@ -37,8 +45,8 @@ export default class CSPolicyPage extends React.Component {
         return (
             <View style={styles.container}>
                 <View style={styles.textBox}>
-                    <Text style={styles.textBlack}>회원가입과 동시에 플레이팅의 서비스 이용약관과</Text>
-                    <Text style={styles.textBlack}>개인정보 취급방침에 동의하시게 됩니다.</Text>
+                    <Text style={Font.DEFAULT_FONT_BLACK}>회원가입과 동시에 플레이팅의 서비스 이용약관과</Text>
+                    <Text style={Font.DEFAULT_FONT_BLACK}>개인정보 취급방침에 동의하시게 됩니다.</Text>
                 </View>
                 <WebView 
                     automaticallyAdjustContentInsets={false}
@@ -51,11 +59,11 @@ export default class CSPolicyPage extends React.Component {
                 />
                 <Tabs style={styles.tabStyle} 
                     selected={this.state.page}
-                    selectedStyle={styles.tabSelectedStyle}
+                    selectedStyle={Font.DEFAULT_FONT_ORANGE}
                     onSelect={ (el) => this.changeWebViewURI(el) } 
                 >
-                    <Text name={"servicePolicy"}>서비스 이용약관</Text>
-                    <Text name={"privacyPolicy"}>개인정보 취급방침</Text>
+                    <Text name={"servicePolicy"} style={Font.DEFAULT_FONT_BLACK}>서비스 이용약관</Text>
+                    <Text name={"privacyPolicy"} style={Font.DEFAULT_FONT_BLACK}>개인정보 취급방침</Text>
                 </Tabs>
             </View>
         );
@@ -75,16 +83,10 @@ let styles = StyleSheet.create({
     tabStyle: {
         backgroundColor: 'white',
     },
-    tabSelectedStyle: {
-        color: Color.PRIMARY_ORANGE,
-    },
     textBox: {
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 10,
-    },
-    textBlack: {
-        color: Color.PRIMARY_BLACK,
     },
     webView: {
         width: Const.WIDTH,

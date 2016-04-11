@@ -1,5 +1,7 @@
 import React, { View, ListView, Text, StyleSheet, Image, TouchableHighlight } from 'react-native';
 import Color from '../../const/Color';
+import Const from '../../const/Const';
+import Font from '../../const/Font';
 import MediaURL from '../../const/MediaURL';
 import MenuPriceText from '../../commonComponent/MenuPriceText';
 import _ from 'lodash';
@@ -34,8 +36,8 @@ export default class CartMenuList extends React.Component {
                 <Image style={styles.menuImage}
                     source={{ uri: imageURL }} />
                 <View style={styles.menuInfoBox}>
-                    <Text style={[styles.textBlack, styles.textBold]}>{rowData.menuNameKor}</Text>
-                    <Text style={[styles.textBlack, {flex: 1}]}>{rowData.menuNameEng}</Text>
+                    <Text style={Font.DEFAULT_FONT_BLACK_BOLD}>{rowData.menuNameKor}</Text>
+                    <Text style={[Font.DEFAULT_FONT_BLACK, {flex: 1}]}>{rowData.menuNameEng}</Text>
                     <View style={styles.priceBox}>
                         <MenuPriceText originalPrice={rowData.price} sellingPrice={rowData.altPrice} align={{textAlign: 'left'}}/>
                         <View style={styles.setAmountBox}>
@@ -45,7 +47,7 @@ export default class CartMenuList extends React.Component {
                                 <Image style={styles.iconImage}
                                     source={require('../img/icon_minus.png')}/>
                             </TouchableHighlight>
-                            <Text style={styles.amountText}>{rowData.amount}</Text>
+                            <Text style={[styles.amountText, Font.DEFAULT_FONT_BLACK]}>{rowData.amount}</Text>
                             <TouchableHighlight underlayColor={'transparent'}
                                 onPress={ () => addItemToCart(rowData.menuDIdx, rowData.menuIdx, rowData.price, rowData.altPrice, rowData.imageUrlMenu, rowData.menuNameKor, rowData.menuNameEng, true) }  
                             >
@@ -77,7 +79,7 @@ let styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     row: {
-        height: 90,
+        height: 90 * Const.DEVICE_RATIO,
         flexDirection: 'row',
         margin: 10,
     },
@@ -101,18 +103,11 @@ let styles = StyleSheet.create({
         alignItems: 'center',
     },
     amountText: {
-        color: Color.PRIMARY_BLACK,
         flex: 1,
         textAlign: 'center',
     },
     iconImage: {
-        width: 20,
-        height: 20,
-    },
-    textBlack: {
-        color: Color.PRIMARY_BLACK,
-    },
-    textBold: {
-        fontWeight: 'bold',
+        width: 20 * Const.DEVICE_RATIO,
+        height: 20 * Const.DEVICE_RATIO,
     },
 });

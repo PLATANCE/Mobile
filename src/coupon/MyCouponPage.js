@@ -1,5 +1,6 @@
 'use strict';
 import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 
 import Color from '../const/Color';
 import Const from '../const/Const';
@@ -16,6 +17,7 @@ export default class MyCouponPage extends React.Component {
         super(props);
         this.state = {
             coupons: [],
+            hasData: false,
         }
     }
     componentDidMount() {
@@ -25,14 +27,27 @@ export default class MyCouponPage extends React.Component {
         fetch(RequestURL.REQUEST_MY_COUPON_LIST + 'user_idx=' + userIdx)
             .then((response) => response.json())
             .then((responseData) => {
-                this.setState({
-                    coupons: responseData
-                });
+                if(responseData.length > 0) {
+                    this.setState({
+                        coupons: responseData,
+                        hasData: true,
+                    });
+                }
             })
             .catch((error)=> {
                 console.warn(error);
             })
             .done();
+    }
+    loadingNoDataImage() {
+        return (
+            <TouchableHighlight onPress={Actions.DrawerPage} underlayColor={'transparent'}>
+                <View style={styles.container}>
+                    <Image style={styles.img}
+                        source={require('../order/img/no_data.png')} />
+                </View>
+            </TouchableHighlight>
+        );
     }
     render() {
         const {
@@ -40,6 +55,9 @@ export default class MyCouponPage extends React.Component {
             cart,
             dispatch,
         } = this.props;
+        if(!this.state.hasData) {
+            return this.loadingNoDataImage();
+        }
         return (
             <View style={styles.container}>
                 <View style={styles.content} >
@@ -64,5 +82,11 @@ let styles = StyleSheet.create({
     content: {
         marginTop: 10,
         flex: 1,
+    },
+    img: {
+        width: Const.WIDTH,
+        height: Const.HEIGHT,
+        resizeMode: 'contain',
+        backgroundColor: 'white',
     },
 });

@@ -2,6 +2,7 @@
 import React, { View, Text, StyleSheet, TouchableHighlight, ScrollView, Image } from 'react-native';
 import Color from '../const/Color';
 import Const from '../const/Const';
+import Font from '../const/Font';
 import Separator from '../commonComponent/Separator';
 import RequestURL from '../const/RequestURL';
 import MediaURL from '../const/MediaURL';
@@ -40,10 +41,10 @@ export default class ChefDetailPage extends React.Component {
                     <Image style={styles.chefImage}
                         source={{uri: chefURL}} />
                     <View style={styles.chefInfoBox}>
-                        <Text style={styles.textBlack}>{chef.name_chef}</Text>
-                        <Text style={styles.textGray}>{chef.career_summ}</Text>
+                        <Text style={[styles.textBlack, Font.DEFAULT_FONT_BLACK]}>{chef.name_chef}</Text>
+                        <Text style={[styles.textGray, Font.DEFAULT_FONT_GRAY]}>{chef.career_summ}</Text>
                         <Separator />
-                        <Text style={styles.textGray}>{chef.career}</Text>
+                        <Text style={[styles.textGray, Font.DEFAULT_FONT_GRAY]}>{chef.career}</Text>
                     </View>
                 </View>
             </View>
@@ -61,7 +62,7 @@ let styles = StyleSheet.create({
     content: {
     },
     chefImage: {
-        height: 400,
+        height: 400 * Const.DEVICE_RATIO,
         resizeMode: 'contain',
     },
     chefInfoBox: {
@@ -69,13 +70,11 @@ let styles = StyleSheet.create({
         padding: 10,
     },
     textBlack: {
-        color: Color.PRIMARY_BLACK,
-        lineHeight: 20,
+        lineHeight: 20 * Const.DEVICE_RATIO,
         fontSize: 15,
     },
     textGray: {
-        color: Color.PRIMARY_GRAY,
-        lineHeight: 20,
+        lineHeight: 20 * Const.DEVICE_RATIO,
     },
 
 });

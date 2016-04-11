@@ -6,6 +6,7 @@ import Prompt from 'react-native-prompt';
 import SearchedAddressList from './components/SearchedAddressList';
 import Color from '../const/Color';
 import Const from '../const/Const';
+import Font from '../const/Font';
 import RequestURL from '../const/RequestURL';
 import {
   fetchMyAddressList,
@@ -45,10 +46,10 @@ export default class AddAddressPage extends React.Component {
             <ScrollView>
             <View style={styles.container} >
                 <View style={styles.pageTextBox} >
-            	    <Text style={styles.pageText}>요리가 배달될 주소 입력</Text>
+            	    <Text style={Font.DEFAULT_FONT_BLACK}>요리가 배달될 주소 입력</Text>
                 </View>
             	<View style={styles.textInputBox} >
-	                <TextInput style={styles.textInput} autoFocus={true} 
+	                <TextInput style={[styles.textInput, Font.DEFAULT_FONT_BLACK]} autoFocus={true} 
                         keyboardType='default' autoCorrect={false} 
                         onSubmitEditing={this.searchAddress.bind(this)}
 					    placeholder='동이름을 입력하세요' />
@@ -60,7 +61,7 @@ export default class AddAddressPage extends React.Component {
                     onPress={Actions.AddressCoveragePage}
                     underlayColor={'transparent'}
                 >
-                    <Text style={styles.textOrange}>배달 가능한 지역 보기</Text>
+                    <Text style={Font.DEFAULT_FONT_ORANGE}>배달 가능한 지역 보기</Text>
                 </TouchableHighlight>
             </View>
             </ScrollView>
@@ -74,15 +75,12 @@ let styles = StyleSheet.create({
         justifyContent: 'center',
     },
     pageTextBox: {
-        marginTop: 20,
+        marginTop: 20 * Const.DEVICE_RATIO,
         alignItems: 'center',
         justifyContent: 'center',
     },
-    pageText: {
-        color: Color.PRIMARY_BLACK,
-    },
     textInputBox: {
-        height: 30,
+        height: 30 * Const.DEVICE_RATIO,
         backgroundColor: Color.PRIMARY_BACKGROUND,
         borderColor: Color.PRIMARY_BACKGROUND,
         overflow: 'hidden',
@@ -98,7 +96,4 @@ let styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    textOrange: {
-        color: Color.PRIMARY_ORANGE,
-    }
 });

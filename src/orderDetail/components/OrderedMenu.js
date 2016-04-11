@@ -7,6 +7,7 @@ import React, {
 } from 'react-native';
 
 import Color from '../../const/Color';
+import Font from '../../const/Font';
 
 export default class OrderedMenu extends React.Component {
     static propTypes = {
@@ -24,11 +25,11 @@ export default class OrderedMenu extends React.Component {
             <View style={styles.container}>
                 <View style={styles.menuBox}>
                     <View>
-                        <Text style={[styles.textBlack, styles.textBold]}>{name}</Text>
-                        <Text style={styles.textBlack}>{foreignName}</Text>
+                        <Text style={Font.DEFAULT_FONT_BLACK_BOLD}>{name}</Text>
+                        <Text style={Font.DEFAULT_FONT_BLACK}>{foreignName}</Text>
                     </View>
                     <View style={styles.rightBox}>
-                        <Text style={styles.textBlack}>{amount}인분</Text>
+                        <Text style={Font.DEFAULT_FONT_BLACK}>{amount}인분</Text>
                     </View>
                 </View>
             </View>
@@ -55,10 +56,4 @@ let styles = StyleSheet.create({
         alignItems: 'flex-end',
         justifyContent: 'center',
     },
-    textBlack: {
-        color: Color.PRIMARY_BLACK,
-    },
-    textBold: {
-        fontWeight: 'bold',
-    }
 });

@@ -3,6 +3,7 @@ import React, { View, Text, StyleSheet, TouchableHighlight, Image } from 'react-
 import { Actions } from 'react-native-router-flux';
 import Color from '../const/Color';
 import Const from '../const/Const';
+import Font from '../const/Font';
 import OrderedMenu from './components/OrderedMenu';
 import RequestURL from '../const/RequestURL';
 
@@ -65,17 +66,17 @@ export default class OrderDetailPage extends React.Component {
             <View style={styles.container}>
                 <View style={styles.content} >
                     <View style={styles.statusBox}>
-                        <Text style={[styles.textBlack, styles.textFont20]}>{order.description}</Text>
+                        <Text style={[Font.DEFAULT_FONT_BLACK, styles.textFont20]}>{order.description}</Text>
                     </View>
                     {orderedMenuList}
                     <View style={styles.orderInfoBox}>
                         <View style={styles.orderInfoRow}>
-                            <Text style={[styles.textBlack, styles.textBold]}>합계</Text>
-                            <Text style={styles.rightText}>{order.total_price}</Text>
+                            <Text style={Font.DEFAULT_FONT_BLACK_BOLD}>합계</Text>
+                            <Text style={[styles.rightText, Font.DEFAULT_FONT_BLACK]}>{order.total_price}</Text>
                         </View>
                         <View style={styles.orderInfoRow}>
-                            <Text style={[styles.textBlack, styles.textBold]}>배달 시간</Text>
-                            <Text style={styles.rightText}>{order.time_slot}</Text>
+                            <Text style={Font.DEFAULT_FONT_BLACK_BOLD}>배달 시간</Text>
+                            <Text style={[styles.rightText, Font.DEFAULT_FONT_BLACK]}>{order.time_slot}</Text>
                         </View>
                     </View>
                     <TouchableHighlight
@@ -85,8 +86,8 @@ export default class OrderDetailPage extends React.Component {
                             <Image style={styles.imageStar}
                                 source={require('../commonComponent/img/icon_star_filled_yellow.png')}/>
                             <View style={styles.reviewTextBox} >
-                                <Text style={styles.textWhite}>{reviewButtonText}</Text>
-                                <Text style={styles.textWhite}>{reviewButtonSubText}</Text>
+                                <Text style={Font.DEFAULT_FONT_WHITE}>{reviewButtonText}</Text>
+                                <Text style={Font.DEFAULT_FONT_WHITE}>{reviewButtonSubText}</Text>
                             </View>
                         </View>
                     </TouchableHighlight>
@@ -124,10 +125,6 @@ let styles = StyleSheet.create({
     rightText: {
         flex: 1,
         textAlign: 'right',
-        color: Color.PRIMARY_BLACK,
-    },
-    textBold: {
-        fontWeight: 'bold',
     },
     reviewBox: {
         marginTop: 10,
@@ -145,20 +142,14 @@ let styles = StyleSheet.create({
         flexDirection: 'row',
     },
     imageStar: {
-        width: 50,
-        height: 50,
+        width: 50 * Const.DEVICE_RATIO,
+        height: 50 * Const.DEVICE_RATIO,
     },
     reviewTextBox: {
         justifyContent: 'center',
         alignItems: 'center',
     },
-    textBlack: {
-        color: Color.PRIMARY_BLACK,
-    },
     textFont20: {
-        fontSize: 20,
+        fontSize: 20 * Const.DEVICE_RATIO,
     },
-    textWhite: {
-        color: 'white',
-    }
 });

@@ -18,7 +18,7 @@ const RequestURL = {
 
     // address
     REQUEST_MY_ADDRESS_LIST: 'http://api.plating.co.kr/user/get_address_list?', // user_idx
-    REQUEST_SEARCHED_ADDRESS_LIST: 'http://address.plating.co.kr?',  // text
+    REQUEST_SEARCHED_ADDRESS_LIST: 'https://address.plating.co.kr?',  // text
     SUBMIT_IN_USE_ADDRESS: 'http://api.plating.co.kr/user/update_address?', // idx, user_idx, mode
     SUBMIT_UPDATE_ADDRESS: 'http://api.plating.co.kr/update_info?', // user_idx, address, address_detail, delivery_available, lat, lon
 

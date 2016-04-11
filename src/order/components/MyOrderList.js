@@ -1,5 +1,7 @@
 import React, { View, ListView, Text, StyleSheet, Image, TouchableHighlight } from 'react-native';
 import Color from '../../const/Color';
+import Const from '../../const/Const';
+import Font from '../../const/Font';
 import {Actions} from 'react-native-router-flux';
 
 export default class MyOrderList extends React.Component {
@@ -26,25 +28,25 @@ export default class MyOrderList extends React.Component {
         return (
             <View style={styles.row}>
                 <View>
-                    <Text style={styles.dateText}>{rowData.request_date}</Text>
-                    <Text style={styles.addressText}>{rowData.address}</Text>
-                    <Text style={styles.addressDetailText}>{rowData.address_detail}</Text>
+                    <Text style={Font.DEFAULT_FONT_BLACK}>{rowData.request_date}</Text>
+                    <Text style={[styles.addressText, Font.DEFAULT_FONT_BLACK]}>{rowData.address}</Text>
+                    <Text style={Font.DEFAULT_FONT_BLACK}>{rowData.address_detail}</Text>
                 </View>
                 <View style={styles.footerBox}>
-                    <Text style={styles.requestTimeText}>{rowData.time_slot}</Text>
+                    <Text style={Font.DEFAULT_FONT_BLACK}>{rowData.time_slot}</Text>
                     <View style={styles.buttonBox}>
                         <TouchableHighlight onPress={ () => Actions.OrderDetailPage({ orderIdx: rowData.order_idx }) } underlayColor={'transparent'} >
-                            <View style={styles.button}>
+                            <View style={[styles.button, { marginRight: 10 }]}>
                                 <Image style={styles.buttonIconImage} 
                                     source={require('../../commonComponent/img/icon_detail.png')}/>
-                                <Text style={styles.textWhite}>상세 보기</Text>
+                                <Text style={Font.DEFAULT_FONT_WHITE}>상세 보기</Text>
                             </View>
                         </TouchableHighlight>
                         <TouchableHighlight  onPress={ () => Actions.WriteReviewPage({ orderIdx: rowData.order_idx }) } underlayColor={'transparent'} >
                             <View style={styles.button}>
                                 <Image style={styles.buttonIconImage} 
-                                    source={require('../../commonComponent/img/icon_detail.png')}/>
-                                <Text style={styles.textWhite}>리뷰 작성</Text>
+                                    source={require('../../commonComponent/img/icon_pencil.png')}/>
+                                <Text style={Font.DEFAULT_FONT_WHITE}>리뷰 작성</Text>
                             </View>
                         </TouchableHighlight>
                     </View>
@@ -74,18 +76,8 @@ let styles = StyleSheet.create({
         backgroundColor: 'white',
         padding: 10,
     },
-    dateText: {
-        color: Color.PRIMARY_BLACK,
-    },
     addressText: {
-        color: Color.PRIMARY_BLACK,
         marginTop: 10,
-    },
-    addressDetailText :{
-        color: Color.PRIMARY_BLACK,
-    },
-    requestTimeText: {
-        color: Color.PRIMARY_BLACK,
     },
     footerBox: {
         flexDirection: 'row',
@@ -98,27 +90,22 @@ let styles = StyleSheet.create({
         justifyContent: 'flex-end',
     },
     button: {
-        width: 90,
-        height: 30,
+        width: 85 * Const.DEVICE_RATIO,
+        height: 35 * Const.DEVICE_RATIO,
         borderColor: Color.PRIMARY_ORANGE,
         backgroundColor: Color.PRIMARY_ORANGE,
-        borderRadius: 5,
+        borderRadius: 5 * Const.DEVICE_RATIO,
         borderWidth: 1,
         overflow: 'hidden',
         alignItems: 'center',
         justifyContent: 'center',
-        margin: 5,
         alignSelf: 'flex-end',
         flexDirection: 'row',
     },
     buttonIconImage: {
-        width: 15,
-        height: 15,
+        width: 15 * Const.DEVICE_RATIO,
+        height: 15 * Const.DEVICE_RATIO,
         resizeMode: 'contain',
         marginRight: 5,
     },
-    textWhite: {
-        color: 'white',
-    },
-
 });

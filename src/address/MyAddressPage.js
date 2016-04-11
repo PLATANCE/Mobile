@@ -4,6 +4,7 @@ import { Actions } from 'react-native-router-flux';
 import MyAddressList from './components/MyAddressList';
 import Color from '../const/Color';
 import Const from '../const/Const';
+import Font from '../const/Font';
 import RequestURL from '../const/RequestURL';
 import {
   fetchCartInfo,
@@ -61,17 +62,17 @@ let styles = StyleSheet.create({
         backgroundColor: Color.PRIMARY_BACKGROUND,
     },
     addBox: {
-    	height: 50,
+    	height: 50 * Const.DEVICE_RATIO,
     	flexDirection: 'row',
     	alignItems: 'center',
     },
     img: {
-    	width: 30,
-    	height: 30,
+    	width: 30 * Const.DEVICE_RATIO,
+    	height: 30 * Const.DEVICE_RATIO,
     	marginLeft: 10,
     },
     addAddressText: {
-    	fontSize: 18,
+    	fontSize: 18 * Const.DEVICE_RATIO,
     	color: Color.PRIMARY_ORANGE,
     	marginLeft: 10,
     }

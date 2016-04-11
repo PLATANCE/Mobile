@@ -1,8 +1,10 @@
 'use strict';
-import React, { View, ListView, Text, StyleSheet, TouchableHighlight } from 'react-native';
+import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 
 import Color from '../const/Color';
 import Const from '../const/Const';
+import Font from '../const/Font';
 import MyOrderList from './components/MyOrderList';
 import RequestURL from '../const/RequestURL';
 
@@ -14,6 +16,7 @@ export default class MyOrderPage extends React.Component {
         super(props);
         this.state = {
             orderHistory: [],
+            hasData: false,
         }
     }
     componentDidMount() {
@@ -23,16 +26,32 @@ export default class MyOrderPage extends React.Component {
         fetch(RequestURL.REQUEST_MY_ORDER_LIST + 'user_idx=' + userIdx)
             .then((response) => response.json())
             .then((responseData) => {
-                this.setState({
-                    orderHistory: responseData.order_history
-                });
+                if(responseData.order_history.length > 0) {
+                    this.setState({
+                        orderHistory: responseData.order_history,
+                        hasData: true,
+                    });
+                }
             })
             .catch((error)=> {
                 console.warn(error);
             })
             .done();
     }
+    loadingNoDataImage() {
+        return (
+            <TouchableHighlight onPress={Actions.DrawerPage} underlayColor={'transparent'}>
+                <View style={styles.container}>
+                    <Image style={styles.img}
+                        source={require('./img/no_data.jpg')} />
+                </View>
+            </TouchableHighlight>
+        );
+    }
     render() {
+        if(!this.state.hasData) {
+            return this.loadingNoDataImage();
+        }
         return (
             <View style={styles.container}>
                 <View style={styles.content} >
@@ -52,5 +71,11 @@ let styles = StyleSheet.create({
     content: {
         flex: 1,
         marginTop: 10,
+    },
+    img: {
+        width: Const.WIDTH,
+        height: Const.HEIGHT,
+        resizeMode: 'contain',
+        backgroundColor: 'white',
     },
 });

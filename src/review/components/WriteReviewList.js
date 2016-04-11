@@ -1,6 +1,8 @@
 import React, { View, ListView, Text, StyleSheet, Image, TextInput, TouchableHighlight, Alert } from 'react-native';
 import StarRating from 'react-native-star-rating';
 import Color from '../../const/Color';
+import Const from '../../const/Const';
+import Font from '../../const/Font';
 import MediaURL from '../../const/MediaURL';
 import RequestURL from '../../const/RequestURL';
 
@@ -84,9 +86,9 @@ export default class WriteReviewList extends React.Component {
                     <Image style={styles.menuImage}
                         source={{uri: menuURL}}/>
                     <View style={styles.menuInfoBox}>
-                        <Text style={[styles.textBlack, styles.textBold]}>{menuNameKor}</Text>
-                        <Text style={styles.textBlack}>{menuNameEng}</Text>
-                        <Text style={styles.chefNameText}>{rowData.name_chef}</Text>
+                        <Text style={Font.DEFAULT_FONT_BLACK_BOLD}>{menuNameKor}</Text>
+                        <Text style={Font.DEFAULT_FONT_BLACK}>{menuNameEng}</Text>
+                        <Text style={[styles.chefNameText, Font.DEFAULT_FONT_ORANGE]}>{rowData.name_chef}</Text>
                         <View style={styles.starBox}>
                             <StarRating
                                 ref={(rating) => {this.rating = rating;}}
@@ -94,13 +96,14 @@ export default class WriteReviewList extends React.Component {
                                 maxStars={5}
                                 rating={rating}
                                 starColor={'#FFD057'}
+                                starSize={35}
                                 selectedStar={(rating) => onChangeStarRating(orderDIdx,rating)}
                             />
                         </View>
                     </View>
                 </View>
                 <View style={styles.reviewBox}>
-                    <TextInput style={styles.textInput} 
+                    <TextInput style={[styles.textInput, Font.DEFAULT_FONT_BLACK]} 
                         keyboardType="default" 
                         autoCorrect={false}
                         value={rowData.comment}
@@ -112,7 +115,7 @@ export default class WriteReviewList extends React.Component {
                     underlayColor={'transparent'}
                     onPress={() => this.submitReview(orderDIdx, enableButton)}>
                     <View style={[styles.buttonBox, enableButtonBackground]}>
-                        <Text style={styles.textWhite}>리뷰 저장</Text>
+                        <Text style={Font.DEFAULT_FONT_WHITE}>리뷰 저장</Text>
                     </View>
                 </TouchableHighlight>
             </View>
@@ -143,25 +146,18 @@ let styles = StyleSheet.create({
     },
     menuBox: {
         flexDirection: 'row',
-        height: 120,
+        height: 120 * Const.DEVICE_RATIO,
     },
     menuImage: {
-        width: 120,
-        height: 120,
+        width: 120 * Const.DEVICE_RATIO,
+        height: 120 * Const.DEVICE_RATIO,
     },
     menuInfoBox: {
         flex: 1,
         marginLeft: 10,
     },
-    textBlack: {
-        color: Color.PRIMARY_BLACK,
-    },
-    textBold: {
-        fontWeight: 'bold',
-    },
     chefNameText: {
-        marginTop: 20,
-        color: Color.PRIMARY_ORANGE,
+        marginTop: 10,
     },
     starBox: {
         flex: 1,
@@ -169,8 +165,8 @@ let styles = StyleSheet.create({
         alignItems: 'flex-end',
     },
     starImage: {
-        width: 40,
-        height: 40,
+        width: 40 * Const.DEVICE_RATIO,
+        height: 40 * Const.DEVICE_RATIO,
     },
     reviewBox: {
         marginTop: 10,
@@ -182,7 +178,6 @@ let styles = StyleSheet.create({
     textInput: {
         flex: 1,
         marginLeft: 10,
-        fontSize: 13,
     },
     buttonBox: {
         flexDirection: 'row',
@@ -190,11 +185,8 @@ let styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         overflow: 'hidden',
-        height: 40,
+        height: 40 * Const.DEVICE_RATIO,
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    textWhite: {
-        color: 'white',
     },
 });

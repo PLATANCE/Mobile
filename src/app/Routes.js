@@ -1,5 +1,5 @@
 'use strict';
-import React, { Component, AppRegistry, Navigator, StyleSheet, Text, View, Image, TouchableHighlight, Platform } from 'react-native';
+import React, { Component, AppRegistry, Navigator, StyleSheet, Text, View, Image, TouchableHighlight, Platform, Alert } from 'react-native';
 import ReactNativeRouter, { Route, Schema, Animations, TabBar, Actions } from 'react-native-router-flux';
 
 import { Provider, connect } from 'react-redux';
@@ -80,8 +80,23 @@ export default class Routes extends Component {
         );
     }
     renderCartButton() {
+        function onCartButtonPress () {
+            const {
+                cart,
+            } = store.getState().CartReducers;
+            
+            if(Object.keys(cart).length == 0) {
+                Alert.alert(
+                    '장바구니가 비어있습니다.',
+                );
+            } else {
+                Actions.CartPage();
+            }
+        }
         return (
-            <TouchableHighlight style={styles.rightButton} onPress={Actions.CartPage} underlayColor={'transparent'}>
+            <TouchableHighlight style={styles.rightButton}
+                onPress={onCartButtonPress}
+                underlayColor={'transparent'}>
                 <Image style={styles.image}
                     source={require('../commonComponent/img/cart_white.png')}/>
             </TouchableHighlight>
@@ -100,7 +115,9 @@ export default class Routes extends Component {
         this.refs.sideDrawer.refs.drawer.open();
     }
 
-
+    //<Route name="SignInPage"  hideNavBar={true} initial={userInfo.isLogin ? false : true} component={connect()(SignInPage)} />
+    //<Route name='DrawerPage' hideNavBar={true} type='replace'
+                        //initial={userInfo.isLogin ? true : false} >
     render() {
         return (
 
@@ -110,8 +127,8 @@ export default class Routes extends Component {
                     <Schema name="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight}/>
                     <Schema name="withoutAnimation"/>
                     
-                    <Route name="TutorialPage" hideNavBar={true} component={connect()(TutorialPage)} />
-                    <Route name="SignInPage"  hideNavBar={true} initial={userInfo.isLogin ? false : true} component={connect()(SignInPage)} />
+                    <Route name="TutorialPage" hideNavBar={true} initial={userInfo.isLogin ? false : true} component={connect()(TutorialPage)} />
+                    <Route name="SignInPage"  hideNavBar={true}  component={connect()(SignInPage)} />
                     <Route name="SignUpPage" hideNavBar={true} component={connect()(SignUpPage)} />
 
                     <Route name='DrawerPage' hideNavBar={true} type='replace'

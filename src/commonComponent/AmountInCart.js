@@ -7,6 +7,7 @@ import React, {
 } from 'react-native';
 
 import Color from '../const/Color';
+import Const from '../const/Const';
 import Modal from 'react-native-modal';
 
 export default class AmountInCart extends React.Component {
@@ -50,7 +51,7 @@ let styles = StyleSheet.create({
         backgroundColor: 'transparent'
     },
     text: {
-        fontSize: 16,
+        fontSize: 16 * Const.DEVICE_RATIO,
         color: 'white',
     }
 });

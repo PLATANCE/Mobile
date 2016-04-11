@@ -1,16 +1,24 @@
-import React, { View, ListView, Text, StyleSheet, Image, TouchableHighlight, Alert } from 'react-native';
+import React, { View, ListView, Text, StyleSheet, Image, TouchableHighlight, Alert, PixelRatio } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Color from '../../const/Color';
+import Const from '../../const/Const';
 import MediaURL from '../../const/MediaURL';
 import RequestURL from '../../const/RequestURL';
 
+const couponImageHeight = 0;
+if(PixelRatio.get() === 2) {
+    couponImageHeight = 150;
+} else if(PixelRatio.get() === 3) {
+    couponImageHeight = 175;
+}
 export default class MyCouponList extends React.Component {
     constructor(props) {
         super(props);
         let dataSource = new ListView.DataSource({
             rowHasChanged: (row1, row2) => row1 !== row2,
         });
-
+        console.log(Const.WIDTH);
+        console.log(Const.HEIGHT);
         this.state = {
             dataSource: dataSource.cloneWithRows(props.coupons)
         }
@@ -74,7 +82,7 @@ export default class MyCouponList extends React.Component {
                         '쿠폰 사용 불가',
                         message,
                         [
-                            {text: '확인', onPress: () => Actions.pop},
+                            {text: '확인', onPress: () => Actions.pop()},
                         ]
                     );
                 }
@@ -117,11 +125,12 @@ let styles = StyleSheet.create({
         flex: 1,
     },
     row: {
-        height: 190,
+        flex: 1,
         marginBottom: 10,
     },
     img: {
-        flex: 1,
-        resizeMode: 'stretch',
+        width: Const.WIDTH,
+        height: couponImageHeight,
+        resizeMode: 'contain',
     }
 });

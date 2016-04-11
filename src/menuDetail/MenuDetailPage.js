@@ -7,6 +7,7 @@ import React, {
     StyleSheet,
     TouchableHighlight,
     ScrollView,
+    PixelRatio,
 } from 'react-native';
 
 import { Actions } from 'react-native-router-flux';
@@ -19,10 +20,12 @@ import SoldOutView from '../commonComponent/PageComment';
 import ReviewList from './components/ReviewList';
 import Color from '../const/Color';
 import Const from '../const/Const';
+import Font from '../const/Font';
 import RequestURL from '../const/RequestURL';
 import MediaURL from '../const/MediaURL';
 
 import { addItemToCart } from '../app/actions/CartActions';
+
 
 export default class MenuDetailPage extends React.Component {
     constructor(props) {
@@ -70,13 +73,13 @@ export default class MenuDetailPage extends React.Component {
             if(isSoldOut) {
                 if(stock == 0) {
                     contentInnerMenu = <View style={styles.menuImageAlpha}>
-                                    <Text style={styles.textEng}>SOLD OUT</Text>
-                                    <Text style={styles.textKor}>금일 메뉴가 매진 되었습니다.</Text>
+                                    <Text style={[styles.textEng, Font.DEFAULT_FONT_WHITE_BOLD]}>SOLD OUT</Text>
+                                    <Text style={[styles.textKor, Font.DEFAULT_FONT_WHITE]}>금일 메뉴가 매진 되었습니다.</Text>
                                 </View>;
                 } else if(stock < 0) {
                     contentInnerMenu = <View style={styles.menuImageAlpha}>
-                                    <Text style={styles.textEng}>주문 마감</Text>
-                                    <Text style={styles.textKor}>오늘은 플레이팅 쉬는 날 입니다.</Text>
+                                    <Text style={[styles.textEng, Font.DEFAULT_FONT_WHITE_BOLD]}>주문 마감</Text>
+                                    <Text style={[styles.textKor, Font.DEFAULT_FONT_WHITE]}>오늘은 플레이팅 쉬는 날 입니다.</Text>
                                 </View>;
                 }
                 
@@ -95,8 +98,8 @@ export default class MenuDetailPage extends React.Component {
                 <ScrollView>
                     <View style={styles.content} >
                         <View style={styles.menuNameBox}>
-                            <Text style={[styles.textBlack, {fontSize: 16, fontWeight: 'bold'}]}>{menu.name_menu}</Text>
-                            <Text style={[styles.textBlack]}>{menu.name_menu_eng}</Text>
+                            <Text style={[Font.DEFAULT_FONT_BLACK_BOLD, { fontSize: 16 * Const.DEVICE_RATIO }]}>{menu.name_menu}</Text>
+                            <Text style={[Font.DEFAULT_FONT_BLACK]}>{menu.name_menu_eng}</Text>
                         </View>
                         <View style={styles.menuImageBox}>
                             <Image style={styles.menuImage}
@@ -110,7 +113,7 @@ export default class MenuDetailPage extends React.Component {
                                 
                                 <TouchableHighlight onPress={() =>Actions.MenuReviewPage({menuIdx: this.props.menuIdx})} underlayColor={'transparent'}>
                                     <View style={styles.reviewTextBox}>
-                                        <Text style={[styles.textGray, {textDecorationLine: 'underline', marginLeft: 3, fontSize: 15}]}>{menu.review_count}개의 리뷰보기</Text>
+                                        <Text style={[Font.DEFAULT_FONT_GRAY_UNDERLINE, {marginLeft: 3, fontSize: 15 * Const.DEVICE_RATIO}]}>{menu.review_count}개의 리뷰보기</Text>
                                     </View>
                                 </TouchableHighlight>
                             </View>
@@ -126,8 +129,8 @@ export default class MenuDetailPage extends React.Component {
                                 <Image style={styles.chefImage}
                                     source={{uri: chefURL}}></Image>
                                 <View style={styles.chefSummaryBox}>
-                                    <Text style={[styles.textBlack, {marginBottom: 2}]}>{menu.name_chef}</Text>
-                                    <Text style={styles.textGray}>{menu.career_summ}</Text>
+                                    <Text style={[styles.textBlack, {marginBottom: 2}, Font.DEFAULT_FONT_BLACK]}>{menu.name_chef}</Text>
+                                    <Text style={Font.DEFAULT_FONT_GRAY}>{menu.career_summ}</Text>
                                 </View>
                                 <View style={styles.iconBox}>
                                     <View style={styles.iconView}>
@@ -138,19 +141,19 @@ export default class MenuDetailPage extends React.Component {
                             </View>
                         </TouchableHighlight>
                         <View style={styles.menuInfoBox}>
-                            <Text style={styles.textOrange}>Description</Text>
-                            <Text style={styles.textBlack}>{menu.story}{'\n'}</Text>
-                            <Text style={styles.textOrange}>Ingredients</Text>
-                            <Text style={styles.textBlack}>{menu.ingredients}{'\n'}</Text>
-                            <Text style={styles.textOrange}>Calories</Text>
-                            <Text style={styles.textBlack}>{menu.calories}Kcal</Text>
+                            <Text style={[styles.textOrange, Font.DEFAULT_FONT_ORANGE]}>Description</Text>
+                            <Text style={[styles.textBlack, Font.DEFAULT_FONT_BLACK]}>{menu.story}{'\n'}</Text>
+                            <Text style={[styles.textOrange, Font.DEFAULT_FONT_ORANGE]}>Ingredients</Text>
+                            <Text style={[styles.textBlack, Font.DEFAULT_FONT_BLACK]}>{menu.ingredients}{'\n'}</Text>
+                            <Text style={[styles.textOrange, Font.DEFAULT_FONT_ORANGE]}>Calories</Text>
+                            <Text style={[styles.textBlack, Font.DEFAULT_FONT_BLACK]}>{menu.calories}Kcal</Text>
                         </View>
                         <View style={styles.reviewListBox}>
                             <ReviewList reviews={this.state.reviews}/>
                         </View>
                         <TouchableHighlight onPress={() =>Actions.MenuReviewPage({menuIdx: this.props.menuIdx})} underlayColor={'transparent'}>
                             <View style={styles.showMoreButtonBox}>
-                                <Text style={styles.textWhite}>리뷰 더 보기</Text>
+                                <Text style={Font.DEFAULT_FONT_WHITE}>리뷰 더 보기</Text>
                             </View>
                         </TouchableHighlight>
                     </View>
@@ -178,7 +181,7 @@ let styles = StyleSheet.create({
         alignItems: 'center'
     },
     menuImageBox: {
-        height: 250,
+        height: 250 * Const.DEVICE_RATIO,
         backgroundColor: 'black',
     },
     menuImage: {
@@ -186,13 +189,13 @@ let styles = StyleSheet.create({
         resizeMode: 'cover',
     },
     amountInCart: {
-        height: 40,
+        height: 40 * Const.DEVICE_RATIO,
         flexDirection: 'row',
         left: 0,
-        top: 210,
+        top: 210 * Const.DEVICE_RATIO,
     },
     reviewPriceBox: {
-        height: 50,
+        height: 50 * Const.DEVICE_RATIO,
         flexDirection: 'row',
         marginTop: 20,
         marginRight: 10,
@@ -210,14 +213,14 @@ let styles = StyleSheet.create({
     },
     cartButtonBox: {
         flex: 2,
-        marginTop: 5,
-        marginBottom: 5,
+        marginTop: 5 * Const.DEVICE_RATIO,
+        marginBottom: 5 * Const.DEVICE_RATIO,
     },
     chefBox: {
         flexDirection: 'row',
-        marginTop: 20,
+        marginTop: 20 * Const.DEVICE_RATIO,
         backgroundColor: 'white',
-        height: 70,
+        height: 70 * Const.DEVICE_RATIO,
         justifyContent: 'center',
     },
     chefImage: {
@@ -235,8 +238,8 @@ let styles = StyleSheet.create({
         marginRight: 10,
     },
     iconView: {
-        width: 35,
-        height: 35,
+        width: 35 * Const.DEVICE_RATIO,
+        height: 35 * Const.DEVICE_RATIO,
         backgroundColor: Color.PRIMARY_ORANGE,
         alignItems: 'center',
         justifyContent: 'center',
@@ -247,8 +250,8 @@ let styles = StyleSheet.create({
         overflow: 'hidden',
     },
     iconImage: {
-        width: 15,
-        height: 15,
+        width: 15 * Const.DEVICE_RATIO,
+        height: 15 * Const.DEVICE_RATIO,
         resizeMode: 'contain',
     },
     menuInfoBox: {
@@ -261,7 +264,7 @@ let styles = StyleSheet.create({
         marginTop: 20,
     },
     showMoreButtonBox: {
-        height: 40,
+        height: 40 * Const.DEVICE_RATIO,
         backgroundColor: Color.PRIMARY_ORANGE,
         borderColor: Color.PRIMARY_ORANGE,
         borderWidth: 1,
@@ -275,18 +278,10 @@ let styles = StyleSheet.create({
         marginRight: 10,
     },
     textBlack: {
-        color: Color.PRIMARY_BLACK,
-        lineHeight: 20,
-    },
-    textGray: {
-        color: Color.PRIMARY_GRAY,
+        lineHeight: 20 * Const.DEVICE_RATIO,
     },
     textOrange: {
-        color: Color.PRIMARY_ORANGE,
-        lineHeight: 20,
-    },
-    textWhite: {
-        color: 'white',
+        lineHeight: 20 * Const.DEVICE_RATIO,
     },
     reviewTextBox: {
         marginTop: 3,
@@ -298,14 +293,11 @@ let styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.3)',
     },
     textEng: {
-        color: 'white',
-        fontWeight: 'bold',
-        fontSize: 25,
+        fontSize: 25 * Const.DEVICE_RATIO,
     },
     textKor: {
-        color: 'white',
         marginTop: 10,
-        fontSize: 17,
+        fontSize: 17 * Const.DEVICE_RATIO,
     },
     menuImageNotAlpha: {
         backgroundColor: 'transparent',

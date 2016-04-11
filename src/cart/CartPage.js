@@ -14,10 +14,9 @@ import Picker from 'react-native-picker';
 import { Actions } from 'react-native-router-flux';
 import PageComment from '../commonComponent/PageComment';
 import CartMenuList from './components/CartMenuList';
-import PaymentInfoRow from './components/PaymentInfoRow';
-import AddressInfoRow from './components/AddressInfoRow';
 import Color from '../const/Color';
 import Const from '../const/Const';
+import Font from '../const/Font';
 import RequestURL from '../const/RequestURL';
 import {
   addItemToCart,
@@ -322,17 +321,17 @@ export default class CartPage extends React.Component {
 
     // orage text or black text when properyly input
     const addressHighlight = (address === Const.CART_ADDRESS_INPUT_MESSAGE)
-      ? styles.textOrange
-      : styles.textBlack;
+      ? Font.DEFAULT_FONT_ORANGE
+      : Font.DEFAULT_FONT_BLACK;
     const addressInfo = (address === Const.CART_ADDRESS_INPUT_MESSAGE)
       ? Const.CART_ADDRESS_INPUT_MESSAGE
-      : address + '\n' + addressDetail;
+      : address + ' ' + addressDetail;
     const mobileHighlight = (mobile === Const.CART_MOBILE_INPUT_MESSAGE)
-      ? styles.textOrange
-      : styles.textBlack;
+      ? Font.DEFAULT_FONT_ORANGE
+      : Font.DEFAULT_FONT_BLACK;
     const cardHighlight = (cardNumber === Const.CART_CARD_INPUT_MESSAGE)
-      ? styles.textOrange
-      : styles.textBlack;
+      ? Font.DEFAULT_FONT_ORANGE
+      : Font.DEFAULT_FONT_BLACK;
 
     // card layout visible
     let cardLayout = false;
@@ -417,20 +416,20 @@ export default class CartPage extends React.Component {
               decreaseItemFromCart={(menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng) => dispatch(decreaseItemFromCart(menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng))} />
 
             <View style={[styles.row, styles.rowMarginTop10]}>
-              <Text style={styles.textBlack}>합계</Text>
-              <Text style={[styles.data, styles.textBlack]}>{this.commaPrice(menuTotalPrice)}</Text>
+              <Text style={Font.DEFAULT_FONT_BLACK}>합계</Text>
+              <Text style={[styles.data, Font.DEFAULT_FONT_BLACK]}>{this.commaPrice(menuTotalPrice)}</Text>
               <View style={styles.iconDetailImage} />
             </View>
 
             <View style={[styles.row, styles.rowMarginTop1]}>
-              <Text style={styles.textBlack}>배달비</Text>
-              <Text style={[styles.data, styles.textBlack]}>{this.commaPrice(deliveryFee)}</Text>
+              <Text style={Font.DEFAULT_FONT_BLACK}>배달비</Text>
+              <Text style={[styles.data, Font.DEFAULT_FONT_BLACK]}>{this.commaPrice(deliveryFee)}</Text>
               <View style={styles.iconDetailImage} />
             </View>
 
             <View style={styles.row}>
-              <Text style={styles.textBlack}>포인트 할인</Text>
-              <Text style={[styles.data, styles.textBlack]}>-{this.commaPrice(availablePoint)}</Text>
+              <Text style={Font.DEFAULT_FONT_BLACK}>포인트 할인</Text>
+              <Text style={[styles.data, Font.DEFAULT_FONT_BLACK]}>-{this.commaPrice(availablePoint)}</Text>
               <View style={styles.iconDetailImage} />
             </View>
 
@@ -439,15 +438,15 @@ export default class CartPage extends React.Component {
               onPress={() => Actions.MyCouponPage({disable: true}) }
             >
               <View style={styles.row}>
-                <Text style={styles.textBlack}>쿠폰 할인</Text>
-                <Text style={[styles.data, styles.textBlack]}>-{this.commaPrice(discountCouponPrice | 0)}</Text>
+                <Text style={Font.DEFAULT_FONT_BLACK}>쿠폰 할인</Text>
+                <Text style={[styles.data, Font.DEFAULT_FONT_BLACK]}>-{this.commaPrice(discountCouponPrice | 0)}</Text>
                 <Image style={styles.iconDetailImage} source={require('../commonComponent/img/icon_input.png')} />
               </View>
             </TouchableHighlight>
 
             <View style={[styles.row, styles.rowMarginTop1]}>
-              <Text style={styles.textBlack, styles.textBold}>총 결제액</Text>
-              <Text style={[styles.data, styles.textOrange, styles.textBold]}>{this.commaPrice(totalPrice)}</Text>
+              <Text style={Font.DEFAULT_FONT_BLACK_BOLD}>총 결제액</Text>
+              <Text style={[styles.data, Font.DEFAULT_FONT_ORANGE_BOLD]}>{this.commaPrice(totalPrice)}</Text>
               <View style={styles.iconDetailImage}/>
             </View>
 
@@ -456,7 +455,7 @@ export default class CartPage extends React.Component {
               onPress={() => Actions.MyAddressPage()}
             >
               <View style={[styles.row, styles.rowMarginTop10]}>
-                <Text style={styles.textBlack}>배달 주소</Text>
+                <Text style={Font.DEFAULT_FONT_BLACK}>배달 주소</Text>
                 <Text style={[styles.data, addressHighlight]}>{`${addressInfo}`}</Text>
                 <Image
                   style={styles.iconDetailImage}
@@ -470,7 +469,7 @@ export default class CartPage extends React.Component {
               onPress={() => this.openAlertMoble()}
             >
               <View style={styles.row}>
-                <Text style={styles.textBlack}>연락처</Text>
+                <Text style={Font.DEFAULT_FONT_BLACK}>연락처</Text>
                 <Text style={[styles.data, mobileHighlight]}>{mobile}</Text>
                 <Image
                   style={styles.iconDetailImage}
@@ -484,8 +483,8 @@ export default class CartPage extends React.Component {
               onPress={() => this.openPickerDeliveryTime()}
             >
               <View style={styles.row}>
-                <Text style={styles.textBlack}>배달 시간</Text>
-                <Text style={[styles.data, styles.textBlack]}>{this.state.selectedTimeSlot}</Text>
+                <Text style={Font.DEFAULT_FONT_BLACK}>배달 시간</Text>
+                <Text style={[styles.data, Font.DEFAULT_FONT_BLACK]}>{this.state.selectedTimeSlot}</Text>
                 <View>
                   <Image
                     style={styles.iconDetailImage}
@@ -499,8 +498,8 @@ export default class CartPage extends React.Component {
               onPress={() => this.openPickerCutlery()}
             >
               <View style={styles.row}>
-                <Text style={styles.textBlack}>포크 / 나이프를 넣어주세요</Text>
-                <Text style={[styles.data, styles.textBlack]}>{this.state.selectedCutlery}</Text>
+                <Text style={Font.DEFAULT_FONT_BLACK}>포크 / 나이프를 넣어주세요</Text>
+                <Text style={[styles.data, Font.DEFAULT_FONT_BLACK]}>{this.state.selectedCutlery}</Text>
                 <View>
                   <Image
                     style={styles.iconDetailImage}
@@ -515,8 +514,8 @@ export default class CartPage extends React.Component {
               onPress={() => this.openPickerPayMethod()}
             >
               <View style={styles.row}>
-                <Text style={styles.textBlack}>결제수단</Text>
-                <Text style={[styles.data, styles.textBlack]}>{this.state.selectedPayMethod}</Text>
+                <Text style={Font.DEFAULT_FONT_BLACK}>결제수단</Text>
+                <Text style={[styles.data, Font.DEFAULT_FONT_BLACK]}>{this.state.selectedPayMethod}</Text>
                 <View>
                   <Image
                     style={styles.iconDetailImage}

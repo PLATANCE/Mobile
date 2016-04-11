@@ -1,6 +1,7 @@
-import React, { View, ListView, Text, StyleSheet, Image, TouchableHighlight, Dimensions } from 'react-native';
+import React, { View, ListView, Text, StyleSheet, Image, TouchableHighlight, PixelRatio } from 'react-native';
 import Color from '../../const/Color';
 import Const from '../../const/Const';
+import Font from '../../const/Font';
 import MediaURL from '../../const/MediaURL';
 import MenuReviewStars from '../../commonComponent/MenuReviewStars';
 import MenuPriceText from '../../commonComponent/MenuPriceText';
@@ -9,6 +10,7 @@ import AmountInCart from '../../commonComponent/AmountInCart';
 import SoldOutView from '../../commonComponent/SoldOutView';
 import { Actions } from 'react-native-router-flux';
 import _ from 'lodash';
+
 
 export default class DailyMenuList extends React.Component {
     constructor(props) {
@@ -97,10 +99,10 @@ export default class DailyMenuList extends React.Component {
                                 source={{uri: chefURL}} /> 
                         </View>
                         <View style={styles.menuChef}>
-                            <Text style={[styles.textBlack, styles.textBold]}>{menuNameKor}</Text>
-                            <Text style={styles.textBlack}>{menuNameEng}</Text>
+                            <Text style={Font.DEFAULT_FONT_BLACK_BOLD}>{menuNameKor}</Text>
+                            <Text style={Font.DEFAULT_FONT_BLACK}>{menuNameEng}</Text>
                             <View style={styles.chefNameBox}>
-                                <Text style={styles.chefNameText}>{rowData.name_chef}</Text>
+                                <Text style={Font.DEFAULT_FONT_ORANGE}>{rowData.name_chef}</Text>
                             </View>
                         </View>
                     </View>
@@ -109,7 +111,7 @@ export default class DailyMenuList extends React.Component {
                 <View style={styles.reviewPriceBox}>
                     <View style={styles.reviewBox}>
                         <MenuReviewStars score={rowData.rating}/>
-                        <Text style={styles.reviewCountText}>({rowData.review_count})</Text>
+                        <Text style={[styles.reviewCountText, Font.DEFAULT_FONT_GRAY]}>({rowData.review_count})</Text>
                     </View>
                     <View style={styles.priceBox}>
                         <MenuPriceText originalPrice={rowData.price} sellingPrice={rowData.alt_price} align={{textAlign: 'right'}}/>
@@ -146,19 +148,20 @@ export default class DailyMenuList extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
+        marginTop: 10 * Const.DEVICE_RATIO,
     },
     row: {
         justifyContent: 'center',
-        height: 400,
+        height: 400 * Const.DEVICE_RATIO,
         backgroundColor: 'white',
-        marginTop: 10,
-        marginBottom: 10,
+        marginTop: 10 * Const.DEVICE_RATIO,
+        marginBottom: 10 * Const.DEVICE_RATIO,
     },
     menuDetailBox: {
-        height: 350,
+        height: 350 * Const.DEVICE_RATIO,
     },
     menuImageBox: {
-        height: 250,
+        height: 250 * Const.DEVICE_RATIO,
         backgroundColor: 'black',
     },
     menuImage: {
@@ -166,16 +169,17 @@ let styles = StyleSheet.create({
         resizeMode: 'cover',
     },
     amountInCart: {
-        height: 40,
+        height: 40 * Const.DEVICE_RATIO,
         flexDirection: 'row',
         left: 0,
-        top: 210,
+        top: 210 * Const.DEVICE_RATIO,
     },
     menuChefBox: {
-        height: 100,
+        height: 100 * Const.DEVICE_RATIO,
         flexDirection: 'row',
-        marginLeft: 10,
-        marginRight: 10,
+        paddingTop: 10,
+        paddingLeft: 10,
+        paddingRight: 10,
     },
     chefImageBox: {
         flex: 1,
@@ -186,9 +190,8 @@ let styles = StyleSheet.create({
     },
     menuChef: {
         flex: 4,
-        marginTop: 15,
-        marginBottom: 15,
-        marginLeft: 5,
+        paddingLeft: 5,
+        paddingBottom: 5,
     },
     textBlack: {
         color: Color.PRIMARY_BLACK,
@@ -202,14 +205,11 @@ let styles = StyleSheet.create({
         justifyContent: 'flex-start',
         flexDirection: 'row',
     },
-    chefNameText: {
-        color: Color.PRIMARY_ORANGE,
-    },
     reviewPriceBox: {
-        height: 50,
+        height: 50  * Const.DEVICE_RATIO,
         flexDirection: 'row',
-        marginLeft: 10,
-        marginRight: 10,
+        paddingLeft: 10,
+        paddingRight: 10, 
     },
     reviewBox: {
         flexDirection: 'row',
@@ -217,7 +217,6 @@ let styles = StyleSheet.create({
         justifyContent: 'center',
     },
     reviewCountText: {
-        color: Color.PRIMARY_GRAY,
         marginLeft: 5,
     },
     priceBox: {
@@ -233,8 +232,8 @@ let styles = StyleSheet.create({
         justifyContent: 'center',
     },
     iconView: {
-        width: 35,
-        height: 35,
+        width: 35 * Const.DEVICE_RATIO,
+        height: 35 * Const.DEVICE_RATIO,
         backgroundColor: Color.PRIMARY_ORANGE,
         alignItems: 'center',
         justifyContent: 'center',
@@ -245,8 +244,8 @@ let styles = StyleSheet.create({
         marginRight: 0,
     },
     iconImage: {
-        width: 15,
-        height: 15,
+        width: 15 * Const.DEVICE_RATIO,
+        height: 15 * Const.DEVICE_RATIO,
         resizeMode: 'contain',
     },
 });
