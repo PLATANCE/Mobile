@@ -22,13 +22,11 @@ function writeReviewReducer(state = {
         const reviews = state.reviews;
         const orderDIdx = action.orderDIdx;
         const rating = action.rating;
-        //console.log(orderDIdx, rating);
         reviews.forEach((review) => {
           if(review.idx === orderDIdx) {
             review.rating = rating;
           }
         })
-        //console.log(reviews);
 
         return Object.assign({}, state, {
           reviews,
@@ -39,13 +37,11 @@ function writeReviewReducer(state = {
         const reviews = state.reviews;
         const orderDIdx = action.orderDIdx;
         const comment = action.comment;
-        //console.log(orderDIdx, comment);
         reviews.forEach((review) => {
           if(review.idx === orderDIdx) {
             review.comment = comment;
           }
         })
-        //console.log(reviews);
 
         return Object.assign({}, state, {
           reviews,

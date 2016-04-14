@@ -9,10 +9,12 @@ import React, {
   Image,
   Alert,
   AlertIOS,
+  InteractionManager,
 } from 'react-native';
 import Picker from 'react-native-picker';
 import { Actions } from 'react-native-router-flux';
 import PageComment from '../commonComponent/PageComment';
+import PlaceholderView from '../commonComponent/PlaceholderView';
 import CartMenuList from './components/CartMenuList';
 import Color from '../const/Color';
 import Const from '../const/Const';
@@ -29,7 +31,7 @@ import {
 
 
 import userInfo from '../util/userInfo';
-const userIdx = userInfo.idx;
+
 const PAY_METHOD = {
   ONLINE_CARD: '카드',
   OFFLINE_CARD: '현장카드',
@@ -61,15 +63,19 @@ export default class CartPage extends React.Component {
       timeSlotPickerData,
       selectedTimeSlot,
       selectedCutlery: CUTLERY.YES,
-      selectedCutleryParam: 0,
+      selectedCutleryParam: 1,
       selectedPayMethod: PAY_METHOD.ONLINE_CARD,
       selectedPayMethodParam: 1,
       totalPrice: 0,
+      renderPlaceholderOnly: false,
     };
-
-    props.dispatch(fetchCartInfo());
+    
+    this.props.dispatch(fetchCartInfo());
   }
 
+  componentDidMount() {
+    
+  }
   componentWillReceiveProps(nextProps) {
     // if cart length < 1, move to dailyMenu
     if (Object.keys(nextProps.cart).length === 0) {
@@ -81,6 +87,11 @@ export default class CartPage extends React.Component {
     this.setState({
       timeSlotPickerData,
       selectedTimeSlot: timeSlotPickerData[0],
+    });
+    InteractionManager.runAfterInteractions(() => {
+      this.setState({
+        renderPlaceholderOnly: true,
+      })
     });
   }
 
@@ -108,7 +119,6 @@ export default class CartPage extends React.Component {
       selectedPayMethod,
       selectedPayMethodParam,
     });
-    console.log(selectedPayMethod, selectedPayMethodParam);
   }
 
   setCutlery(selectedItem) {
@@ -123,7 +133,6 @@ export default class CartPage extends React.Component {
       selectedCutlery,
       selectedCutleryParam,
     });
-    console.log(selectedCutlery, selectedCutleryParam);
   }
 
 
@@ -159,7 +168,7 @@ export default class CartPage extends React.Component {
 
   submitUserMobile(mobile) {
     const param = {
-      user_idx: userIdx,
+      user_idx: userInfo.idx,
       phone_no: mobile,
     };
 
@@ -172,7 +181,6 @@ export default class CartPage extends React.Component {
       body: JSON.stringify(param),
     }).then((response) => response.json()).then((responseData) => {
       this.props.dispatch(fetchCartInfo());
-      console.log(responseData); // {update: 'mobile'}
     }).catch((error) => {
       console.warn(error);
     }).done();
@@ -207,17 +215,19 @@ export default class CartPage extends React.Component {
     const {
       selectedTimeSlot,
     } = this.state;
-
+    console.log(selectedTimeSlot);
     let selectedTimeSlotIdx;
     timeSlotData.forEach(timeSlotDatum => {
       const {
         timeSlot,
         idx,
       } = timeSlotDatum;
+      console.log(timeSlotDatum);
       if (selectedTimeSlot === timeSlot) {
         selectedTimeSlotIdx = idx;
       }
     });
+    console.log(selectedTimeSlotIdx);
     return selectedTimeSlotIdx;
   }
 
@@ -233,7 +243,7 @@ export default class CartPage extends React.Component {
     menuDIdxParam = menuDIdxParam.substring(0, menuDIdxParam.length - 1);
     menuAmountParam = menuAmountParam.substring(0, menuAmountParam.length - 1);
     const param = {
-      user_idx: userIdx,
+      user_idx: userInfo.idx,
       time_slot: this.getSelectedTimeSlotIdx(),
       total_price: totalPrice,
       menu_d_idx: menuDIdxParam,
@@ -243,8 +253,9 @@ export default class CartPage extends React.Component {
       coupon_idx: couponIdx,
       include_cutlery: this.state.selectedCutleryParam,
     };
-
-    fetch(RequestURL.SUBMIT_PLACE_ORDER_TEST, {
+    console.log(param);
+    
+    fetch(RequestURL.SUBMIT_PLACE_ORDER, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -290,9 +301,17 @@ export default class CartPage extends React.Component {
       console.warn(error);
     });
   }
+  
+  renderPlaceholderView() {
+    return (
+      <PlaceholderView />
+    );
+  }
   render() {
-    console.log(this.props);
-
+    // place holder
+    if(!this.state.renderPlaceholderOnly) {
+      return this.renderPlaceholderView();
+    }
     const {
       dispatch,
       cart,
@@ -317,6 +336,7 @@ export default class CartPage extends React.Component {
       selectedTimeSlot,
     } = this.state;
 
+    
     let totalPrice = 0;
 
     // orage text or black text when properyly input
@@ -335,6 +355,7 @@ export default class CartPage extends React.Component {
 
     // card layout visible
     let cardLayout = false;
+    
     if (selectedPayMethod === PAY_METHOD.ONLINE_CARD) {
       cardLayout = <TouchableHighlight underlayColor={'transparent'} onPress={Actions.AddCardPage}>
         <View style={styles.row}>
@@ -346,7 +367,7 @@ export default class CartPage extends React.Component {
         </View>
       </TouchableHighlight>;
     }
-
+    
     // menu total price
     let menuTotalPrice = 0;
     for (const menuIdx in cart) {
@@ -370,6 +391,11 @@ export default class CartPage extends React.Component {
         availablePoint = myInfo.point;
       }
     }
+    // deliveryFee
+    let displayDeliveryFee = (deliveryFee == 0) ? '(이벤트) 무료' : '-' + this.commaPrice(deliveryFee);
+    
+    // discountCouponPrice
+    let displayDiscountCouponPrice = ((discountCouponPrice == 0) ? '' : '-') + this.commaPrice(discountCouponPrice);
 
     // totalPrice
     totalPrice = menuTotalPrice + deliveryFee - availablePoint - discountCouponPrice;
@@ -403,10 +429,10 @@ export default class CartPage extends React.Component {
     const orderBtnBackgroundStyle = (enableOrderButton)
       ? styles.orderBtnColorOrange
       : styles.orderBtnColorBlack;
-
+    
     return (
-      <ScrollView>
-        <View style={styles.container}>
+      <View style={styles.container}>
+        <ScrollView style={{ flex: 1, }}>
           <PageComment text={'모든 메인메뉴는 전자렌지 조리용입니다.'} />
           <View style={styles.content}>
 
@@ -414,7 +440,7 @@ export default class CartPage extends React.Component {
               cart={cart}
               addItemToCart={(menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng, enable) => dispatch(addItemToCart(menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng, enable))}
               decreaseItemFromCart={(menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng) => dispatch(decreaseItemFromCart(menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng))} />
-
+            
             <View style={[styles.row, styles.rowMarginTop10]}>
               <Text style={Font.DEFAULT_FONT_BLACK}>합계</Text>
               <Text style={[styles.data, Font.DEFAULT_FONT_BLACK]}>{this.commaPrice(menuTotalPrice)}</Text>
@@ -423,7 +449,7 @@ export default class CartPage extends React.Component {
 
             <View style={[styles.row, styles.rowMarginTop1]}>
               <Text style={Font.DEFAULT_FONT_BLACK}>배달비</Text>
-              <Text style={[styles.data, Font.DEFAULT_FONT_BLACK]}>{this.commaPrice(deliveryFee)}</Text>
+              <Text style={[styles.data, Font.DEFAULT_FONT_BLACK]}>{displayDeliveryFee}</Text>
               <View style={styles.iconDetailImage} />
             </View>
 
@@ -439,7 +465,7 @@ export default class CartPage extends React.Component {
             >
               <View style={styles.row}>
                 <Text style={Font.DEFAULT_FONT_BLACK}>쿠폰 할인</Text>
-                <Text style={[styles.data, Font.DEFAULT_FONT_BLACK]}>-{this.commaPrice(discountCouponPrice | 0)}</Text>
+                <Text style={[styles.data, Font.DEFAULT_FONT_BLACK]}>{displayDiscountCouponPrice}</Text>
                 <Image style={styles.iconDetailImage} source={require('../commonComponent/img/icon_input.png')} />
               </View>
             </TouchableHighlight>
@@ -449,7 +475,7 @@ export default class CartPage extends React.Component {
               <Text style={[styles.data, Font.DEFAULT_FONT_ORANGE_BOLD]}>{this.commaPrice(totalPrice)}</Text>
               <View style={styles.iconDetailImage}/>
             </View>
-
+            
             <TouchableHighlight
               underlayColor={'transparent'}
               onPress={() => Actions.MyAddressPage()}
@@ -544,7 +570,7 @@ export default class CartPage extends React.Component {
               pickerData={[this.state.timeSlotPickerData]}
               selectedValue={this.state.selectedTimeSlot}
               onPickerDone={(newSelectedTimeSlot) => {
-                this.setState({ selectedTimeSlot: newSelectedTimeSlot });
+                this.setState({ selectedTimeSlot: newSelectedTimeSlot[0] });
               }}
             />
             <Picker
@@ -569,9 +595,10 @@ export default class CartPage extends React.Component {
               selectedValue={this.state.selectedCutlery}
               onPickerDone={(pickedValue) => this.setCutlery(pickedValue)}
             />
+            
           </View>
-        </View>
-      </ScrollView>
+          </ScrollView>
+      </View>
     );
   }
 }

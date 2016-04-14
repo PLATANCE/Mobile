@@ -1,16 +1,18 @@
 'use strict';
-import React, { View, Text, StyleSheet,ScrollView } from 'react-native';
+import React, { View, Text, StyleSheet,ScrollView, InteractionManager } from 'react-native';
 
 import Color from '../const/Color';
 import Const from '../const/Const';
 import RequestURL from '../const/RequestURL';
 import MenuReviewList from './components/MenuReviewList';
+import PlaceholderView from '../commonComponent/PlaceholderView';
 
 export default class ReviewPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             reviews: [],
+            renderPlaceholderOnly: false,
         }
     }
     componentDidMount() {
@@ -23,21 +25,32 @@ export default class ReviewPage extends React.Component {
                 this.setState({
                     reviews: responseData.review,
                 });
+                InteractionManager.runAfterInteractions( () => {
+                    this.setState({
+                        renderPlaceholderOnly: true,
+                    });
+                })
             })
             .catch((error) => {
                 console.warn(error);
             })
             .done();
     }
-    render() {
+    renderPlaceholderView() {
         return (
-            <ScrollView>
-                <View style={styles.container}>
-                    <View style={styles.content} >
-                        <MenuReviewList reviews={this.state.reviews} />
-                    </View>
+          <PlaceholderView />
+        );
+    }
+    render() {
+        if(!this.state.renderPlaceholderOnly) {
+            return this.renderPlaceholderView();
+        }
+        return (
+            <View style={styles.container}>
+                <View style={styles.content} >
+                    <MenuReviewList reviews={this.state.reviews} />
                 </View>
-            </ScrollView>
+            </View>
         );
     }
 }

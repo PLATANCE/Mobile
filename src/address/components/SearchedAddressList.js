@@ -50,8 +50,6 @@ export default class SearchedAddressList extends React.Component {
             lat: latitude,
             lon: longitude,
         };
-
-        console.log(param);
         
         fetch(RequestURL.SUBMIT_UPDATE_ADDRESS, {
             method: 'POST',

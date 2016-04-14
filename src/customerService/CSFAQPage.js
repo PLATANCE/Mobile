@@ -22,7 +22,6 @@ export default class CSFAQPage extends React.Component {
         fetch(RequestURL.REQUEST_FAQ_LIST)
             .then((response) => response.json())
             .then((responseData) => {
-                console.log(responseData);
                 this.setState({
                     FAQ: responseData.FAQ,
                 });

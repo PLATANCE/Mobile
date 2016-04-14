@@ -20,8 +20,6 @@ export default class SignInPage extends React.Component {
     }
     facebookLogin() {
 
-        console.log("trying facebook login");
-
         const signUp = this.signUp;
 
         FacebookManager.login().then((result) => {
@@ -49,8 +47,6 @@ export default class SignInPage extends React.Component {
     }
     kakaoLogin() {
 
-        console.log("kakao` login");
-
         const signUp = this.signUp;
 
         KakaoManager.login().then((result) => {
@@ -75,7 +71,6 @@ export default class SignInPage extends React.Component {
         });
     }
     autoLogin() {
-        console.log("auto login");
 
         const signUp = this.signUp;
 
@@ -93,7 +88,7 @@ export default class SignInPage extends React.Component {
         signUp(params);
     }
     signUp(param) {
-        console.log(`sign up body : ${JSON.stringify(param)}`);
+        //console.log(`sign up body : ${JSON.stringify(param)}`);
         fetch(RequestURL.REQUEST_FB_SIGN_UP, {
                 method: 'POST',
                 headers: {
@@ -103,11 +98,9 @@ export default class SignInPage extends React.Component {
                 body: JSON.stringify(param)
             })
             .then((response) => {
-                console.log(response);
                 return response.json()
             })
             .then((json) => {
-                console.log('signUp successful!', json);
                 const userIdx = json.user_info.user_idx;
                 realm.write(() => {
                     userInfo.idx = parseInt(userIdx);

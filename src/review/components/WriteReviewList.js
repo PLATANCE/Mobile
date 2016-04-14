@@ -107,8 +107,9 @@ export default class WriteReviewList extends React.Component {
                         keyboardType="default" 
                         autoCorrect={false}
                         value={rowData.comment}
+                        multiline={true}
                         placeholder='솔직한 리뷰는, 플레이팅을 더 맛있게 합니다 :)'
-                        onSubmitEditing={(event) => onChangeTextInputComment(orderDIdx, event.nativeEvent.text)}
+                        onChange={(event) => onChangeTextInputComment(orderDIdx, event.nativeEvent.text)}
                     />
                 </View>
                 <TouchableHighlight 

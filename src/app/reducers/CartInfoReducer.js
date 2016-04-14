@@ -41,7 +41,6 @@ function cartInfoReducer(state = {
       case CartInfoActions.USE_COUPON: {
         const couponIdx = action.couponIdx;
         const discountCouponPrice = action.discountCouponPrice;
-        console.log(couponIdx, discountCouponPrice);
         return Object.assign({}, state, {
           couponIdx,
           discountCouponPrice,

@@ -7,7 +7,7 @@ import React, {
     StyleSheet,
     TouchableHighlight,
     ScrollView,
-    PixelRatio,
+    InteractionManager,
 } from 'react-native';
 
 import { Actions } from 'react-native-router-flux';
@@ -16,7 +16,7 @@ import AddCartButton from '../commonComponent/AddCartButton';
 import MenuPriceText from '../commonComponent/MenuPriceText';
 import AmountInCart from '../commonComponent/AmountInCart';
 import PageComment from '../commonComponent/PageComment';
-import SoldOutView from '../commonComponent/PageComment';
+import PlaceholderView from '../commonComponent/PlaceholderView';
 import ReviewList from './components/ReviewList';
 import Color from '../const/Color';
 import Const from '../const/Const';
@@ -33,6 +33,7 @@ export default class MenuDetailPage extends React.Component {
         this.state = {
             menu: [],
             reviews: [],
+            renderPlaceholderOnly: false,
         }
     }
 
@@ -48,13 +49,22 @@ export default class MenuDetailPage extends React.Component {
                     menu: responseData[0],
                     reviews: responseData[0].review,
                 });
+                InteractionManager.runAfterInteractions( () => {
+                    this.setState({
+                        renderPlaceholderOnly: true,
+                    });
+                })
             })
             .catch((error) => {
                 console.warn(error);
             })
             .done();
     }
-
+    renderPlaceholderView() {
+        return (
+            <PlaceholderView />
+        );
+    }
     render() {
         const { dispatch, cart, menuIdx, menuDIdx } = this.props;
         const menu = this.state.menu;
@@ -62,6 +72,11 @@ export default class MenuDetailPage extends React.Component {
         let chefURL;
         let contentInnerMenu = false;
         let addButtonEnable;
+
+        // place holder
+        if(!this.state.renderPlaceholderOnly) {
+            return this.renderPlaceholderView();
+        }
 
         if(menu){
             const stock = this.props.stock;
@@ -73,13 +88,13 @@ export default class MenuDetailPage extends React.Component {
             if(isSoldOut) {
                 if(stock == 0) {
                     contentInnerMenu = <View style={styles.menuImageAlpha}>
-                                    <Text style={[styles.textEng, Font.DEFAULT_FONT_WHITE_BOLD]}>SOLD OUT</Text>
-                                    <Text style={[styles.textKor, Font.DEFAULT_FONT_WHITE]}>금일 메뉴가 매진 되었습니다.</Text>
+                                    <Text style={[Font.DEFAULT_FONT_WHITE_BOLD, styles.textEng]}>SOLD OUT</Text>
+                                    <Text style={[Font.DEFAULT_FONT_WHITE, styles.textKor]}>금일 메뉴가 매진 되었습니다.</Text>
                                 </View>;
                 } else if(stock < 0) {
                     contentInnerMenu = <View style={styles.menuImageAlpha}>
-                                    <Text style={[styles.textEng, Font.DEFAULT_FONT_WHITE_BOLD]}>주문 마감</Text>
-                                    <Text style={[styles.textKor, Font.DEFAULT_FONT_WHITE]}>오늘은 플레이팅 쉬는 날 입니다.</Text>
+                                    <Text style={[Font.DEFAULT_FONT_WHITE_BOLD, styles.textEng]}>주문 마감</Text>
+                                    <Text style={[Font.DEFAULT_FONT_WHITE, styles.textKor]}>오늘은 플레이팅 쉬는 날 입니다.</Text>
                                 </View>;
                 }
                 

@@ -21,7 +21,6 @@ export default class ChefDetailPage extends React.Component {
         fetch(RequestURL.REQUEST_CHEF_DETAIL + "chef_idx=" + this.props.chefIdx)
             .then((response) => response.json())
             .then((responseData) => {
-                console.log(responseData);
                 this.setState({
                     chef: responseData[0],
                 });

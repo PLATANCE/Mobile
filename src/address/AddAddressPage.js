@@ -28,7 +28,6 @@ export default class AddAddressPage extends React.Component {
         fetch(RequestURL.REQUEST_SEARCHED_ADDRESS_LIST + "query=" + address)
             .then((response) => response.json())
             .then((responseData) => {
-                console.log(responseData);
                 this.setState({
                     addressList: responseData,
                 });
@@ -95,5 +94,6 @@ let styles = StyleSheet.create({
     addressCoverBox: {
         alignItems: 'center',
         justifyContent: 'center',
+        marginBottom: 20,
     },
 });

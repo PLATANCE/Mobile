@@ -17,8 +17,6 @@ export default class MyCouponList extends React.Component {
         let dataSource = new ListView.DataSource({
             rowHasChanged: (row1, row2) => row1 !== row2,
         });
-        console.log(Const.WIDTH);
-        console.log(Const.HEIGHT);
         this.state = {
             dataSource: dataSource.cloneWithRows(props.coupons)
         }
@@ -42,7 +40,7 @@ export default class MyCouponList extends React.Component {
             }
             menuIdxParam = menuIdxParam.substring(0, menuIdxParam.length - 1);
             menuAmountParam = menuAmountParam.substring(0, menuAmountParam.length - 1);
-            //console.log(menuIdxParam, menuAmountParam);
+            
             const param = {
                 coupon_idx: idx,
                 menu_idx: menuIdxParam,
@@ -62,7 +60,7 @@ export default class MyCouponList extends React.Component {
                 let couponIdx = responseData.coupon_idx;
                 let discountCouponPrice = responseData.sale_price;
                 let message = responseData.msg;
-                console.log(available, couponIdx, discountCouponPrice, message);
+                
                 if(available) {
                     Alert.alert(
                         '쿠폰 사용',
@@ -130,7 +128,7 @@ let styles = StyleSheet.create({
     },
     img: {
         width: Const.WIDTH,
-        height: couponImageHeight,
+        height: 175,
         resizeMode: 'contain',
     }
 });

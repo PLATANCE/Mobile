@@ -54,8 +54,8 @@ export default class MenuReviewList extends React.Component {
         const { reviews } = this.props;
         
         return (
-            <View>
-                <ListView style={styles.listView}
+            <View style={styles.container}>
+                <ListView
                     //https://facebook.github.io/react-native/docs/listview.html
                     dataSource={this.state.dataSource}
                     renderRow={this.renderRow} />
@@ -65,8 +65,9 @@ export default class MenuReviewList extends React.Component {
 }
 
 let styles = StyleSheet.create({
-    listView: {
+    container: {
         marginTop: 10,
+        flex: 1,
     },
     row: {
         flex: 1,

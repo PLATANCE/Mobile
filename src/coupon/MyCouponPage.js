@@ -10,7 +10,7 @@ import {
   useCoupon,
 } from '../app/actions/CartInfoActions';
 import userInfo from '../util/userInfo';
-const userIdx = userInfo.idx;
+
 
 export default class MyCouponPage extends React.Component {
     constructor(props) {
@@ -24,6 +24,7 @@ export default class MyCouponPage extends React.Component {
         this.fetchMyCoupons();
     }
     fetchMyCoupons() {
+        const userIdx = userInfo.idx;
         fetch(RequestURL.REQUEST_MY_COUPON_LIST + 'user_idx=' + userIdx)
             .then((response) => response.json())
             .then((responseData) => {

@@ -1,5 +1,5 @@
 'use strict';
-import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
+import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image, InteractionManager } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 import Color from '../const/Color';
@@ -9,7 +9,7 @@ import MyOrderList from './components/MyOrderList';
 import RequestURL from '../const/RequestURL';
 
 import userInfo from '../util/userInfo';
-const userIdx = userInfo.idx;
+
 
 export default class MyOrderPage extends React.Component {
     constructor(props) {
@@ -23,6 +23,7 @@ export default class MyOrderPage extends React.Component {
         this.fetchMyOrders();
     }
     fetchMyOrders() {
+        const userIdx = userInfo.idx;
         fetch(RequestURL.REQUEST_MY_ORDER_LIST + 'user_idx=' + userIdx)
             .then((response) => response.json())
             .then((responseData) => {
@@ -52,6 +53,7 @@ export default class MyOrderPage extends React.Component {
         if(!this.state.hasData) {
             return this.loadingNoDataImage();
         }
+        
         return (
             <View style={styles.container}>
                 <View style={styles.content} >

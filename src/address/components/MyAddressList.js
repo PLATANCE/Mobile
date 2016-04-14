@@ -45,7 +45,6 @@ export default class MyAddressList extends React.Component {
       user_idx: userIdx,
       mode: 'update',
     };
-    console.log(param);
 
     fetch(RequestURL.SUBMIT_IN_USE_ADDRESS, {
       method: 'POST',
@@ -57,7 +56,6 @@ export default class MyAddressList extends React.Component {
     })
     .then((response) => response.json())
     .then((responseData) => {
-      console.log(responseData);
       const message = responseData.result;
       Alert.alert(
         '주소 변경', 

@@ -14,8 +14,6 @@ import Modal from 'react-native-modalbox';
 import RequestURL from '../const/RequestURL';
 import userInfo from '../util/userInfo';
 
-const userIdx = userInfo.idx;
-
 class SideDrawerContent extends Component {
     constructor(props) {
         super(props);
@@ -31,6 +29,7 @@ class SideDrawerContent extends Component {
         this.fetchMyCoupon();
     }
     fetchUserPoint() {
+        const userIdx = userInfo.idx;
         fetch(RequestURL.REQUEST_USER_POINT + 'user_idx=' + userIdx)
             .then((response) => response.json())
             .then((responseData) => {
@@ -49,7 +48,6 @@ class SideDrawerContent extends Component {
         fetch(RequestURL.REQUEST_GET_POLICY_REFER_POINT)
             .then((response) => response.json())
             .then((responseData) => {
-                //console.log(responseData);
                 this.setState({
                     referPriceText: responseData.korReferPoint,
                 });
@@ -60,10 +58,10 @@ class SideDrawerContent extends Component {
             .done();
     }
     fetchMyCoupon() {
+        const userIdx = userInfo.idx;
         fetch(RequestURL.REQUEST_MY_COUPON_LIST + 'user_idx=' + userIdx)
             .then((response) => response.json())
             .then((responseData) => {
-                //console.log(responseData.length);
                 this.setState({
                     cntCoupon: responseData.length,
                 });
@@ -88,10 +86,7 @@ class SideDrawerContent extends Component {
         );
     }
     submitCode(code) {
-        console.log(code);
-        let param = 'user_idx=' + userIdx + '&code=' + code;
-        
-        console.log(param);
+        let param = 'user_idx=' + userInfo.idx + '&code=' + code;
         
         fetch(RequestURL.SUBMIT_POINT_REGISTER + param)
             .then((response) => response.json())
@@ -171,8 +166,6 @@ class SideDrawerContent extends Component {
 export default class SideDrawer extends Component {
     constructor(props) {
         super(props);
-        props.dispatch(fetchMyPoint());
-        props.dispatch(fetchMyCoupon());
     }
 
     render() {

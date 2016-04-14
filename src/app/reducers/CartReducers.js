@@ -59,14 +59,10 @@ const cartReducer = function(state = {
                     });
 
                 } else {
-
-                    console.log("카트에 없는데 지우려고 하는 경우 : " + action);
                     return state;
-
                 }
             }
         case CartActions.CLEAR_CART:
-            console.log(CartActions.CLEAR_CART);
             {
                 return Object.assign({}, state, {
                     cart: {}

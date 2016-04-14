@@ -177,7 +177,6 @@ let styles = StyleSheet.create({
     menuChefBox: {
         height: 100 * Const.DEVICE_RATIO,
         flexDirection: 'row',
-        paddingTop: 10,
         paddingLeft: 10,
         paddingRight: 10,
     },
@@ -191,7 +190,8 @@ let styles = StyleSheet.create({
     menuChef: {
         flex: 4,
         paddingLeft: 5,
-        paddingBottom: 5,
+        paddingBottom: 10 * Const.DEVICE_RATIO,
+        paddingTop: 10 * Const.DEVICE_RATIO,
     },
     textBlack: {
         color: Color.PRIMARY_BLACK,

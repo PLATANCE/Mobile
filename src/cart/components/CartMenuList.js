@@ -76,6 +76,7 @@ export default class CartMenuList extends React.Component {
 
 let styles = StyleSheet.create({
     container: {
+        flex: 1,
         backgroundColor: 'white',
     },
     row: {

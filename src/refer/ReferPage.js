@@ -9,7 +9,7 @@ import MediaURL from '../const/MediaURL';
 import RequestURL from '../const/RequestURL';
 
 import userInfo from '../util/userInfo';
-const userIdx = userInfo.idx;
+
 const KakaoManager = NativeModules.KakaoManager;
 
 export default class ReferPage extends React.Component {
@@ -28,6 +28,7 @@ export default class ReferPage extends React.Component {
         this.getReferPolicy();
     }
     fetchMyUserCode() {
+        const userIdx = userInfo.idx;
         fetch(RequestURL.REQUEST_GET_USER_CODE + 'user_idx=' + userIdx)
             .then((response) => response.json())
             .then((responseData) => {
@@ -45,7 +46,6 @@ export default class ReferPage extends React.Component {
         fetch(RequestURL.REQUEST_GET_POLICY_REFER_POINT)
             .then((response) => response.json())
             .then((responseData) => {
-                console.log(responseData);
                 this.setState({
                     pointPriceKor: responseData.korReferPoint,
                     pointPriceNum: responseData.numReferPoint,
@@ -84,7 +84,6 @@ export default class ReferPage extends React.Component {
         );
     }
     onPressKakao(content) {
-      console.log(content);
       KakaoManager.openKakaoTalkAppLink('Plating 열기', content);
     }
     onPressMMS(content) {

@@ -133,7 +133,7 @@ export default class Routes extends Component {
 
                     <Route name='DrawerPage' hideNavBar={true} type='replace'
                         initial={userInfo.isLogin ? true : false} >
-                        <SideDrawer ref='sideDrawer' >
+                        <SideDrawer ref='sideDrawer' userIdx={userInfo.idx}>
                             <Router
                                 sceneStyle={styles.scene}
                                 navigationBarStyle={styles.navigationBar}
@@ -265,15 +265,15 @@ let styles = StyleSheet.create({
     },
     leftButton: {
         flex: 1,
+        width: 50,
         alignItems: 'center',
         justifyContent: 'center',
-        marginLeft: 10,
     },
     rightButton: {
         flex: 1,
+        width: 50,
         alignItems: 'center',
         justifyContent: 'center',
-        marginRight: 10,
     },
     image: {
         width: 20,

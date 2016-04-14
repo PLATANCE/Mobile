@@ -19,7 +19,6 @@ const userIdx = userInfo.idx;
 export default class MyAddressPage extends React.Component {
     constructor(props) {
         super(props);
-        console.log(props);
         props.dispatch(fetchMyAddressList());
     }
     componentDidMount() {

@@ -1,6 +1,8 @@
 'use strict';
-import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image, ScrollView, Modal, Animated, AsyncStorage } from 'react-native';
+import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image, ScrollView, Modal, Animated, AsyncStorage, Alert, Linking, Platform } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import DeviceInfo from 'react-native-device-info';
+import Communications from 'react-native-communications';
 import DailyMenuList from './components/DailyMenuList';
 import AddressBar from './components/AddressBar';
 import Banner from './components/Banner';
@@ -16,6 +18,8 @@ import {
   fetchMyAddress,
 } from '../app/actions/AddressActions';
 import userInfo from '../util/userInfo';
+
+
 const userIdx = userInfo.idx;
 const HEIGHT = Const.HEIGHT;
 const WIDTH = Const.WIDTH;
@@ -100,18 +104,33 @@ export default class DailyMenuPage extends React.Component {
             .done();
     }
     fetchCheckUpdate() {
-        fetch(RequestURL.REQUEST_APP_UPDATE_AVAILABLE)
+        const buildNumber = DeviceInfo.getBuildNumber();
+        let param = Platform.OS === 'android' ? 'version_code=' : 'build=' + buildNumber;
+        
+        fetch(RequestURL.REQUEST_APP_UPDATE_AVAILABLE + param)
             .then((response) => response.json())
             .then((responseData) => {
                 let available = responseData.available;
                 if(available) {
-                    console.log('업데이트 처리 해야대요!');
+                    Alert.alert(
+                        '업데이트 필요',
+                        '필수 업데이트 버전이 앱스토어에 등록되었습니다.',
+                        [
+                            { text: '업데이트 하러 가기', onPress: () => this.linkingAppStore() }
+                        ]
+                    );
                 }
             })
             .catch((error)=> {
                 console.warn(error);
             })
             .done();
+    }
+    linkingAppStore() {
+        // itms-apps://itunes.apple.com/app/id1031812751
+        Actions.DrawerPage();
+        const url = 'itms-apps://itunes.apple.com/app/id1031812751';
+        Communications.web(url);
     }
     closeModalWhileToday() {
         AsyncStorage.setItem('DATE', this.YYYYMMDD(DATE));
@@ -170,12 +189,12 @@ export default class DailyMenuPage extends React.Component {
                 <PageComment text='메인 메뉴는 당일 조리, 당일 배송 됩니다 (5:00pm~10:00pm)' />
                 <View style={styles.content}>
                     <ScrollView>
-                        <Banner style={styles.banner}/>
-                        <DailyMenuList styles={styles.menuList}
-                            menus={this.state.menus}
-                            addItemToCart={ (menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng, enable) => dispatch(addItemToCart(menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng, enable)) }
-                            cart={cart}
-                        />
+                    <Banner style={styles.banner}/>
+                    <DailyMenuList styles={styles.menuList}
+                        menus={this.state.menus}
+                        addItemToCart={ (menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng, enable) => dispatch(addItemToCart(menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng, enable)) }
+                        cart={cart}
+                    />
                     </ScrollView>
                     <AddressBar address={address} addressDetail={addressDetail}/>
                 </View>

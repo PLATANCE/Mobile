@@ -22,7 +22,6 @@ export default class OrderDetailPage extends React.Component {
         fetch(RequestURL.REQUEST_MY_ORDER_DETAIL + 'order_idx=' + this.props.orderIdx)
             .then((response) => response.json())
             .then((responseData) => {
-                console.log(responseData);
                 this.setState({
                     order: responseData,
                     menus: responseData.order_detail,
