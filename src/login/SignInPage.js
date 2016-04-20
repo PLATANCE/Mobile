@@ -9,6 +9,7 @@ import PushNotification from '../app/PushNotification';
 import RequestURL from '../const/RequestURL';
 import realm from '../util/realm';
 import userInfo from '../util/userInfo';
+import Mixpanel from '../util/mixpanel';
 
 const KakaoManager = NativeModules.KakaoManager,
     FacebookManager = NativeModules.FacebookManager;
@@ -19,12 +20,12 @@ export default class SignInPage extends React.Component {
         super(props);
     }
     facebookLogin() {
-
+        Mixpanel.trackWithProperties('Click Sign Up', { via: 'Facebook' });
         const signUp = this.signUp;
 
         FacebookManager.login().then((result) => {
 
-            console.log("fb login success", result);
+            Mixpanel.trackWithProperties('Sign Up Success', { via: 'Facebook' });
 
             const facebookSignUpParams = {
                 "os_type": "iOS",
@@ -46,12 +47,10 @@ export default class SignInPage extends React.Component {
         });
     }
     kakaoLogin() {
-
+        Mixpanel.trackWithProperties('Click Sign Up', { via: 'Kakao' });
         const signUp = this.signUp;
 
-        KakaoManager.login().then((result) => {
-
-            console.log('success', result);
+        KakaoManager.login().then((result) => {  
 
             let params = {
                 "os_type": "iOS",
@@ -71,7 +70,7 @@ export default class SignInPage extends React.Component {
         });
     }
     autoLogin() {
-
+        Mixpanel.trackWithProperties('Click Sign Up', { via: 'Auto' });
         const signUp = this.signUp;
 
         let params = {
@@ -102,15 +101,31 @@ export default class SignInPage extends React.Component {
             })
             .then((json) => {
                 const userIdx = json.user_info.user_idx;
+                const name = (param.login_type === 'kakao') ? param.nickname : param.name;
+                const uniqueID = userIdx.toString();
+
+                Mixpanel.createAlias(uniqueID);
+                Mixpanel.identify(uniqueID);
+                Mixpanel.set("$name", uniqueID);
+                
+                if(param.login_type === 'kakao') {
+                    Mixpanel.trackWithProperties('Sign Up Success', { via: 'Kakao' });
+                } else if(param.login_type === 'fb') {
+                    Mixpanel.trackWithProperties('Sign Up Success', { via: 'Facebook' });
+                } else {
+                    Mixpanel.trackWithProperties('Sign Up Success', { via: 'Auto' });
+                }
+                
                 realm.write(() => {
                     userInfo.idx = parseInt(userIdx);
                 });
-                console.log(userInfo);
+                //console.log(userInfo);
 
                 Actions.DrawerPage();
             })
             .catch((error) => {
                 console.warn('signUp Fail!!', error);
+                Mixpanel.track('Sign Up Fail');
 
                 // TODO
                 // 에러창 띄어야 함.
