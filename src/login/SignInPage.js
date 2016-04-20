@@ -13,6 +13,22 @@ import userInfo from '../util/userInfo';
 const KakaoManager = NativeModules.KakaoManager,
     FacebookManager = NativeModules.FacebookManager;
 
+/*
+let facebookID;
+let kakaoID;
+let autoSignUpID = DeviceInfo.getUniqueID();
+FacebookManager.getID()
+  .then((id) => {facebookID = id;})
+  .catch((err) => console.log(err))
+  .then(() => {
+    KakaoManager.getID()
+      .then((id) => {kakaoID = id;})
+      .catch((err) => console.log(err))
+      .then(() => {
+        fetch( test )
+      });
+  });*/
+
 
 export default class SignInPage extends React.Component {
     constructor(props) {
@@ -119,12 +135,12 @@ export default class SignInPage extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Image style={styles.img} 
+                <Image style={styles.img}
                     source={require('../commonComponent/img/login_main.jpg')}/>
                 <View style={styles.contentBox} >
                     <View style={styles.buttonBox}>
                         <TouchableHighlight onPress={this.facebookLogin.bind(this)} underlayColor={'transparent'}>
-                            <Image style={styles.button} 
+                            <Image style={styles.button}
                                 source={require('./img/fb.png')} />
                         </TouchableHighlight>
                         <TouchableHighlight onPress={this.kakaoLogin.bind(this)} underlayColor={'transparent'}>
@@ -142,7 +158,7 @@ export default class SignInPage extends React.Component {
                                 <Text style={[Font.DEFAULT_FONT_ORANGE_UNDERLINE, {fontSize: 10 * Const.DEVICE_RATIO}]}> 서비스 이용약관</Text>
                             </TouchableHighlight>
                         </View>
-                        
+
                         <View style={styles.textBoxRow}>
                             <TouchableHighlight onPress={() => Actions.CSPolicyPage({uri: 'http://api.plating.co.kr/app/privacy.html', page: 'privacyPolicy'})} underlayColor={'transparent'}>
                                 <Text style={[Font.DEFAULT_FONT_ORANGE_UNDERLINE, {fontSize: 10 * Const.DEVICE_RATIO,}]}>개인정보 취급방침</Text>
