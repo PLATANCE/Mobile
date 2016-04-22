@@ -12,6 +12,7 @@ import Color from '../../const/Color';
 import Const from '../../const/Const';
 import Font from '../../const/Font';
 import RequestURL from '../../const/RequestURL';
+import Mixpanel from '../../util/mixpanel';
 
 export default class MyAddressList extends React.Component {
   constructor(props) {
@@ -35,6 +36,7 @@ export default class MyAddressList extends React.Component {
 
   changeInUseAddress(idx, userIdx, inUse) {
     if (!inUse) {
+      Mixpanel.trackWithProperties('Select Address', { addressIdx: idx });
       this.updateInUseAddress(idx, userIdx);
     }
   }
@@ -78,9 +80,6 @@ export default class MyAddressList extends React.Component {
     const leftIcon = (inUse)
       ? require('../img/check_circle.png')
       : require('../img/empty_circle.png');
-    const textStyle = (deliveryAvailable)
-      ? Font.DEFAULT_FONT_BLACK
-      : Font.DEFAULT_FONT_GRAY;
 
     if (rowData.delivery_available) {
       return (
@@ -90,8 +89,8 @@ export default class MyAddressList extends React.Component {
           <View style={styles.row}>
             <Image style={styles.img} source={leftIcon}/>
             <View style={styles.addressBox}>
-              <Text style={textStyle}>{rowData.address}</Text>
-              <Text style={textStyle}>{rowData.address_detail}</Text>
+              <Text style={Font.DEFAULT_FONT_BLACK_BOLD}>{rowData.address}</Text>
+              <Text style={Font.DEFAULT_FONT_BLACK}>{rowData.address_detail}</Text>
             </View>
           </View>
         </TouchableHighlight>
@@ -103,8 +102,8 @@ export default class MyAddressList extends React.Component {
         <View style={styles.row}>
           <Image style={styles.img} source={leftIcon}/>
           <View style={styles.addressBox}>
-            <Text style={textStyle}>{rowData.address}</Text>
-            <Text style={textStyle}>{rowData.address_detail}</Text>
+            <Text style={Font.DEFAULT_FONT_BLACK_BOLD}>{rowData.address}</Text>
+            <Text style={Font.DEFAULT_FONT_BLACK}>{rowData.address_detail}</Text>
             <Text style={Font.DEFAULT_FONT_RED}>배달이 불가능한 지역입니다.</Text>
           </View>
         </View>
@@ -137,8 +136,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   img: {
-    width: 30 * Const.DEVICE_RATIO,
-    height: 30 * Const.DEVICE_RATIO,
+    width: 35 * Const.DEVICE_RATIO,
+    height: 35 * Const.DEVICE_RATIO,
   },
   addressBox: {
     flex: 1,

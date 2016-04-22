@@ -23,6 +23,7 @@ import Const from '../const/Const';
 import Font from '../const/Font';
 import RequestURL from '../const/RequestURL';
 import MediaURL from '../const/MediaURL';
+import Mixpanel from '../util/mixpanel';
 
 import { addItemToCart } from '../app/actions/CartActions';
 
@@ -34,11 +35,25 @@ export default class MenuDetailPage extends React.Component {
             menu: [],
             reviews: [],
             renderPlaceholderOnly: false,
+            bestReviewOffsetY: 0,
         }
     }
 
     componentDidMount() {
+        Mixpanel.track('(Screen) Menu Detail')
         this.fetchMenuDetail();
+    }
+    onBestReviewLayout(e) {
+        console.log(e.nativeEvent.layout);
+        const bestReviewOffsetY = e.nativeEvent.layout.y;
+        this.setState({
+            bestReviewOffsetY: bestReviewOffsetY,
+        });
+    }
+    moveToBestReview() {
+        //this.refs.bestReview.measure(this.logWelcomeLayout());
+        Mixpanel.trackWithProperties(eventName, { menu: menuName })
+        console.log(this.refs.bestReview);
     }
 
     fetchMenuDetail() {
@@ -60,14 +75,27 @@ export default class MenuDetailPage extends React.Component {
             })
             .done();
     }
+
+    moveToMenuReviewPage(eventName, menuIdx, menuName) {
+        Actions.MenuReviewPage({ menuIdx: menuIdx });
+        Mixpanel.trackWithProperties(eventName, { menu: menuName })
+    }
+
+    moveToChefDetailPage(chefIdx, chefName, menuName) {
+        Actions.ChefDetailPage({ chefIdx: chefIdx });
+        Mixpanel.trackWithProperties('Show Chef Detail', { menu: menuName, chef: chefName })
+    }
+
     renderPlaceholderView() {
         return (
             <PlaceholderView />
         );
     }
+
     render() {
         const { dispatch, cart, menuIdx, menuDIdx } = this.props;
         const menu = this.state.menu;
+        let _scrollView: ScrollView;
         let menuURL;
         let chefURL;
         let contentInnerMenu = false;
@@ -107,10 +135,14 @@ export default class MenuDetailPage extends React.Component {
             }
         }
         
+
         return (
+
             <View style={styles.container}>
                 <PageComment text="모든 메인메뉴는 전자렌지 조리용입니다."/>
-                <ScrollView>
+                <ScrollView
+                    ref={(scrollView) => { _scrollView = scrollView; }}
+                >
                     <View style={styles.content} >
                         <View style={styles.menuNameBox}>
                             <Text style={[Font.DEFAULT_FONT_BLACK_BOLD, { fontSize: 16 * Const.DEVICE_RATIO }]}>{menu.name_menu}</Text>
@@ -126,9 +158,13 @@ export default class MenuDetailPage extends React.Component {
                             <View style={styles.reviewBox}>
                                 <MenuReviewStars score={menu.rating}/>
                                 
-                                <TouchableHighlight onPress={() =>Actions.MenuReviewPage({menuIdx: this.props.menuIdx})} underlayColor={'transparent'}>
+                                <TouchableHighlight 
+                                    /*onPress={ () => this.moveToMenuReviewPage('View Review Button', this.props.menuIdx, menu.name_menu) } */
+                                    onPress={ () => { _scrollView.scrollTo({y: this.state.bestReviewOffsetY}); Mixpanel.trackWithProperties('View Review Button', { menu: menu.name_menu })} }
+                                    underlayColor={'transparent'}
+                                >
                                     <View style={styles.reviewTextBox}>
-                                        <Text style={[Font.DEFAULT_FONT_GRAY_UNDERLINE, {marginLeft: 3, fontSize: 15 * Const.DEVICE_RATIO}]}>{menu.review_count}개의 리뷰보기</Text>
+                                        <Text style={[Font.DEFAULT_FONT_GRAY_UNDERLINE, {marginLeft: 3, fontSize: 15 * Const.DEVICE_RATIO}]}>리뷰보기({menu.review_count})</Text>
                                     </View>
                                 </TouchableHighlight>
                             </View>
@@ -139,7 +175,10 @@ export default class MenuDetailPage extends React.Component {
                                 <AddCartButton addItemToCart={ () => dispatch(addItemToCart(menuDIdx, menuIdx, menu.price, menu.alt_price, menu.image_url_menu, menu.name_menu, menu.name_menu_eng, addButtonEnable)) } />
                             </View>
                         </View>
-                        <TouchableHighlight onPress={()=>Actions.ChefDetailPage({chefIdx: menu.idx_chef})} underlayColor={'transparent'}>
+                        <TouchableHighlight 
+                            onPress={ () => this.moveToChefDetailPage(menu.idx_chef, menu.name_chef, menu.name_menu) }
+                            underlayColor={'transparent'}
+                        >
                             <View style={styles.chefBox}>
                                 <Image style={styles.chefImage}
                                     source={{uri: chefURL}}></Image>
@@ -163,10 +202,17 @@ export default class MenuDetailPage extends React.Component {
                             <Text style={[styles.textOrange, Font.DEFAULT_FONT_ORANGE]}>Calories</Text>
                             <Text style={[styles.textBlack, Font.DEFAULT_FONT_BLACK]}>{menu.calories}Kcal</Text>
                         </View>
-                        <View style={styles.reviewListBox}>
-                            <ReviewList reviews={this.state.reviews}/>
+                        <View
+                            ref='bestReview'
+                            onLayout={this.onBestReviewLayout.bind(this)}
+                            style={styles.reviewListBox} >
+                            <ReviewList 
+                                reviews={this.state.reviews} />
                         </View>
-                        <TouchableHighlight onPress={() =>Actions.MenuReviewPage({menuIdx: this.props.menuIdx})} underlayColor={'transparent'}>
+                        <TouchableHighlight 
+                            onPress={ () => this.moveToMenuReviewPage('Show More Reviews', this.props.menuIdx, menu.name_menu) } 
+                            underlayColor={'transparent'}
+                        >
                             <View style={styles.showMoreButtonBox}>
                                 <Text style={Font.DEFAULT_FONT_WHITE}>리뷰 더 보기</Text>
                             </View>

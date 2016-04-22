@@ -1,7 +1,7 @@
 import {
     CartActions
 } from '../actions/CartActions';
-
+import Mixpanel from '../../util/mixpanel';
 import _ from 'lodash';
 
 
@@ -27,6 +27,7 @@ const cartReducer = function(state = {
                     } else {
                         newCart[menuIdx] = Object.assign({}, cartItem, { amount: 1 });
                     }
+                    Mixpanel.trackWithProperties('Add Item to Cart', { menu: cartItem.menuNameKor });
                     
                     return Object.assign({}, state, {
                         cart: newCart
@@ -54,6 +55,8 @@ const cartReducer = function(state = {
                         delete newCart[menuIdx];
                     }
 
+                    Mixpanel.trackWithProperties('Decrease Item to Cart', { menu: cartItem.menuNameKor });
+
                     return Object.assign({}, state, {
                         cart: newCart
                     });
@@ -64,6 +67,7 @@ const cartReducer = function(state = {
             }
         case CartActions.CLEAR_CART:
             {
+                Mixpanel.track('Clear Cart');
                 return Object.assign({}, state, {
                     cart: {}
                 });

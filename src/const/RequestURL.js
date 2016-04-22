@@ -32,6 +32,7 @@ const RequestURL = {
     // review
     REQUEST_WRITE_REVIEW_LIST: 'http://api.plating.co.kr/review/written_by_user?',  // order_idx
     SUBMIT_WRITE_REVIEW: 'http://api.plating.co.kr/review/submit_review_one',  // order_idx, order_d_idx, rating, comment
+    CANCEL_WRITE_REVIEW: 'http://api.plating.co.kr/review/cancel?',  // order_idx,
 
     // order
     REQUEST_MY_ORDER_LIST: 'http://api.plating.co.kr/order/history?',   // user_idx
@@ -46,6 +47,7 @@ const RequestURL = {
     // cart
     REQUEST_CART_INFO: 'http://api.plating.co.kr/cart_info?', // user_idx
     SUBMIT_UPDATE_MOBILE: 'http://api.plating.co.kr/update_info?', // user_idx, phone_no
+    GET_AVAILABLE_POINT: 'http://api.plating.co.kr/policy/get_available_point?', // user_idx, point_input
     SUBMIT_PLACE_ORDER: 'http://api.plating.co.kr/place_order?',   // user_idx, time_slot, menu_d_idx, order_amount, credit_used, point, total_price, pay_method, coupon_idx, include_cutlery
     SUBMIT_PLACE_ORDER_TEST: 'http://api.plating.co.kr/test/place_order_test?',
 

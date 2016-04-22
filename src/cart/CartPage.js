@@ -27,10 +27,13 @@ import {
 } from '../app/actions/CartActions';
 import {
   fetchCartInfo,
+  getAvailablePoint,
+  clearCartInfo,
 } from '../app/actions/CartInfoActions';
 
 
 import userInfo from '../util/userInfo';
+import Mixpanel from '../util/mixpanel';
 
 const PAY_METHOD = {
   ONLINE_CARD: '카드',
@@ -68,14 +71,31 @@ export default class CartPage extends React.Component {
       selectedPayMethodParam: 1,
       totalPrice: 0,
       renderPlaceholderOnly: false,
+      cntCoupon: 0,
     };
     
     this.props.dispatch(fetchCartInfo());
   }
 
   componentDidMount() {
-    
+        this.fetchMyCoupon();
   }
+
+  fetchMyCoupon() {
+    const userIdx = userInfo.idx;
+    fetch(RequestURL.REQUEST_MY_COUPON_LIST + 'user_idx=' + userIdx)
+    .then((response) => response.json())
+    .then((responseData) => {
+      this.setState({
+        cntCoupon: responseData.length,
+      });
+    })
+    .catch((error)=> {
+      console.warn(error);
+    })
+    .done();
+  }
+
   componentWillReceiveProps(nextProps) {
     // if cart length < 1, move to dailyMenu
     if (Object.keys(nextProps.cart).length === 0) {
@@ -93,6 +113,23 @@ export default class CartPage extends React.Component {
         renderPlaceholderOnly: true,
       })
     });
+    this.mixpanelCartInfo(nextProps.myInfo, nextProps.cardNumber);
+  }
+
+  mixpanelCartInfo(myInfo, cardNumber) {
+    const address = (myInfo.address === Const.CART_ADDRESS_INPUT_MESSAGE)
+      ? false
+      : true;
+    const coverage = (myInfo.deliveryAvailable != 1)
+      ? false
+      : true;
+    const phoneNumber = (myInfo.mobile === Const.CART_MOBILE_INPUT_MESSAGE)
+      ? false
+      : true;
+    const creditCard = (cardNumber === Const.CART_CARD_INPUT_MESSAGE)
+      ? false
+      : true;
+    Mixpanel.trackWithProperties('(Screen) Cart', { address, coverage, phoneNumber, creditCard })
   }
 
   generateTimeSlotPickerData(timeSlotData) {
@@ -109,10 +146,13 @@ export default class CartPage extends React.Component {
     const selectedPayMethod = selectedItem[0]
     let selectedPayMethodParam;
     if (selectedPayMethod === PAY_METHOD.ONLINE_CARD) {
+      Mixpanel.trackWithProperties('Choose Payment Type', { selected: 'credit card' });
       selectedPayMethodParam = 1;
     } else if (selectedPayMethod === PAY_METHOD.OFFLINE_CARD) {
+      Mixpanel.trackWithProperties('Choose Payment Type', { selected: 'card on-site' });
       selectedPayMethodParam = 2;
     } else if (selectedPayMethod === PAY_METHOD.OFFLINE_CASH) {
+      Mixpanel.trackWithProperties('Choose Payment Type', { selected: 'cash' });
       selectedPayMethodParam = 3;
     }
     this.setState({
@@ -125,8 +165,10 @@ export default class CartPage extends React.Component {
     const selectedCutlery = selectedItem[0]
     let selectedCutleryParam;
     if (selectedCutlery === CUTLERY.YES) {
+      Mixpanel.trackWithProperties('Choose Cutlery', { selected: 'yes' });
       selectedCutleryParam = 1;
     } else if(selectedCutlery === CUTLERY.NO){
+      Mixpanel.trackWithProperties('Choose Cutlery', { selected: 'no' });
       selectedCutleryParam = 0;
     }
     this.setState({
@@ -136,11 +178,11 @@ export default class CartPage extends React.Component {
   }
 
 
-  openAlertMoble() {
+  openAlertMobile() {
     AlertIOS.prompt('전화 번호', '배달 시, 연락 받으실 전화번호를 입력해주세요.(-제외)\n 예) 01012345678', [
       {
         text: '취소',
-        onPress: () => console.log('Cancel Pressed'),
+        onPress: () => Mixpanel.trackWithProperties('Enter Phone Number', { number: 'none' }),
         style: 'cancel',
       }, {
         text: '확인',
@@ -159,14 +201,32 @@ export default class CartPage extends React.Component {
     this.cutleryPicker.toggle();
   }
 
+  openAlertInputPoint() {
+    AlertIOS.prompt('포인트 입력', '적용할 포인트를 입력해 주세요. ex)10000', [
+      {
+        text: '취소',
+        onPress: () => console.log('포인트 취소 입력'),
+        style: 'cancel',
+      }, {
+        text: '확인',
+        onPress: (pointInput) => this.setAvailablePoint(pointInput),
+      },
+    ]);
+  }
 
-  commaPrice(price) {
+  setAvailablePoint(pointInput) {
+
+    this.props.dispatch(getAvailablePoint(parseInt(pointInput)));
+  }
+
+  commaPrice(price, suffix) {
     const priceString = String(price);
     const commaedPrice = priceString.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-    return `${commaedPrice}원`;
+    return `${commaedPrice}${suffix}`;
   }
 
   submitUserMobile(mobile) {
+    Mixpanel.trackWithProperties('Enter Phone Number', { number: mobile });
     const param = {
       user_idx: userInfo.idx,
       phone_no: mobile,
@@ -185,25 +245,27 @@ export default class CartPage extends React.Component {
       console.warn(error);
     }).done();
   }
-
-  openAlertToConfirmOrder(cart, totalPrice, point, couponIdx, enableOrderButton) {
-    console.log(cart, totalPrice, point, couponIdx, enableOrderButton);
+  //this.openAlertToConfirmOrder(cart, totalPrice, availablePoint, couponIdx, menuTotalPrice, discountCouponPrice, this.state.selectedTimeSlot, addressInfo, enableOrderButton)}
+  openAlertToConfirmOrder(cart, totalPrice, availablePoint, couponIdx, menuTotalPrice, discountCouponPrice, selectedTimeSlot, addressInfo, enableOrderButton, orderButtonText) {
+    //console.log(cart, totalPrice, availablePoint, couponIdx, enableOrderButton);
     if (enableOrderButton) {
       const selectedTimeSlot = this.state.selectedTimeSlot;
       const myInfo = this.props.myInfo;
 
       Alert.alert('주문 요약',
-      `배달 시간\n ${selectedTimeSlot}\n\n배달 주소\n${myInfo.address}${myInfo.addressDetail}` +
-      `\n\n최종 결제 금액\n${this.commaPrice(totalPrice)}`, [
+      `배달 시간\n ${selectedTimeSlot}\n\n배달 주소\n${addressInfo}` +
+      `\n\n최종 결제 금액\n${this.commaPrice(totalPrice, '원')}`, [
         {
           text: '취소',
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         }, {
           text: '주문',
-          onPress: () => this.submitPlaceOrder(cart, totalPrice, point, couponIdx),
+          onPress: () => this.submitPlaceOrder(cart, totalPrice, availablePoint, couponIdx, menuTotalPrice, discountCouponPrice, selectedTimeSlot, addressInfo),
         },
       ]);
+    } else {
+      Alert.alert(orderButtonText);
     }
   }
 
@@ -215,29 +277,52 @@ export default class CartPage extends React.Component {
     const {
       selectedTimeSlot,
     } = this.state;
-    console.log(selectedTimeSlot);
+    //console.log(selectedTimeSlot);
     let selectedTimeSlotIdx;
     timeSlotData.forEach(timeSlotDatum => {
       const {
         timeSlot,
         idx,
       } = timeSlotDatum;
-      console.log(timeSlotDatum);
+      //console.log(timeSlotDatum);
       if (selectedTimeSlot === timeSlot) {
         selectedTimeSlotIdx = idx;
       }
     });
-    console.log(selectedTimeSlotIdx);
+    //console.log(selectedTimeSlotIdx);
     return selectedTimeSlotIdx;
   }
 
-  submitPlaceOrder(cart, totalPrice, point, couponIdx) {
+  // this.submitPlaceOrder(cart, totalPrice, availablePoint, couponIdx, menuTotalPrice, discountCouponPrice, selectedTimeSlot, addressInfo),
+  submitPlaceOrder(cart, totalPrice, point, couponIdx, menuTotalPrice, discountCouponPrice, selectedTimeSlot, addressInfo) {
     let menuDIdxParam = '';
     let menuAmountParam = '';
+
+    // mixpanel properties
+    let success = false;
+    const discount = totalPrice + discountCouponPrice;
+    let countOfMenu = 0;
+    let countOfMain = 0;
+    let countOfSide = 0;
+    let countOfBeverage = 0;
     for (const menuIdx in cart) {
       if (cart.hasOwnProperty(menuIdx)) {
-        menuDIdxParam += `${cart[menuIdx].menuDIdx}|`;
+        menuDIdxParam += `${cart[menuIdx].menuDIdx}|`
         menuAmountParam += `${cart[menuIdx].amount}|`;
+        // countOfMain
+        countOfMenu += cart[menuIdx].amount;
+        // main
+        if(cart[menuIdx].menuIdx >= 10 && cart[menuIdx].menuIdx <= 999) {
+          countOfMain += cart[menuIdx].amount;
+        }
+        // side
+        if(cart[menuIdx].menuIdx >= 20000 && cart[menuIdx].menuIdx <= 29999) {
+          countOfSide += cart[menuIdx].amount;
+        }
+        // beverage
+        if(cart[menuIdx].menuIdx >= 10000 && cart[menuIdx].menuIdx <= 19999) {
+          countOfBeverage += cart[menuIdx].amount;
+        }
       }
     }
     menuDIdxParam = menuDIdxParam.substring(0, menuDIdxParam.length - 1);
@@ -279,24 +364,43 @@ export default class CartPage extends React.Component {
             }
           });
           Alert.alert('재고 부족', `아래 항목에 대한 재고가 부족합니다.\n\n${outOfStockMessage}`);
+          Mixpanel.increment('Purchase Count', 1);
         } break;
         case 'done': {
           const orderIdx = responseData.order_idx;
           const description = responseData.description;
           this.props.dispatch(clearCart());
-          Actions.DrawerPage();
+          success = true;
           Alert.alert('주문 성공', `${description}\n주문내역을 확인하세요 :)`, [
             {
               text: '주문 확인',
               onPress: () => {
-                Actions.OrderDetailPage({orderIdx});
+                Actions.MyOrderPage();
               }
             },
           ]);
+          this.props.dispatch(clearCartInfo());
+          // mixpanel people property
+          Mixpanel.increment('Purchase Count', 1);
+          Mixpanel.increment('Total Purchase Amount', menuTotalPrice);
+          Mixpanel.increment('Total Paid Amount', totalPrice);
+          Mixpanel.increment('Discount Used', point);
         } break;
         default:
           break;
       }
+      Mixpanel.trackWithProperties('Confirm Order', {
+        success,
+        totalPrice: menuTotalPrice,
+        discount,
+        totalPaid: totalPrice,
+        orderCount: countOfMenu,
+        mainCount: countOfMain,
+        sideCount: countOfSide,
+        bevCount: countOfBeverage,
+        timeSlot: selectedTimeSlot,
+        address: addressInfo,
+      })
     }).catch((error) => {
       console.warn(error);
     });
@@ -307,6 +411,8 @@ export default class CartPage extends React.Component {
       <PlaceholderView />
     );
   }
+
+
   render() {
     // place holder
     if(!this.state.renderPlaceholderOnly) {
@@ -323,11 +429,16 @@ export default class CartPage extends React.Component {
       cardNumber,
     } = this.props;
 
+    let {
+      availablePoint,
+    } = this.props;
+
     const {
       deliveryAvailable,
       address,
       addressDetail,
       mobile,
+      point,
     } = myInfo;
 
     const {
@@ -336,7 +447,7 @@ export default class CartPage extends React.Component {
       selectedTimeSlot,
     } = this.state;
 
-    
+
     let totalPrice = 0;
 
     // orage text or black text when properyly input
@@ -376,26 +487,23 @@ export default class CartPage extends React.Component {
       }
     }
 
-    // availablePoint
-    let availablePoint = 0;
+    // setAvailablePointoint
     if (discountCouponPrice) {
-      if (myInfo.point >= menuTotalPrice + deliveryFee - discountCouponPrice) {
+      if (availablePoint >= menuTotalPrice + deliveryFee - discountCouponPrice) {
         availablePoint = menuTotalPrice + deliveryFee - discountCouponPrice;
-      } else {
-        availablePoint = myInfo.point;
       }
     } else {
-      if (myInfo.point >= menuTotalPrice + deliveryFee) {
+      if (availablePoint >= menuTotalPrice + deliveryFee) {
         availablePoint = menuTotalPrice + deliveryFee;
-      } else {
-        availablePoint = myInfo.point;
       }
     }
+    const displayAvailablePoint = ((availablePoint == 0) ? '' : '-') + this.commaPrice(availablePoint, '원');
+
     // deliveryFee
-    let displayDeliveryFee = (deliveryFee == 0) ? '(이벤트) 무료' : '-' + this.commaPrice(deliveryFee);
+    let displayDeliveryFee = (deliveryFee == 0) ? '(이벤트) 무료' : '-' + this.commaPrice(deliveryFee, '원');
     
     // discountCouponPrice
-    let displayDiscountCouponPrice = ((discountCouponPrice == 0) ? '' : '-') + this.commaPrice(discountCouponPrice);
+    let displayDiscountCouponPrice = ((discountCouponPrice == 0) ? '' : '-') + this.commaPrice(discountCouponPrice, '원');
 
     // totalPrice
     totalPrice = menuTotalPrice + deliveryFee - availablePoint - discountCouponPrice;
@@ -443,7 +551,7 @@ export default class CartPage extends React.Component {
             
             <View style={[styles.row, styles.rowMarginTop10]}>
               <Text style={Font.DEFAULT_FONT_BLACK}>합계</Text>
-              <Text style={[styles.data, Font.DEFAULT_FONT_BLACK]}>{this.commaPrice(menuTotalPrice)}</Text>
+              <Text style={[styles.data, Font.DEFAULT_FONT_BLACK]}>{this.commaPrice(menuTotalPrice, '원')}</Text>
               <View style={styles.iconDetailImage} />
             </View>
 
@@ -453,18 +561,23 @@ export default class CartPage extends React.Component {
               <View style={styles.iconDetailImage} />
             </View>
 
-            <View style={styles.row}>
-              <Text style={Font.DEFAULT_FONT_BLACK}>포인트 할인</Text>
-              <Text style={[styles.data, Font.DEFAULT_FONT_BLACK]}>-{this.commaPrice(availablePoint)}</Text>
-              <View style={styles.iconDetailImage} />
-            </View>
+            <TouchableHighlight
+              underlayColor={'transparent'}
+              onPress={() => this.openAlertInputPoint() }
+            >
+              <View style={styles.row}>
+                <Text style={Font.DEFAULT_FONT_BLACK}>포인트 할인<Text style={Font.DEFAULT_FONT_ORANGE}>({this.commaPrice(point, 'p')} 보유)</Text></Text>
+                <Text style={[styles.data, Font.DEFAULT_FONT_BLACK]}>{displayAvailablePoint}</Text>
+                <Image style={styles.iconDetailImage} source={require('../commonComponent/img/icon_input.png')} />
+              </View>
+            </TouchableHighlight>
 
             <TouchableHighlight
               underlayColor={'transparent'}
               onPress={() => Actions.MyCouponPage({disable: true}) }
             >
               <View style={styles.row}>
-                <Text style={Font.DEFAULT_FONT_BLACK}>쿠폰 할인</Text>
+                <Text style={Font.DEFAULT_FONT_BLACK}>쿠폰 할인<Text style={Font.DEFAULT_FONT_ORANGE}>({this.state.cntCoupon}개 보유)</Text></Text>
                 <Text style={[styles.data, Font.DEFAULT_FONT_BLACK]}>{displayDiscountCouponPrice}</Text>
                 <Image style={styles.iconDetailImage} source={require('../commonComponent/img/icon_input.png')} />
               </View>
@@ -472,43 +585,15 @@ export default class CartPage extends React.Component {
 
             <View style={[styles.row, styles.rowMarginTop1]}>
               <Text style={Font.DEFAULT_FONT_BLACK_BOLD}>총 결제액</Text>
-              <Text style={[styles.data, Font.DEFAULT_FONT_ORANGE_BOLD]}>{this.commaPrice(totalPrice)}</Text>
+              <Text style={[styles.data, Font.DEFAULT_FONT_ORANGE_BOLD]}>{this.commaPrice(totalPrice, '원')}</Text>
               <View style={styles.iconDetailImage}/>
             </View>
             
             <TouchableHighlight
               underlayColor={'transparent'}
-              onPress={() => Actions.MyAddressPage()}
-            >
-              <View style={[styles.row, styles.rowMarginTop10]}>
-                <Text style={Font.DEFAULT_FONT_BLACK}>배달 주소</Text>
-                <Text style={[styles.data, addressHighlight]}>{`${addressInfo}`}</Text>
-                <Image
-                  style={styles.iconDetailImage}
-                  source={require('../commonComponent/img/icon_input.png')}
-                />
-              </View>
-            </TouchableHighlight>
-
-            <TouchableHighlight
-              underlayColor={'transparent'}
-              onPress={() => this.openAlertMoble()}
-            >
-              <View style={styles.row}>
-                <Text style={Font.DEFAULT_FONT_BLACK}>연락처</Text>
-                <Text style={[styles.data, mobileHighlight]}>{mobile}</Text>
-                <Image
-                  style={styles.iconDetailImage}
-                  source={require('../commonComponent/img/icon_input.png')}
-                />
-              </View>
-            </TouchableHighlight>
-
-            <TouchableHighlight
-              underlayColor={'transparent'}
               onPress={() => this.openPickerDeliveryTime()}
             >
-              <View style={styles.row}>
+              <View style={[styles.row, styles.rowMarginTop10]}>
                 <Text style={Font.DEFAULT_FONT_BLACK}>배달 시간</Text>
                 <Text style={[styles.data, Font.DEFAULT_FONT_BLACK]}>{this.state.selectedTimeSlot}</Text>
                 <View>
@@ -521,25 +606,37 @@ export default class CartPage extends React.Component {
 
             <TouchableHighlight
               underlayColor={'transparent'}
-              onPress={() => this.openPickerCutlery()}
+              onPress={() => Actions.MyAddressPage()}
             >
               <View style={styles.row}>
-                <Text style={Font.DEFAULT_FONT_BLACK}>포크 / 나이프를 넣어주세요</Text>
-                <Text style={[styles.data, Font.DEFAULT_FONT_BLACK]}>{this.state.selectedCutlery}</Text>
-                <View>
-                  <Image
-                    style={styles.iconDetailImage}
-                    source={require('../commonComponent/img/icon_input.png')}
-                  />
-                </View>
+                <Text style={Font.DEFAULT_FONT_BLACK}>배달 주소</Text>
+                <Text style={[styles.data, addressHighlight]}>{`${addressInfo}`}</Text>
+                <Image
+                  style={styles.iconDetailImage}
+                  source={require('../commonComponent/img/icon_input.png')}
+                />
               </View>
             </TouchableHighlight>
 
             <TouchableHighlight
               underlayColor={'transparent'}
-              onPress={() => this.openPickerPayMethod()}
+              onPress={() => this.openAlertMobile()}
             >
               <View style={styles.row}>
+                <Text style={Font.DEFAULT_FONT_BLACK}>연락처</Text>
+                <Text style={[styles.data, mobileHighlight]}>{mobile}</Text>
+                <Image
+                  style={styles.iconDetailImage}
+                  source={require('../commonComponent/img/icon_input.png')}
+                />
+              </View>
+            </TouchableHighlight>        
+
+            <TouchableHighlight
+              underlayColor={'transparent'}
+              onPress={() => this.openPickerPayMethod()}
+            >
+              <View style={[styles.row, styles.rowMarginTop10]}>
                 <Text style={Font.DEFAULT_FONT_BLACK}>결제수단</Text>
                 <Text style={[styles.data, Font.DEFAULT_FONT_BLACK]}>{this.state.selectedPayMethod}</Text>
                 <View>
@@ -555,12 +652,30 @@ export default class CartPage extends React.Component {
 
             <TouchableHighlight
               underlayColor={'transparent'}
-              onPress={() => this.openAlertToConfirmOrder(cart, totalPrice, availablePoint, couponIdx, enableOrderButton)}
+              onPress={() => this.openPickerCutlery()}
             >
-              <View style={[styles.orderbtn, orderBtnBackgroundStyle]}>
-                <Text style={styles.orderbtnText}>{enableOrderButtonText}</Text>
+              <View style={[styles.row, styles.rowMarginTop10]}>
+                <Text style={Font.DEFAULT_FONT_BLACK}>포크 / 나이프를 넣어주세요</Text>
+                <Text style={[styles.data, Font.DEFAULT_FONT_BLACK]}>{this.state.selectedCutlery}</Text>
+                <View>
+                  <Image
+                    style={styles.iconDetailImage}
+                    source={require('../commonComponent/img/icon_input.png')}
+                  />
+                </View>
               </View>
             </TouchableHighlight>
+
+            <TouchableHighlight
+              underlayColor={'transparent'}
+              onPress={() => this.openAlertToConfirmOrder(cart, totalPrice, availablePoint, couponIdx, menuTotalPrice, discountCouponPrice, this.state.selectedTimeSlot, addressInfo, enableOrderButton, enableOrderButtonText)}
+            >
+              <View style={[styles.orderbtn, orderBtnBackgroundStyle]}>
+                <Text style={styles.orderbtnText}>주문하기</Text>
+              </View>
+            </TouchableHighlight>
+
+            
 
             <Picker ref={(picker) => {this.timeSlotPicker = picker;}}
               style={{
@@ -570,7 +685,9 @@ export default class CartPage extends React.Component {
               pickerData={[this.state.timeSlotPickerData]}
               selectedValue={this.state.selectedTimeSlot}
               onPickerDone={(newSelectedTimeSlot) => {
+                const selectedTimeSlot = newSelectedTimeSlot[0];
                 this.setState({ selectedTimeSlot: newSelectedTimeSlot[0] });
+                Mixpanel.trackWithProperties('Choose Delivery Time', { deliveryTime: selectedTimeSlot });
               }}
             />
             <Picker
@@ -678,8 +795,8 @@ const styles = StyleSheet.create({
     borderColor: Color.PRIMARY_ORANGE,
   },
   orderBtnColorBlack: {
-    backgroundColor: Color.PRIMARY_BLACK,
-    borderColor: Color.PRIMARY_BLACK,
+    backgroundColor: Color.PRIMARY_GRAY_BUTTON,
+    borderColor: Color.PRIMARY_GRAY_BUTTON,
   },
   innerContainer: {
     borderRadius: 10,

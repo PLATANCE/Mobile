@@ -4,6 +4,7 @@ import Color from '../../const/Color';
 import Const from '../../const/Const';
 import MediaURL from '../../const/MediaURL';
 import RequestURL from '../../const/RequestURL';
+import Mixpanel from '../../util/mixpanel';
 
 const couponImageHeight = 0;
 if(PixelRatio.get() === 2) {
@@ -31,6 +32,7 @@ export default class MyCouponList extends React.Component {
     }
     fetchCouponAvailble(idx) {
         if(this.props.disable) {
+            Mixpanel.trackWithProperties('Choose Coupon', { couponIdx: idx });
             let cart = this.props.cart;
             let menuIdxParam = '';
             let menuAmountParam = '';

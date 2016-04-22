@@ -9,6 +9,7 @@ import MediaURL from '../const/MediaURL';
 import RequestURL from '../const/RequestURL';
 
 import userInfo from '../util/userInfo';
+import Mixpanel from '../util/mixpanel';
 
 const KakaoManager = NativeModules.KakaoManager;
 
@@ -21,18 +22,25 @@ export default class ReferPage extends React.Component {
             pointPriceKor: '',
             pointPriceNum: '',
             clipboardContent: '',
+            readDetail: props.readDetail,
         }
     }
     componentDidMount() {
         this.fetchMyUserCode();
         this.getReferPolicy();
     }
+
+    componentWillUnmount() {
+        console.log(this.state.readDetail);
+        Mixpanel.trackWithProperties('View Refer Screen', { readDetail: this.state.readDetail, });
+    }
+
     fetchMyUserCode() {
         const userIdx = userInfo.idx;
         fetch(RequestURL.REQUEST_GET_USER_CODE + 'user_idx=' + userIdx)
             .then((response) => response.json())
             .then((responseData) => {
-                console.log(responseData);
+                //console.log(responseData);
                 this.setState({
                     userCode: responseData.user_code,
                 });
@@ -72,6 +80,7 @@ export default class ReferPage extends React.Component {
             '복사 완료',
             '붙여넣기로 친구에게 공유해주세요 :)',
         );
+        Mixpanel.trackWithProperties('Refer Button', { via: 'URL' });
     }
     showDetailDialog() {
         /*
@@ -82,13 +91,18 @@ export default class ReferPage extends React.Component {
             '친구를 초대하세요!',
             '초대받은 친구가 추천 코드를 입력하고 첫 주문을 하면, 초대하신 분께 ' + this.state.pointPriceKor + ' 포인트를 드립니다',
         );
+        this.setState({
+            readDetail: true,
+        })
     }
     onPressKakao(content) {
       KakaoManager.openKakaoTalkAppLink('Plating 열기', content);
+      Mixpanel.trackWithProperties('Refer Button', { via: 'Kakao' });
     }
     onPressMMS(content) {
         const url = '&body=' + content;
         Communications.text(url);
+        Mixpanel.trackWithProperties('Refer Button', { via: 'SMS' });
     }
     render() {
         /*
@@ -118,7 +132,10 @@ export default class ReferPage extends React.Component {
                         <Text style={Font.DEFAULT_FONT_WHITE}>친구가 첫 주문을 하면</Text>
                         <View style={styles.detailTextFooterBox}>
                             <Text style={Font.DEFAULT_FONT_WHITE}>나에게도 {this.state.pointPriceNum}이 바로 적립!</Text>
-                            <TouchableHighlight onPress={() => this.showDetailDialog()}>
+                            <TouchableHighlight 
+                                onPress={() => this.showDetailDialog()}
+                                underlayColor={'transparent'}
+                            >
                                 <Text style={[styles.textDetail, Font.DEFAULT_FONT_ORANGE]}>자세히</Text>
                             </TouchableHighlight>
                         </View>

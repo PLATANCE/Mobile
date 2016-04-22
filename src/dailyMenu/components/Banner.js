@@ -11,6 +11,7 @@ import React, {
 
 import { Actions } from 'react-native-router-flux';
 import Color from '../../const/Color';
+import Mixpanel from '../../util/mixpanel';
 
 const rowHeightRatio = 0;
 if(PixelRatio.get() === 2) {
@@ -29,7 +30,7 @@ export default class Banner extends React.Component {
         } = this.props;
         
         return (
-            <TouchableHighlight onPress={Actions.BannerDetailPage} underlayColor={'transparent'}>
+            <TouchableHighlight onPress={ () => { Actions.BannerDetailPage(),  Mixpanel.track('Click Banner') }} underlayColor={'transparent'}>
                 <View style={styles.container}>
                     <Image style={styles.img}
                         source={{uri: "http://plating.co.kr/app/media/banner/750*260.png"}} />

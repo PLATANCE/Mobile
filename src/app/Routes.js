@@ -48,6 +48,7 @@ import MenuReviewSelector from '../review/MenuReviewSelector';
 import WriteReviewPage from '../review/WriteReviewPage';
 import WriteReviewSelector from '../review/WriteReviewSelector';
 import CSMainPage from '../customerService/CSMainPage';
+import CSMainSelector from '../customerService/CSMainSelector';
 import CSAddressCoveragePage from '../customerService/CSAddressCoveragePage';
 import CSAddressCoverageSelector from '../customerService/CSAddressCoverageSelector';
 import CSFAQPage from '../customerService/CSFAQPage';
@@ -57,13 +58,16 @@ import CSPolicyPage from '../customerService/CSPolicyPage';
 import PlatingPage from '../plating/PlatingPage';
 
 import userInfo from '../util/userInfo';
-const userIdx = userInfo.idx;
+import Mixpanel, { initMixpanel } from '../util/mixpanel';
 
 const Router = connect()(ReactNativeRouter.Router);
 const store = createStore(
   Reducers,
   applyMiddleware(thunk)
 );
+
+initMixpanel(store);
+
 const hideNavBar = Platform.OS === 'android'
 const paddingTop = Platform.OS === 'android' ? 0 : 8
 
@@ -73,7 +77,7 @@ export default class Routes extends Component {
     }
     renderDrawerButton() {
         return (
-            <TouchableHighlight style={styles.leftButton} onPress={this.drawerOpen.bind(this)} underlayColor={'transparent'}>
+            <TouchableHighlight style={styles.leftButton} onPress={ () => { this.drawerOpen(), Mixpanel.track('Open Side Menu') } } underlayColor={'transparent'}>
                 <Image style={styles.image}
                     source={require('../commonComponent/img/drawer_white.png')}/>
             </TouchableHighlight>
@@ -86,10 +90,12 @@ export default class Routes extends Component {
             } = store.getState().CartReducers;
             
             if(Object.keys(cart).length == 0) {
+                Mixpanel.trackWithProperties('Show Cart', { success: false });
                 Alert.alert(
                     '장바구니가 비어있습니다.',
                 );
             } else {
+                Mixpanel.trackWithProperties('Show Cart', { success: true });
                 Actions.CartPage();
             }
         }
@@ -102,7 +108,7 @@ export default class Routes extends Component {
             </TouchableHighlight>
         );
     }
-    renderBackButton() {
+    renderBackButton() {        
         return (
             <TouchableHighlight style={styles.leftButton} onPress={Actions.pop} underlayColor={'transparent'}>
                 <Image style={styles.image}
@@ -212,7 +218,7 @@ export default class Routes extends Component {
                         title="리뷰 남기기" wrapRouter={true}  navigationBarStyle={styles.navigationBar}
                         titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
 
-                    <Route name="CSMainPage"  component={connect()(CSMainPage)}
+                    <Route name="CSMainPage"  component={connect(CSMainSelector)(CSMainPage)}
                         title="고객 센터" wrapRouter={true}  navigationBarStyle={styles.navigationBar}
                         titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
                     <Route name="CSAddressCoveragePage"  component={connect(CSAddressCoverageSelector)(CSAddressCoveragePage)}

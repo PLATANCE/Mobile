@@ -101,7 +101,7 @@ RCT_REMAP_METHOD(getID,
     } else {
       // failed
       NSLog(@"login failed.");
-      reject(@"kakao login fail", @"login failed. need debuging.", error);
+      reject(@"kakao login fail", @"login failed. need debuging.", NULL);
     }
   });
 }

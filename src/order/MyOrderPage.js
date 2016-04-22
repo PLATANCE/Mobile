@@ -7,9 +7,9 @@ import Const from '../const/Const';
 import Font from '../const/Font';
 import MyOrderList from './components/MyOrderList';
 import RequestURL from '../const/RequestURL';
-
+import PlaceholderView from '../commonComponent/PlaceholderView';
 import userInfo from '../util/userInfo';
-
+import Mixpanel from '../util/mixpanel';
 
 export default class MyOrderPage extends React.Component {
     constructor(props) {
@@ -17,6 +17,8 @@ export default class MyOrderPage extends React.Component {
         this.state = {
             orderHistory: [],
             hasData: false,
+            editReview: false,
+            renderPlaceholderOnly: false,
         }
     }
     componentDidMount() {
@@ -27,6 +29,11 @@ export default class MyOrderPage extends React.Component {
         fetch(RequestURL.REQUEST_MY_ORDER_LIST + 'user_idx=' + userIdx)
             .then((response) => response.json())
             .then((responseData) => {
+                InteractionManager.runAfterInteractions( () => {
+                    this.setState({
+                        renderPlaceholderOnly: true,
+                    });
+                })
                 if(responseData.order_history.length > 0) {
                     this.setState({
                         orderHistory: responseData.order_history,
@@ -39,6 +46,21 @@ export default class MyOrderPage extends React.Component {
             })
             .done();
     }
+    changeEditReviewProperty() {
+        this.setState({
+            editReview: true,
+        });
+    }
+    renderPlaceholderView() {
+        return (
+          <PlaceholderView />
+        );
+    }
+
+    componentWillUnmount() {
+        Mixpanel.trackWithProperties('View Order Detail', { editReview: this.state.editReview });
+    }
+
     loadingNoDataImage() {
         return (
             <TouchableHighlight onPress={Actions.DrawerPage} underlayColor={'transparent'}>
@@ -50,6 +72,9 @@ export default class MyOrderPage extends React.Component {
         );
     }
     render() {
+        if(!this.state.renderPlaceholderOnly) {
+            return this.renderPlaceholderView();
+        }
         if(!this.state.hasData) {
             return this.loadingNoDataImage();
         }
@@ -57,7 +82,10 @@ export default class MyOrderPage extends React.Component {
         return (
             <View style={styles.container}>
                 <View style={styles.content} >
-                    <MyOrderList orders={this.state.orderHistory}/>
+                    <MyOrderList 
+                        orders={this.state.orderHistory}
+                        changeEditReviewProperty={ () => { this.changeEditReviewProperty(); } }
+                    />
                 </View>
             </View>
         );

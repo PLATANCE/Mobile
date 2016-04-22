@@ -12,15 +12,15 @@ import Const from '../const/Const';
 import Font from '../const/Font';
 import RequestURL from '../const/RequestURL';
 import MediaURL from '../const/MediaURL';
+import Mixpanel from '../util/mixpanel';
+import userInfo from '../util/userInfo';
 
 import { addItemToCart } from '../app/actions/CartActions';
 import {
   fetchMyAddress,
 } from '../app/actions/AddressActions';
-import userInfo from '../util/userInfo';
 
 
-const userIdx = userInfo.idx;
 const HEIGHT = Const.HEIGHT;
 const WIDTH = Const.WIDTH;
 const DATE = new Date();
@@ -38,9 +38,15 @@ export default class DailyMenuPage extends React.Component {
             dialogImageURL: '',
             redirect: 0,
         }
+        if(userInfo.isLogin) 
+            Mixpanel.track('Log In Success');
+        Mixpanel.timeEvent('(Screen) Daily Menu List');
     }
     
     componentDidMount() {
+        // Timing Events
+        // Sets the start time for an action, for example uploading an image
+        
         this.fetchDailyMenu();
         this.fetchReviewAvailable();
         this.fetchDialog();
@@ -65,11 +71,11 @@ export default class DailyMenuPage extends React.Component {
             .done();
     }
     fetchReviewAvailable() {
-        fetch(RequestURL.REQUEST_REVIEW_AVAILABLE + 'user_idx=' + userIdx)
+        fetch(RequestURL.REQUEST_REVIEW_AVAILABLE + 'user_idx=' + userInfo.idx)
             .then((response) => response.json())
             .then((responseData) => {
                 if(responseData.available == 'true') {
-                    Actions.WriteReviewPage({ orderIdx: responseData.order_idx })
+                    Actions.WriteReviewPage({ orderIdx: responseData.order_idx, autoPopUp: true, })
                 }
             }).catch((error)=> {
                 console.warn(error);
@@ -138,12 +144,14 @@ export default class DailyMenuPage extends React.Component {
             duration: 150,
             toValue: -HEIGHT,
         }).start();
+        Mixpanel.track('Close Not to Show Today');
     }
     closeModal() {
         Animated.timing(this.state.offset, {
             duration: 150,
             toValue: -HEIGHT,
         }).start();
+        Mixpanel.track('Close Dialog');
     }
     pad2(n) {
         return ((n < 10) ? '0' : '') + n;

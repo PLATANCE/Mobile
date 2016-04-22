@@ -55,7 +55,7 @@ export default class ReviewList extends React.Component {
         return (
             <View>
                 <View style={styles.headerBox}>
-                    <Text style={[Font.DEFAULT_FONT_BLACK, styles.headerText]}>고객님들의 평가</Text>
+                    <Text style={[Font.DEFAULT_FONT_BLACK, styles.headerText]}>BEST 리뷰</Text>
                 </View>
                 <ListView style={styles.listView}
                     //https://facebook.github.io/react-native/docs/listview.html

@@ -108,7 +108,8 @@ let styles = StyleSheet.create({
         textAlign: 'center',
     },
     iconImage: {
-        width: 20 * Const.DEVICE_RATIO,
-        height: 20 * Const.DEVICE_RATIO,
+        width: 25 * Const.DEVICE_RATIO,
+        height: 25 * Const.DEVICE_RATIO,
+        resizeMode: 'contain',
     },
 });

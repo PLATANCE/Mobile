@@ -3,6 +3,7 @@ import Color from '../../const/Color';
 import Const from '../../const/Const';
 import Font from '../../const/Font';
 import MediaURL from '../../const/MediaURL';
+import Mixpanel from '../../util/mixpanel';
 import MenuReviewStars from '../../commonComponent/MenuReviewStars';
 import MenuPriceText from '../../commonComponent/MenuPriceText';
 import AddCartButton from '../../commonComponent/AddCartButton';
@@ -11,7 +12,8 @@ import SoldOutView from '../../commonComponent/SoldOutView';
 import { Actions } from 'react-native-router-flux';
 import _ from 'lodash';
 
-
+// to be followed by a tracking event to define the end time
+        
 export default class DailyMenuList extends React.Component {
     constructor(props) {
         super(props);
@@ -58,11 +60,18 @@ export default class DailyMenuList extends React.Component {
         return rows;
     }
 
+    moveToMenuDetailPage(menuIdx, menuDIdx, stock, menuNameKor, isEvent) {
+        const promo = (isEvent) ? true : false;
+        Actions.MenuDetailPage({ menuIdx: menuIdx, menuDIdx: menuDIdx, stock: stock });
+        Mixpanel.track('(Screen) Daily Menu List');
+        Mixpanel.trackWithProperties('Show Menu Detail', { menu: menuNameKor, promo: promo });
+    }
+
     renderRow(rowData) {      
         const {
             addItemToCart
         } = this.props;
-
+        
         let menuName = rowData.name_menu;
         let menuNameKor = menuName.split('.')[0];
         let menuNameEng = menuName.split('.')[1];
@@ -78,7 +87,7 @@ export default class DailyMenuList extends React.Component {
         } else if(rowData.amount && rowData.amount > 0){
             contentInnerMenu = <View style={styles.amountInCart}>
                                     <AmountInCart amount={rowData.amount}/>
-                                </View>;
+                                </View>
         }
         
         return (
@@ -86,7 +95,7 @@ export default class DailyMenuList extends React.Component {
             <View style={styles.row}>
                 <View style={styles.menuDetailBox}>
                     <TouchableHighlight style={styles.menuImageBox} 
-                        onPress={()=>Actions.MenuDetailPage({ menuIdx: rowData.menu_idx, menuDIdx: rowData.idx, stock: rowData.stock })} 
+                        onPress={ () => this.moveToMenuDetailPage(rowData.menu_idx, rowData.idx, rowData.stock, menuNameKor, rowData.is_event) }
                         underlayColor={'transparent'}>
                         <Image style={styles.menuImage}
                             source={{uri: menuURL}} >
@@ -117,7 +126,9 @@ export default class DailyMenuList extends React.Component {
                         <MenuPriceText originalPrice={rowData.price} sellingPrice={rowData.alt_price} align={{textAlign: 'right'}}/>
                     </View>
                     <View style={styles.cartButtonBox}>
-                        <TouchableHighlight style={[styles.iconView, {marginRight: 5}]} onPress={ () => Actions.MenuDetailPage({ menuIdx: rowData.menu_idx, menuDIdx: rowData.idx }) } underlayColor={Color.PRIMARY_ORANGE}>
+                        <TouchableHighlight style={[styles.iconView, {marginRight: 5}]} 
+                            onPress={ () => this.moveToMenuDetailPage(rowData.menu_idx, rowData.idx, rowData.stock, menuNameKor) }
+                            underlayColor={Color.PRIMARY_ORANGE}>
                             <Image style={styles.iconImage} 
                                 source={require('../../commonComponent/img/icon_detail.png')}/>
                         </TouchableHighlight>

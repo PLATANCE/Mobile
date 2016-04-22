@@ -38,6 +38,7 @@
 		F457B5971CA298360072D817 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F457B58F1CA298360072D817 /* MaterialIcons.ttf */; };
 		F457B5981CA298360072D817 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F457B5901CA298360072D817 /* Octicons.ttf */; };
 		F457B5991CA298360072D817 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F457B5911CA298360072D817 /* Zocial.ttf */; };
+		F4A8C81B1CBF9AE700E82EA3 /* libRNMixpanel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4A8C81A1CBF9ABA00E82EA3 /* libRNMixpanel.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -167,6 +168,13 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+		F4A8C8191CBF9ABA00E82EA3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4A8C8151CBF9ABA00E82EA3 /* RNMixpanel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FDC64AF01BF1690D0044C1B4;
+			remoteInfo = RNMixpanel;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -227,6 +235,7 @@
 		F457B58F1CA298360072D817 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
 		F457B5901CA298360072D817 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		F457B5911CA298360072D817 /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
+		F4A8C8151CBF9ABA00E82EA3 /* RNMixpanel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNMixpanel.xcodeproj; path = "../node_modules/react-native-mixpanel/RNMixpanel.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -234,6 +243,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4A8C81B1CBF9AE700E82EA3 /* libRNMixpanel.a in Frameworks */,
 				5F65CEC41C99289E002B4B1E /* RealmReact.framework in Frameworks */,
 				5F65CE981C9825F3002B4B1E /* SafariServices.framework in Frameworks */,
 				5F65CE961C982101002B4B1E /* libRCTPushNotification.a in Frameworks */,
@@ -422,6 +432,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				F4A8C8151CBF9ABA00E82EA3 /* RNMixpanel.xcodeproj */,
 				5F65CEA51C9927ED002B4B1E /* RealmJS.xcodeproj */,
 				5F65CE901C9820CA002B4B1E /* RCTPushNotification.xcodeproj */,
 				5F19C9B41C97F55C00B7E30F /* RNDeviceInfo.xcodeproj */,
@@ -494,6 +505,14 @@
 			);
 			name = Fonts;
 			path = "../node_modules/react-native-vector-icons/Fonts";
+			sourceTree = "<group>";
+		};
+		F4A8C8161CBF9ABA00E82EA3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F4A8C81A1CBF9ABA00E82EA3 /* libRNMixpanel.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -599,6 +618,10 @@
 				{
 					ProductGroup = 5F19C9B51C97F55C00B7E30F /* Products */;
 					ProjectRef = 5F19C9B41C97F55C00B7E30F /* RNDeviceInfo.xcodeproj */;
+				},
+				{
+					ProductGroup = F4A8C8161CBF9ABA00E82EA3 /* Products */;
+					ProjectRef = F4A8C8151CBF9ABA00E82EA3 /* RNMixpanel.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -726,6 +749,13 @@
 			fileType = archive.ar;
 			path = libRCTText.a;
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F4A8C81A1CBF9ABA00E82EA3 /* libRNMixpanel.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNMixpanel.a;
+			remoteRef = F4A8C8191CBF9ABA00E82EA3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

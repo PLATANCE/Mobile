@@ -16,6 +16,14 @@ export function receiveWriteReviewList(orderIdx, reviews) {
   };
 }
 
+export function cancelWriteReview(orderDIdx, comment) {
+  return {
+    type: WriteReviewActions.CHANGE_TEXT_INPUT_COMMENT,
+    orderDIdx,
+    comment,
+  }; 
+}
+
 export function changeStarRating(orderDIdx, rating) {
   return {
     type: WriteReviewActions.CHANGE_STAR_RATING,
@@ -23,6 +31,7 @@ export function changeStarRating(orderDIdx, rating) {
     rating,
   }; 
 }
+
 export function changeTextInputComment(orderDIdx, comment) {
   return {
     type: WriteReviewActions.CHANGE_TEXT_INPUT_COMMENT,

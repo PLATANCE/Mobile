@@ -13,6 +13,7 @@ import { Actions } from 'react-native-router-flux';
 import Color from '../../const/Color';
 import Const from '../../const/Const';
 import Font from '../../const/Font';
+import Mixpanel from '../../util/mixpanel';
 
 export default class AddressBar extends React.Component {
     static propTypes = {
@@ -28,7 +29,7 @@ export default class AddressBar extends React.Component {
 
         if (address != undefined && addressDetail != undefined) {
             return (
-                <TouchableHighlight onPress={Actions.MyAddressPage}>
+                <TouchableHighlight onPress={ () => { Actions.MyAddressPage(),  Mixpanel.track('Set Address Banner')} } >
 	                <View style={styles.container}>
 	                    <Image style={styles.img}
 	                        source={require('../img/address_marker.png')} />
@@ -39,7 +40,7 @@ export default class AddressBar extends React.Component {
             );
         } else {
             return (
-                <TouchableHighlight onPress={Actions.AddAddressPage}>
+                <TouchableHighlight onPress={ () => { Actions.AddAddressPage(), Mixpanel.track('Set Address Banner') } } >
 	                <View style={styles.container}>
 	                    <Image style={styles.img}
 	                        source={require('../img/address_marker.png')} />

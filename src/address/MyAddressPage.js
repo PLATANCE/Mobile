@@ -14,7 +14,7 @@ import {
   fetchMyAddress,
 } from '../app/actions/AddressActions';
 import userInfo from '../util/userInfo';
-const userIdx = userInfo.idx;
+import Mixpanel from '../util/mixpanel';
 
 export default class MyAddressPage extends React.Component {
     constructor(props) {
@@ -41,12 +41,25 @@ export default class MyAddressPage extends React.Component {
                       fetchCartInfo={() => dispatch(fetchCartInfo())}
                       fetchMyAddress={() => dispatch(fetchMyAddress())}
                     />
-                    <TouchableHighlight onPress={Actions.AddAddressPage} underlayColor={'transparent'}>
-                    <View style={styles.addBox}>
-                        <Image style={styles.img}
-                        	source={require('./img/address_add.png')} />
-                        <Text style={styles.addAddressText}>주소 추가하기</Text>
-                    </View>
+                    <TouchableHighlight 
+                        onPress={ () => { Actions.AddAddressPage(),  Mixpanel.track('Add New Address') } } 
+                        underlayColor={'transparent'}
+                    >
+                        <View style={styles.addBox}>
+                            <Image style={styles.img}
+                            	source={require('./img/address_add.png')} />
+                            <Text style={styles.addAddressText}>주소 추가하기</Text>
+                        </View>
+                    </TouchableHighlight>
+                    <TouchableHighlight
+                        onPress={ () => { Actions.AddressCoveragePage() } }
+                        underlayColor={'transparent'}
+                    >
+                        <View style={styles.addBox}>
+                            <Image style={styles.img}
+                                source={require('./img/address_add.png')} />
+                            <Text style={styles.addAddressText}>배달 가능한 지역 보기</Text>
+                        </View>
                     </TouchableHighlight>
                 </ScrollView>
             </View>
@@ -74,5 +87,10 @@ let styles = StyleSheet.create({
     	fontSize: 18 * Const.DEVICE_RATIO,
     	color: Color.PRIMARY_ORANGE,
     	marginLeft: 10,
+    },
+    coverageImg: {
+        width: Const.WIDTH,
+        height: Const.HEIGHT,
+        resizeMode: 'contain',
     }
 });

@@ -1,4 +1,4 @@
-import React, { View, ListView, Text, StyleSheet, TouchableHighlight, AlertIOS, Alert } from 'react-native';
+import React, { View, ListView, Text, StyleSheet, TouchableHighlight, AlertIOS, Alert, Image } from 'react-native';
 import Prompt from 'react-native-prompt';
 import { Actions } from 'react-native-router-flux';
 import Color from '../../const/Color';
@@ -6,9 +6,8 @@ import Const from '../../const/Const';
 import Font from '../../const/Font';
 import RequestURL from '../../const/RequestURL';
 import Separator from '../../commonComponent/Separator';
-
 import userInfo from '../../util/userInfo';
-const userIdx = userInfo.idx;
+import Mixpanel from '../../util/mixpanel';
 
 export default class SearchedAddressList extends React.Component {
     constructor(props) {
@@ -30,6 +29,7 @@ export default class SearchedAddressList extends React.Component {
         }
     }
     openAlertAddressDetail(title, message, jibunAddress, roadNameAddress, deliveryAvailable, latitude, longitude) {
+        Mixpanel.track('Choose Address from Result');
         AlertIOS.prompt(
             title,
             message,
@@ -41,6 +41,8 @@ export default class SearchedAddressList extends React.Component {
     }
     
     submitDeliveryAddress(jibunAddress, roadNameAddress, addressDetail, deliveryAvailable, latitude, longitude) {
+        const userIdx = userInfo.idx;
+        Mixpanel.trackWithProperties('Enter Address Detail', { entered: addressDetail });
         const param = {
             user_idx: userIdx,
             address: jibunAddress,
@@ -75,26 +77,30 @@ export default class SearchedAddressList extends React.Component {
         
     }
 
-    renderRow(rowData) {
-        let textStyle = rowData.available ? Font.DEFAULT_FONT_ORANGE : Font.DEFAULT_FONT_GRAY;
-        let title = rowData.available ? '주소를 입력해 주세요.' : '배달이 불가능한 지역입니다.';
-        let message = rowData.available ? '' : '나머지 주소를 입력하고 확인을 누르면 배달 지역 확장시 알려드리겠습니다.';
-
+    renderRow(rowData) {        
         //  jibunAddress: String,
         //  roadNameAddress: String,
-
-        let jibunAddress = rowData.jibunAddress;
-        let roadNameAddress = rowData.roadNameAddress;
-        let deliveryAvailable = rowData.available;
+        const textStyle = rowData.available ? Font.DEFAULT_FONT_ORANGE : Font.DEFAULT_FONT_GRAY;
+        const jibunAddress = rowData.jibunAddress;
+        const roadNameAddress = rowData.roadNameAddress;
+        const deliveryAvailable = rowData.available;
         const latitude = rowData.latitude;
         const longitude = rowData.longitude;
+        const title = rowData.available ? '나머지 주소를 입력해 주세요.' : '배달이 불가능한 지역입니다.';
+        const message = rowData.available ? '예) 무슨아파트 몇호, 무슨빌라 몇호 ' : '나머지 주소를 입력하고 확인을 누르면 배달 지역 확장시 알려드리겠습니다.';
+        const deliveryAvailableImage = rowData.available ? require('../img/delivery_available.png') : require('../img/delivery_not_available.png')
+
         return (
-            <TouchableHighlight onPress={ () => this.openAlertAddressDetail(title, message, jibunAddress, roadNameAddress, deliveryAvailable, latitude, longitude)} >
+            <TouchableHighlight 
+                onPress={ () => this.openAlertAddressDetail(title, message, jibunAddress, roadNameAddress, deliveryAvailable, latitude, longitude)} 
+                underlayColor={'transparent'}
+            >
             <View style={styles.row}>
-                
-                    <Text style={textStyle}>지번: {jibunAddress}</Text>
-                    <Text style={textStyle}>도로명: {roadNameAddress}</Text>
-                
+                <Image style={styles.img} source={deliveryAvailableImage}/>
+                <View style={styles.addressBox}>
+                    <Text style={Font.DEFAULT_FONT_BLACK_BOLD}>{jibunAddress}</Text>
+                    <Text style={Font.DEFAULT_FONT_BLACK}>[도로명]{roadNameAddress}</Text>
+                </View>
             </View>
             </TouchableHighlight>
         );
@@ -108,6 +114,7 @@ export default class SearchedAddressList extends React.Component {
                     renderRow={this.renderRow.bind(this)} />
             </View>
         );
+        
     }
 }
 
@@ -117,11 +124,22 @@ let styles = StyleSheet.create({
         margin: 10,
     },
     row: {
-        height: 70 * Const.DEVICE_RATIO,
+        flex: 1,
+        flexDirection: 'row',
         borderBottomWidth: 0.5,
         paddingTop: 10,
         paddingBottom: 10,
         borderColor: Color.PRIMARY_GRAY,
-        justifyContent: 'center',
+        alignItems: 'center',
     },
+    img: {
+        width: 30 * Const.DEVICE_RATIO,
+        height: 30 * Const.DEVICE_RATIO,
+        resizeMode: 'contain',
+    },
+    addressBox: {
+        flex: 1,
+        marginLeft: 10,
+        justifyContent: 'center',
+    }
 });

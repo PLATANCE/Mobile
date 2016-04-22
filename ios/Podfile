@@ -8,5 +8,6 @@ target 'Mobile' do
 	# for facebook
 	pod 'FBSDKCoreKit'
 	pod 'FBSDKLoginKit'
+	pod 'Mixpanel'
 
 end

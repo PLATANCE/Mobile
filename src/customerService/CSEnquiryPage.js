@@ -11,6 +11,7 @@ import Communications from 'react-native-communications';
 
 import Color from '../const/Color';
 import Const from '../const/Const';
+import Mixpanel from '../util/mixpanel';
 
 export default class CSEnquiryPage extends React.Component {
   chatKakao() {
@@ -27,17 +28,26 @@ export default class CSEnquiryPage extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.content}>
-          <TouchableHighlight onPress={this.chatKakao} underlayColor={'transparent'}>
+          <TouchableHighlight 
+            onPress={ () => { this.chatKakao(), Mixpanel.trackWithProperties('Contact Plating', { via: 'Kakao' }) } } 
+            underlayColor={'transparent'}
+            >
             <View style={styles.row}>
               <Image style={styles.img} source={require('./img/enquiry_kakao.png')} />
             </View>
           </TouchableHighlight>
-          <TouchableHighlight onPress={this.contactPhone} underlayColor={'transparent'}>
+          <TouchableHighlight 
+            onPress={ () => { this.contactPhone(), Mixpanel.trackWithProperties('Contact Plating', { via: 'Call' }) } } 
+            underlayColor={'transparent'}
+          >
             <View style={styles.row}>
               <Image style={styles.img} source={require('./img/enquiry_phone.png')} />
             </View>
           </TouchableHighlight>
-          <TouchableHighlight onPress={this.sendMail} underlayColor={'transparent'}>
+          <TouchableHighlight 
+            onPress={ () => { this.sendMail(), Mixpanel.trackWithProperties('Contact Plating', { via: 'Email' }) } } 
+            underlayColor={'transparent'}
+          >
             <View style={styles.row}>
               <Image style={styles.img} source={require('./img/enquiry_mail.png')} />
             </View>

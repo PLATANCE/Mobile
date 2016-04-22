@@ -2,14 +2,16 @@ import {
   CartInfoActions,
 } from '../actions/CartInfoActions';
 
-function cartInfoReducer(state = {
+const defaultCartInfoState = {
   timeSlotData: [],
   myInfo: {},
   cardNumber: '',
   deliveryFee: 0,
   couponIdx: 0,
   discountCouponPrice: 0,
-}, action) {
+  availablePoint: 0,
+};
+function cartInfoReducer(state = Object.assign({}, defaultCartInfoState), action) {
   switch (action.type) {
     case CartInfoActions.RECEIVE_CART_INFO:
       {
@@ -45,6 +47,16 @@ function cartInfoReducer(state = {
           couponIdx,
           discountCouponPrice,
         })
+      }
+      case CartInfoActions.SET_AVAILABLE_POINT: {
+        const availablePoint = action.availablePoint;
+        console.log(availablePoint);
+        return Object.assign({}, state, {
+          availablePoint,
+        })
+      }
+      case CartInfoActions.CLEAR_CART_INFO: {
+        return Object.assign({}, defaultCartInfoState);
       }
     default:
       return state;

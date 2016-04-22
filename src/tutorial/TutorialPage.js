@@ -1,12 +1,11 @@
 'use strict';
 import React, { View, Text, StyleSheet, TouchableHighlight, Image, Dimensions } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-
+import Mixpanel from '../util/mixpanel';
 import Color from '../const/Color';
 import Const from '../const/Const';
 import Font from '../const/Font';
 import Swiper from 'react-native-swiper';
-
 
 export default class TutorialPage extends React.Component {
     constructor(props) {
@@ -23,11 +22,13 @@ export default class TutorialPage extends React.Component {
                 showsPagination: false,
                 pageIndex: state.index
             });
+            Mixpanel.trackWithProperties('(Screen) Tutorial', { finished: 'true' });
         } else {
             this.setState({
                 showsPagination: true,
                 pageIndex: state.index
             });
+            Mixpanel.trackWithProperties('(Screen) Tutorial', { finished: 'false' });
         }
     }
 

@@ -96,11 +96,11 @@ RCT_REMAP_METHOD(getID,
            reject(@"facebook permission error", @"facebook permission error.", error);
          } else {
            NSLog(@"Graph Request Success");
-           resolve(result.id);
+           resolve(result[@"id"]);
          }
        }];
     } else {
-      reject(@"facebook not logged in");
+      reject(@"facebook not logged in", @"facebook not logged in", NULL);
     }
   });
 }

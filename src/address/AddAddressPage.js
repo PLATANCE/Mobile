@@ -1,5 +1,5 @@
 'use strict';
-import React, { View, Text, StyleSheet, TouchableHighlight, TextInput, ScrollView } from 'react-native';
+import React, { View, Text, StyleSheet, TouchableHighlight, TextInput, ScrollView, Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Prompt from 'react-native-prompt';
 
@@ -8,6 +8,7 @@ import Color from '../const/Color';
 import Const from '../const/Const';
 import Font from '../const/Font';
 import RequestURL from '../const/RequestURL';
+import Mixpanel from '../util/mixpanel';
 import {
   fetchMyAddressList,
 } from '../app/actions/AddressActions';
@@ -28,6 +29,10 @@ export default class AddAddressPage extends React.Component {
         fetch(RequestURL.REQUEST_SEARCHED_ADDRESS_LIST + "query=" + address)
             .then((response) => response.json())
             .then((responseData) => {
+                Mixpanel.trackWithProperties('Search Address', { keyword: address, result: responseData.length });
+                if(responseData.length == 0) {
+                    Alert.alert('검색 결과가 없습니다.');
+                }
                 this.setState({
                     addressList: responseData,
                 });
@@ -43,26 +48,21 @@ export default class AddAddressPage extends React.Component {
         } = this.props;
         return (
             <ScrollView>
-            <View style={styles.container} >
-                <View style={styles.pageTextBox} >
-            	    <Text style={Font.DEFAULT_FONT_BLACK}>요리가 배달될 주소 입력</Text>
+                <View style={styles.container} >
+                    <View style={styles.pageTextBox} >
+                        <Text style={Font.DEFAULT_FONT_BLACK_BOLD}>주소 입력 (동 + 지번)</Text>
+                        <Text style={Font.DEFAULT_FONT_BLACK}>예) 신사동 123-4</Text>
+                    </View>
+                	<View style={styles.textInputBox} >
+    	                <TextInput style={[styles.textInput, Font.DEFAULT_FONT_BLACK]} autoFocus={true} 
+                            keyboardType='default' autoCorrect={false} 
+                            onSubmitEditing={this.searchAddress.bind(this)}
+    					    placeholder='예) 신사동 123-4' />
+    				</View>
+    				<SearchedAddressList 
+                        fetchMyAddressList={ () => dispatch(fetchMyAddressList()) }
+                        addressList={this.state.addressList} />
                 </View>
-            	<View style={styles.textInputBox} >
-	                <TextInput style={[styles.textInput, Font.DEFAULT_FONT_BLACK]} autoFocus={true} 
-                        keyboardType='default' autoCorrect={false} 
-                        onSubmitEditing={this.searchAddress.bind(this)}
-					    placeholder='동이름을 입력하세요' />
-				</View>
-				<SearchedAddressList 
-                    fetchMyAddressList={ () => dispatch(fetchMyAddressList()) }
-                    addressList={this.state.addressList} />
-                <TouchableHighlight style={styles.addressCoverBox} 
-                    onPress={Actions.AddressCoveragePage}
-                    underlayColor={'transparent'}
-                >
-                    <Text style={Font.DEFAULT_FONT_ORANGE}>배달 가능한 지역 보기</Text>
-                </TouchableHighlight>
-            </View>
             </ScrollView>
         );
     }

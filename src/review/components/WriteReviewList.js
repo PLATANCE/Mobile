@@ -67,7 +67,8 @@ export default class WriteReviewList extends React.Component {
     renderRow(rowData) {
         const {
             onChangeStarRating,
-            onChangeTextInputComment
+            onChangeTextInputComment,
+            onChangeSubmitProperty
         } = this.props;
 
         const orderDIdx = rowData.idx;
@@ -114,7 +115,8 @@ export default class WriteReviewList extends React.Component {
                 </View>
                 <TouchableHighlight 
                     underlayColor={'transparent'}
-                    onPress={() => this.submitReview(orderDIdx, enableButton)}>
+                    onPress={ () => { this.submitReview(orderDIdx, enableButton);  onChangeSubmitProperty(); } }
+                >
                     <View style={[styles.buttonBox, enableButtonBackground]}>
                         <Text style={Font.DEFAULT_FONT_WHITE}>리뷰 저장</Text>
                     </View>

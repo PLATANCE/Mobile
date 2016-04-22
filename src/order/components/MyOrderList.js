@@ -1,8 +1,10 @@
 import React, { View, ListView, Text, StyleSheet, Image, TouchableHighlight } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import Color from '../../const/Color';
 import Const from '../../const/Const';
 import Font from '../../const/Font';
-import {Actions} from 'react-native-router-flux';
+import Mixpanel from '../../util/mixpanel';
+
 
 export default class MyOrderList extends React.Component {
     constructor(props) {
@@ -12,7 +14,8 @@ export default class MyOrderList extends React.Component {
         });
 
         this.state = {
-            dataSource: dataSource.cloneWithRows(props.orders)
+            dataSource: dataSource.cloneWithRows(props.orders),
+            editReview: props.editReview,
         }
     }
 
@@ -25,6 +28,11 @@ export default class MyOrderList extends React.Component {
     }
 
     renderRow(rowData) {
+        const orderIdx = rowData.order_idx;
+        const {
+            changeEditReviewProperty
+        } = this.props;
+        console.log(changeEditReviewProperty);
         return (
             <View style={styles.row}>
                 <View>
@@ -35,14 +43,19 @@ export default class MyOrderList extends React.Component {
                 <View style={styles.footerBox}>
                     <Text style={Font.DEFAULT_FONT_BLACK}>{rowData.time_slot}</Text>
                     <View style={styles.buttonBox}>
-                        <TouchableHighlight onPress={ () => Actions.OrderDetailPage({ orderIdx: rowData.order_idx }) } underlayColor={'transparent'} >
+                        <TouchableHighlight 
+                            onPress={() => Actions.OrderDetailPage({ orderIdx: orderIdx })} 
+                            underlayColor={'transparent'} 
+                        >
                             <View style={[styles.button, { marginRight: 10 }]}>
                                 <Image style={styles.buttonIconImage} 
                                     source={require('../../commonComponent/img/icon_detail.png')}/>
                                 <Text style={Font.DEFAULT_FONT_WHITE}>상세 보기</Text>
                             </View>
                         </TouchableHighlight>
-                        <TouchableHighlight  onPress={ () => Actions.WriteReviewPage({ orderIdx: rowData.order_idx }) } underlayColor={'transparent'} >
+                        <TouchableHighlight  
+                            onPress={ () => { Actions.WriteReviewPage({ orderIdx: orderIdx, autoPopUp: false, }); changeEditReviewProperty(); } } 
+                            underlayColor={'transparent'} >
                             <View style={styles.button}>
                                 <Image style={styles.buttonIconImage} 
                                     source={require('../../commonComponent/img/icon_pencil.png')}/>
@@ -60,7 +73,7 @@ export default class MyOrderList extends React.Component {
             <View style={styles.container}>
                 <ListView
                     dataSource={this.state.dataSource}
-                    renderRow={this.renderRow} />
+                    renderRow={this.renderRow.bind(this)} />
             </View>
         );
     }

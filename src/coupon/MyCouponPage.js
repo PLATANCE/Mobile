@@ -1,11 +1,12 @@
 'use strict';
-import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
+import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image, InteractionManager } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 import Color from '../const/Color';
 import Const from '../const/Const';
 import MyCouponList from './components/MyCouponList';
 import RequestURL from '../const/RequestURL';
+import PlaceholderView from '../commonComponent/PlaceholderView';
 import {
   useCoupon,
 } from '../app/actions/CartInfoActions';
@@ -18,6 +19,7 @@ export default class MyCouponPage extends React.Component {
         this.state = {
             coupons: [],
             hasData: false,
+            renderPlaceholderOnly: false,
         }
     }
     componentDidMount() {
@@ -34,15 +36,25 @@ export default class MyCouponPage extends React.Component {
                         hasData: true,
                     });
                 }
+                InteractionManager.runAfterInteractions( () => {
+                    this.setState({
+                        renderPlaceholderOnly: true,
+                    });
+                })
             })
             .catch((error)=> {
                 console.warn(error);
             })
             .done();
     }
+    renderPlaceholderView() {
+        return (
+          <PlaceholderView />
+        );
+    }
     loadingNoDataImage() {
         return (
-            <TouchableHighlight onPress={Actions.DrawerPage} underlayColor={'transparent'}>
+            <TouchableHighlight onPress={Actions.ReferPage} underlayColor={'transparent'}>
                 <View style={styles.container}>
                     <Image style={styles.img}
                         source={require('../order/img/no_data.png')} />
@@ -56,6 +68,9 @@ export default class MyCouponPage extends React.Component {
             cart,
             dispatch,
         } = this.props;
+        if(!this.state.renderPlaceholderOnly) {
+            return this.renderPlaceholderView();
+        }
         if(!this.state.hasData) {
             return this.loadingNoDataImage();
         }

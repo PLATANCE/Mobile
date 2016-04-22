@@ -13,6 +13,7 @@ import { Actions } from 'react-native-router-flux';
 import Modal from 'react-native-modalbox';
 import RequestURL from '../const/RequestURL';
 import userInfo from '../util/userInfo';
+import Mixpanel from '../util/mixpanel';
 
 class SideDrawerContent extends Component {
     constructor(props) {
@@ -80,12 +81,13 @@ class SideDrawerContent extends Component {
             '코드 등록',
             '등록하신 코드는 포인트로 전환되어 결제할 때 사용됩니다.',
             [
-                {text: '취소', onPress: () => console.log('Cancel Pressed')},
-                {text: '등록', onPress: (code) => this.submitCode(code)},
+                { text: '취소', onPress: () => Mixpanel.trackWithProperties('Enter Promo Code', { entered: false }) },
+                { text: '등록', onPress: (code) => this.submitCode(code) },
             ],
         );
     }
     submitCode(code) {
+        Mixpanel.trackWithProperties('Enter Promo Code', { entered: true, code: code });
         let param = 'user_idx=' + userInfo.idx + '&code=' + code;
         
         fetch(RequestURL.SUBMIT_POINT_REGISTER + param)
@@ -120,11 +122,11 @@ class SideDrawerContent extends Component {
         let referPriceText = this.state.referPriceText + ' + ' + this.state.referPriceText + ' 포인트 지급';
 
         const rowInfo = [
-            { text: "주문 내역", image: require('./img/icon_left_order.png'), action: Actions.MyOrderPage },
-            { text: "내 쿠폰함 " + cntCouponText, image: require('./img/icon_left_coupon.png'), action: () => Actions.MyCouponPage({ disable: false }) },
-            { text: "포인트·코드 등록", image: require('./img/icon_left_won.png'), action: ()=>this.openPromptDialog()},
+            { text: "주문 내역", image: require('./img/icon_left_order.png'), action: () => { Actions.MyOrderPage(), Mixpanel.track('View Order History') } },
+            { text: "내 쿠폰함 " + cntCouponText, image: require('./img/icon_left_coupon.png'), action: () => { Actions.MyCouponPage({ disable: false }), Mixpanel.track('View My Coupons') } },
+            { text: "포인트·코드 등록", image: require('./img/icon_left_won.png'), action: () => this.openPromptDialog()},
             { text: "고객 센터", image: require('./img/icon_left_headset.png'), action: Actions.CSMainPage },
-            { text: "Plating 이란?", image: require('./img/icon_left_meal.png'), action: Actions.PlatingPage },
+            { text: "Plating 이란?", image: require('./img/icon_left_meal.png'), action: () => { Actions.PlatingPage(), Mixpanel.track('View Plating Intro') } },
         ];
         
         var drawerRow = [];
@@ -151,7 +153,10 @@ class SideDrawerContent extends Component {
                 <View style={styles.drawerRowBox} >
                    {drawerRow}
                 </View>
-                <TouchableHighlight onPress={Actions.ReferPage} underlayColor={'transparent'}>
+                <TouchableHighlight 
+                    onPress={ () => { Actions.ReferPage(), Mixpanel.track } } 
+                    underlayColor={'transparent'}
+                    >
                     <View style={styles.footerBox}>
                         <Text style={[Font.DEFAULT_FONT_WHITE_BOLD, { fontSize: 18 }]}>친구 초대</Text>
                         <Text style={Font.DEFAULT_FONT_WHITE_BOLD}>{referPriceText}</Text>

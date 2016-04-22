@@ -1,6 +1,9 @@
 import {
   WriteReviewActions,
 } from '../actions/WriteReviewActions';
+import {
+  Actions,
+} from 'react-native-router-flux';
 
 function writeReviewReducer(state = {
   reviews: {},

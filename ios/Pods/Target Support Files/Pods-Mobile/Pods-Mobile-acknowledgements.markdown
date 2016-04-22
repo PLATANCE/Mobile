@@ -76,15 +76,21 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-## Realm
+## Mixpanel
 
-TABLE OF CONTENTS
+Copyright 2013 Mixpanel, Inc.
 
-1. Apache License version 2.0
-2. Realm Components
-3. Export Compliance
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this work except in compliance with the License.
+You may obtain a copy of the License below, or at:
 
--------------------------------------------------------------------------------
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
                                  Apache License
                            Version 2.0, January 2004
@@ -266,7 +272,7 @@ TABLE OF CONTENTS
    APPENDIX: How to apply the Apache License to your work.
 
       To apply the Apache License to your work, attach the following
-      boilerplate notice, with the fields enclosed by brackets "{}"
+      boilerplate notice, with the fields enclosed by brackets "[]"
       replaced with your own identifying information. (Don't include
       the brackets!)  The text should be enclosed in the appropriate
       comment syntax for the file format. We also recommend that a
@@ -274,7 +280,7 @@ TABLE OF CONTENTS
       same "printed page" as the copyright notice for easier
       identification within third-party archives.
 
-   Copyright {yyyy} {name of copyright owner}
+   Copyright [yyyy] [name of copyright owner]
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -288,64 +294,48 @@ TABLE OF CONTENTS
    See the License for the specific language governing permissions and
    limitations under the License.
 
+================================================================================
 
-REALM COMPONENTS
+_MPTweakBindObserver.h Copyright (c) 2014, Facebook, Inc. All rights reserved.
+_MPTweakBindObserver.m Copyright (c) 2014, Facebook, Inc. All rights reserved.
+MPTweak.h Copyright (c) 2014, Facebook, Inc. All rights reserved.
+MPTweak.m Copyright (c) 2014, Facebook, Inc. All rights reserved.
+MPTweakInline.h Copyright (c) 2014, Facebook, Inc. All rights reserved.
+MPTweakInline.m Copyright (c) 2014, Facebook, Inc. All rights reserved.
+MPTweakInlineInternal.h Copyright (c) 2014, Facebook, Inc. All rights reserved.
+MPTweakStore.h Copyright (c) 2014, Facebook, Inc. All rights reserved.
+MPTweakStore.m Copyright (c) 2014, Facebook, Inc. All rights reserved.
 
-This software contains components with separate copyright and license terms.
-Your use of these components is subject to the terms and conditions of the
-following licenses.
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
 
-For the Realm Core component
+* Redistributions of source code must retain the above copyright notice, this
+list of conditions and the following disclaimer.
 
-  Realm Core Binary License
 
-  Copyright (c) 2011-2014 Realm Inc All rights reserved
+* Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation
 
-  Redistribution and use in binary form, with or without modification, is
-  permitted provided that the following conditions are met:
+and/or other materials provided with the distribution.
 
-  1. You agree not to attempt to decompile, disassemble, reverse engineer or
-  otherwise discover the source code from which the binary code was derived.
-  You may, however, access and obtain a separate license for most of the
-  source code from which this Software was created, at
-  http://realm.io/pricing/.
+* Neither the name Facebook nor the names of its contributors may be used to
 
-  2. Redistributions in binary form must reproduce the above copyright notice,
-  this list of conditions and the following disclaimer in the documentation
-  and/or other materials provided with the distribution.
+endorse or promote products derived from this software without specific
+prior written permission.
 
-  3. Neither the name of the copyright holder nor the names of its
-  contributors may be used to endorse or promote products derived from this
-  software without specific prior written permission.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-  POSSIBILITY OF SUCH DAMAGE.
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
 
-EXPORT COMPLIANCE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
 
-You understand that the Software may contain cryptographic functions that may be
-subject to export restrictions, and you represent and warrant that you are not
-located in a country that is subject to United States export restriction or embargo,
-including Cuba, Iran, North Korea, Sudan, Syria or the Crimea region, and that you
-are not on the Department of Commerce list of Denied Persons, Unverified Parties,
-or affiliated with a Restricted Entity.
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 
-You agree to comply with all export, re-export and import restrictions and
-regulations of the Department of Commerce or other agency or authority of the
-United States or other applicable countries. You also agree not to transfer, or
-authorize the transfer of, directly or indirectly, the Software to any prohibited
-country, including Cuba, Iran, North Korea, Sudan, Syria or the Crimea region,
-or to any person or organization on or affiliated with the Department of
-Commerce lists of Denied Persons, Unverified Parties or Restricted Entities, or
-otherwise in violation of any such restrictions or regulations.
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 Generated by CocoaPods - http://cocoapods.org

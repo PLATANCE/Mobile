@@ -1,5 +1,6 @@
 'use strict';
 import realm from '../realm';
+import Mixpanel from '../mixpanel';
 
 let userInfos = realm.objects('UserInfo');
 

@@ -34,7 +34,7 @@ export default class OrderDetailPage extends React.Component {
     }
     onWriteReview(reviewIsAvailable, orderIdx) {
         if(reviewIsAvailable) 
-            Actions.WriteReviewPage({ orderIdx: orderIdx })
+            Actions.WriteReviewPage({ orderIdx: orderIdx, autoPopUp: false, })
     }
     render() {
         const order = this.state.order;
@@ -51,7 +51,7 @@ export default class OrderDetailPage extends React.Component {
             orderedMenuList.push(<OrderedMenu key={menu.idx} name={menuNameKor} foreignName={menuNameEng} amount={menu.amount} />);
         })
 
-        const reviewIsAvailable = !order.review_status;
+        const reviewIsAvailable = (order.review_status != 1) ? true : false;
         if(reviewIsAvailable) {
             reviewButtonText = '리뷰를 남겨주세요 :)';
             reviewButtonSubText = '추첨을 통해 무료 시식권을 드립니다 :) ';
