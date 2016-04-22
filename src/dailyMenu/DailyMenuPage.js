@@ -1,6 +1,7 @@
 'use strict';
 import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image, ScrollView, Modal, Animated, AsyncStorage, Alert, Linking, Platform } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { Crashlytics } from 'react-native-fabric';
 import DeviceInfo from 'react-native-device-info';
 import Communications from 'react-native-communications';
 import DailyMenuList from './components/DailyMenuList';

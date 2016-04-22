@@ -38,6 +38,7 @@
 		F457B5971CA298360072D817 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F457B58F1CA298360072D817 /* MaterialIcons.ttf */; };
 		F457B5981CA298360072D817 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F457B5901CA298360072D817 /* Octicons.ttf */; };
 		F457B5991CA298360072D817 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F457B5911CA298360072D817 /* Zocial.ttf */; };
+		F493CC4D1CC9F3960032D896 /* libSMXCrashlytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F493CC4C1CC9F38C0032D896 /* libSMXCrashlytics.a */; };
 		F4A8C81B1CBF9AE700E82EA3 /* libRNMixpanel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4A8C81A1CBF9ABA00E82EA3 /* libRNMixpanel.a */; };
 /* End PBXBuildFile section */
 
@@ -168,6 +169,13 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+		F493CC4B1CC9F38C0032D896 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F493CC471CC9F38C0032D896 /* SMXCrashlytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D8D9DB831C6D03DB009FBC0E;
+			remoteInfo = SMXCrashlytics;
+		};
 		F4A8C8191CBF9ABA00E82EA3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F4A8C8151CBF9ABA00E82EA3 /* RNMixpanel.xcodeproj */;
@@ -235,6 +243,7 @@
 		F457B58F1CA298360072D817 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
 		F457B5901CA298360072D817 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		F457B5911CA298360072D817 /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
+		F493CC471CC9F38C0032D896 /* SMXCrashlytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SMXCrashlytics.xcodeproj; path = "../node_modules/react-native-fabric/ios/SMXCrashlytics.xcodeproj"; sourceTree = "<group>"; };
 		F4A8C8151CBF9ABA00E82EA3 /* RNMixpanel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNMixpanel.xcodeproj; path = "../node_modules/react-native-mixpanel/RNMixpanel.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -243,6 +252,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F493CC4D1CC9F3960032D896 /* libSMXCrashlytics.a in Frameworks */,
 				F4A8C81B1CBF9AE700E82EA3 /* libRNMixpanel.a in Frameworks */,
 				5F65CEC41C99289E002B4B1E /* RealmReact.framework in Frameworks */,
 				5F65CE981C9825F3002B4B1E /* SafariServices.framework in Frameworks */,
@@ -432,6 +442,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				F493CC471CC9F38C0032D896 /* SMXCrashlytics.xcodeproj */,
 				F4A8C8151CBF9ABA00E82EA3 /* RNMixpanel.xcodeproj */,
 				5F65CEA51C9927ED002B4B1E /* RealmJS.xcodeproj */,
 				5F65CE901C9820CA002B4B1E /* RCTPushNotification.xcodeproj */,
@@ -507,6 +518,14 @@
 			path = "../node_modules/react-native-vector-icons/Fonts";
 			sourceTree = "<group>";
 		};
+		F493CC481CC9F38C0032D896 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F493CC4C1CC9F38C0032D896 /* libSMXCrashlytics.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		F4A8C8161CBF9ABA00E82EA3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -530,6 +549,7 @@
 				787C0BC4BB6FAC6C194A217F /* Embed Pods Frameworks */,
 				F7C3B541249586826DB17A3A /* Copy Pods Resources */,
 				5F65CEC81C99289E002B4B1E /* Embed Frameworks */,
+				F493CC341CC9F2CC0032D896 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -622,6 +642,10 @@
 				{
 					ProductGroup = F4A8C8161CBF9ABA00E82EA3 /* Products */;
 					ProjectRef = F4A8C8151CBF9ABA00E82EA3 /* RNMixpanel.xcodeproj */;
+				},
+				{
+					ProductGroup = F493CC481CC9F38C0032D896 /* Products */;
+					ProjectRef = F493CC471CC9F38C0032D896 /* SMXCrashlytics.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -751,6 +775,13 @@
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		F493CC4C1CC9F38C0032D896 /* libSMXCrashlytics.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSMXCrashlytics.a;
+			remoteRef = F493CC4B1CC9F38C0032D896 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		F4A8C81A1CBF9ABA00E82EA3 /* libRNMixpanel.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -824,6 +855,20 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
+		};
+		F493CC341CC9F2CC0032D896 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 02d6ee4fd30ec6aaa64fec1f43f2703070972cd5 1eda0bf349a471b3fe1b0e7f495667b415f8cc9a65edf25e7d72963aeb0f6099";
 		};
 		F7C3B541249586826DB17A3A /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
