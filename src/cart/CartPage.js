@@ -338,7 +338,7 @@ export default class CartPage extends React.Component {
       coupon_idx: couponIdx,
       include_cutlery: this.state.selectedCutleryParam,
     };
-    console.log(param);
+    
     
     fetch(RequestURL.SUBMIT_PLACE_ORDER, {
       method: 'POST',

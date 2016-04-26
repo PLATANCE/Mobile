@@ -32,7 +32,7 @@ export default class MyOrderList extends React.Component {
         const {
             changeEditReviewProperty
         } = this.props;
-        console.log(changeEditReviewProperty);
+        
         return (
             <View style={styles.row}>
                 <View>

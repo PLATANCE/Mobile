@@ -54,8 +54,6 @@ export default class SignInPage extends React.Component {
                 "email": result.email,
             };
 
-            console.log(facebookSignUpParams);
-
             signUp(facebookSignUpParams);
 
         }).catch((err) => {

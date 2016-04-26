@@ -41,14 +41,13 @@ export default class DailyMenuPage extends React.Component {
         }
         if(userInfo.isLogin) 
             Mixpanel.track('Log In Success');
+        // Timing Events
+        // Sets the start time for an action, for example uploading an image
         Mixpanel.timeEvent('(Screen) Daily Menu List');
     }
     
     componentDidMount() {
-        // Timing Events
-        // Sets the start time for an action, for example uploading an image
-        
-        this.fetchDailyMenu();
+        //this.fetchDailyMenu();
         this.fetchReviewAvailable();
         this.fetchDialog();
         //this.fetchCheckUpdate();
@@ -58,8 +57,9 @@ export default class DailyMenuPage extends React.Component {
         }).start();
     }
 
-    fetchDailyMenu() {
-        fetch(RequestURL.REQUEST_DAILY_MENU)
+    fetchDailyMenu(myAddress) {
+        const area = myAddress.area;
+        fetch(`${RequestURL.REQUEST_DAILY_MENU}?area=${area}`)
             .then((response) => response.json())
             .then((responseData) => {
                 this.setState({
@@ -112,9 +112,12 @@ export default class DailyMenuPage extends React.Component {
     }
     fetchCheckUpdate() {
         const buildNumber = DeviceInfo.getBuildNumber();
-        let param = Platform.OS === 'android' ? 'version_code=' : 'build=' + buildNumber;
-        
-        fetch(RequestURL.REQUEST_APP_UPDATE_AVAILABLE + param)
+        const param = Platform.OS === 'android' ? 'version_code=' : 'build=' + buildNumber;
+        const url = Platform.OS === 'android' ? 
+            RequestURL.REQUEST_APP_UPDATE_AVAILABLE_ANDROID + param
+            :
+            RequestURL.REQUEST_APP_UPDATE_AVAILABLE_IOS + param;
+        fetch(url)
             .then((response) => response.json())
             .then((responseData) => {
                 let available = responseData.available;
@@ -135,9 +138,9 @@ export default class DailyMenuPage extends React.Component {
     }
     linkingAppStore() {
         // itms-apps://itunes.apple.com/app/id1031812751
-        Actions.DrawerPage();
         const url = 'itms-apps://itunes.apple.com/app/id1031812751';
         Communications.web(url);
+        this.fetchCheckUpdate();
     }
     closeModalWhileToday() {
         AsyncStorage.setItem('DATE', this.YYYYMMDD(DATE));
@@ -163,8 +166,8 @@ export default class DailyMenuPage extends React.Component {
             this.pad2(date.getDate());
     }
     render() {
-        const { dispatch, cart, address, addressDetail } = this.props;
-
+        const { dispatch, cart, myAddress } = this.props;
+        this.fetchDailyMenu(myAddress);
         const isDialogVisible = this.state.isDialogVisible;
         let dialogView = false;
         if(isDialogVisible) {
@@ -184,7 +187,7 @@ export default class DailyMenuPage extends React.Component {
                                         <Text style={Font.DEFAULT_FONT_WHITE_UNDERLINE}>오늘 그만 보기</Text>                                        
                                     </TouchableHighlight>
                                     <TouchableHighlight style={styles.rightCloseBox} 
-                                        underlayColor={'transparent'}
+                                        underlayColor={Color.PRIMARY_GRAY}
                                         onPress={ () => this.closeModal() }>
                                         <Text style={Font.DEFAULT_FONT_WHITE}>닫기</Text>
                                     </TouchableHighlight>
@@ -205,7 +208,7 @@ export default class DailyMenuPage extends React.Component {
                         cart={cart}
                     />
                     </ScrollView>
-                    <AddressBar address={address} addressDetail={addressDetail}/>
+                    <AddressBar myAddress={myAddress} />
                 </View>
                 {dialogView}
             </View>

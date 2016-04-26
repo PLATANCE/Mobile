@@ -17,19 +17,22 @@ import Mixpanel from '../../util/mixpanel';
 
 export default class AddressBar extends React.Component {
     static propTypes = {
-        address: PropTypes.string.isRequired,
-        addressDetail: PropTypes.string.isRequired,
+        myAddress: PropTypes.object.isRequired,
     };
 
     render() {
         let {
-            address,
-            addressDetail
+            myAddress,
         } = this.props;
-
-        if (address != undefined && addressDetail != undefined) {
+        
+        if (myAddress !== null) {
+            const address = myAddress.address;
+            const addressDetail = myAddress.address_detail;
             return (
-                <TouchableHighlight onPress={ () => { Actions.MyAddressPage(),  Mixpanel.track('Set Address Banner')} } >
+                <TouchableHighlight 
+                    onPress={ () => { Actions.MyAddressPage(),  Mixpanel.track('Set Address Banner')} } 
+                    underlayColor={'transparent'}
+                >
 	                <View style={styles.container}>
 	                    <Image style={styles.img}
 	                        source={require('../img/address_marker.png')} />
@@ -40,7 +43,10 @@ export default class AddressBar extends React.Component {
             );
         } else {
             return (
-                <TouchableHighlight onPress={ () => { Actions.AddAddressPage(), Mixpanel.track('Set Address Banner') } } >
+                <TouchableHighlight 
+                    onPress={ () => { Actions.AddAddressPage(), Mixpanel.track('Set Address Banner') } } 
+                    underlayColor={'transparent'}
+                >
 	                <View style={styles.container}>
 	                    <Image style={styles.img}
 	                        source={require('../img/address_marker.png')} />

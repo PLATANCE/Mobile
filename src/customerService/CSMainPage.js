@@ -11,7 +11,6 @@ import Mixpanel from '../util/mixpanel';
 export default class CSMainPage extends React.Component {
     constructor(props) {
         super(props);
-        console.log(props);
         this.state = {
             viewDeliveryArea: props.viewDeliveryArea,
             viewFAQ: props.viewFAQ,

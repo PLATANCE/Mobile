@@ -52,13 +52,11 @@ export default class MyAddressPage extends React.Component {
                         </View>
                     </TouchableHighlight>
                     <TouchableHighlight
-                        onPress={ () => { Actions.AddressCoveragePage() } }
                         underlayColor={'transparent'}
+                        onPress={ () => Actions.AddressCoveragePage() } 
                     >
-                        <View style={styles.addBox}>
-                            <Image style={styles.img}
-                                source={require('./img/address_add.png')} />
-                            <Text style={styles.addAddressText}>배달 가능한 지역 보기</Text>
+                        <View style={styles.button}>
+                            <Text style={Font.DEFAULT_FONT_WHITE}>배달 가능한 지역 보기</Text>
                         </View>
                     </TouchableHighlight>
                 </ScrollView>
@@ -92,5 +90,19 @@ let styles = StyleSheet.create({
         width: Const.WIDTH,
         height: Const.HEIGHT,
         resizeMode: 'contain',
-    }
+    },
+    button: {
+        height: 40,
+        borderColor: Color.PRIMARY_ORANGE,
+        backgroundColor: Color.PRIMARY_ORANGE,
+        borderWidth: 1,
+        borderRadius: 5,
+        overflow: 'hidden',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20,
+        marginBottom: 20,
+        marginLeft: 10,
+        marginRight: 10,
+    },
 });

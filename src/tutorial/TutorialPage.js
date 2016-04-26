@@ -1,11 +1,18 @@
 'use strict';
-import React, { View, Text, StyleSheet, TouchableHighlight, Image, Dimensions } from 'react-native';
+import React, { View, Text, StyleSheet, TouchableHighlight, Image, NativeModules } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Mixpanel from '../util/mixpanel';
+import DeviceInfo from 'react-native-device-info';
 import Color from '../const/Color';
 import Const from '../const/Const';
+import RequestURL from '../const/RequestURL';
 import Font from '../const/Font';
 import Swiper from 'react-native-swiper';
+import userInfo from '../util/userInfo';
+import realm from '../util/realm';
+
+const KakaoManager = NativeModules.KakaoManager,
+    FacebookManager = NativeModules.FacebookManager;
 
 export default class TutorialPage extends React.Component {
     constructor(props) {
@@ -14,6 +21,50 @@ export default class TutorialPage extends React.Component {
             showsPagination: true,
             pageIndex: 0
         };
+    }
+
+    componentDidMount() {
+        let facebookID;
+        let kakaoID;
+        let autoSignUpID = DeviceInfo.getUniqueID();
+        FacebookManager.getID()
+          .then((id) => {facebookID = id; console.log(id);})
+          .catch((err) => console.log(err))
+          .then(() => {
+            KakaoManager.getID()
+              .then((id) => {kakaoID = id;})
+              .catch((err) => console.log(err))
+              .then(() => {
+                let url = `${RequestURL.CHECK_ALREADY_SIGNED_UP}/?autoSignUpID=${autoSignUpID}`;
+                console.log(url);
+                if (facebookID) {
+                    url += `&facebookID=${facebookID}`;
+                }
+                if (kakaoID) {
+                    url += `&kakaoID=${kakaoID}`;
+                }
+                fetch(url)
+                    .then((response) => response.json())
+                    .then((json) => {
+                        if(json.userIdx) {
+                            const userIdx = json.userIdx
+                            const uniqueID = userIdx.toString();
+                            Mixpanel.createAlias(uniqueID);
+                            Mixpanel.identify(uniqueID);
+                            Mixpanel.set("$name", uniqueID);
+
+                            realm.write(() => {
+                                userInfo.idx = parseInt(userIdx);
+                            });
+
+                            Actions.DrawerPage();
+                        }
+                    })
+                    .catch((error) => {
+                        console.warn(error);
+                    })
+              });
+          });
     }
 
     _onMomentumScrollEnd(e, state, context) {

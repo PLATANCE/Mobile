@@ -50,7 +50,6 @@ function cartInfoReducer(state = Object.assign({}, defaultCartInfoState), action
       }
       case CartInfoActions.SET_AVAILABLE_POINT: {
         const availablePoint = action.availablePoint;
-        console.log(availablePoint);
         return Object.assign({}, state, {
           availablePoint,
         })

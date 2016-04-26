@@ -31,7 +31,6 @@ export default class ReferPage extends React.Component {
     }
 
     componentWillUnmount() {
-        console.log(this.state.readDetail);
         Mixpanel.trackWithProperties('View Refer Screen', { readDetail: this.state.readDetail, });
     }
 

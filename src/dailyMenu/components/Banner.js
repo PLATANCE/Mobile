@@ -33,7 +33,7 @@ export default class Banner extends React.Component {
             <TouchableHighlight onPress={ () => { Actions.BannerDetailPage(),  Mixpanel.track('Click Banner') }} underlayColor={'transparent'}>
                 <View style={styles.container}>
                     <Image style={styles.img}
-                        source={{uri: "http://plating.co.kr/app/media/banner/750*260.png"}} />
+                        source={{uri: "http://plating.co.kr/app/media/banner/admin_banner_ver2.png"}} />
                 </View>
             </TouchableHighlight>
         );

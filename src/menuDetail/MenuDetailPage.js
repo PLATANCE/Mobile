@@ -44,7 +44,6 @@ export default class MenuDetailPage extends React.Component {
         this.fetchMenuDetail();
     }
     onBestReviewLayout(e) {
-        console.log(e.nativeEvent.layout);
         const bestReviewOffsetY = e.nativeEvent.layout.y;
         this.setState({
             bestReviewOffsetY: bestReviewOffsetY,
@@ -53,7 +52,6 @@ export default class MenuDetailPage extends React.Component {
     moveToBestReview() {
         //this.refs.bestReview.measure(this.logWelcomeLayout());
         Mixpanel.trackWithProperties(eventName, { menu: menuName })
-        console.log(this.refs.bestReview);
     }
 
     fetchMenuDetail() {

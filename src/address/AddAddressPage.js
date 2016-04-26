@@ -11,6 +11,7 @@ import RequestURL from '../const/RequestURL';
 import Mixpanel from '../util/mixpanel';
 import {
   fetchMyAddressList,
+  //fetchMyAddress, 
 } from '../app/actions/AddressActions';
 
 
@@ -61,6 +62,7 @@ export default class AddAddressPage extends React.Component {
     				</View>
     				<SearchedAddressList 
                         fetchMyAddressList={ () => dispatch(fetchMyAddressList()) }
+                        //fetchMyAddress={ () => dispatch(fetchMyAddress()) }
                         addressList={this.state.addressList} />
                 </View>
             </ScrollView>

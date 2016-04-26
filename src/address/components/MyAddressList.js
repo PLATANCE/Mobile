@@ -82,19 +82,36 @@ export default class MyAddressList extends React.Component {
       : require('../img/empty_circle.png');
 
     if (rowData.delivery_available) {
-      return (
-        <TouchableHighlight underlayColor={'transparent'}
-          onPress={() => this.changeInUseAddress(rowData.idx, rowData.user_idx, rowData.in_use)}
-        >
-          <View style={styles.row}>
-            <Image style={styles.img} source={leftIcon}/>
-            <View style={styles.addressBox}>
-              <Text style={Font.DEFAULT_FONT_BLACK_BOLD}>{rowData.address}</Text>
-              <Text style={Font.DEFAULT_FONT_BLACK}>{rowData.address_detail}</Text>
+      if(!rowData.reservation_type) {
+        return (
+          <TouchableHighlight underlayColor={'transparent'}
+            onPress={() => this.changeInUseAddress(rowData.idx, rowData.user_idx, rowData.in_use)}
+          >
+            <View style={styles.row}>
+              <Image style={styles.img} source={leftIcon}/>
+              <View style={styles.addressBox}>
+                <Text style={Font.DEFAULT_FONT_BLACK_BOLD}>{rowData.address}</Text>
+                <Text style={Font.DEFAULT_FONT_BLACK}>{rowData.address_detail}</Text>
+              </View>
             </View>
-          </View>
-        </TouchableHighlight>
-      );
+          </TouchableHighlight>
+        );
+      } else {
+        return (
+          <TouchableHighlight underlayColor={'transparent'}
+            onPress={() => this.changeInUseAddress(rowData.idx, rowData.user_idx, rowData.in_use)}
+          >
+            <View style={styles.row}>
+              <Image style={styles.img} source={leftIcon}/>
+              <View style={styles.addressBox}>
+                <Text style={Font.DEFAULT_FONT_BLACK_BOLD}>{rowData.address}</Text>
+                <Text style={Font.DEFAULT_FONT_BLACK}>{rowData.address_detail}</Text>
+                <Text style={Font.DEFAULT_FONT_RED}>현재 예약만 가능한 지역입니다.</Text>
+              </View>
+            </View>
+          </TouchableHighlight>
+        );
+      }
     }
 
     return (

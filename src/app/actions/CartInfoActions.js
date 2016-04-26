@@ -59,7 +59,6 @@ export function getAvailablePoint(pointInput) {
         const result = json.result;
         if(result) {
           const availablePoint = json.availablePoint;
-          console.log(availablePoint);
           dispatch(setAvailablePoint(availablePoint))
         } else {
           const resultMessage = json.result_msg;

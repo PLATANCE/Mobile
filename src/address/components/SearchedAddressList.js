@@ -28,19 +28,19 @@ export default class SearchedAddressList extends React.Component {
             })
         }
     }
-    openAlertAddressDetail(title, message, jibunAddress, roadNameAddress, deliveryAvailable, latitude, longitude) {
+    openAlertAddressDetail(title, message, jibunAddress, roadNameAddress, deliveryAvailable, area, reservationType, latitude, longitude) {
         Mixpanel.track('Choose Address from Result');
         AlertIOS.prompt(
             title,
             message,
             [
                 { text: '취소', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-                { text: '등록', onPress: (addressDetail) => this.submitDeliveryAddress(jibunAddress, roadNameAddress, addressDetail, deliveryAvailable, latitude, longitude) },
+                { text: '등록', onPress: (addressDetail) => this.submitDeliveryAddress(jibunAddress, roadNameAddress, addressDetail, deliveryAvailable, area, reservationType, latitude, longitude) },
             ],
         );
     }
     
-    submitDeliveryAddress(jibunAddress, roadNameAddress, addressDetail, deliveryAvailable, latitude, longitude) {
+    submitDeliveryAddress(jibunAddress, roadNameAddress, addressDetail, deliveryAvailable, area, reservationType, latitude, longitude) {
         const userIdx = userInfo.idx;
         Mixpanel.trackWithProperties('Enter Address Detail', { entered: addressDetail });
         const param = {
@@ -49,6 +49,8 @@ export default class SearchedAddressList extends React.Component {
             road_name_address: roadNameAddress,
             address_detail: addressDetail,
             delivery_available: deliveryAvailable,
+            area: area,
+            reservation_type: reservationType,
             lat: latitude,
             lon: longitude,
         };
@@ -69,6 +71,7 @@ export default class SearchedAddressList extends React.Component {
             );
             Actions.pop();
             this.props.fetchMyAddressList();
+            this.props.fetchMyAddress();
         })
         .catch((error) => {
             console.warn(error);
@@ -84,15 +87,17 @@ export default class SearchedAddressList extends React.Component {
         const jibunAddress = rowData.jibunAddress;
         const roadNameAddress = rowData.roadNameAddress;
         const deliveryAvailable = rowData.available;
+        const area = rowData.available ? rowData.area : null;
+        const reservationType = rowData.available ? rowData.reservationType : null;
         const latitude = rowData.latitude;
         const longitude = rowData.longitude;
         const title = rowData.available ? '나머지 주소를 입력해 주세요.' : '배달이 불가능한 지역입니다.';
-        const message = rowData.available ? '예) 무슨아파트 몇호, 무슨빌라 몇호 ' : '나머지 주소를 입력하고 확인을 누르면 배달 지역 확장시 알려드리겠습니다.';
+        const message = rowData.available ? '예)  몇호, 무슨빌라 몇호 ' : '나머지 주소를 입력하고 확인을 누르면 배달 지역 확장시 알려드리겠습니다.';
         const deliveryAvailableImage = rowData.available ? require('../img/delivery_available.png') : require('../img/delivery_not_available.png')
 
         return (
             <TouchableHighlight 
-                onPress={ () => this.openAlertAddressDetail(title, message, jibunAddress, roadNameAddress, deliveryAvailable, latitude, longitude)} 
+                onPress={ () => this.openAlertAddressDetail(title, message, jibunAddress, roadNameAddress, deliveryAvailable, area, reservationType, latitude, longitude)} 
                 underlayColor={'transparent'}
             >
             <View style={styles.row}>
