@@ -9,7 +9,7 @@ import React, {
 } from 'react-native';
 import Color from '../../const/Color';
 import Const from '../../const/Const';
-import Font from '../../const/Font';
+import { Font, normalize } from '../../const/Font';
 
 import MenuReviewStars from '../../commonComponent/MenuReviewStars';
 
@@ -92,7 +92,7 @@ let styles = StyleSheet.create({
         marginTop: 5,
     },
     textBlack: {
-        lineHeight: 20 * Const.DEVICE_RATIO,
+        lineHeight: normalize(20),
     }
 
 });

@@ -4,7 +4,7 @@ import { Actions } from 'react-native-router-flux';
 import MyAddressList from './components/MyAddressList';
 import Color from '../const/Color';
 import Const from '../const/Const';
-import Font from '../const/Font';
+import { Font, normalize } from '../const/Font';
 import RequestURL from '../const/RequestURL';
 import {
   fetchCartInfo,
@@ -72,17 +72,17 @@ let styles = StyleSheet.create({
         backgroundColor: Color.PRIMARY_BACKGROUND,
     },
     addBox: {
-    	height: 50 * Const.DEVICE_RATIO,
+    	height: normalize(50),
     	flexDirection: 'row',
     	alignItems: 'center',
     },
     img: {
-    	width: 30 * Const.DEVICE_RATIO,
-    	height: 30 * Const.DEVICE_RATIO,
+    	width: normalize(30),
+    	height: normalize(30),
     	marginLeft: 10,
     },
     addAddressText: {
-    	fontSize: 18 * Const.DEVICE_RATIO,
+    	fontSize: normalize(18),
     	color: Color.PRIMARY_ORANGE,
     	marginLeft: 10,
     },
@@ -92,7 +92,7 @@ let styles = StyleSheet.create({
         resizeMode: 'contain',
     },
     button: {
-        height: 40,
+        height: normalize(40),
         borderColor: Color.PRIMARY_ORANGE,
         backgroundColor: Color.PRIMARY_ORANGE,
         borderWidth: 1,
@@ -100,9 +100,9 @@ let styles = StyleSheet.create({
         overflow: 'hidden',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 20,
-        marginBottom: 20,
-        marginLeft: 10,
-        marginRight: 10,
+        marginTop: normalize(20),
+        marginBottom: normalize(20),
+        marginLeft: normalize(10),
+        marginRight: normalize(10),
     },
 });

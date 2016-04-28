@@ -7,6 +7,7 @@ import React, {
 } from 'react-native';
 
 import Color from '../const/Color';
+import { Font, normalize } from '../const/Font';
 import Const from '../const/Const';
 import Modal from 'react-native-modal';
 
@@ -51,7 +52,7 @@ let styles = StyleSheet.create({
         backgroundColor: 'transparent'
     },
     text: {
-        fontSize: 16 * Const.DEVICE_RATIO,
+        fontSize: normalize(16),
         color: 'white',
     }
 });

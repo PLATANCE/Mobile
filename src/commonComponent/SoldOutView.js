@@ -8,7 +8,7 @@ import React, {
 
 import Color from '../const/Color';
 import Const from '../const/Const';
-import Font from '../const/Font';
+import { Font, normalize } from '../const/Font';
 
 export default class SoldOutView extends React.Component {
 
@@ -57,10 +57,10 @@ let styles = StyleSheet.create({
         backgroundColor: 'transparent',
     },
     textEng: {
-        fontSize: 25 * Const.DEVICE_RATIO,
+        fontSize: normalize(25),
     },
     textKor: {
-        marginTop: 10,
-        fontSize: 17 * Const.DEVICE_RATIO,
+        marginTop: normalize(10),
+        fontSize: normalize(17),
     },
 });

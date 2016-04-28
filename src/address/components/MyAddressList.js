@@ -10,7 +10,7 @@ import React, {
 import { Actions } from 'react-native-router-flux';
 import Color from '../../const/Color';
 import Const from '../../const/Const';
-import Font from '../../const/Font';
+import { Font, normalize } from '../../const/Font';
 import RequestURL from '../../const/RequestURL';
 import Mixpanel from '../../util/mixpanel';
 
@@ -146,15 +146,15 @@ const styles = StyleSheet.create({
   },
   row: {
     padding: 10,
-    height: 80 * Const.DEVICE_RATIO,
+    height: normalize(80),
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'white',
     marginTop: 10,
   },
   img: {
-    width: 35 * Const.DEVICE_RATIO,
-    height: 35 * Const.DEVICE_RATIO,
+    width: normalize(35),
+    height: normalize(35),
   },
   addressBox: {
     flex: 1,

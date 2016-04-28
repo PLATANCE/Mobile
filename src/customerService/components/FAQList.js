@@ -1,7 +1,7 @@
 import React, { Alert, View, ListView, Text, StyleSheet, Image, TouchableHighlight } from 'react-native';
 import Color from '../../const/Color';
 import Const from '../../const/Const';
-import Font from '../../const/Font';
+import { Font, normalize } from '../../const/Font';
 
 export default class FAQList extends React.Component {
     constructor(props) {
@@ -59,13 +59,13 @@ let styles = StyleSheet.create({
         backgroundColor: 'white',
         alignItems: 'center',
         flexDirection: 'row',
-        height: 50 * Const.DEVICE_RATIO,
+        height: normalize(50),
     },
     textBlack: {
         marginLeft: 10,
     },
     img: {
-        width: 10 * Const.DEVICE_RATIO,
-        height: 10 * Const.DEVICE_RATIO,
+        width: normalize(10),
+        height: normalize(10),
     }
 });

@@ -3,7 +3,7 @@ import React, { View, Text, StyleSheet, TouchableHighlight, Image } from 'react-
 import { Actions } from 'react-native-router-flux';
 import Color from '../const/Color';
 import Const from '../const/Const';
-import Font from '../const/Font';
+import { Font, normalize } from '../const/Font';
 import OrderedMenu from './components/OrderedMenu';
 import RequestURL from '../const/RequestURL';
 
@@ -141,14 +141,14 @@ let styles = StyleSheet.create({
         flexDirection: 'row',
     },
     imageStar: {
-        width: 50 * Const.DEVICE_RATIO,
-        height: 50 * Const.DEVICE_RATIO,
+        width: normalize(50),
+        height: normalize(50),
     },
     reviewTextBox: {
         justifyContent: 'center',
         alignItems: 'center',
     },
     textFont20: {
-        fontSize: 20 * Const.DEVICE_RATIO,
+        fontSize: normalize(20),
     },
 });

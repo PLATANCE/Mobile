@@ -7,7 +7,7 @@ import React, {
 } from 'react-native';
 
 import Color from '../const/Color';
-import Font from '../const/Font';
+import { Font } from '../const/Font';
 
 export default class MenuPriceText extends React.Component {
     static propTypes = {

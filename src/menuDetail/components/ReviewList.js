@@ -12,7 +12,7 @@ import React, {
 import MenuReviewStars from '../../commonComponent/MenuReviewStars';
 import Color from '../../const/Color';
 import Const from '../../const/Const';
-import Font from '../../const/Font';
+import { Font, normalize } from '../../const/Font';
 
 export default class ReviewList extends React.Component {
     static propTypes = {
@@ -76,7 +76,7 @@ let styles = StyleSheet.create({
     },
     headerText: {
         textAlign: 'center',
-        fontSize: 18 * Const.DEVICE_RATIO,
+        fontSize: normalize(18),
     },
     row: {
         flex: 1,
@@ -101,7 +101,7 @@ let styles = StyleSheet.create({
         marginTop: 5,
     },
     textBlack: {
-        lineHeight: 20 * Const.DEVICE_RATIO,
+        lineHeight: normalize(20),
     }
 
 });

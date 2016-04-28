@@ -4,7 +4,7 @@ import { Actions } from 'react-native-router-flux';
 
 import Color from '../const/Color';
 import Const from '../const/Const';
-import Font from '../const/Font';
+import { Font, normalize } from '../const/Font';
 import Mixpanel from '../util/mixpanel';
 
 
@@ -93,7 +93,7 @@ let styles = StyleSheet.create({
         padding: 10,
         flexDirection: 'row',
         alignItems: 'center',
-        height: 50 * Const.DEVICE_RATIO,
+        height: normalize(50),
         borderColor: Color.PRIMARY_GRAY,
         backgroundColor: 'white',
     },
@@ -101,7 +101,7 @@ let styles = StyleSheet.create({
         flex: 1,
     },
     img: {
-        width: 10 * Const.DEVICE_RATIO,
-        height: 10 * Const.DEVICE_RATIO,
+        width: normalize(10),
+        height: normalize(10),
     }
 });

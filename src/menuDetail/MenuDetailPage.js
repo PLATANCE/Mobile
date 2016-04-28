@@ -20,7 +20,7 @@ import PlaceholderView from '../commonComponent/PlaceholderView';
 import ReviewList from './components/ReviewList';
 import Color from '../const/Color';
 import Const from '../const/Const';
-import Font from '../const/Font';
+import { Font, normalize } from '../const/Font';
 import RequestURL from '../const/RequestURL';
 import MediaURL from '../const/MediaURL';
 import Mixpanel from '../util/mixpanel';
@@ -143,7 +143,7 @@ export default class MenuDetailPage extends React.Component {
                 >
                     <View style={styles.content} >
                         <View style={styles.menuNameBox}>
-                            <Text style={[Font.DEFAULT_FONT_BLACK_BOLD, { fontSize: 16 * Const.DEVICE_RATIO }]}>{menu.name_menu}</Text>
+                            <Text style={[Font.DEFAULT_FONT_BLACK_BOLD, { fontSize: normalize(16) }]}>{menu.name_menu}</Text>
                             <Text style={[Font.DEFAULT_FONT_BLACK]}>{menu.name_menu_eng}</Text>
                         </View>
                         <View style={styles.menuImageBox}>
@@ -162,7 +162,7 @@ export default class MenuDetailPage extends React.Component {
                                     underlayColor={'transparent'}
                                 >
                                     <View style={styles.reviewTextBox}>
-                                        <Text style={[Font.DEFAULT_FONT_GRAY_UNDERLINE, {marginLeft: 3, fontSize: 15 * Const.DEVICE_RATIO}]}>리뷰보기({menu.review_count})</Text>
+                                        <Text style={[Font.DEFAULT_FONT_GRAY_UNDERLINE, {marginLeft: 3, fontSize: normalize(15)}]}>리뷰보기({menu.review_count})</Text>
                                     </View>
                                 </TouchableHighlight>
                             </View>
@@ -240,7 +240,7 @@ let styles = StyleSheet.create({
         alignItems: 'center'
     },
     menuImageBox: {
-        height: 250 * Const.DEVICE_RATIO,
+        height: normalize(250),
         backgroundColor: 'black',
     },
     menuImage: {
@@ -248,13 +248,13 @@ let styles = StyleSheet.create({
         resizeMode: 'cover',
     },
     amountInCart: {
-        height: 40 * Const.DEVICE_RATIO,
+        height: normalize(40),
         flexDirection: 'row',
         left: 0,
-        top: 210 * Const.DEVICE_RATIO,
+        top: normalize(210),
     },
     reviewPriceBox: {
-        height: 50 * Const.DEVICE_RATIO,
+        height: normalize(50),
         flexDirection: 'row',
         marginTop: 20,
         marginRight: 10,
@@ -272,14 +272,14 @@ let styles = StyleSheet.create({
     },
     cartButtonBox: {
         flex: 2,
-        marginTop: 5 * Const.DEVICE_RATIO,
-        marginBottom: 5 * Const.DEVICE_RATIO,
+        marginTop: normalize(5),
+        marginBottom: normalize(5),
     },
     chefBox: {
         flexDirection: 'row',
-        marginTop: 20 * Const.DEVICE_RATIO,
+        marginTop: normalize(20),
         backgroundColor: 'white',
-        height: 70 * Const.DEVICE_RATIO,
+        height: normalize(70),
         justifyContent: 'center',
     },
     chefImage: {
@@ -297,8 +297,8 @@ let styles = StyleSheet.create({
         marginRight: 10,
     },
     iconView: {
-        width: 35 * Const.DEVICE_RATIO,
-        height: 35 * Const.DEVICE_RATIO,
+        width: normalize(35),
+        height: normalize(35),
         backgroundColor: Color.PRIMARY_ORANGE,
         alignItems: 'center',
         justifyContent: 'center',
@@ -309,8 +309,8 @@ let styles = StyleSheet.create({
         overflow: 'hidden',
     },
     iconImage: {
-        width: 15 * Const.DEVICE_RATIO,
-        height: 15 * Const.DEVICE_RATIO,
+        width: normalize(15),
+        height: normalize(15),
         resizeMode: 'contain',
     },
     menuInfoBox: {
@@ -323,7 +323,7 @@ let styles = StyleSheet.create({
         marginTop: 20,
     },
     showMoreButtonBox: {
-        height: 40 * Const.DEVICE_RATIO,
+        height: normalize(40),
         backgroundColor: Color.PRIMARY_ORANGE,
         borderColor: Color.PRIMARY_ORANGE,
         borderWidth: 1,
@@ -337,10 +337,10 @@ let styles = StyleSheet.create({
         marginRight: 10,
     },
     textBlack: {
-        lineHeight: 20 * Const.DEVICE_RATIO,
+        lineHeight: normalize(20),
     },
     textOrange: {
-        lineHeight: 20 * Const.DEVICE_RATIO,
+        lineHeight: normalize(20),
     },
     reviewTextBox: {
         marginTop: 3,
@@ -352,11 +352,11 @@ let styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.3)',
     },
     textEng: {
-        fontSize: 25 * Const.DEVICE_RATIO,
+        fontSize: normalize(25),
     },
     textKor: {
         marginTop: 10,
-        fontSize: 17 * Const.DEVICE_RATIO,
+        fontSize: normalize(17),
     },
     menuImageNotAlpha: {
         backgroundColor: 'transparent',

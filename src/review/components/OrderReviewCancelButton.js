@@ -9,7 +9,7 @@ import React, {
 import { Actions } from 'react-native-router-flux';
 import Color from '../../const/Color';
 import Const from '../../const/Const';
-import Font from '../../const/Font';
+import { Font } from '../../const/Font';
 
 export default class OrderReviewCancelButton extends React.Component {
     static propTypes = {

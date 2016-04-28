@@ -2,7 +2,7 @@
 import React, { View, Text, StyleSheet, TouchableHighlight, ScrollView, Image } from 'react-native';
 import Color from '../const/Color';
 import Const from '../const/Const';
-import Font from '../const/Font';
+import { Font, normalize } from '../const/Font';
 import Separator from '../commonComponent/Separator';
 import RequestURL from '../const/RequestURL';
 import MediaURL from '../const/MediaURL';
@@ -61,19 +61,19 @@ let styles = StyleSheet.create({
     content: {
     },
     chefImage: {
-        height: 400 * Const.DEVICE_RATIO,
+        height: normalize(400),
         resizeMode: 'contain',
     },
     chefInfoBox: {
         backgroundColor: 'white',
-        padding: 10,
+        padding: normalize(10),
     },
     textBlack: {
-        lineHeight: 20 * Const.DEVICE_RATIO,
-        fontSize: 15,
+        lineHeight: normalize(20),
+        fontSize: normalize(15),
     },
     textGray: {
-        lineHeight: 20 * Const.DEVICE_RATIO,
+        lineHeight: normalize(20),
     },
 
 });

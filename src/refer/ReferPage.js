@@ -4,7 +4,7 @@ import Communications from 'react-native-communications';
 
 import Color from '../const/Color';
 import Const from '../const/Const';
-import Font from '../const/Font';
+import { Font, normalize } from '../const/Font';
 import MediaURL from '../const/MediaURL';
 import RequestURL from '../const/RequestURL';
 
@@ -198,7 +198,7 @@ let styles = StyleSheet.create({
     },
     codeText: {
         color: Color.PRIMARY_ORANGE,
-        fontSize: 50 * Const.DEVICE_RATIO,
+        fontSize: normalize(50),
         fontWeight: 'bold',
     },
     detailTextBox: {
@@ -212,32 +212,32 @@ let styles = StyleSheet.create({
         justifyContent: 'center',
     },
     textWhite: {
-        fontSize: 16 * Const.DEVICE_RATIO,
+        fontSize: normalize(16),
     },
     textDetail: {
         textDecorationLine: 'underline',
-        fontSize: 18 * Const.DEVICE_RATIO,
+        fontSize: normalize(18),
         marginLeft: 5,
     },
     methodBox: {
         flex: 2,
         paddingTop: 10,
         paddingBottom: 10,
-        paddingLeft: 50 * Const.DEVICE_RATIO,
-        paddingRight: 50 * Const.DEVICE_RATIO,
+        paddingLeft: normalize(50),
+        paddingRight: normalize(50),
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
     },
     method: {
-        marginLeft: 20 * Const.DEVICE_RATIO,
-        marginRight: 20 * Const.DEVICE_RATIO,
+        marginLeft: normalize(20),
+        marginRight: normalize(20),
         alignItems: 'center',
         justifyContent: 'center',
     },
     methodImage: {
-        width: 70 * Const.DEVICE_RATIO,
-        height: 70 * Const.DEVICE_RATIO,
+        width: normalize(70),
+        height: normalize(70),
         resizeMode: 'contain',
     }
 });

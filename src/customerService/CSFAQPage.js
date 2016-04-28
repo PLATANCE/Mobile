@@ -3,7 +3,7 @@ import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image } fr
 
 import Color from '../const/Color';
 import Const from '../const/Const';
-import Font from '../const/Font';
+import { Font, normalize } from '../const/Font';
 import RequestURL from '../const/RequestURL';
 import FAQList from './components/FAQList';
 
@@ -36,7 +36,7 @@ export default class CSFAQPage extends React.Component {
             <View style={styles.container}>
                 <View style={styles.content} >
                     <View style={styles.header}>
-                        <Text style={[Font.DEFAULT_FONT_BLACK_BOLD, {fontSize: 17 * Const.DEVICE_RATIO}]}>FAQ</Text>
+                        <Text style={[Font.DEFAULT_FONT_BLACK_BOLD, {fontSize: normalize(17)}]}>FAQ</Text>
                     </View>
                     <FAQList FAQ={this.state.FAQ} />
                 </View>
@@ -55,7 +55,7 @@ let styles = StyleSheet.create({
         flex: 1,
     },
     header: {
-        height: 50,
+        height: normalize(50),
         justifyContent: 'center',
         backgroundColor: 'white',
         padding: 10,

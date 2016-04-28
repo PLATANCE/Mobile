@@ -9,6 +9,7 @@ import React, {
 } from 'react-native';
 
 import Const from '../const/Const';
+import { Font, normalize } from '../const/Font';
 
 export default class MenuReviewStars extends React.Component {
     static propTypes = {
@@ -73,7 +74,7 @@ let styles = StyleSheet.create({
         flexDirection: 'row',
     },
     star: {
-        width: 25 * Const.DEVICE_RATIO,
-        height: 25 * Const.DEVICE_RATIO,
+        width: normalize(25),
+        height: normalize(25),
     }
 });

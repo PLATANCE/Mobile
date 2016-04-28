@@ -1,5 +1,5 @@
 'use strict';
-import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image, ScrollView, Modal, Animated, AsyncStorage, Alert, Linking, Platform } from 'react-native';
+import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image, ScrollView, Modal, Animated, AsyncStorage, Alert, Linking, Platform, InteractionManager } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { Crashlytics } from 'react-native-fabric';
 import DeviceInfo from 'react-native-device-info';
@@ -10,7 +10,7 @@ import Banner from './components/Banner';
 import PageComment from '../commonComponent/PageComment';
 import Color from '../const/Color';
 import Const from '../const/Const';
-import Font from '../const/Font';
+import { Font, normalize } from '../const/Font';
 import RequestURL from '../const/RequestURL';
 import MediaURL from '../const/MediaURL';
 import Mixpanel from '../util/mixpanel';
@@ -50,15 +50,19 @@ export default class DailyMenuPage extends React.Component {
         //this.fetchDailyMenu();
         this.fetchReviewAvailable();
         this.fetchDialog();
-        //this.fetchCheckUpdate();
+        this.fetchCheckUpdate();
         Animated.timing(this.state.offset, {
             duration: 150,
             toValue: 0,
         }).start();
+        InteractionManager.runAfterInteractions( () => {
+            this.fetchDailyMenu(this.props.myAddress);
+        })
     }
 
     fetchDailyMenu(myAddress) {
         const area = myAddress.area;
+        console.log(`${RequestURL.REQUEST_DAILY_MENU}?area=${area}`);
         fetch(`${RequestURL.REQUEST_DAILY_MENU}?area=${area}`)
             .then((response) => response.json())
             .then((responseData) => {
@@ -112,7 +116,7 @@ export default class DailyMenuPage extends React.Component {
     }
     fetchCheckUpdate() {
         const buildNumber = DeviceInfo.getBuildNumber();
-        const param = Platform.OS === 'android' ? 'version_code=' : 'build=' + buildNumber;
+        const param = 'build=' + buildNumber;
         const url = Platform.OS === 'android' ? 
             RequestURL.REQUEST_APP_UPDATE_AVAILABLE_ANDROID + param
             :
@@ -167,7 +171,7 @@ export default class DailyMenuPage extends React.Component {
     }
     render() {
         const { dispatch, cart, myAddress } = this.props;
-        this.fetchDailyMenu(myAddress);
+        
         const isDialogVisible = this.state.isDialogVisible;
         let dialogView = false;
         if(isDialogVisible) {
@@ -198,7 +202,7 @@ export default class DailyMenuPage extends React.Component {
 
         return (
             <View style={styles.container}>
-                <PageComment text='메인 메뉴는 당일 조리, 당일 배송 됩니다 (5:00pm~10:00pm)' />
+                <PageComment text='메인 메뉴는 당일 조리, 당일 배송 됩니다' />
                 <View style={styles.content}>
                     <ScrollView>
                     <Banner style={styles.banner}/>
@@ -255,18 +259,18 @@ let styles = StyleSheet.create({
         alignItems: 'center',
     },
     dialog: {
-        width: 300 * Const.DEVICE_RATIO,
-        height: 300 * Const.DEVICE_RATIO,
+        width: normalize(300),
+        height: normalize(300),
         justifyContent: 'center',
         backgroundColor: Color.PRIMARY_DIALOG_BACKGROUND
     },
     dialogImage: {
-        width: 300 * Const.DEVICE_RATIO,
-        height: 260 * Const.DEVICE_RATIO,
+        width: normalize(300),
+        height: normalize(260),
         resizeMode: 'stretch',
     },
     closeBox: {
-        height: 40 * Const.DEVICE_RATIO,
+        height: normalize(40),
         flexDirection: 'row',
         alignItems: 'center',
     },
@@ -275,14 +279,14 @@ let styles = StyleSheet.create({
         paddingLeft: 10,
     },
     rightCloseBox: {
-        height: 30 * Const.DEVICE_RATIO,
-        width: 50 * Const.DEVICE_RATIO,
+        height: normalize(30),
+        width: normalize(50),
         marginRight: 10,
         backgroundColor: Color.PRIMARY_GRAY,
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
-        borderRadius: 5 * Const.DEVICE_RATIO,
+        borderRadius: normalize(5),
         borderColor: Color.PRIMARY_GRAY,
         overflow: 'hidden',
     },

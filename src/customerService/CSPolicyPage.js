@@ -3,7 +3,7 @@ import React, { View, Text, StyleSheet, WebView, Dimensions } from 'react-native
 
 import Color from '../const/Color';
 import Const from '../const/Const';
-import Font from '../const/Font';
+import { Font } from '../const/Font';
 import Tabs from 'react-native-tabs';
 
 const TERM_URL = 'http://api.plating.co.kr/app/term.html';

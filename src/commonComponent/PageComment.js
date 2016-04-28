@@ -8,7 +8,7 @@ import React, {
 
 import Color from '../const/Color';
 import Const from '../const/Const';
-import Font from '../const/Font';
+import { Font, normalize } from '../const/Font';
 
 export default class PageComment extends React.Component {
     static propTypes = {
@@ -34,7 +34,7 @@ export default class PageComment extends React.Component {
  */
 let styles = StyleSheet.create({
     container: {
-        height: 32 * Const.DEVICE_RATIO,
+        height: normalize(32),
         backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',

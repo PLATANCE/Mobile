@@ -1,7 +1,7 @@
 import React, { View, ListView, Text, StyleSheet, Image, TouchableHighlight } from 'react-native';
 import Color from '../../const/Color';
 import Const from '../../const/Const';
-import Font from '../../const/Font';
+import { Font, normalize } from '../../const/Font';
 
 export default class AddressCoverageList extends React.Component {
     constructor(props) {
@@ -56,10 +56,10 @@ let styles = StyleSheet.create({
         padding: 10,
         backgroundColor: 'white',
         justifyContent: 'center',
-        height: 100 * Const.DEVICE_RATIO,
+        height: normalize(100),
 
     },
     textSize15: {
-        fontSize: 15 * Const.DEVICE_RATIO,
+        fontSize: normalize(15),
     },
 });

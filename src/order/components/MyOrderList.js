@@ -2,7 +2,7 @@ import React, { View, ListView, Text, StyleSheet, Image, TouchableHighlight } fr
 import { Actions } from 'react-native-router-flux';
 import Color from '../../const/Color';
 import Const from '../../const/Const';
-import Font from '../../const/Font';
+import { Font, normalize } from '../../const/Font';
 import Mixpanel from '../../util/mixpanel';
 
 
@@ -103,11 +103,11 @@ let styles = StyleSheet.create({
         justifyContent: 'flex-end',
     },
     button: {
-        width: 85 * Const.DEVICE_RATIO,
-        height: 35 * Const.DEVICE_RATIO,
+        width: normalize(85),
+        height: normalize(35),
         borderColor: Color.PRIMARY_ORANGE,
         backgroundColor: Color.PRIMARY_ORANGE,
-        borderRadius: 5 * Const.DEVICE_RATIO,
+        borderRadius: normalize(5),
         borderWidth: 1,
         overflow: 'hidden',
         alignItems: 'center',
@@ -116,8 +116,8 @@ let styles = StyleSheet.create({
         flexDirection: 'row',
     },
     buttonIconImage: {
-        width: 15 * Const.DEVICE_RATIO,
-        height: 15 * Const.DEVICE_RATIO,
+        width: normalize(15),
+        height: normalize(15),
         resizeMode: 'contain',
         marginRight: 5,
     },

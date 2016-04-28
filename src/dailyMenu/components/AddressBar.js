@@ -12,7 +12,7 @@ import React, {
 import { Actions } from 'react-native-router-flux';
 import Color from '../../const/Color';
 import Const from '../../const/Const';
-import Font from '../../const/Font';
+import { Font, normalize } from '../../const/Font';
 import Mixpanel from '../../util/mixpanel';
 
 export default class AddressBar extends React.Component {
@@ -63,15 +63,15 @@ export default class AddressBar extends React.Component {
  */
 let styles = StyleSheet.create({
     container: {
-        height: 35 * Const.DEVICE_RATIO,
+        height: normalize(35),
         backgroundColor: 'white',
         flexDirection: 'row',
         alignItems: 'center',
     },
     img: {
-        marginLeft: 10 * Const.DEVICE_RATIO,
-        width: 20 * Const.DEVICE_RATIO,
-        height: 20 * Const.DEVICE_RATIO,
+        marginLeft: normalize(10),
+        width: normalize(20),
+        height: normalize(20),
     },
     text: {
         flex: 1,

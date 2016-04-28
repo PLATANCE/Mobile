@@ -6,7 +6,7 @@ import Prompt from 'react-native-prompt';
 import SearchedAddressList from './components/SearchedAddressList';
 import Color from '../const/Color';
 import Const from '../const/Const';
-import Font from '../const/Font';
+import { Font, normalize } from '../const/Font';
 import RequestURL from '../const/RequestURL';
 import Mixpanel from '../util/mixpanel';
 import {
@@ -76,26 +76,26 @@ let styles = StyleSheet.create({
         justifyContent: 'center',
     },
     pageTextBox: {
-        marginTop: 20 * Const.DEVICE_RATIO,
+        marginTop: normalize(20),
         alignItems: 'center',
         justifyContent: 'center',
     },
     textInputBox: {
-        height: 30 * Const.DEVICE_RATIO,
+        height: normalize(10),
         backgroundColor: Color.PRIMARY_BACKGROUND,
         borderColor: Color.PRIMARY_BACKGROUND,
         overflow: 'hidden',
-        marginLeft: 10,
-        marginRight: 10,
-        marginTop: 10,
+        marginLeft: normalize(10),
+        marginRight: normalize(10),
+        marginTop: normalize(10),
     },
     textInput: {
         flex: 1,
-        marginLeft: 10,
+        marginLeft: normalize(10),
     },
     addressCoverBox: {
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 20,
+        marginBottom: normalize(10),
     },
 });

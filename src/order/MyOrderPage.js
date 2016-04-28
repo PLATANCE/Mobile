@@ -4,7 +4,7 @@ import { Actions } from 'react-native-router-flux';
 
 import Color from '../const/Color';
 import Const from '../const/Const';
-import Font from '../const/Font';
+import { Font } from '../const/Font';
 import MyOrderList from './components/MyOrderList';
 import RequestURL from '../const/RequestURL';
 import PlaceholderView from '../commonComponent/PlaceholderView';

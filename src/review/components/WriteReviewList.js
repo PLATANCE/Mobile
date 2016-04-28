@@ -2,7 +2,7 @@ import React, { View, ListView, Text, StyleSheet, Image, TextInput, TouchableHig
 import StarRating from 'react-native-star-rating';
 import Color from '../../const/Color';
 import Const from '../../const/Const';
-import Font from '../../const/Font';
+import { Font, normalize } from '../../const/Font';
 import MediaURL from '../../const/MediaURL';
 import RequestURL from '../../const/RequestURL';
 
@@ -149,11 +149,11 @@ let styles = StyleSheet.create({
     },
     menuBox: {
         flexDirection: 'row',
-        height: 120 * Const.DEVICE_RATIO,
+        height: normalize(120),
     },
     menuImage: {
-        width: 120 * Const.DEVICE_RATIO,
-        height: 120 * Const.DEVICE_RATIO,
+        width: normalize(120),
+        height: normalize(120),
     },
     menuInfoBox: {
         flex: 1,
@@ -168,15 +168,15 @@ let styles = StyleSheet.create({
         alignItems: 'flex-end',
     },
     starImage: {
-        width: 40 * Const.DEVICE_RATIO,
-        height: 40 * Const.DEVICE_RATIO,
+        width: normalize(40),
+        height: normalize(40),
     },
     reviewBox: {
         marginTop: 10,
         alignItems: 'center',
         backgroundColor: Color.PRIMARY_BACKGROUND,
         overflow: 'hidden',
-        height: 70,
+        height: normalize(70),
     },
     textInput: {
         flex: 1,
@@ -188,7 +188,7 @@ let styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         overflow: 'hidden',
-        height: 40 * Const.DEVICE_RATIO,
+        height: normalize(40),
         alignItems: 'center',
         justifyContent: 'center',
     },

@@ -3,7 +3,7 @@ import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image } fr
 
 import Color from '../const/Color';
 import Const from '../const/Const';
-import Font from '../const/Font';
+import { Font, normalize } from '../const/Font';
 import AddressCoverageList from './components/AddressCoverageList';
 
 export default class CSMainPage extends React.Component {
@@ -13,7 +13,7 @@ export default class CSMainPage extends React.Component {
             <View style={styles.container}>
                 <View style={styles.content} >
                     <View style={styles.header}>
-                        <Text style={[Font.DEFAULT_FONT_BLACK_BOLD, {fontSize: 17 * Const.DEVICE_RATIO}]}>배달 가능 지역</Text>
+                        <Text style={[Font.DEFAULT_FONT_BLACK_BOLD, {fontSize: normalize(17)}]}>배달 가능 지역</Text>
                     </View>
                     <AddressCoverageList addressCoverages={this.props.addressCoverages}/>
                 </View>
@@ -32,7 +32,7 @@ let styles = StyleSheet.create({
         flex: 1,
     },
     header: {
-        height: 50,
+        height: normalize(50),
         justifyContent: 'center',
         backgroundColor: 'white',
         padding: 10,

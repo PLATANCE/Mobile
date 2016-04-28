@@ -1,7 +1,7 @@
 import React, { View, ListView, Text, StyleSheet, Image, TouchableHighlight } from 'react-native';
 import Color from '../../const/Color';
 import Const from '../../const/Const';
-import Font from '../../const/Font';
+import { Font, normalize } from '../../const/Font';
 import MediaURL from '../../const/MediaURL';
 import MenuPriceText from '../../commonComponent/MenuPriceText';
 import _ from 'lodash';
@@ -80,7 +80,7 @@ let styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     row: {
-        height: 90 * Const.DEVICE_RATIO,
+        height: normalize(90),
         flexDirection: 'row',
         margin: 10,
     },
@@ -108,8 +108,8 @@ let styles = StyleSheet.create({
         textAlign: 'center',
     },
     iconImage: {
-        width: 25 * Const.DEVICE_RATIO,
-        height: 25 * Const.DEVICE_RATIO,
+        width: normalize(25),
+        height: normalize(25),
         resizeMode: 'contain',
     },
 });

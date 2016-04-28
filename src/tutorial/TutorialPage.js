@@ -6,13 +6,17 @@ import DeviceInfo from 'react-native-device-info';
 import Color from '../const/Color';
 import Const from '../const/Const';
 import RequestURL from '../const/RequestURL';
-import Font from '../const/Font';
+import { Font, normalize } from '../const/Font';
 import Swiper from 'react-native-swiper';
 import userInfo from '../util/userInfo';
 import realm from '../util/realm';
 
+// EEAF6AAE-40D0-4246-90A5-3C9D4E9ED396
 const KakaoManager = NativeModules.KakaoManager,
     FacebookManager = NativeModules.FacebookManager;
+    //KeychainItemWrapper = NativeModules.KeychainItemWrapper;
+    
+    //console.log("sdf" + KeychainItemWrapper.getDeviceUUID());
 
 export default class TutorialPage extends React.Component {
     constructor(props) {
@@ -27,6 +31,7 @@ export default class TutorialPage extends React.Component {
         let facebookID;
         let kakaoID;
         let autoSignUpID = DeviceInfo.getUniqueID();
+
         FacebookManager.getID()
           .then((id) => {facebookID = id; console.log(id);})
           .catch((err) => console.log(err))
@@ -36,16 +41,18 @@ export default class TutorialPage extends React.Component {
               .catch((err) => console.log(err))
               .then(() => {
                 let url = `${RequestURL.CHECK_ALREADY_SIGNED_UP}/?autoSignUpID=${autoSignUpID}`;
-                console.log(url);
+
                 if (facebookID) {
                     url += `&facebookID=${facebookID}`;
                 }
                 if (kakaoID) {
                     url += `&kakaoID=${kakaoID}`;
                 }
+                console.log(url);
                 fetch(url)
                     .then((response) => response.json())
                     .then((json) => {
+                        console.log(json);
                         if(json.userIdx) {
                             const userIdx = json.userIdx
                             const uniqueID = userIdx.toString();
@@ -93,8 +100,8 @@ export default class TutorialPage extends React.Component {
                         source={require('./img/tutorial_1.jpg')}/>
                     <View style={styles.textBox} >
                         <View style={styles.textTopBox} >
-                            <Text style={[Font.DEFAULT_FONT_ORANGE_BOLD, {fontSize: 15 * Const.DEVICE_RATIO}]}>산지직송 지리산 농작물과</Text>
-                            <Text style={[Font.DEFAULT_FONT_ORANGE_BOLD, {fontSize: 15 * Const.DEVICE_RATIO}]}>제철 식재료를 사용합니다.</Text>
+                            <Text style={[Font.DEFAULT_FONT_ORANGE_BOLD, {fontSize: normalize(15)}]}>산지직송 지리산 농작물과</Text>
+                            <Text style={[Font.DEFAULT_FONT_ORANGE_BOLD, {fontSize: normalize(15)}]}>제철 식재료를 사용합니다.</Text>
                             <View style={[styles.line, styles.marginTopBottom]} />
                             <Text style={Font.DEFAULT_FONT_BLACK}>더 이상 우리 몸에 미안해하지 마세요.</Text>
                             <Text style={Font.DEFAULT_FONT_BLACK}>매일 새벽 가장 신선한 식재료를 직접 공수합니다.</Text>
@@ -110,8 +117,8 @@ export default class TutorialPage extends React.Component {
                         source={require('./img/tutorial_2.jpg')}/>
                     <View style={styles.textBox} >
                         <View style={styles.textTopBox} >
-                            <Text style={[Font.DEFAULT_FONT_ORANGE_BOLD, {fontSize: 15 * Const.DEVICE_RATIO}]}>냉동 육류, 어류를</Text>
-                            <Text style={[Font.DEFAULT_FONT_ORANGE_BOLD, {fontSize: 15 * Const.DEVICE_RATIO}]}>사용하지 않습니다.</Text>
+                            <Text style={[Font.DEFAULT_FONT_ORANGE_BOLD, {fontSize: normalize(15)}]}>냉동 육류, 어류를</Text>
+                            <Text style={[Font.DEFAULT_FONT_ORANGE_BOLD, {fontSize: normalize(15)}]}>사용하지 않습니다.</Text>
                             <View style={[styles.line, styles.marginTopBottom]} />
                             <Text style={Font.DEFAULT_FONT_BLACK}>모든 육류, 어류는 냉동되지 않은 상태로</Text>
                             <Text style={Font.DEFAULT_FONT_BLACK}>셰프들이 직접 손질합니다.</Text>
@@ -127,8 +134,8 @@ export default class TutorialPage extends React.Component {
                         source={require('../commonComponent/img/login_main.jpg')}/>
                     <View style={styles.textBox} >
                         <View style={styles.textTopBox} >
-                            <Text style={[Font.DEFAULT_FONT_ORANGE_BOLD, {fontSize: 15 * Const.DEVICE_RATIO}]}>국내 실력파 셰프들이 직접 조리하여</Text>
-                            <Text style={[Font.DEFAULT_FONT_ORANGE_BOLD, {fontSize: 15 * Const.DEVICE_RATIO}]}>정성을 담아 배달합니다.</Text>
+                            <Text style={[Font.DEFAULT_FONT_ORANGE_BOLD, {fontSize: normalize(15)}]}>국내 실력파 셰프들이 직접 조리하여</Text>
+                            <Text style={[Font.DEFAULT_FONT_ORANGE_BOLD, {fontSize: normalize(15)}]}>정성을 담아 배달합니다.</Text>
                             <View style={[styles.line, styles.marginTopBottom]} />
                             <Text style={Font.DEFAULT_FONT_BLACK}>셰프들이 직접 개발한 새로운 메뉴들을 매일 선보입니다.</Text>
                             <Text style={Font.DEFAULT_FONT_BLACK}>신선하게 냉장보관된 상태로 배달되어 전자렌지만 있으면</Text>
@@ -185,8 +192,8 @@ let styles = StyleSheet.create({
         width: 50,
     },
     marginTopBottom: {
-        marginTop: 20 * Const.DEVICE_RATIO,
-        marginBottom: 20 * Const.DEVICE_RATIO,
+        marginTop: normalize(20),
+        marginBottom: normalize(20),
     },
     buttonBoxOrange: {
         height: 50,

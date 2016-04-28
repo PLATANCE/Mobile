@@ -1,7 +1,7 @@
 import React, { View, ListView, Text, StyleSheet, Image, TouchableHighlight, PixelRatio } from 'react-native';
 import Color from '../../const/Color';
 import Const from '../../const/Const';
-import Font from '../../const/Font';
+import { Font, normalize } from '../../const/Font';
 import MediaURL from '../../const/MediaURL';
 import Mixpanel from '../../util/mixpanel';
 import MenuReviewStars from '../../commonComponent/MenuReviewStars';
@@ -159,20 +159,20 @@ export default class DailyMenuList extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 10 * Const.DEVICE_RATIO,
+        marginTop: normalize(10),
     },
     row: {
         justifyContent: 'center',
-        height: 400 * Const.DEVICE_RATIO,
+        height: normalize(400),
         backgroundColor: 'white',
-        marginTop: 10 * Const.DEVICE_RATIO,
-        marginBottom: 10 * Const.DEVICE_RATIO,
+        marginTop: normalize(10),
+        marginBottom: normalize(10),
     },
     menuDetailBox: {
-        height: 350 * Const.DEVICE_RATIO,
+        height: normalize(350),
     },
     menuImageBox: {
-        height: 250 * Const.DEVICE_RATIO,
+        height: normalize(250),
         backgroundColor: 'black',
     },
     menuImage: {
@@ -180,16 +180,16 @@ let styles = StyleSheet.create({
         resizeMode: 'cover',
     },
     amountInCart: {
-        height: 40 * Const.DEVICE_RATIO,
+        height: normalize(40),
         flexDirection: 'row',
         left: 0,
-        top: 210 * Const.DEVICE_RATIO,
+        top: normalize(210),
     },
     menuChefBox: {
-        height: 100 * Const.DEVICE_RATIO,
+        height: normalize(100),
         flexDirection: 'row',
-        paddingLeft: 10,
-        paddingRight: 10,
+        paddingLeft: normalize(10),
+        paddingRight: normalize(10),
     },
     chefImageBox: {
         flex: 1,
@@ -201,8 +201,8 @@ let styles = StyleSheet.create({
     menuChef: {
         flex: 4,
         paddingLeft: 5,
-        paddingBottom: 10 * Const.DEVICE_RATIO,
-        paddingTop: 10 * Const.DEVICE_RATIO,
+        paddingBottom: normalize(10),
+        paddingTop: normalize(10),
     },
     textBlack: {
         color: Color.PRIMARY_BLACK,
@@ -217,7 +217,7 @@ let styles = StyleSheet.create({
         flexDirection: 'row',
     },
     reviewPriceBox: {
-        height: 50  * Const.DEVICE_RATIO,
+        height: normalize(50),
         flexDirection: 'row',
         paddingLeft: 10,
         paddingRight: 10, 
@@ -235,7 +235,7 @@ let styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-end',
         alignItems: 'center',
-        marginRight: 10,
+        marginRight: normalize(10),
     },
     cartButtonBox: {
         flexDirection: 'row',
@@ -243,8 +243,8 @@ let styles = StyleSheet.create({
         justifyContent: 'center',
     },
     iconView: {
-        width: 35 * Const.DEVICE_RATIO,
-        height: 35 * Const.DEVICE_RATIO,
+        width: normalize(35),
+        height: normalize(35),
         backgroundColor: Color.PRIMARY_ORANGE,
         alignItems: 'center',
         justifyContent: 'center',
@@ -255,8 +255,8 @@ let styles = StyleSheet.create({
         marginRight: 0,
     },
     iconImage: {
-        width: 15 * Const.DEVICE_RATIO,
-        height: 15 * Const.DEVICE_RATIO,
+        width: normalize(15),
+        height: normalize(15),
         resizeMode: 'contain',
     },
 });

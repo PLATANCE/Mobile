@@ -1,6 +1,7 @@
 import React, { View, ListView, Text, StyleSheet, Image, TouchableHighlight, Alert, PixelRatio } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Color from '../../const/Color';
+import { normalize } from '../../const/Font';
 import Const from '../../const/Const';
 import MediaURL from '../../const/MediaURL';
 import RequestURL from '../../const/RequestURL';
@@ -130,7 +131,7 @@ let styles = StyleSheet.create({
     },
     img: {
         width: Const.WIDTH,
-        height: 175,
+        height: normalize(175),
         resizeMode: 'contain',
     }
 });

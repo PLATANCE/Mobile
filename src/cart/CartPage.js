@@ -18,7 +18,7 @@ import PlaceholderView from '../commonComponent/PlaceholderView';
 import CartMenuList from './components/CartMenuList';
 import Color from '../const/Color';
 import Const from '../const/Const';
-import Font from '../const/Font';
+import { Font } from '../const/Font';
 import RequestURL from '../const/RequestURL';
 import {
   addItemToCart,
@@ -566,7 +566,7 @@ export default class CartPage extends React.Component {
               onPress={() => this.openAlertInputPoint() }
             >
               <View style={styles.row}>
-                <Text style={Font.DEFAULT_FONT_BLACK}>포인트 할인<Text style={Font.DEFAULT_FONT_ORANGE}>({this.commaPrice(point, 'p')} 보유)</Text></Text>
+                <Text style={Font.DEFAULT_FONT_BLACK}>포인트 할인 <Text style={Font.DEFAULT_FONT_ORANGE}>({this.commaPrice(point, 'p')} 보유)</Text></Text>
                 <Text style={[styles.data, Font.DEFAULT_FONT_BLACK]}>{displayAvailablePoint}</Text>
                 <Image style={styles.iconDetailImage} source={require('../commonComponent/img/icon_input.png')} />
               </View>
@@ -577,7 +577,7 @@ export default class CartPage extends React.Component {
               onPress={() => Actions.MyCouponPage({disable: true}) }
             >
               <View style={styles.row}>
-                <Text style={Font.DEFAULT_FONT_BLACK}>쿠폰 할인<Text style={Font.DEFAULT_FONT_ORANGE}>({this.state.cntCoupon}개 보유)</Text></Text>
+                <Text style={Font.DEFAULT_FONT_BLACK}>쿠폰 할인 <Text style={Font.DEFAULT_FONT_ORANGE}>({this.state.cntCoupon}개 보유)</Text></Text>
                 <Text style={[styles.data, Font.DEFAULT_FONT_BLACK]}>{displayDiscountCouponPrice}</Text>
                 <Image style={styles.iconDetailImage} source={require('../commonComponent/img/icon_input.png')} />
               </View>

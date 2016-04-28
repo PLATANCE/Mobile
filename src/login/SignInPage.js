@@ -4,7 +4,7 @@ import { Actions } from 'react-native-router-flux';
 import DeviceInfo from 'react-native-device-info';
 import Color from '../const/Color';
 import Const from '../const/Const';
-import Font from '../const/Font';
+import { Font, normalize } from '../const/Font';
 import PushNotification from '../app/PushNotification';
 import RequestURL from '../const/RequestURL';
 import realm from '../util/realm';
@@ -161,22 +161,22 @@ export default class SignInPage extends React.Component {
                                 source={require('./img/kakao.png')} />
                         </TouchableHighlight>
                         <TouchableHighlight onPress={this.autoLogin.bind(this)} underlayColor={'transparent'}>
-                            <Text style={[Font.DEFAULT_FONT_ORANGE_UNDERLINE, {fontSize: 14 * Const.DEVICE_RATIO,marginTop: 10,}]}>로그인 없이 시작하기</Text>
+                            <Text style={[Font.DEFAULT_FONT_ORANGE_UNDERLINE, {fontSize: normalize(14),marginTop: 10,}]}>로그인 없이 시작하기</Text>
                         </TouchableHighlight>
                     </View>
                     <View style={styles.textBox}>
                         <View style={styles.textBoxRow}>
-                            <Text style={[Font.DEFAULT_FONT_BLACK], {fontSize: 10 * Const.DEVICE_RATIO}}>회원가입과 동시에 플레이팅의</Text>
+                            <Text style={[Font.DEFAULT_FONT_BLACK], {fontSize: normalize(10)}}>회원가입과 동시에 플레이팅의</Text>
                             <TouchableHighlight onPress={() => Actions.CSPolicyPage({uri: 'http://api.plating.co.kr/app/term.html', page: 'servicePolicy'})} underlayColor={'transparent'}>
-                                <Text style={[Font.DEFAULT_FONT_ORANGE_UNDERLINE, {fontSize: 10 * Const.DEVICE_RATIO}]}> 서비스 이용약관</Text>
+                                <Text style={[Font.DEFAULT_FONT_ORANGE_UNDERLINE, {fontSize: normalize(10)}]}> 서비스 이용약관</Text>
                             </TouchableHighlight>
                         </View>
 
                         <View style={styles.textBoxRow}>
                             <TouchableHighlight onPress={() => Actions.CSPolicyPage({uri: 'http://api.plating.co.kr/app/privacy.html', page: 'privacyPolicy'})} underlayColor={'transparent'}>
-                                <Text style={[Font.DEFAULT_FONT_ORANGE_UNDERLINE, {fontSize: 10 * Const.DEVICE_RATIO,}]}>개인정보 취급방침</Text>
+                                <Text style={[Font.DEFAULT_FONT_ORANGE_UNDERLINE, {fontSize: normalize(10),}]}>개인정보 취급방침</Text>
                             </TouchableHighlight>
-                            <Text style={[Font.DEFAULT_FONT_BLACK], {fontSize: 10 * Const.DEVICE_RATIO}}>에 동의하시게 됩니다.</Text>
+                            <Text style={[Font.DEFAULT_FONT_BLACK], {fontSize: normalize(10)}}>에 동의하시게 됩니다.</Text>
                         </View>
                     </View>
                 </View>
@@ -216,8 +216,8 @@ let styles = StyleSheet.create({
         flexDirection: 'row',
     },
     button: {
-        width: 300 * Const.DEVICE_RATIO,
-        height: 50 * Const.DEVICE_RATIO,
+        width: normalize(300),
+        height: normalize(50),
         resizeMode: 'contain',
         marginBottom: 10,
     },

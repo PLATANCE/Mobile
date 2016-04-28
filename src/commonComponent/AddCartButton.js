@@ -9,7 +9,7 @@ import React, {
 } from 'react-native';
 
 import Color from '../const/Color';
-import Font from '../const/Font';
+import { Font } from '../const/Font';
 
 export default class AddCartButton extends React.Component {
     render() {

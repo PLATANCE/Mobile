@@ -2,7 +2,7 @@ import React, { Text, View, Component, PropTypes, StyleSheet, Image, TouchableHi
 import Drawer from 'react-native-drawer';
 import Color from '../const/Color';
 import Const from '../const/Const';
-import Font from '../const/Font';
+import { Font, normalize } from '../const/Font';
 import Separator from './Separator';
 
 import {
@@ -208,45 +208,45 @@ let styles = StyleSheet.create({
     modalPoint: {
         justifyContent: 'center',
         alignItems: 'center',
-        width: 250,
-        height: 250,
+        width: normalize(250),
+        height: normalize(250),
         backgroundColor: 'white',
     },
     headerBox: {
-        height: 150 * Const.DEVICE_RATIO,
+        height: normalize(150),
         justifyContent: 'center',
         backgroundColor: Color.PRIMARY_ORANGE,
-        paddingLeft: 20,
+        paddingLeft: normalize(20),
     },
     imageLogo: {
-        height: 20 * Const.DEVICE_RATIO,
-        width: 170 * Const.DEVICE_RATIO,
-        marginTop: 32,
+        height: normalize(20),
+        width: normalize(170),
+        marginTop: normalize(32),
         resizeMode: 'contain',
     },
     pointText: {
-        marginTop: 10,
+        marginTop: normalize(10),
     },
     drawerRowBox: {
         flex: 1,
-        marginLeft: 20,
+        marginLeft: normalize(20),
     },
     drawerRow: {
-        height: 60 * Const.DEVICE_RATIO,
+        height: normalize(60),
         borderBottomWidth: 0.2,
         borderColor: Color.PRIMARY_GRAY,
         alignItems: 'center',
         flexDirection: 'row',
-        marginRight: 10,
+        marginRight: normalize(10),
     },
     drawerImage: {
-        width: 20 * Const.DEVICE_RATIO,
-        height: 20 * Const.DEVICE_RATIO,
+        width: normalize(20),
+        height: normalize(20),
     },
     footerBox: {
-        height: 100 * Const.DEVICE_RATIO,
+        height: normalize(100),
         backgroundColor: Color.PRIMARY_ORANGE,
         justifyContent: 'center',
-        paddingLeft: 20,
+        paddingLeft: normalize(20),
     },
 });
