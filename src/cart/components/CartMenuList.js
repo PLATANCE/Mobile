@@ -80,22 +80,21 @@ let styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     row: {
-        height: normalize(90),
+        height: normalize(100),
         flexDirection: 'row',
-        margin: 10,
+        padding: normalize(16),
     },
     menuImage: {
-        flex: 2,
+        width: normalize(80),
         resizeMode: 'cover',
     },
     menuInfoBox: {
-        flex: 5,
-        marginLeft: 10,
+        flex: 1,
+        marginLeft: normalize(10),
     },
     priceBox: {
         flexDirection: 'row',
         alignItems: 'flex-end',
-        marginBottom: 5,
     },
     setAmountBox: {
         flexDirection: 'row',

@@ -13,10 +13,12 @@ import realm from '../util/realm';
 
 // EEAF6AAE-40D0-4246-90A5-3C9D4E9ED396
 const KakaoManager = NativeModules.KakaoManager,
-    FacebookManager = NativeModules.FacebookManager;
-    //KeychainItemWrapper = NativeModules.KeychainItemWrapper;
+    FacebookManager = NativeModules.FacebookManager,
+    KeychainManager = NativeModules.KeychainManager;
     
-    //console.log("sdf" + KeychainItemWrapper.getDeviceUUID());
+    KeychainManager.getDeviceUUID()
+        .then((data) => { console.log(data); })
+        .catch((err) => { console.log(err); });
 
 export default class TutorialPage extends React.Component {
     constructor(props) {
@@ -40,36 +42,41 @@ export default class TutorialPage extends React.Component {
               .then((id) => {kakaoID = id;})
               .catch((err) => console.log(err))
               .then(() => {
-                let url = `${RequestURL.CHECK_ALREADY_SIGNED_UP}/?autoSignUpID=${autoSignUpID}`;
+                KeychainManager.getDeviceUUID()
+                  .then((id) => {autoSignUpID = id; console.log(id);})
+                  .catch((err) => console.log(err))
+                  .then(() => {
+                    let url = `${RequestURL.CHECK_ALREADY_SIGNED_UP}/?autoSignUpID=${autoSignUpID}`;
 
-                if (facebookID) {
-                    url += `&facebookID=${facebookID}`;
-                }
-                if (kakaoID) {
-                    url += `&kakaoID=${kakaoID}`;
-                }
-                console.log(url);
-                fetch(url)
-                    .then((response) => response.json())
-                    .then((json) => {
+                    if (facebookID) {
+                      url += `&facebookID=${facebookID}`;
+                    }
+                    if (kakaoID) {
+                      url += `&kakaoID=${kakaoID}`;
+                    }
+                    console.log(url);
+                    fetch(url)
+                      .then((response) => response.json())
+                      .then((json) => {
                         console.log(json);
                         if(json.userIdx) {
-                            const userIdx = json.userIdx
-                            const uniqueID = userIdx.toString();
-                            Mixpanel.createAlias(uniqueID);
-                            Mixpanel.identify(uniqueID);
-                            Mixpanel.set("$name", uniqueID);
+                          const userIdx = json.userIdx
+                          const uniqueID = userIdx.toString();
+                          Mixpanel.createAlias(uniqueID);
+                          Mixpanel.identify(uniqueID);
+                          Mixpanel.set("$name", uniqueID);
 
-                            realm.write(() => {
-                                userInfo.idx = parseInt(userIdx);
-                            });
+                          realm.write(() => {
+                            userInfo.idx = parseInt(userIdx);
+                          });
 
-                            Actions.DrawerPage();
-                        }
-                    })
-                    .catch((error) => {
+                          Actions.DrawerPage();
+                          }
+                      })
+                      .catch((error) => {
                         console.warn(error);
-                    })
+                      })
+                  });
               });
           });
     }
@@ -169,7 +176,7 @@ let styles = StyleSheet.create({
     img: {
         width: Const.WIDTH,
         height: Const.HEIGHT * 0.6,
-        resizeMode: 'contain',
+        resizeMode: 'cover',
     },
     textBox: {
         width: Const.WIDTH,

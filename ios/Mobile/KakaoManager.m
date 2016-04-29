@@ -94,7 +94,7 @@ RCT_REMAP_METHOD(getID,
         } else {
           // failed
           NSLog(@"kakao getUserInfo failed.");
-          reject(@"kakao getUserInfo fail", @"getUserInfo failed. need debuging.", error);
+          reject(@"kakao getUserInfo fail", @"getUserInfo failed.", error);
         }
       }];
       

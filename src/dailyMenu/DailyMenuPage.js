@@ -61,8 +61,8 @@ export default class DailyMenuPage extends React.Component {
     }
 
     fetchDailyMenu(myAddress) {
-        const area = myAddress.area;
-        console.log(`${RequestURL.REQUEST_DAILY_MENU}?area=${area}`);
+        const area = (myAddress) ? myAddress.area : 'seoul-1';
+        //console.log(`${RequestURL.REQUEST_DAILY_MENU}?area=${area}`);
         fetch(`${RequestURL.REQUEST_DAILY_MENU}?area=${area}`)
             .then((response) => response.json())
             .then((responseData) => {

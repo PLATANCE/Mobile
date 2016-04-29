@@ -4,7 +4,7 @@ import sha256 from 'sha256';
 import Const from '../const/Const';
 
 import userInfo from '../util/userInfo';
-const userIdx = userInfo.idx;
+
 
 export default class AddCardPage extends React.Component {
     constructor(props) {
@@ -42,6 +42,7 @@ export default class AddCardPage extends React.Component {
 
     render() {
         let uri = this.state.uri;
+        const userIdx = userInfo.idx;
         const mId = 'plating001';
         const buyerName = userIdx;
         const goodName = '플레이팅 카드등록';

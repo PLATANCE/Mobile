@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   row: {
-    padding: 10,
+    padding: normalize(16),
     height: normalize(80),
     flexDirection: 'row',
     alignItems: 'center',
@@ -153,12 +153,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   img: {
-    width: normalize(35),
-    height: normalize(35),
+    width: normalize(30),
+    height: normalize(30),
   },
   addressBox: {
     flex: 1,
-    marginLeft: 10,
+    marginLeft: normalize(10),
     justifyContent: 'center',
   },
 });

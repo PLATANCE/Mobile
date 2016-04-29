@@ -3,7 +3,7 @@ import React, { View, Text, StyleSheet, WebView, Dimensions } from 'react-native
 
 import Color from '../const/Color';
 import Const from '../const/Const';
-import { Font } from '../const/Font';
+import { Font, normalize } from '../const/Font';
 import Tabs from 'react-native-tabs';
 
 const TERM_URL = 'http://api.plating.co.kr/app/term.html';
@@ -86,10 +86,9 @@ let styles = StyleSheet.create({
     textBox: {
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 10,
+        padding: normalize(16),
     },
     webView: {
         width: Const.WIDTH,
-        margin: 10,
     }
 });

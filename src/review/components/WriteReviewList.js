@@ -45,6 +45,7 @@ export default class WriteReviewList extends React.Component {
             rating: rating,
             comment: comment,
         };
+        console.log(param);
         if(enableButton) {
             fetch(RequestURL.SUBMIT_WRITE_REVIEW, {
                 method: 'POST',
@@ -145,7 +146,7 @@ let styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 10,
         backgroundColor: 'white',
-        padding: 10,
+        padding: normalize(16),
     },
     menuBox: {
         flexDirection: 'row',

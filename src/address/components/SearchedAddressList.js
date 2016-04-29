@@ -127,7 +127,6 @@ export default class SearchedAddressList extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
-        margin: 10,
     },
     row: {
         flex: 1,
@@ -135,6 +134,7 @@ let styles = StyleSheet.create({
         borderBottomWidth: 0.5,
         paddingTop: 10,
         paddingBottom: 10,
+        paddingLeft: normalize(16),
         borderColor: Color.PRIMARY_GRAY,
         alignItems: 'center',
     },
@@ -145,7 +145,7 @@ let styles = StyleSheet.create({
     },
     addressBox: {
         flex: 1,
-        marginLeft: 10,
+        marginLeft: normalize(10),
         justifyContent: 'center',
     }
 });

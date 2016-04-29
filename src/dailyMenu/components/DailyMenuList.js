@@ -91,56 +91,56 @@ export default class DailyMenuList extends React.Component {
         }
         
         return (
-
-            <View style={styles.row}>
-                <View style={styles.menuDetailBox}>
-                    <TouchableHighlight style={styles.menuImageBox} 
-                        onPress={ () => this.moveToMenuDetailPage(rowData.menu_idx, rowData.idx, rowData.stock, menuNameKor, rowData.is_event) }
-                        underlayColor={'transparent'}>
+            <TouchableHighlight
+                onPress={ () => this.moveToMenuDetailPage(rowData.menu_idx, rowData.idx, rowData.stock, menuNameKor, rowData.is_event) }
+                underlayColor={'transparent'}
+            >
+                <View style={styles.row}>
+                    <View style={styles.menuDetailBox}>
                         <Image style={styles.menuImage}
                             source={{uri: menuURL}} >
                             {contentInnerMenu}
                         </Image>
-                    </TouchableHighlight>
-                    <View style={styles.menuChefBox}>
-                        <View style={styles.chefImageBox}>
-                            <Image style={styles.chefImage}
-                                source={{uri: chefURL}} /> 
-                        </View>
-                        <View style={styles.menuChef}>
-                            <Text style={Font.DEFAULT_FONT_BLACK_BOLD}>{menuNameKor}</Text>
-                            <Text style={Font.DEFAULT_FONT_BLACK}>{menuNameEng}</Text>
-                            <View style={styles.chefNameBox}>
-                                <Text style={Font.DEFAULT_FONT_ORANGE}>{rowData.name_chef}</Text>
+                        <View style={styles.menuChefBox}>
+                            <View style={styles.chefImageBox}>
+                                <Image style={styles.chefImage}
+                                    source={{uri: chefURL}} /> 
+                            </View>
+                            <View style={styles.menuChef}>
+                                <Text style={[Font.DEFAULT_FONT_BLACK_BOLD, {fontSize: normalize(16)}]}>{menuNameKor}</Text>
+                                <Text style={Font.DEFAULT_FONT_BLACK}>{menuNameEng}</Text>
+                                <View style={styles.chefNameBox}>
+                                    <Text style={Font.DEFAULT_FONT_ORANGE}>{rowData.name_chef}</Text>
+                                </View>
                             </View>
                         </View>
                     </View>
+                    
+                    <View style={styles.reviewPriceBox}>
+                        <View style={styles.reviewBox}>
+                            <MenuReviewStars score={rowData.rating}/>
+                            <Text style={[styles.reviewCountText, Font.DEFAULT_FONT_GRAY]}>({rowData.review_count})</Text>
+                        </View>
+                        <View style={styles.priceBox}>
+                            <MenuPriceText originalPrice={rowData.price} sellingPrice={rowData.alt_price} align={{textAlign: 'right'}}/>
+                        </View>
+                        <View style={styles.cartButtonBox}>
+                            <View style={[styles.iconView, {marginRight: 5}]} >
+                                <Image style={styles.iconImage} 
+                                    source={require('../../commonComponent/img/icon_detail.png')}/>
+                            </View>
+                            <TouchableHighlight style={styles.iconView} 
+                                underlayColor={Color.PRIMARY_ORANGE} 
+                                onPress={ () => addItemToCart(rowData.idx, rowData.menu_idx, rowData.price, rowData.alt_price, rowData.image_url_menu, menuNameKor, menuNameEng, enableAddButton) } >
+                                <Image style={styles.iconImage} 
+                                    source={require('../../commonComponent/img/icon_plus.png')}/>
+                            </TouchableHighlight>
+                        </View>
+                    </View>
+                    <View style={styles.marginBox}>
+                    </View>
                 </View>
-                
-                <View style={styles.reviewPriceBox}>
-                    <View style={styles.reviewBox}>
-                        <MenuReviewStars score={rowData.rating}/>
-                        <Text style={[styles.reviewCountText, Font.DEFAULT_FONT_GRAY]}>({rowData.review_count})</Text>
-                    </View>
-                    <View style={styles.priceBox}>
-                        <MenuPriceText originalPrice={rowData.price} sellingPrice={rowData.alt_price} align={{textAlign: 'right'}}/>
-                    </View>
-                    <View style={styles.cartButtonBox}>
-                        <TouchableHighlight style={[styles.iconView, {marginRight: 5}]} 
-                            onPress={ () => this.moveToMenuDetailPage(rowData.menu_idx, rowData.idx, rowData.stock, menuNameKor) }
-                            underlayColor={Color.PRIMARY_ORANGE}>
-                            <Image style={styles.iconImage} 
-                                source={require('../../commonComponent/img/icon_detail.png')}/>
-                        </TouchableHighlight>
-                        <TouchableHighlight style={styles.iconView} 
-                            underlayColor={Color.PRIMARY_ORANGE} 
-                            onPress={ () => addItemToCart(rowData.idx, rowData.menu_idx, rowData.price, rowData.alt_price, rowData.image_url_menu, menuNameKor, menuNameEng, enableAddButton) } >
-                            <Image style={styles.iconImage} 
-                                source={require('../../commonComponent/img/icon_plus.png')}/>
-                        </TouchableHighlight>
-                    </View>
-                </View>
-            </View>
+            </TouchableHighlight>
         );
     }
 
@@ -188,8 +188,8 @@ let styles = StyleSheet.create({
     menuChefBox: {
         height: normalize(100),
         flexDirection: 'row',
-        paddingLeft: normalize(10),
-        paddingRight: normalize(10),
+        marginLeft: normalize(16),
+        marginRight: normalize(16),
     },
     chefImageBox: {
         flex: 1,
@@ -200,9 +200,9 @@ let styles = StyleSheet.create({
     },
     menuChef: {
         flex: 4,
-        paddingLeft: 5,
-        paddingBottom: normalize(10),
-        paddingTop: normalize(10),
+        paddingLeft: normalize(10),
+        marginBottom: normalize(20),
+        marginTop: normalize(20),
     },
     textBlack: {
         color: Color.PRIMARY_BLACK,
@@ -217,10 +217,10 @@ let styles = StyleSheet.create({
         flexDirection: 'row',
     },
     reviewPriceBox: {
-        height: normalize(50),
+        flex: 1,
         flexDirection: 'row',
-        paddingLeft: 10,
-        paddingRight: 10, 
+        paddingLeft: normalize(16),
+        paddingRight: normalize(16),
     },
     reviewBox: {
         flexDirection: 'row',
@@ -259,4 +259,7 @@ let styles = StyleSheet.create({
         height: normalize(15),
         resizeMode: 'contain',
     },
+    marginBox: {
+        height: normalize(6),
+    }
 });

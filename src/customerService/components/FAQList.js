@@ -55,7 +55,7 @@ export default class FAQList extends React.Component {
 let styles = StyleSheet.create({
     row: {
         marginTop: 10,
-        padding: 10,
+        padding: normalize(16),
         backgroundColor: 'white',
         alignItems: 'center',
         flexDirection: 'row',

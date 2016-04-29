@@ -79,7 +79,7 @@ class SideDrawerContent extends Component {
     openPromptDialog() {
         AlertIOS.prompt(
             '코드 등록',
-            '등록하신 코드는 포인트로 전환되어 결제할 때 사용됩니다.',
+            '등록하신 코드는 포인트 혹은 쿠폰으로 전환되어 결제할 때 사용됩니다.',
             [
                 { text: '취소', onPress: () => Mixpanel.trackWithProperties('Enter Promo Code', { entered: false }) },
                 { text: '등록', onPress: (code) => this.submitCode(code) },
@@ -122,24 +122,25 @@ class SideDrawerContent extends Component {
         let referPriceText = this.state.referPriceText + ' + ' + this.state.referPriceText + ' 포인트 지급';
 
         const rowInfo = [
+            { text: "내 쿠폰함 ", cnt: cntCouponText, image: require('./img/icon_left_coupon.png'), action: () => { Actions.MyCouponPage({ disable: false }), Mixpanel.track('View My Coupons') } },
             { text: "주문 내역", image: require('./img/icon_left_order.png'), action: () => { Actions.MyOrderPage(), Mixpanel.track('View Order History') } },
-            { text: "내 쿠폰함 " + cntCouponText, image: require('./img/icon_left_coupon.png'), action: () => { Actions.MyCouponPage({ disable: false }), Mixpanel.track('View My Coupons') } },
-            { text: "포인트·코드 등록", image: require('./img/icon_left_won.png'), action: () => this.openPromptDialog()},
             { text: "고객 센터", image: require('./img/icon_left_headset.png'), action: Actions.CSMainPage },
-            { text: "Plating 이란?", image: require('./img/icon_left_meal.png'), action: () => { Actions.PlatingPage(), Mixpanel.track('View Plating Intro') } },
         ];
         
         var drawerRow = [];
         rowInfo.forEach(row => {
-            let text = row.text;
-            let image = row.image;
-            let action = row.action;
+            const text = row.text;
+            const image = row.image;
+            const action = row.action;
+            const cnt = row.cnt;
 
             drawerRow.push(<TouchableHighlight key={text} onPress={action} underlayColor={'transparent'}>
                                 <View style={styles.drawerRow}>
                                     <Image style={styles.drawerImage}
                                         source={image}/>
-                                    <Text style={[Font.DEFAULT_FONT_BLACK, { marginLeft: 10 }]}>{text}</Text>
+                                    <Text style={[Font.DEFAULT_FONT_BLACK, { marginLeft: 10 }]}>{text}
+                                        <Text style={Font.DEFAULT_FONT_ORANGE}>{cnt}</Text>
+                                    </Text>
                                 </View>
                             </TouchableHighlight>);
         });
@@ -148,7 +149,14 @@ class SideDrawerContent extends Component {
                 <View style={styles.headerBox}>
                     <Image style={styles.imageLogo}
                         source={require('./img/plating_logo.png')}/>
-                    <Text style={[styles.pointText, Font.DEFAULT_FONT_WHITE]}>내 포인트: {this.commaPrice(this.state.point)}p</Text>
+                    <Text style={[styles.pointText, Font.DEFAULT_FONT_WHITE]}>내 포인트:
+                        <Text style={{fontSize: normalize(20)}}> {this.commaPrice(this.state.point)}p</Text></Text>
+                    <TouchableHighlight
+                        onPress={ () => this.openPromptDialog() }>
+                        <View style={styles.actionPoint}>
+                            <Text style={[{margin: normalize(10)}, Font.DEFAULT_FONT_WHITE ]}>+ 포인트·쿠폰코드 등록</Text>
+                        </View>
+                    </TouchableHighlight>
                 </View>
                 <View style={styles.drawerRowBox} >
                    {drawerRow}
@@ -158,9 +166,12 @@ class SideDrawerContent extends Component {
                     underlayColor={'transparent'}
                     >
                     <View style={styles.footerBox}>
-                        <Text style={[Font.DEFAULT_FONT_WHITE_BOLD, { fontSize: 18 }]}>친구 초대</Text>
-                        <Text style={Font.DEFAULT_FONT_WHITE_BOLD}>{referPriceText}</Text>
-                        <Text style={[Font.DEFAULT_FONT_WHITE, { textDecorationLine: 'underline' }]}>초대하러 가기</Text>
+                        <Image style={styles.footerImage}
+                            source={require('./img/invite_friend.png')} />
+                        <View style={styles.footerTextBox}>
+                            <Text style={[Font.DEFAULT_FONT_WHITE, { textDecorationLine: 'underline', fontSize: normalize(20) }]}>친구 초대하기</Text>
+                            <Text style={[Font.DEFAULT_FONT_WHITE, {marginTop: normalize(5)}]}>{referPriceText}</Text>
+                        </View>
                     </View>
                 </TouchableHighlight>
             </View>
@@ -213,10 +224,10 @@ let styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     headerBox: {
-        height: normalize(150),
+        height: normalize(180),
         justifyContent: 'center',
+        alignItems: 'center',
         backgroundColor: Color.PRIMARY_ORANGE,
-        paddingLeft: normalize(20),
     },
     imageLogo: {
         height: normalize(20),
@@ -225,7 +236,21 @@ let styles = StyleSheet.create({
         resizeMode: 'contain',
     },
     pointText: {
+        marginTop: normalize(30),
+    },
+    actionPoint: {
+        height: normalize(40),
+        width: normalize(170),
+        borderColor: 'white',
+        borderWidth: 1,
+        borderRadius: normalize(5),
+        overflow: 'hidden',
+        justifyContent: 'center',
+        alignItems: 'center',
         marginTop: normalize(10),
+        marginBottom: normalize(10),
+        marginLeft: normalize(16),
+        marginRight: normalize(16),
     },
     drawerRowBox: {
         flex: 1,
@@ -246,7 +271,17 @@ let styles = StyleSheet.create({
     footerBox: {
         height: normalize(100),
         backgroundColor: Color.PRIMARY_ORANGE,
-        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
         paddingLeft: normalize(20),
     },
+    footerImage: {
+        width: normalize(50),
+        height: normalize(50),
+    },
+    footerTextBox: {
+        justifyContent: 'center',
+        marginLeft: normalize(10),
+    },
+    
 });

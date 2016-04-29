@@ -72,7 +72,7 @@ export default class ReviewList extends React.Component {
 let styles = StyleSheet.create({
     headerBox: {
         backgroundColor: 'white',
-        padding: 10,
+        padding: normalize(10),
     },
     headerText: {
         textAlign: 'center',
@@ -80,8 +80,8 @@ let styles = StyleSheet.create({
     },
     row: {
         flex: 1,
-        padding: 10,
-        marginBottom: 10,
+        padding: normalize(16),
+        marginBottom: normalize(10),
         backgroundColor: 'white',
     },
     scoreDateBox: {

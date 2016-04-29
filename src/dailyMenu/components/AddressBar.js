@@ -17,15 +17,15 @@ import Mixpanel from '../../util/mixpanel';
 
 export default class AddressBar extends React.Component {
     static propTypes = {
-        myAddress: PropTypes.object.isRequired,
+        myAddress: PropTypes.object,
     };
 
     render() {
-        let {
+        const {
             myAddress,
         } = this.props;
-        
-        if (myAddress !== null) {
+
+        if (myAddress) {
             const address = myAddress.address;
             const addressDetail = myAddress.address_detail;
             return (

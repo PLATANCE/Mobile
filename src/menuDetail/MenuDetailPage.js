@@ -143,7 +143,7 @@ export default class MenuDetailPage extends React.Component {
                 >
                     <View style={styles.content} >
                         <View style={styles.menuNameBox}>
-                            <Text style={[Font.DEFAULT_FONT_BLACK_BOLD, { fontSize: normalize(16) }]}>{menu.name_menu}</Text>
+                            <Text style={[Font.DEFAULT_FONT_BLACK_BOLD, { fontSize: normalize(18) }]}>{menu.name_menu}</Text>
                             <Text style={[Font.DEFAULT_FONT_BLACK]}>{menu.name_menu_eng}</Text>
                         </View>
                         <View style={styles.menuImageBox}>
@@ -256,9 +256,9 @@ let styles = StyleSheet.create({
     reviewPriceBox: {
         height: normalize(50),
         flexDirection: 'row',
-        marginTop: 20,
-        marginRight: 10,
-        marginLeft: 10,
+        marginTop: normalize(20),
+        marginRight: normalize(16),
+        marginLeft: normalize(16),
     },
     reviewBox: {
         flex: 4,
@@ -280,6 +280,8 @@ let styles = StyleSheet.create({
         marginTop: normalize(20),
         backgroundColor: 'white',
         height: normalize(70),
+        paddingLeft: normalize(16),
+        paddingRight: normalize(16),
         justifyContent: 'center',
     },
     chefImage: {
@@ -294,7 +296,6 @@ let styles = StyleSheet.create({
     iconBox: {
         flex: 1,
         justifyContent: 'center',
-        marginRight: 10,
     },
     iconView: {
         width: normalize(35),
@@ -302,7 +303,6 @@ let styles = StyleSheet.create({
         backgroundColor: Color.PRIMARY_ORANGE,
         alignItems: 'center',
         justifyContent: 'center',
-        margin: 5,
         borderWidth: 1,
         borderRadius: 5,
         borderColor: Color.PRIMARY_ORANGE,
@@ -316,7 +316,7 @@ let styles = StyleSheet.create({
     menuInfoBox: {
         marginTop: 20,
         backgroundColor: 'white',
-        padding: 10,
+        padding: normalize(16),
         paddingBottom: 15,
     },
     reviewListBox: {
@@ -333,14 +333,14 @@ let styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 10,
         marginBottom: 20,
-        marginLeft: 10,
-        marginRight: 10,
+        marginLeft: normalize(16),
+        marginRight: normalize(16),
     },
     textBlack: {
-        lineHeight: normalize(20),
+        marginTop: normalize(6),
     },
     textOrange: {
-        lineHeight: normalize(20),
+        //marginTop: normalize(10),
     },
     reviewTextBox: {
         marginTop: 3,

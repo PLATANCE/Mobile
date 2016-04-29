@@ -35,6 +35,6 @@ let styles = StyleSheet.create({
         height: normalize(50),
         justifyContent: 'center',
         backgroundColor: 'white',
-        padding: 10,
+        padding: normalize(16),
     },
 });

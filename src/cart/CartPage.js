@@ -18,7 +18,7 @@ import PlaceholderView from '../commonComponent/PlaceholderView';
 import CartMenuList from './components/CartMenuList';
 import Color from '../const/Color';
 import Const from '../const/Const';
-import { Font } from '../const/Font';
+import { Font, normalize } from '../const/Font';
 import RequestURL from '../const/RequestURL';
 import {
   addItemToCart,
@@ -412,7 +412,6 @@ export default class CartPage extends React.Component {
     );
   }
 
-
   render() {
     // place holder
     if(!this.state.renderPlaceholderOnly) {
@@ -468,7 +467,10 @@ export default class CartPage extends React.Component {
     let cardLayout = false;
     
     if (selectedPayMethod === PAY_METHOD.ONLINE_CARD) {
-      cardLayout = <TouchableHighlight underlayColor={'transparent'} onPress={Actions.AddCardPage}>
+      cardLayout = <TouchableHighlight 
+          underlayColor={'transparent'} 
+          onPress={ () => Actions.AddCardPage() }
+          >
         <View style={styles.row}>
           <Text style={styles.textBlack}>카드</Text>
           <Text style={[styles.data, cardHighlight]}>{cardNumber}</Text>
@@ -736,7 +738,7 @@ const styles = StyleSheet.create({
     height: 40,
     backgroundColor: 'white',
     alignItems: 'center',
-    padding: 10,
+    padding: normalize(16),
   },
   rowMarginTop10: {
     marginTop: 10,
@@ -782,12 +784,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20,
     marginBottom: 20,
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: normalize(16),
+    marginRight: normalize(16),
   },
   orderbtnText: {
     color: 'white',
-    fontSize: 17,
+    fontSize: normalize(17),
     fontWeight: 'bold',
   },
   orderBtnColorOrange: {
@@ -810,7 +812,7 @@ const styles = StyleSheet.create({
     height: 26,
     borderBottomWidth: 1,
     borderColor: Color.PRIMARY_ORANGE,
-    fontSize: 13,
+    fontSize: normalize(13),
     padding: 4,
     marginLeft: 20,
     marginRight: 20,

@@ -81,12 +81,12 @@ let styles = StyleSheet.create({
         justifyContent: 'center',
     },
     textInputBox: {
-        height: normalize(10),
+        height: normalize(30),
         backgroundColor: Color.PRIMARY_BACKGROUND,
         borderColor: Color.PRIMARY_BACKGROUND,
         overflow: 'hidden',
-        marginLeft: normalize(10),
-        marginRight: normalize(10),
+        marginLeft: normalize(16),
+        marginRight: normalize(16),
         marginTop: normalize(10),
     },
     textInput: {

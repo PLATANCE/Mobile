@@ -11,6 +11,7 @@ import Communications from 'react-native-communications';
 
 import Color from '../const/Color';
 import Const from '../const/Const';
+import { normalize } from '../const/Font';
 import Mixpanel from '../util/mixpanel';
 
 export default class CSEnquiryPage extends React.Component {
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
     flex: 3,
   },
   text: {
-    fontSize: 17,
+    fontSize: normalize(17),
     color: Color.PRIMARY_BLACK,
   },
 });

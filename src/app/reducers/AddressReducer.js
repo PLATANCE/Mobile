@@ -6,7 +6,7 @@ import Const from '../../const/Const';
 // 먼저, 배달 가능 지역을 확인해주세요 :)
 function addressReducer(state = {
   myAddressList: {},
-  myAddress: {},
+  myAddress: undefined,
 }, action) {
   switch (action.type) {
     case AddressActions.RECEIVE_MY_ADDRESS_LIST:
@@ -26,7 +26,7 @@ function addressReducer(state = {
           });
         } else {
           return Object.assign({}, state, {
-            myAddress: {},
+            myAddress: undefined,
           });
         }
       }

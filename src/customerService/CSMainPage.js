@@ -73,6 +73,16 @@ export default class CSMainPage extends React.Component {
                                 source={require('../commonComponent/img/icon_input.png')}/>
                         </View>
                     </TouchableHighlight>
+                    <TouchableHighlight 
+                        onPress={ () => { Actions.PlatingPage(); this.setState({ viewTerms: true, }) } } 
+                        underlayColor={'transparent'}
+                    >
+                        <View style={styles.row} >
+                            <Text style={[styles.textBlack, Font.DEFAULT_FONT_BLACK]}>Plating 이란?</Text>
+                            <Image style={styles.img}
+                                source={require('../commonComponent/img/icon_input.png')}/>
+                        </View>
+                    </TouchableHighlight>
                 </View>
             </View>
         );
@@ -90,7 +100,7 @@ let styles = StyleSheet.create({
     },
     row: {
         marginBottom: 1,
-        padding: 10,
+        padding: normalize(16),
         flexDirection: 'row',
         alignItems: 'center',
         height: normalize(50),

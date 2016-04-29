@@ -72,7 +72,7 @@ let styles = StyleSheet.create({
     row: {
         flex: 1,
         marginBottom: 10,
-        padding: 10,
+        padding: normalize(16),
         backgroundColor: 'white',
     },
     scoreDateBox: {

@@ -33,38 +33,38 @@ export default class MyOrderList extends React.Component {
             changeEditReviewProperty
         } = this.props;
         
-        return (
-            <View style={styles.row}>
-                <View>
-                    <Text style={Font.DEFAULT_FONT_BLACK}>{rowData.request_date}</Text>
-                    <Text style={[styles.addressText, Font.DEFAULT_FONT_BLACK]}>{rowData.address}</Text>
-                    <Text style={Font.DEFAULT_FONT_BLACK}>{rowData.address_detail}</Text>
-                </View>
-                <View style={styles.footerBox}>
-                    <Text style={Font.DEFAULT_FONT_BLACK}>{rowData.time_slot}</Text>
-                    <View style={styles.buttonBox}>
-                        <TouchableHighlight 
-                            onPress={() => Actions.OrderDetailPage({ orderIdx: orderIdx })} 
-                            underlayColor={'transparent'} 
-                        >
+        return (   
+            <TouchableHighlight 
+                onPress={() => Actions.OrderDetailPage({ orderIdx: orderIdx })} 
+                underlayColor={'transparent'} 
+            >
+                <View style={styles.row}>
+                    <View>
+                        <Text style={Font.DEFAULT_FONT_BLACK}>{rowData.request_date}</Text>
+                        <Text style={[styles.addressText, Font.DEFAULT_FONT_BLACK]}>{rowData.address}</Text>
+                        <Text style={Font.DEFAULT_FONT_BLACK}>{rowData.address_detail}</Text>
+                    </View>
+                    <View style={styles.footerBox}>
+                        <Text style={Font.DEFAULT_FONT_BLACK}>{rowData.time_slot}</Text>
+                        <View style={styles.buttonBox}>
                             <View style={[styles.button, { marginRight: 10 }]}>
                                 <Image style={styles.buttonIconImage} 
                                     source={require('../../commonComponent/img/icon_detail.png')}/>
                                 <Text style={Font.DEFAULT_FONT_WHITE}>상세 보기</Text>
                             </View>
-                        </TouchableHighlight>
-                        <TouchableHighlight  
-                            onPress={ () => { Actions.WriteReviewPage({ orderIdx: orderIdx, autoPopUp: false, }); changeEditReviewProperty(); } } 
-                            underlayColor={'transparent'} >
-                            <View style={styles.button}>
-                                <Image style={styles.buttonIconImage} 
-                                    source={require('../../commonComponent/img/icon_pencil.png')}/>
-                                <Text style={Font.DEFAULT_FONT_WHITE}>리뷰 작성</Text>
-                            </View>
-                        </TouchableHighlight>
+                            <TouchableHighlight  
+                                onPress={ () => { Actions.WriteReviewPage({ orderIdx: orderIdx, autoPopUp: false, }); changeEditReviewProperty(); } } 
+                                underlayColor={'transparent'} >
+                                <View style={styles.button}>
+                                    <Image style={styles.buttonIconImage} 
+                                        source={require('../../commonComponent/img/icon_pencil.png')}/>
+                                    <Text style={Font.DEFAULT_FONT_WHITE}>리뷰 작성</Text>
+                                </View>
+                            </TouchableHighlight>
+                        </View>
                     </View>
                 </View>
-            </View>
+            </TouchableHighlight>
         );
     }
 
@@ -85,9 +85,9 @@ let styles = StyleSheet.create({
     },
     row: {
         flex: 1,
-        marginBottom: 10,
+        marginBottom: normalize(10),
         backgroundColor: 'white',
-        padding: 10,
+        padding: normalize(16),
     },
     addressText: {
         marginTop: 10,

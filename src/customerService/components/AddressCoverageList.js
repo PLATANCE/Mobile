@@ -53,7 +53,7 @@ export default class AddressCoverageList extends React.Component {
 let styles = StyleSheet.create({
     row: {
         marginTop: 10,
-        padding: 10,
+        padding: normalize(16),
         backgroundColor: 'white',
         justifyContent: 'center',
         height: normalize(100),

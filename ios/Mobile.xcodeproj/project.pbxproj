@@ -30,7 +30,8 @@
 		5F70DE441C90222700D3A533 /* KakaoOpenSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F70DE431C90222600D3A533 /* KakaoOpenSDK.framework */; };
 		810CB411089FE3EB7F25ADDB /* Pods_Mobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5BF4EF0A021A74EA257D5DB /* Pods_Mobile.framework */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		F42BC09A1CD0C7CC00BE6F0A /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F42BC0981CD0C7CC00BE6F0A /* KeychainItemWrapper.m */; };
+		F42BC0A01CD3394300BE6F0A /* KeychainManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F42BC09D1CD3394300BE6F0A /* KeychainManager.m */; };
+		F42BC0C81CD3430400BE6F0A /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42BC0C71CD3430400BE6F0A /* Util.swift */; };
 		F457B5921CA298360072D817 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F457B58A1CA298350072D817 /* Entypo.ttf */; };
 		F457B5931CA298360072D817 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F457B58B1CA298360072D817 /* EvilIcons.ttf */; };
 		F457B5941CA298360072D817 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F457B58C1CA298360072D817 /* FontAwesome.ttf */; };
@@ -236,8 +237,10 @@
 		D8691EB403E44449E3D42734 /* Pods-Mobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobile.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mobile/Pods-Mobile.debug.xcconfig"; sourceTree = "<group>"; };
 		DCBF36F833CD2D13CE06090C /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F1C92D7EFF08333E93FF582E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		F42BC0981CD0C7CC00BE6F0A /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KeychainItemWrapper.m; path = Mobile/KeychainItemWrapper.m; sourceTree = "<group>"; };
-		F42BC0991CD0C7CC00BE6F0A /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeychainItemWrapper.h; path = Mobile/KeychainItemWrapper.h; sourceTree = "<group>"; };
+		F42BC09D1CD3394300BE6F0A /* KeychainManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KeychainManager.m; path = Mobile/KeychainManager.m; sourceTree = "<group>"; };
+		F42BC09E1CD3394300BE6F0A /* KeychainManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeychainManager.h; path = Mobile/KeychainManager.h; sourceTree = "<group>"; };
+		F42BC0C71CD3430400BE6F0A /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Util.swift; path = Mobile/Util.swift; sourceTree = "<group>"; };
+		F42BC0C91CD3430F00BE6F0A /* Mobile-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mobile-Bridging-Header.h"; sourceTree = "<group>"; };
 		F457B58A1CA298350072D817 /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Entypo.ttf; sourceTree = "<group>"; };
 		F457B58B1CA298360072D817 /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EvilIcons.ttf; sourceTree = "<group>"; };
 		F457B58C1CA298360072D817 /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
@@ -355,6 +358,7 @@
 		13B07FAE1A68108700A75B9A /* Mobile */ = {
 			isa = PBXGroup;
 			children = (
+				F42BC0C91CD3430F00BE6F0A /* Mobile-Bridging-Header.h */,
 				F42BC0971CD0C7C000BE6F0A /* Keychain */,
 				5F19C99F1C97D89700B7E30F /* Facebook */,
 				5F31DEE61C96958D00D55930 /* Kakao */,
@@ -509,8 +513,9 @@
 		F42BC0971CD0C7C000BE6F0A /* Keychain */ = {
 			isa = PBXGroup;
 			children = (
-				F42BC0981CD0C7CC00BE6F0A /* KeychainItemWrapper.m */,
-				F42BC0991CD0C7CC00BE6F0A /* KeychainItemWrapper.h */,
+				F42BC0C71CD3430400BE6F0A /* Util.swift */,
+				F42BC09D1CD3394300BE6F0A /* KeychainManager.m */,
+				F42BC09E1CD3394300BE6F0A /* KeychainManager.h */,
 			);
 			name = Keychain;
 			sourceTree = "<group>";
@@ -558,9 +563,9 @@
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
-				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				787C0BC4BB6FAC6C194A217F /* Embed Pods Frameworks */,
 				F7C3B541249586826DB17A3A /* Copy Pods Resources */,
+				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				5F65CEC81C99289E002B4B1E /* Embed Frameworks */,
 				F493CC341CC9F2CC0032D896 /* Run Script */,
 			);
@@ -580,6 +585,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
@@ -906,10 +912,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				F42BC0C81CD3430400BE6F0A /* Util.swift in Sources */,
 				5F19C9AC1C97D8B000B7E30F /* FacebookManager.mm in Sources */,
 				5F31DEE51C96957300D55930 /* KakaoManager.m in Sources */,
-				F42BC09A1CD0C7CC00BE6F0A /* KeychainItemWrapper.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				F42BC0A01CD3394300BE6F0A /* KeychainManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -941,9 +948,13 @@
 			baseConfigurationReference = D8691EB403E44449E3D42734 /* Pods-Mobile.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEAD_CODE_STRIPPING = NO;
+				DEFINES_MODULE = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -965,6 +976,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.plating.app;
 				PRODUCT_NAME = Mobile;
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Mobile-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -973,6 +986,10 @@
 			baseConfigurationReference = 4B956C6708901EADCB37D3EB /* Pods-Mobile.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -994,6 +1011,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.plating.app;
 				PRODUCT_NAME = Mobile;
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Mobile-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -1016,6 +1034,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1063,6 +1082,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;

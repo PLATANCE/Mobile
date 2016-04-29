@@ -109,13 +109,13 @@ export default class ReferPage extends React.Component {
             다운로드 링크: http://goo.gl/t5lrSL
             추천인 코드: {코드}
         */
-
+        const userCode = this.state.userCode;
         let url = MediaURL.REFER_URL + this.state.url;
         let clipboardContent = '셰프의 요리를 집에서 즐겨요! 지금 플레이팅 앱을 다운받고 첫 주문 ' + this.state.pointPriceKor + ' 포인트를 드립니다.\n'
                             + '다운로드 링크: http://goo.gl/t5lrSL\n'
-                            + '추천인 코드: ' + this.state.userCode;
+                            + '추천인 코드: ' + userCode;
         let kakaoContent = '셰프의 요리를 집에서 즐겨요! 지금 플레이팅 앱을 다운받고 첫 주문 ' + this.state.pointPriceKor + ' 포인트를 드립니다.\n'
-                            + '추천인 코드: ' + this.state.userCode;
+                            + '추천인 코드: ' + userCode;
 
         return (
             <View style={styles.container}>
@@ -124,21 +124,14 @@ export default class ReferPage extends React.Component {
                         source={{uri: url}} />
                 </View>
                 <View style={styles.codeBox}>
-                    <View style={styles.codeTextBox}>
-                        <Text style={styles.codeText}>{this.state.userCode}</Text>
-                    </View>
-                    <View style={styles.detailTextBox}>
-                        <Text style={Font.DEFAULT_FONT_WHITE}>친구가 첫 주문을 하면</Text>
-                        <View style={styles.detailTextFooterBox}>
-                            <Text style={Font.DEFAULT_FONT_WHITE}>나에게도 {this.state.pointPriceNum}이 바로 적립!</Text>
-                            <TouchableHighlight 
-                                onPress={() => this.showDetailDialog()}
-                                underlayColor={'transparent'}
-                            >
-                                <Text style={[styles.textDetail, Font.DEFAULT_FONT_ORANGE]}>자세히</Text>
-                            </TouchableHighlight>
-                        </View>
-                    </View>
+                    <Text style={[Font.DEFAULT_FONT_ORANGE, {fontSize: normalize(20)}]}>내 추천코드 :
+                        <Text style={[Font.DEFAULT_FONT_ORANGE_BOLD, {fontSize: normalize(35)}]}> {userCode}</Text>
+                    </Text>
+                    <Text style={[Font.DEFAULT_FONT_WHITE, {fontSize: normalize(15)}]}>
+                        친구에게 공유하세요
+                    </Text>
+                    <Image style={styles.arrowImage}
+                        source={require('./img/arrow_invite.png')}/>
                 </View>
                 <View style={styles.methodBox}>
                     <TouchableHighlight underlayColor={'transparent'} onPress={ () => this.onPressKakao(kakaoContent) } >
@@ -174,33 +167,23 @@ let styles = StyleSheet.create({
         marginTop: Const.MARGIN_TOP,
     },
     imageBox: {
-        flex: 5,
+        flex: 6,
     },
     referImage: {
         flex: 1,
     },
     codeBox: {
-        flex: 3,
-        backgroundColor: Color.REFER_BACKGROUND
-    },
-    codeTextBox: {
-        borderWidth: 2,
-        borderColor: Color.PRIMARY_ORANGE,
         flex: 2,
-        marginTop: 20,
-        marginBottom: 0,
-        marginLeft: 100,
-        marginRight: 100,
-        borderRadius: 5,
-        overflow: 'hidden',
-        alignItems: 'center',
+        backgroundColor: Color.REFER_BACKGROUND,
         justifyContent: 'center',
+        alignItems: 'center',
     },
-    codeText: {
-        color: Color.PRIMARY_ORANGE,
-        fontSize: normalize(50),
-        fontWeight: 'bold',
-    },
+    arrowImage: {
+        width: normalize(30),
+        height: normalize(30),
+        marginTop: normalize(10),
+        resizeMode: 'contain',
+    } ,
     detailTextBox: {
         flex: 2,
         alignItems: 'center',

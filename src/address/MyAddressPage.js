@@ -53,7 +53,7 @@ export default class MyAddressPage extends React.Component {
                     </TouchableHighlight>
                     <TouchableHighlight
                         underlayColor={'transparent'}
-                        onPress={ () => Actions.AddressCoveragePage() } 
+                        onPress={ () => Actions.CSAddressCoveragePage() } 
                     >
                         <View style={styles.button}>
                             <Text style={Font.DEFAULT_FONT_WHITE}>배달 가능한 지역 보기</Text>
@@ -79,12 +79,12 @@ let styles = StyleSheet.create({
     img: {
     	width: normalize(30),
     	height: normalize(30),
-    	marginLeft: 10,
+    	marginLeft: normalize(16),
     },
     addAddressText: {
     	fontSize: normalize(18),
     	color: Color.PRIMARY_ORANGE,
-    	marginLeft: 10,
+    	marginLeft: normalize(10),
     },
     coverageImg: {
         width: Const.WIDTH,
@@ -102,7 +102,7 @@ let styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: normalize(20),
         marginBottom: normalize(20),
-        marginLeft: normalize(10),
-        marginRight: normalize(10),
+        marginLeft: normalize(16),
+        marginRight: normalize(16),
     },
 });
