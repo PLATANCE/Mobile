@@ -38,7 +38,7 @@ export default class MyAddressPage extends React.Component {
                     <MyAddressList
                       myAddressList={myAddressList}
                       fetchMyAddressList={() => dispatch(fetchMyAddressList())}
-                      fetchCartInfo={() => dispatch(fetchCartInfo())}
+                      fetchCartInfo={(couponIdx) => dispatch(fetchCartInfo(this.props.couponIdx))}
                       fetchMyAddress={() => dispatch(fetchMyAddress())}
                     />
                     <TouchableHighlight 

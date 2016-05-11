@@ -1,10 +1,13 @@
 'use strict';
-import React, { View, Text, StyleSheet, WebView, } from 'react-native';
+import React, { View, Text, StyleSheet, WebView, Alert} from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import sha256 from 'sha256';
 import Const from '../const/Const';
 
 import userInfo from '../util/userInfo';
-
+import {
+  fetchCartInfo,
+} from '../app/actions/CartInfoActions';
 
 export default class AddCardPage extends React.Component {
     constructor(props) {
@@ -24,6 +27,34 @@ export default class AddCardPage extends React.Component {
             this.pad2(date.getHours()) + 
             this.pad2(date.getMinutes()) +
             this.pad2(date.getSeconds());
+    }
+    onShouldStartLoadWithRequest(event) {
+        const url = event.url;
+        //console.log(url);
+        if(url.indexOf('jscall:') != -1) {
+            console.log(url + url.indexOf('jscall:'))
+            const isSuccess = url.split('?')[1];
+            if(isSuccess === 'success') {
+                Alert.alert(
+                    '카드 등록 성공!',
+                    '결제를 진행해 주세요 :)',
+                    [
+                        { text: 'OK', onPress: () => { Actions.pop(); this.props.dispatch(fetchCartInfo(this.props.couponIdx)); } }
+                    ]
+                );
+            } else {
+                Alert.alert(
+                    '카드 등록 실패!',
+                    '카드 정보를 다시 한번 확인해주세요 :)',
+                    [
+                        { text: 'OK', onPress: () => { Actions.pop() } }
+                    ]
+
+                );
+            }
+            return false;
+        }
+        return true;
     }
     /*
      * http://inilite.inicis.com/inibill/inibill_card.jsp?
@@ -48,7 +79,7 @@ export default class AddCardPage extends React.Component {
         const goodName = '플레이팅 카드등록';
         const price = 0;
         const orderId = new Date().getTime() + '_' + userIdx;
-        const returnUrl = 'http://api.plating.co.kr/payResult';
+        const returnUrl = 'http://api.plating.co.kr/payResult_iOS';
         const timeStamp = this.YYYYMMDDHHMMSS(new Date());
         const period = '';
         const pNoti = userIdx;
@@ -78,6 +109,7 @@ export default class AddCardPage extends React.Component {
                     domStorageEnabled={true}
                     decelerationRate="normal"
                     startInLoadingState={true}
+                    onShouldStartLoadWithRequest={this.onShouldStartLoadWithRequest.bind(this)}
                 />
             </View>
         );

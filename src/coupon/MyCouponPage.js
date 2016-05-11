@@ -10,6 +10,9 @@ import PlaceholderView from '../commonComponent/PlaceholderView';
 import {
   useCoupon,
 } from '../app/actions/CartInfoActions';
+import {
+  fetchCartInfo,
+} from '../app/actions/CartInfoActions';
 import userInfo from '../util/userInfo';
 
 
@@ -82,6 +85,7 @@ export default class MyCouponPage extends React.Component {
                       cart={cart}
                       disable={disable}
                       onUseCoupon={(couponIdx, discountCouponPrice) => dispatch(useCoupon(couponIdx, discountCouponPrice))}
+                      fetchCartInfo={(couponIdx) => dispatch(fetchCartInfo(couponIdx))}
                     />
                 </View>
             </View>

@@ -11,5 +11,5 @@ target 'Mobile' do
 	pod 'Mixpanel'
 	pod 'Fabric'
 	pod 'Crashlytics'
-
+	pod 'AppsFlyer-SDK'
 end

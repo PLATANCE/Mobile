@@ -23,8 +23,9 @@ import BannerDetailSelector from '../dailyMenu/BannerDetailSelector';
 import MenuDetailPage from '../menuDetail/MenuDetailPage';
 import MenuDetailSelector from '../menuDetail/MenuDetailSelector';
 import CartPage from '../cart/CartPage';
-import AddCardPage from '../cart/AddCardPage';
 import CartSelector from '../cart/CartSelector';
+import AddCardPage from '../cart/AddCardPage';
+import AddCardSelector from '../cart/AddCardSelector';
 import ChefDetailPage from '../chefDetail/ChefDetailPage';
 import ChefDetailSelector from '../chefDetail/ChefDetailSelector';
 import MyAddressPage from '../address/MyAddressPage';
@@ -168,7 +169,7 @@ export default class Routes extends Component {
                         wrapRouter={true}  navigationBarStyle={styles.navigationBar}
                         titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
 
-                    <Route name="AddCardPage" component={connect()(AddCardPage)} title="카드 등록"
+                    <Route name="AddCardPage" component={connect(AddCardSelector)(AddCardPage)} title="카드 등록"
                         wrapRouter={true} navigationBarStyle={styles.navigationBar}
                         titleStyle={styles.title} renderLeftButton={this.renderBackButton} />
 

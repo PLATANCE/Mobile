@@ -6,6 +6,7 @@ import Const from '../../const/Const';
 import MediaURL from '../../const/MediaURL';
 import RequestURL from '../../const/RequestURL';
 import Mixpanel from '../../util/mixpanel';
+import userInfo from '../../util/userInfo';
 
 const couponImageHeight = 0;
 if(PixelRatio.get() === 2) {
@@ -45,6 +46,7 @@ export default class MyCouponList extends React.Component {
             menuAmountParam = menuAmountParam.substring(0, menuAmountParam.length - 1);
             
             const param = {
+                user_idx: userInfo.idx,
                 coupon_idx: idx,
                 menu_idx: menuIdxParam,
                 menu_amount: menuAmountParam,
@@ -72,6 +74,7 @@ export default class MyCouponList extends React.Component {
                             {
                               text: '확인',
                               onPress: () => {
+                                this.props.fetchCartInfo(couponIdx);
                                 this.props.onUseCoupon(couponIdx, discountCouponPrice);
                                 Actions.pop();
                               },

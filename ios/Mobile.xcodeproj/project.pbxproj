@@ -199,6 +199,16 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F4DABF811CE334E2006BD13E /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -568,6 +578,7 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				5F65CEC81C99289E002B4B1E /* Embed Frameworks */,
 				F493CC341CC9F2CC0032D896 /* Run Script */,
+				F4DABF811CE334E2006BD13E /* Embed App Extensions */,
 			);
 			buildRules = (
 			);

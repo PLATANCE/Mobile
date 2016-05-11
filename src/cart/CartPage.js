@@ -73,8 +73,7 @@ export default class CartPage extends React.Component {
       renderPlaceholderOnly: false,
       cntCoupon: 0,
     };
-    
-    this.props.dispatch(fetchCartInfo());
+    this.props.dispatch(fetchCartInfo(props.couponIdx));
   }
 
   componentDidMount() {
@@ -240,7 +239,7 @@ export default class CartPage extends React.Component {
       },
       body: JSON.stringify(param),
     }).then((response) => response.json()).then((responseData) => {
-      this.props.dispatch(fetchCartInfo());
+      this.props.dispatch(fetchCartInfo(this.props.couponIdx));
     }).catch((error) => {
       console.warn(error);
     }).done();
@@ -502,7 +501,7 @@ export default class CartPage extends React.Component {
     const displayAvailablePoint = ((availablePoint == 0) ? '' : '-') + this.commaPrice(availablePoint, '원');
 
     // deliveryFee
-    let displayDeliveryFee = (deliveryFee == 0) ? '(이벤트) 무료' : '-' + this.commaPrice(deliveryFee, '원');
+    let displayDeliveryFee = (deliveryFee == 0) ? '(이벤트) 무료' : '+' + this.commaPrice(deliveryFee, '원');
     
     // discountCouponPrice
     let displayDiscountCouponPrice = ((discountCouponPrice == 0) ? '' : '-') + this.commaPrice(discountCouponPrice, '원');
@@ -525,7 +524,7 @@ export default class CartPage extends React.Component {
       enableOrderButton = false;
       enableOrderButtonText = Const.CART_DELIVERY_TIME_CLOSED_MESSAGE;
     }
-    if (!deliveryAvailable) {
+    if (deliveryAvailable == 0) {
       enableOrderButton = false;
       enableOrderButtonText = '배달 지역이 아닙니다.';
     }
@@ -697,7 +696,6 @@ export default class CartPage extends React.Component {
               style={{
                 height: 320,
                 backgroundColor: Color.PRIMARY_BACKGROUND,
-                top: 100,
               }}
               pickerData={PICKER_PAY_METHOD_DATA}
               selectedValue={this.state.selectedPayMethod}
@@ -708,7 +706,6 @@ export default class CartPage extends React.Component {
               style={{
                 height: 320,
                 backgroundColor: Color.PRIMARY_BACKGROUND,
-                top: 100,
               }}
               pickerData={PICKER_CUTLERY_DATA}
               selectedValue={this.state.selectedCutlery}

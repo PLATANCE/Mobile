@@ -152,7 +152,9 @@ class SideDrawerContent extends Component {
                     <Text style={[styles.pointText, Font.DEFAULT_FONT_WHITE]}>내 포인트:
                         <Text style={{fontSize: normalize(20)}}> {this.commaPrice(this.state.point)}p</Text></Text>
                     <TouchableHighlight
-                        onPress={ () => this.openPromptDialog() }>
+                        onPress={ () => this.openPromptDialog() }
+                        underlayColor={'transparent'}
+                    >
                         <View style={styles.actionPoint}>
                             <Text style={[{margin: normalize(10)}, Font.DEFAULT_FONT_WHITE ]}>+ 포인트·쿠폰코드 등록</Text>
                         </View>

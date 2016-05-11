@@ -40,10 +40,10 @@ export function setAvailablePoint(availablePoint) {
   }
 }
 
-export function fetchCartInfo() {
+export function fetchCartInfo(couponIdx) {
   return (dispatch) => {
     const userIdx = userInfo.idx;
-    return fetch(`${RequestURL.REQUEST_CART_INFO}user_idx=${userIdx}`)
+    return fetch(`${RequestURL.REQUEST_CART_INFO}user_idx=${userIdx}&coupon_idx=${couponIdx}`)
       .then((response) => response.json())
       .then((json) => dispatch(receiveCartInfo(json)))
       .catch((error) => console.warn(error));
