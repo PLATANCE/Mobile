@@ -129,24 +129,39 @@
 
 -(void)onConversionDataReceived:(NSDictionary*) installData {
   NSLog(@"onConversionDataReceived called");
-  id status = [installData objectForKey:@"af_status"];
-  if([status isEqualToString:@"Non-organic"]) {
-    id sourceID = [installData objectForKey:@"media_source"];
-    id campaign = [installData objectForKey:@"campaign"];
-    /* Initialize a Mixpanel Instance */
-    Mixpanel *mixpanel = [Mixpanel sharedInstance];
-    /* Register the attribution properties as Super Properties */
-    [mixpanel registerSuperProperties:@{@"campaign": campaign, @"media_source": sourceID}];
-    /* Track An app-install event which will include the campaign super properties */
-    [mixpanel track:@"App Install"];
-  } else if([status isEqualToString:@"Organic"]) {
-    /* Initialize a Mixpanel Instance */
-    Mixpanel *mixpanel = [Mixpanel sharedInstance];
-    /* Register the Attribution Properties as Super Properties */
-    [mixpanel registerSuperProperties:@{@"campaign": @"Organic", @"media_source": @"Organic"}];
-    /* Track An app-install event which will include Organic Super Properties */
-    [mixpanel track:@"App Install"];
+
+  NSUserDefaults *preferences = [NSUserDefaults standardUserDefaults];
+
+  NSString *hasInstalledKey = @"hasinstalled";
+
+  if([preferences objectForKey:hasInstalledKey] == nil) {
+
+    NSInteger const hasInstalledValue = 1;
+    [preferences setInteger:hasInstalledValue forKey: hasInstalledKey];
+
+    NSLog(@"onConversionDataReceived has not key");
+
+    id status = [installData objectForKey:@"af_status"];
+    if([status isEqualToString:@"Non-organic"]) {
+      id sourceID = [installData objectForKey:@"media_source"];
+      id campaign = [installData objectForKey:@"campaign"];
+      /* Initialize a Mixpanel Instance */
+      Mixpanel *mixpanel = [Mixpanel sharedInstance];
+      /* Register the attribution properties as Super Properties */
+      [mixpanel registerSuperProperties:@{@"campaign": campaign, @"media_source": sourceID}];
+      /* Track An app-install event which will include the campaign super properties */
+      [mixpanel track:@"App Install"];
+    } else if([status isEqualToString:@"Organic"]) {
+      NSLog(@"onConversionDataReceived called Organic");
+      /* Initialize a Mixpanel Instance */
+      Mixpanel *mixpanel = [Mixpanel sharedInstance];
+      /* Register the Attribution Properties as Super Properties */
+      [mixpanel registerSuperProperties:@{@"campaign": @"Organic", @"media_source": @"Organic"}];
+      /* Track An app-install event which will include Organic Super Properties */
+      [mixpanel track:@"App Install"];
+    }
   }
+  
 }
 -(void)onConversionDataRequestFailure:(NSError *) error {
     NSLog(@"%@",error);
