@@ -1,6 +1,7 @@
 package com.mobile;
 
 import com.facebook.react.ReactActivity;
+import io.realm.react.RealmReactPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.aakashns.reactnativedialogs.ReactNativeDialogsPackage;
@@ -21,7 +22,8 @@ public class MainActivity extends ReactActivity implements DefaultHardwareBackBt
                 .setApplication(getApplication())
                 .setBundleAssetName("index.android.bundle")
                 .setJSMainModuleName("index.android")
-                .addPackage(new MainReactPackage())
+                .addPackage(new MainReactPackage(),
+            new RealmReactPackage())
                 .addPackage(new ReactNativeDialogsPackage(this))
                 .setUseDeveloperSupport(BuildConfig.DEBUG)
                 .setInitialLifecycleState(LifecycleState.RESUMED)

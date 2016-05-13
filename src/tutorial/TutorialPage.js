@@ -176,7 +176,7 @@ let styles = StyleSheet.create({
     img: {
         width: Const.WIDTH,
         height: Const.HEIGHT * 0.6,
-        resizeMode: 'cover',
+        resizeMode: 'contain',
     },
     textBox: {
         width: Const.WIDTH,

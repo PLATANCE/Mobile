@@ -12,13 +12,8 @@ import React, {
 import { Actions } from 'react-native-router-flux';
 import Color from '../../const/Color';
 import Mixpanel from '../../util/mixpanel';
+import { Font, normalize } from '../../const/Font';
 
-const rowHeightRatio = 0;
-if(PixelRatio.get() === 2) {
-    rowHeightRatio = 0.75;
-} else if(PixelRatio.get() === 3) {
-    rowHeightRatio = 1;
-}
 export default class Banner extends React.Component {
     static propTypes = {
 
@@ -43,7 +38,7 @@ export default class Banner extends React.Component {
 
 let styles = StyleSheet.create({
     container: {
-        height: 130 * rowHeightRatio,
+        height: normalize(130),
     },
     img: {
         flex: 1,

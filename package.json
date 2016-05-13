@@ -19,7 +19,7 @@
     "react-native-dialogs": "0.0.13",
     "react-native-drawer": "^1.16.7",
     "react-native-dropdown": "0.0.6",
-    "react-native-fabric": "^0.1.0",
+    "react-native-fabric": "^0.2.1",
     "react-native-facebook-login": "^1.0.3",
     "react-native-mixpanel": "0.0.7",
     "react-native-modal": "^0.4.0",
