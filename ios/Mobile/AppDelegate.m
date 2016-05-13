@@ -43,7 +43,7 @@
    * `inet` value under `en0:`) and make sure your computer and iOS device are
    * on the same Wi-Fi network.
    */
-    //jsCodeLocation = [NSURL URLWithString:@"http://192.168.0.14:8081/index.ios.bundle?platform=ios&dev=true"];
+    //jsCodeLocation = [NSURL URLWithString:@"http://192.168.0.8:8081/index.ios.bundle?platform=ios&dev=true"];
   
   /**
    * OPTION 2
@@ -129,7 +129,7 @@
 
 -(void)onConversionDataReceived:(NSDictionary*) installData {
   NSLog(@"onConversionDataReceived called");
-
+  
   NSUserDefaults *preferences = [NSUserDefaults standardUserDefaults];
 
   NSString *hasInstalledKey = @"hasinstalled";
@@ -145,22 +145,23 @@
     if([status isEqualToString:@"Non-organic"]) {
       id sourceID = [installData objectForKey:@"media_source"];
       id campaign = [installData objectForKey:@"campaign"];
-      /* Initialize a Mixpanel Instance */
+      // Initialize a Mixpanel Instance 
       Mixpanel *mixpanel = [Mixpanel sharedInstance];
-      /* Register the attribution properties as Super Properties */
+      // Register the attribution properties as Super Properties
       [mixpanel registerSuperProperties:@{@"campaign": campaign, @"media_source": sourceID}];
-      /* Track An app-install event which will include the campaign super properties */
+      // Track An app-install event which will include the campaign super properties
       [mixpanel track:@"App Install"];
     } else if([status isEqualToString:@"Organic"]) {
       NSLog(@"onConversionDataReceived called Organic");
-      /* Initialize a Mixpanel Instance */
+      // Initialize a Mixpanel Instance
       Mixpanel *mixpanel = [Mixpanel sharedInstance];
-      /* Register the Attribution Properties as Super Properties */
+      // Register the Attribution Properties as Super Properties
       [mixpanel registerSuperProperties:@{@"campaign": @"Organic", @"media_source": @"Organic"}];
-      /* Track An app-install event which will include Organic Super Properties */
+      // Track An app-install event which will include Organic Super Properties
       [mixpanel track:@"App Install"];
     }
   }
+  
   
 }
 -(void)onConversionDataRequestFailure:(NSError *) error {
