@@ -55,15 +55,12 @@ export default class DailyMenuPage extends React.Component {
             duration: 150,
             toValue: 0,
         }).start();
-        InteractionManager.runAfterInteractions( () => {
-            this.fetchDailyMenu(this.props.myAddress);
-        })
+        this.fetchDailyMenu(this.props.myAddress);
     }
 
     fetchDailyMenu(myAddress) {
-        const area = (myAddress) ? myAddress.area : 'seoul-1';
         //console.log(`${RequestURL.REQUEST_DAILY_MENU}?area=${area}`);
-        fetch(`${RequestURL.REQUEST_DAILY_MENU}?area=${area}`)
+        fetch(`${RequestURL.REQUEST_DAILY_MENU}`)
             .then((response) => response.json())
             .then((responseData) => {
                 this.setState({

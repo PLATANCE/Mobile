@@ -10,6 +10,8 @@ const defaultCartInfoState = {
   couponIdx: 0,
   discountCouponPrice: 0,
   availablePoint: 0,
+  canOrder: false,
+  message: '',
 };
 function cartInfoReducer(state = Object.assign({}, defaultCartInfoState), action) {
   switch (action.type) {
@@ -33,11 +35,15 @@ function cartInfoReducer(state = Object.assign({}, defaultCartInfoState), action
             timeSlot: timeSlot.time_slot,
           });
         });
+        const canOrder = cartInfo.can_order;
+        const message = cartInfo.message;
         return Object.assign({}, state, {
           timeSlotData,
           myInfo,
           cardNumber,
           deliveryFee,
+          canOrder,
+          message,
         });
       }
       case CartInfoActions.USE_COUPON: {

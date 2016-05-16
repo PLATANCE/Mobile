@@ -58,10 +58,7 @@ export default class CartPage extends React.Component {
   constructor(props) {
     super(props);
     const timeSlotPickerData = this.generateTimeSlotPickerData(props.timeSlotData);
-    const selectedTimeSlot = (timeSlotPickerData.length)
-      ? timeSlotPickerData[0]
-      : Const.CART_DELIVERY_TIME_CLOSED_MESSAGE;
-
+    const selectedTimeSlot = '';
     this.state = {
       timeSlotPickerData,
       selectedTimeSlot,
@@ -77,7 +74,7 @@ export default class CartPage extends React.Component {
   }
 
   componentDidMount() {
-        this.fetchMyCoupon();
+    this.fetchMyCoupon();
   }
 
   fetchMyCoupon() {
@@ -100,18 +97,31 @@ export default class CartPage extends React.Component {
     if (Object.keys(nextProps.cart).length === 0) {
       return Actions.pop();
     }
-
+    
     const timeSlotPickerData = this.generateTimeSlotPickerData(nextProps.timeSlotData);
-    var index = 0;
-    for(var i = 0; i < timeSlotPickerData.length; i++) {
-      if(timeSlotPickerData[i] == this.state.selectedTimeSlot) {
-        index = i;
+
+    let selectedTimeSlot;
+    if(timeSlotPickerData.length) {
+      // init
+      if(this.state.selectedTimeSlot == '') {
+        selectedTimeSlot = timeSlotPickerData[0];
+      } else {
+        for(var i = 0; i < timeSlotPickerData.length; i++) {
+          if(this.state.selectedTimeSlot === Const.CART_DELIVERY_TIME_CLOSED_MESSAGE) {
+            selectedTimeSlot = timeSlotPickerData[0];
+          }
+          if(timeSlotPickerData[i] == this.state.selectedTimeSlot) {
+            selectedTimeSlot = timeSlotPickerData[i];
+          }
+        }
       }
+    } else {
+      selectedTimeSlot = Const.CART_DELIVERY_TIME_CLOSED_MESSAGE;
     }
   
     this.setState({
       timeSlotPickerData,
-      selectedTimeSlot: timeSlotPickerData[index],
+      selectedTimeSlot,
     });
     InteractionManager.runAfterInteractions(() => {
       this.setState({
@@ -344,7 +354,6 @@ export default class CartPage extends React.Component {
       include_cutlery: this.state.selectedCutleryParam,
     };
     
-    
     fetch(RequestURL.SUBMIT_PLACE_ORDER, {
       method: 'POST',
       headers: {
@@ -410,6 +419,7 @@ export default class CartPage extends React.Component {
       console.warn(error);
     });
   }
+
   
   renderPlaceholderView() {
     return (
@@ -431,6 +441,8 @@ export default class CartPage extends React.Component {
       discountCouponPrice,
       myInfo,
       cardNumber,
+      canOrder,
+      message,
     } = this.props;
 
     let {
@@ -484,6 +496,16 @@ export default class CartPage extends React.Component {
           </View>
         </View>
       </TouchableHighlight>;
+    }
+
+    // message layout visible or invisible
+    let messageLayout = false;
+    let orderBtnMarginTopStyle = styles.orderBtnMarginTopStyleNon;
+    if (!canOrder) {
+      messageLayout = <View style={styles.otherInfoBox}>
+                        <Text style={Font.DEFAULT_FONT_ORANGE}>{message}</Text>
+                      </View>
+      orderBtnMarginTopStyle = styles.orderBtnMarginTopStyle;
     }
     
     // menu total price
@@ -539,6 +561,10 @@ export default class CartPage extends React.Component {
         enableOrderButton = false;
         enableOrderButtonText = Const.CART_CARD_INPUT_MESSAGE;
       }
+    }
+    if(!canOrder) {
+      enableOrderButton = false;
+      enableOrderButtonText = Const.CART_DELIVERY_TIME_CLOSED_MESSAGE;
     }
 
     const orderBtnBackgroundStyle = (enableOrderButton)
@@ -673,11 +699,14 @@ export default class CartPage extends React.Component {
               </View>
             </TouchableHighlight>
 
+            {messageLayout}
+            
+
             <TouchableHighlight
               underlayColor={'transparent'}
               onPress={() => this.openAlertToConfirmOrder(cart, totalPrice, availablePoint, couponIdx, menuTotalPrice, discountCouponPrice, this.state.selectedTimeSlot, addressInfo, enableOrderButton, enableOrderButtonText)}
             >
-              <View style={[styles.orderbtn, orderBtnBackgroundStyle]}>
+              <View style={[styles.orderbtn, orderBtnBackgroundStyle, orderBtnMarginTopStyle]}>
                 <Text style={styles.orderbtnText}>주문하기</Text>
               </View>
             </TouchableHighlight>
@@ -785,8 +814,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
-    marginBottom: 20,
+    marginBottom: normalize(20),
     marginLeft: normalize(16),
     marginRight: normalize(16),
   },
@@ -839,5 +867,22 @@ const styles = StyleSheet.create({
     borderTopWidth: 0.5,
     overflow: 'hidden',
     borderColor: Color.PRIMARY_BLACK,
+  },
+  otherInfoBox: {
+    flex: 1,
+    marginTop: normalize(30),
+    borderColor: Color.PRIMARY_BACKGROUND,
+    backgroundColor: Color.PRIMARY_BACKGROUND,
+    borderWidth: 1,
+    borderRadius: 5,
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  orderBtnMarginTopStyle: {
+    marginTop: normalize(10),
+  },
+  orderBtnMarginTopStyleNon: {
+    marginTop: normalize(20),
   },
 });
