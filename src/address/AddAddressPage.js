@@ -11,8 +11,11 @@ import RequestURL from '../const/RequestURL';
 import Mixpanel from '../util/mixpanel';
 import {
   fetchMyAddressList,
-  //fetchMyAddress, 
+  fetchMyAddress, 
 } from '../app/actions/AddressActions';
+import {
+  fetchCartInfo,
+} from '../app/actions/CartInfoActions';
 
 
 export default class AddAddressPage extends React.Component {
@@ -62,7 +65,8 @@ export default class AddAddressPage extends React.Component {
     				</View>
     				<SearchedAddressList 
                         fetchMyAddressList={ () => dispatch(fetchMyAddressList()) }
-                        //fetchMyAddress={ () => dispatch(fetchMyAddress()) }
+                        fetchMyAddress={ () => dispatch(fetchMyAddress()) }
+                        fetchCartInfo={ () => dispatch(fetchCartInfo()) }
                         addressList={this.state.addressList} />
                 </View>
             </ScrollView>

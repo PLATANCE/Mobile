@@ -73,6 +73,7 @@ export default class SearchedAddressList extends React.Component {
                 Actions.pop();
                 this.props.fetchMyAddressList();
                 this.props.fetchMyAddress();
+                this.props.fetchCartInfo();
             })
             .catch((error) => {
                 console.warn(error);
