@@ -102,10 +102,16 @@ export default class CartPage extends React.Component {
     }
 
     const timeSlotPickerData = this.generateTimeSlotPickerData(nextProps.timeSlotData);
-
+    var index = 0;
+    for(var i = 0; i < timeSlotPickerData.length; i++) {
+      if(timeSlotPickerData[i] == this.state.selectedTimeSlot) {
+        index = i;
+      }
+    }
+  
     this.setState({
       timeSlotPickerData,
-      selectedTimeSlot: timeSlotPickerData[0],
+      selectedTimeSlot: timeSlotPickerData[index],
     });
     InteractionManager.runAfterInteractions(() => {
       this.setState({
