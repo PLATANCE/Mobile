@@ -58,6 +58,7 @@ const RequestURL = {
 
     // customerService
     REQUEST_FAQ_LIST: 'http://api.plating.co.kr/policy/FAQ',
+    REQUEST_DELIVERY_COVERAGE: 'http://api.plating.co.kr/policy/get_delivery_coverage'
 
     /*
      *---------------------

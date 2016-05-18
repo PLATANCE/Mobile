@@ -8,6 +8,7 @@ import AddressReducer from './AddressReducer';
 import SideInfoReducer from './SideInfoReducer';
 import WriteReviewReducer from './WriteReviewReducer';
 import mixpanelReducer from './mixpanelReducer';
+import CustomerServiceReducer from './CustomerServiceReducer';
 
 const Reducers = combineReducers({
   CartReducers,
@@ -16,6 +17,7 @@ const Reducers = combineReducers({
 	SideInfoReducer,
 	WriteReviewReducer,
 	mixpanelReducer,
+	CustomerServiceReducer,
 });
 
 export default Reducers;

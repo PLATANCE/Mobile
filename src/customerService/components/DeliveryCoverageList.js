@@ -3,7 +3,7 @@ import Color from '../../const/Color';
 import Const from '../../const/Const';
 import { Font, normalize } from '../../const/Font';
 
-export default class AddressCoverageList extends React.Component {
+export default class DeliveryCoverageList extends React.Component {
     constructor(props) {
         super(props);
         let dataSource = new ListView.DataSource({
@@ -11,14 +11,14 @@ export default class AddressCoverageList extends React.Component {
         });
 
         this.state = {
-            dataSource: dataSource.cloneWithRows(props.addressCoverages)
+            dataSource: dataSource.cloneWithRows(props.deliveryCoverage)
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.addressCoverages !== this.props.addressCoverages) {
+        if (nextProps.deliveryCoverage !== this.props.deliveryCoverage) {
             this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(nextProps.addressCoverages)
+                dataSource: this.state.dataSource.cloneWithRows(nextProps.deliveryCoverage)
             })
         }
     }
@@ -27,7 +27,7 @@ export default class AddressCoverageList extends React.Component {
         var dongList = '';
         let dongArray = rowData.dong;
         dongArray.forEach(dong => {
-            dongList += dong.name + ', ';
+            dongList += dong + ', ';
         });
         dongList = dongList.substring(0, dongList.length - 2);
         return (
@@ -56,8 +56,7 @@ let styles = StyleSheet.create({
         padding: normalize(16),
         backgroundColor: 'white',
         justifyContent: 'center',
-        height: normalize(100),
-
+        flex: 1,
     },
     textSize15: {
         fontSize: normalize(15),

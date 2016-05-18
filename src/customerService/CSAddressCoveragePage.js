@@ -4,18 +4,27 @@ import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image } fr
 import Color from '../const/Color';
 import Const from '../const/Const';
 import { Font, normalize } from '../const/Font';
-import AddressCoverageList from './components/AddressCoverageList';
+import DeliveryCoverageList from './components/DeliveryCoverageList';
+import {
+  fetchDeliveryCoverage,
+} from '../app/actions/CustomerServiceActions';
 
-export default class CSMainPage extends React.Component {
-
+export default class CSAddressCoveragePage extends React.Component {
+    constructor(props) {
+        super(props);
+        props.dispatch(fetchDeliveryCoverage());
+    }
     render() {
+        const {
+            deliveryCoverage
+        } = this.props;
         return (
             <View style={styles.container}>
                 <View style={styles.content} >
                     <View style={styles.header}>
                         <Text style={[Font.DEFAULT_FONT_BLACK_BOLD, {fontSize: normalize(17)}]}>배달 가능 지역</Text>
                     </View>
-                    <AddressCoverageList addressCoverages={this.props.addressCoverages}/>
+                    <DeliveryCoverageList deliveryCoverage={deliveryCoverage}/>
                 </View>
             </View>
         );
