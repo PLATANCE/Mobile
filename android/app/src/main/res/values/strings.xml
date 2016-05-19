@@ -1,4 +1,7 @@
 <resources>
 
     <string name="app_name">Mobile</string>
+
+    <!-- Facebook -->
+    <string name="facebook_app_id">1628165434090487</string>
 </resources>

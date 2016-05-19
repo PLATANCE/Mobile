@@ -1,5 +1,5 @@
 'use strict';
-import React, { View, Text, StyleSheet, TouchableHighlight, Image, NativeModules } from 'react-native';
+import React, { View, Text, StyleSheet, TouchableHighlight, Image, NativeModules, Platform } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Mixpanel from '../util/mixpanel';
 import DeviceInfo from 'react-native-device-info';
@@ -11,14 +11,12 @@ import Swiper from 'react-native-swiper';
 import userInfo from '../util/userInfo';
 import realm from '../util/realm';
 
-// EEAF6AAE-40D0-4246-90A5-3C9D4E9ED396
+
+const platform = Platform.OS === 'android' ? 'android' : 'ios';
+
 const KakaoManager = NativeModules.KakaoManager,
     FacebookManager = NativeModules.FacebookManager,
     KeychainManager = NativeModules.KeychainManager;
-    
-    KeychainManager.getDeviceUUID()
-        .then((data) => { console.log(data); })
-        .catch((err) => { console.log(err); });
 
 export default class TutorialPage extends React.Component {
     constructor(props) {

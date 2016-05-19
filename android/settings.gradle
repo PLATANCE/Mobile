@@ -1,4 +1,7 @@
 rootProject.name = 'Mobile'
 
-include ':app', ':react-native-dialogs'
-project(':react-native-dialogs').projectDir = file('../node_modules/react-native-dialogs/android')
+include ':app'
+include ':realm'
+include ':react-native-fbsdk'
+project(':realm').projectDir = new File(rootProject.projectDir, '../node_modules/realm/android')
+project(':react-native-fbsdk').projectDir = new File(settingsDir, '../node_modules/react-native-fbsdk/Android')

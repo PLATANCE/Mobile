@@ -1,5 +1,5 @@
 'use strict';
-import React, { View, Text, StyleSheet, TouchableHighlight, Image, Dimensions, NativeModules } from 'react-native';
+import React, { View, Text, StyleSheet, TouchableHighlight, Image, Dimensions, NativeModules, Platform } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import DeviceInfo from 'react-native-device-info';
 import Color from '../const/Color';
@@ -10,6 +10,8 @@ import RequestURL from '../const/RequestURL';
 import realm from '../util/realm';
 import userInfo from '../util/userInfo';
 import Mixpanel from '../util/mixpanel';
+
+const platform = Platform.OS === 'android' ? 'android' : 'ios';
 
 const KakaoManager = NativeModules.KakaoManager,
     FacebookManager = NativeModules.FacebookManager;
