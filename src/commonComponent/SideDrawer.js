@@ -20,13 +20,11 @@ class SideDrawerContent extends Component {
         super(props);
         this.state = {
             point: 0,
-            referPriceText: '',
             cntCoupon: 0,
         };
     }
     componentDidMount() {
         this.fetchUserPoint();
-        this.fetchPolicyRefer();
         this.fetchMyCoupon();
     }
     fetchUserPoint() {
@@ -39,19 +37,6 @@ class SideDrawerContent extends Component {
                         point: responseData.point,
                     });
                 }
-            })
-            .catch((error)=> {
-                console.warn(error);
-            })
-            .done();
-    }
-    fetchPolicyRefer() {
-        fetch(RequestURL.REQUEST_GET_POLICY_REFER_POINT)
-            .then((response) => response.json())
-            .then((responseData) => {
-                this.setState({
-                    referPriceText: responseData.korReferPoint,
-                });
             })
             .catch((error)=> {
                 console.warn(error);
@@ -83,13 +68,13 @@ class SideDrawerContent extends Component {
             [
                 { text: '취소', onPress: () => Mixpanel.trackWithProperties('Enter Promo Code', { entered: false }) },
                 { text: '등록', onPress: (code) => this.submitCode(code) },
-            ],
+            ]
         );
     }
     submitCode(code) {
         Mixpanel.trackWithProperties('Enter Promo Code', { entered: true, code: code });
         let param = 'user_idx=' + userInfo.idx + '&code=' + code;
-        
+
         fetch(RequestURL.SUBMIT_POINT_REGISTER + param)
             .then((response) => response.json())
             .then((responseData) => {
@@ -119,14 +104,13 @@ class SideDrawerContent extends Component {
         const { drawer } = this.context;
         let cntCoupon = this.state.cntCoupon;
         let cntCouponText = (cntCoupon > 0) ? '(' + cntCoupon + ')' : '';
-        let referPriceText = this.state.referPriceText + ' + ' + this.state.referPriceText + ' 포인트 지급';
 
         const rowInfo = [
             { text: "내 쿠폰함 ", cnt: cntCouponText, image: require('./img/icon_left_coupon.png'), action: () => { Actions.MyCouponPage({ disable: false }), Mixpanel.track('View My Coupons') } },
             { text: "주문 내역", image: require('./img/icon_left_order.png'), action: () => { Actions.MyOrderPage(), Mixpanel.track('View Order History') } },
             { text: "고객 센터", image: require('./img/icon_left_headset.png'), action: Actions.CSMainPage },
         ];
-        
+
         var drawerRow = [];
         rowInfo.forEach(row => {
             const text = row.text;
@@ -163,8 +147,8 @@ class SideDrawerContent extends Component {
                 <View style={styles.drawerRowBox} >
                    {drawerRow}
                 </View>
-                <TouchableHighlight 
-                    onPress={ () => { Actions.ReferPage(), Mixpanel.track } } 
+                <TouchableHighlight
+                    onPress={ () => { Actions.ReferPage(), Mixpanel.track } }
                     underlayColor={'transparent'}
                     >
                     <View style={styles.footerBox}>
@@ -172,7 +156,6 @@ class SideDrawerContent extends Component {
                             source={require('./img/invite_friend.png')} />
                         <View style={styles.footerTextBox}>
                             <Text style={[Font.DEFAULT_FONT_WHITE, { textDecorationLine: 'underline', fontSize: normalize(20) }]}>친구 초대하기</Text>
-                            <Text style={[Font.DEFAULT_FONT_WHITE, {marginTop: normalize(5)}]}>{referPriceText}</Text>
                         </View>
                     </View>
                 </TouchableHighlight>
@@ -193,7 +176,7 @@ export default class SideDrawer extends Component {
                 type="overlay"
                 content={<SideDrawerContent />}
                 tapToClose={true}
-                openDrawerOffset={0.3} 
+                openDrawerOffset={0.3}
                 panCloseMask={0.2}
                 closedDrawerOffset={0}
                 styles={drawerStyles}
@@ -285,5 +268,5 @@ let styles = StyleSheet.create({
         justifyContent: 'center',
         marginLeft: normalize(10),
     },
-    
+
 });
