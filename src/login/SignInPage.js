@@ -1,5 +1,5 @@
 'use strict';
-import React, { View, Text, StyleSheet, TouchableHighlight, Image, Dimensions, NativeModules, Platform } from 'react-native';
+import React, { View, Text, StyleSheet, TouchableHighlight, Image, Dimensions, NativeModules, Platform, Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import DeviceInfo from 'react-native-device-info';
 import Color from '../const/Color';
@@ -136,7 +136,10 @@ export default class SignInPage extends React.Component {
                     userInfo.idx = parseInt(userIdx);
                 });
                 //console.log(userInfo);
-
+                Alert.alert(
+                    'Welcome to Plating!',
+                    "신규가입 1만원 할인 쿠폰이 지급되었습니다.\n'내쿠폰함'을 확인해보세요.",
+                );
                 Actions.DrawerPage();
             })
             .catch((error) => {

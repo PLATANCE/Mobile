@@ -172,7 +172,6 @@ class SideDrawerContent extends Component {
                             source={require('./img/invite_friend.png')} />
                         <View style={styles.footerTextBox}>
                             <Text style={[Font.DEFAULT_FONT_WHITE, { textDecorationLine: 'underline', fontSize: normalize(20) }]}>친구 초대하기</Text>
-                            <Text style={[Font.DEFAULT_FONT_WHITE, {marginTop: normalize(5)}]}>{referPriceText}</Text>
                         </View>
                     </View>
                 </TouchableHighlight>

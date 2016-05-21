@@ -5,7 +5,7 @@ import { Font, normalize } from '../../const/Font';
 import MediaURL from '../../const/MediaURL';
 import Mixpanel from '../../util/mixpanel';
 import MenuReviewStars from '../../commonComponent/MenuReviewStars';
-import MenuPriceText from '../../commonComponent/MenuPriceText';
+import MenuPriceTextInRow from '../../commonComponent/MenuPriceTextInRow';
 import AddCartButton from '../../commonComponent/AddCartButton';
 import AmountInCart from '../../commonComponent/AmountInCart';
 import SoldOutView from '../../commonComponent/SoldOutView';
@@ -115,25 +115,28 @@ export default class DailyMenuList extends React.Component {
                             </View>
                         </View>
                     </View>
+                    <View style={styles.priceBox}>
+                        <MenuPriceTextInRow originalPrice={rowData.price} sellingPrice={rowData.alt_price} align={{textAlign: 'right'}}/>
+                    </View>
                     
                     <View style={styles.reviewPriceBox}>
                         <View style={styles.reviewBox}>
                             <MenuReviewStars score={rowData.rating}/>
                             <Text style={[styles.reviewCountText, Font.DEFAULT_FONT_GRAY]}>({rowData.review_count})</Text>
                         </View>
-                        <View style={styles.priceBox}>
-                            <MenuPriceText originalPrice={rowData.price} sellingPrice={rowData.alt_price} align={{textAlign: 'right'}}/>
-                        </View>
+                        
                         <View style={styles.cartButtonBox}>
-                            <View style={[styles.iconView, {marginRight: 5}]} >
-                                <Image style={styles.iconImage} 
-                                    source={require('../../commonComponent/img/icon_detail.png')}/>
+                            <View style={[styles.menuButton, {marginRight: 5}]} >
+                                <Text style={Font.DEFAULT_FONT_BLACK}>메뉴보기</Text>
                             </View>
-                            <TouchableHighlight style={styles.iconView} 
+                            <TouchableHighlight
                                 underlayColor={Color.PRIMARY_ORANGE} 
                                 onPress={ () => addItemToCart(rowData.idx, rowData.menu_idx, rowData.price, rowData.alt_price, rowData.image_url_menu, menuNameKor, menuNameEng, enableAddButton) } >
-                                <Image style={styles.iconImage} 
+                                <View style={styles.cartButton}>
+                                <Image style={styles.cartPlusImage}
                                     source={require('../../commonComponent/img/icon_plus.png')}/>
+                                <Text style={[Font.DEFAULT_FONT_WHITE, {marginLeft: normalize(3)}]}>추가하기</Text>
+                                </View>
                             </TouchableHighlight>
                         </View>
                     </View>
@@ -169,7 +172,7 @@ let styles = StyleSheet.create({
         marginBottom: normalize(10),
     },
     menuDetailBox: {
-        height: normalize(350),
+        height: normalize(330),
     },
     menuImageBox: {
         height: normalize(250),
@@ -186,7 +189,7 @@ let styles = StyleSheet.create({
         top: normalize(210),
     },
     menuChefBox: {
-        height: normalize(100),
+        height: normalize(80),
         flexDirection: 'row',
         marginLeft: normalize(16),
         marginRight: normalize(16),
@@ -201,8 +204,8 @@ let styles = StyleSheet.create({
     menuChef: {
         flex: 4,
         paddingLeft: normalize(10),
-        marginBottom: normalize(20),
-        marginTop: normalize(20),
+        marginBottom: normalize(5),
+        marginTop: normalize(10),
     },
     textBlack: {
         color: Color.PRIMARY_BLACK,
@@ -231,20 +234,34 @@ let styles = StyleSheet.create({
         marginLeft: 5,
     },
     priceBox: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        marginRight: normalize(10),
+        height: 20,
+        justifyContent: 'center',
+        alignItems: 'flex-end',
+        paddingLeft: normalize(16),
+        paddingRight: normalize(16),
     },
     cartButtonBox: {
+        flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
     },
-    iconView: {
-        width: normalize(35),
+    menuButton: {
+        width: normalize(70),
         height: normalize(35),
+        backgroundColor: 'white',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: Color.PRIMARY_GRAY,
+        overflow: 'hidden',
+        marginRight: 0,
+    },
+    cartButton: {
+        width: normalize(70),
+        height: normalize(35),
+        flexDirection: 'row',
         backgroundColor: Color.PRIMARY_ORANGE,
         alignItems: 'center',
         justifyContent: 'center',
@@ -254,10 +271,9 @@ let styles = StyleSheet.create({
         overflow: 'hidden',
         marginRight: 0,
     },
-    iconImage: {
-        width: normalize(15),
-        height: normalize(15),
-        resizeMode: 'contain',
+    cartPlusImage: {
+        width: normalize(10),
+        height: normalize(10),
     },
     marginBox: {
         height: normalize(6),

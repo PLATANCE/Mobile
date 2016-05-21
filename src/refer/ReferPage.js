@@ -81,19 +81,6 @@ export default class ReferPage extends React.Component {
         );
         Mixpanel.trackWithProperties('Refer Button', { via: 'URL' });
     }
-    showDetailDialog() {
-        /*
-            title: 친구를 초대하세요!
-            content: 초대받은 친구가 추천 코드를 입력하고 첫 주문을 하면, 초대하신 분께 5천원 포인트를 드립니다.
-        */
-        Alert.alert(
-            '친구를 초대하세요!',
-            '초대받은 친구가 추천 코드를 입력하고 첫 주문을 하면, 초대하신 분께 ' + this.state.pointPriceKor + ' 포인트를 드립니다',
-        );
-        this.setState({
-            readDetail: true,
-        })
-    }
     onPressKakao(content) {
       KakaoManager.openKakaoTalkAppLink('Plating 열기', content);
       Mixpanel.trackWithProperties('Refer Button', { via: 'Kakao' });
@@ -111,27 +98,18 @@ export default class ReferPage extends React.Component {
         */
         const userCode = this.state.userCode;
         let url = MediaURL.REFER_URL + this.state.url;
-        let clipboardContent = '셰프의 요리를 집에서 즐겨요! 지금 플레이팅 앱을 다운받고 첫 주문 ' + this.state.pointPriceKor + ' 포인트를 드립니다.\n'
-                            + '다운로드 링크: http://goo.gl/t5lrSL\n'
-                            + '추천인 코드: ' + userCode;
-        let kakaoContent = '셰프의 요리를 집에서 즐겨요! 지금 플레이팅 앱을 다운받고 첫 주문 ' + this.state.pointPriceKor + ' 포인트를 드립니다.\n'
-                            + '추천인 코드: ' + userCode;
+        let clipboardContent = '오늘 저녁 뭐 먹지? 고민은 그만! 지금 바로 플레이팅 하세요 :) 첫 주문 ' + this.state.pointPriceKor + ' 쿠폰 증정.\n'
+                            + '[추천인 코드: ' + userCode + ']';
+                            + '다운로드 링크: http://goo.gl/t5lrSL\n';
+                            
+        let kakaoContent = '오늘 저녁 뭐 먹지? 고민은 그만! 지금 바로 플레이팅 하세요 :) 첫 주문 ' + this.state.pointPriceKor + ' 쿠폰 증정.\n'
+                            + '[추천인 코드: ' + userCode + ']';
 
         return (
             <View style={styles.container}>
                 <View style={styles.imageBox}>
                     <Image style={styles.referImage}
                         source={{uri: url}} />
-                </View>
-                <View style={styles.codeBox}>
-                    <Text style={[Font.DEFAULT_FONT_ORANGE, {fontSize: normalize(20)}]}>내 추천코드 :
-                        <Text style={[Font.DEFAULT_FONT_ORANGE_BOLD, {fontSize: normalize(35)}]}> {userCode}</Text>
-                    </Text>
-                    <Text style={[Font.DEFAULT_FONT_WHITE, {fontSize: normalize(15)}]}>
-                        친구에게 공유하세요
-                    </Text>
-                    <Image style={styles.arrowImage}
-                        source={require('./img/arrow_invite.png')}/>
                 </View>
                 <View style={styles.methodBox}>
                     <TouchableHighlight underlayColor={'transparent'} onPress={ () => this.onPressKakao(kakaoContent) } >
@@ -167,16 +145,11 @@ let styles = StyleSheet.create({
         marginTop: Const.MARGIN_TOP,
     },
     imageBox: {
-        flex: 6,
+        flex: 8,
     },
     referImage: {
         flex: 1,
-    },
-    codeBox: {
-        flex: 2,
-        backgroundColor: Color.REFER_BACKGROUND,
-        justifyContent: 'center',
-        alignItems: 'center',
+        resizeMode: 'contain',
     },
     arrowImage: {
         width: normalize(30),

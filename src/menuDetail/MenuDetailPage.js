@@ -185,10 +185,8 @@ export default class MenuDetailPage extends React.Component {
                                     <Text style={Font.DEFAULT_FONT_GRAY}>{menu.career_summ}</Text>
                                 </View>
                                 <View style={styles.iconBox}>
-                                    <View style={styles.iconView}>
-                                        <Image style={styles.iconImage} 
-                                            source={require('../commonComponent/img/icon_detail.png')}/>
-                                    </View>
+                                    <Image style={styles.iconImage} 
+                                        source={require('../commonComponent/img/icon_input.png')}/>
                                 </View>
                             </View>
                         </TouchableHighlight>
@@ -296,17 +294,7 @@ let styles = StyleSheet.create({
     iconBox: {
         flex: 1,
         justifyContent: 'center',
-    },
-    iconView: {
-        width: normalize(35),
-        height: normalize(35),
-        backgroundColor: Color.PRIMARY_ORANGE,
         alignItems: 'center',
-        justifyContent: 'center',
-        borderWidth: 1,
-        borderRadius: 5,
-        borderColor: Color.PRIMARY_ORANGE,
-        overflow: 'hidden',
     },
     iconImage: {
         width: normalize(15),

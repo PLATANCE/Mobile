@@ -94,6 +94,7 @@ export default class Routes extends Component {
                 Mixpanel.trackWithProperties('Show Cart', { success: false });
                 Alert.alert(
                     '장바구니가 비어있습니다.',
+                    '오늘 드실 플레이팅 요리를 추가해주세요.'
                 );
             } else {
                 Mixpanel.trackWithProperties('Show Cart', { success: true });
