@@ -24,7 +24,7 @@ export default class AmountInCart extends React.Component {
         if (amount > 0) {
             return (
                 <View style={styles.container}>
-                    <Text style={styles.text}>{amount} 개가 장바구니에 있습니다.</Text>
+                    <Text style={styles.text}>{amount} 개가 장바구니에 추가되었습니다.</Text>
                 </View>
 
             );

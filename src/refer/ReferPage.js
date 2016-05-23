@@ -147,16 +147,11 @@ let styles = StyleSheet.create({
         marginTop: Const.MARGIN_TOP,
     },
     imageBox: {
-        flex: 6,
+        flex: 8,
     },
     referImage: {
         flex: 1,
-    },
-    codeBox: {
-        flex: 2,
-        backgroundColor: Color.REFER_BACKGROUND,
-        justifyContent: 'center',
-        alignItems: 'center',
+        resizeMode: 'contain',
     },
     arrowImage: {
         width: normalize(30),
@@ -184,7 +179,6 @@ let styles = StyleSheet.create({
     },
     methodBox: {
         flex: 2,
-        paddingTop: 10,
         paddingBottom: 10,
         paddingLeft: normalize(50),
         paddingRight: normalize(50),

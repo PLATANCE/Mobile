@@ -47,16 +47,14 @@ export default class MyOrderList extends React.Component {
                     <View style={styles.footerBox}>
                         <Text style={Font.DEFAULT_FONT_BLACK}>{rowData.time_slot}</Text>
                         <View style={styles.buttonBox}>
-                            <View style={[styles.button, { marginRight: 10 }]}>
-                                <Image style={styles.buttonIconImage} 
-                                    source={require('../../commonComponent/img/icon_detail.png')}/>
-                                <Text style={Font.DEFAULT_FONT_WHITE}>상세 보기</Text>
+                            <View style={[styles.buttonWhite, { marginRight: 10 }]}>
+                                <Text style={Font.DEFAULT_FONT_BLACK}>상세 보기</Text>
                             </View>
                             <TouchableHighlight  
                                 onPress={ () => { Actions.WriteReviewPage({ orderIdx: orderIdx, autoPopUp: false, }); changeEditReviewProperty(); } } 
                                 underlayColor={'transparent'} >
                                 <View style={styles.button}>
-                                    <Image style={styles.buttonIconImage} 
+                                    <Image style={styles.buttonIconImage}
                                         source={require('../../commonComponent/img/icon_pencil.png')}/>
                                     <Text style={Font.DEFAULT_FONT_WHITE}>리뷰 작성</Text>
                                 </View>
@@ -107,6 +105,19 @@ let styles = StyleSheet.create({
         height: normalize(35),
         borderColor: Color.PRIMARY_ORANGE,
         backgroundColor: Color.PRIMARY_ORANGE,
+        borderRadius: normalize(5),
+        borderWidth: 1,
+        overflow: 'hidden',
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'flex-end',
+        flexDirection: 'row',
+    },
+    buttonWhite: {
+        width: normalize(85),
+        height: normalize(35),
+        borderColor: Color.PRIMARY_GRAY,
+        backgroundColor: 'white',
         borderRadius: normalize(5),
         borderWidth: 1,
         overflow: 'hidden',
