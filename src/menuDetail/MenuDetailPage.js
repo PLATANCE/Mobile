@@ -1,6 +1,9 @@
 'use strict';
 import React, {
+    Component,
     PropTypes,
+} from 'react';
+import {
     View,
     Text,
     Image,
@@ -28,7 +31,7 @@ import Mixpanel from '../util/mixpanel';
 import { addItemToCart } from '../app/actions/CartActions';
 
 
-export default class MenuDetailPage extends React.Component {
+export default class MenuDetailPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -227,7 +230,6 @@ export default class MenuDetailPage extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: Const.MARGIN_TOP,
     },
     content: {
         backgroundColor: Color.PRIMARY_BACKGROUND

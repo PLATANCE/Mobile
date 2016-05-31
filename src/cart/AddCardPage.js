@@ -1,5 +1,9 @@
 'use strict';
-import React, { View, Text, StyleSheet, WebView, Alert} from 'react-native';
+import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import { View, Text, StyleSheet, WebView, Alert} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import sha256 from 'sha256';
 import Const from '../const/Const';
@@ -9,7 +13,7 @@ import {
   fetchCartInfo,
 } from '../app/actions/CartInfoActions';
 
-export default class AddCardPage extends React.Component {
+export default class AddCardPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -119,7 +123,6 @@ export default class AddCardPage extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: Const.MARGIN_TOP,
         alignItems: 'center',
     },
     webView: {

@@ -1,5 +1,9 @@
 'use strict';
-import React, { View, Text, StyleSheet, TouchableHighlight, ScrollView, Image } from 'react-native';
+import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import { View, Text, StyleSheet, TouchableHighlight, ScrollView, Image } from 'react-native';
 import Color from '../const/Color';
 import Const from '../const/Const';
 import { Font, normalize } from '../const/Font';
@@ -7,7 +11,7 @@ import Separator from '../commonComponent/Separator';
 import RequestURL from '../const/RequestURL';
 import MediaURL from '../const/MediaURL';
 
-export default class ChefDetailPage extends React.Component {
+export default class ChefDetailPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -55,8 +59,6 @@ export default class ChefDetailPage extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Color.PRIMARY_BACKGROUND,
-        marginTop: Const.MARGIN_TOP,
     },
     content: {
     },

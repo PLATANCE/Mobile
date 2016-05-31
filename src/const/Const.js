@@ -1,4 +1,4 @@
-import { Dimensions, PixelRatio } from 'react-native';
+import { Dimensions, PixelRatio, Platform } from 'react-native';
 
 const deviceRatio = 0;
 if(PixelRatio.get() === 2) {
@@ -8,7 +8,7 @@ if(PixelRatio.get() === 2) {
 }
 
 const Const = {
-    MARGIN_TOP: 64,
+    MARGIN_TOP: Platform.OS === 'ios' || Platform.Version > 19 ? 64 : 44,
     WIDTH: Dimensions.get('window').width,
     HEIGHT: Dimensions.get('window').height,
     CART_ADDRESS_INPUT_MESSAGE: '주소를 입력해주세요',

@@ -1,5 +1,9 @@
 'use strict';
-import React, { View, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
+import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import { View, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Color from '../const/Color';
 import Const from '../const/Const';
@@ -7,7 +11,7 @@ import { Font, normalize } from '../const/Font';
 import OrderedMenu from './components/OrderedMenu';
 import RequestURL from '../const/RequestURL';
 
-export default class OrderDetailPage extends React.Component {
+export default class OrderDetailPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -99,8 +103,6 @@ export default class OrderDetailPage extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Color.PRIMARY_BACKGROUND,
-        marginTop: Const.MARGIN_TOP,
     },
     content: {
         flex: 1,

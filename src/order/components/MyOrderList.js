@@ -1,4 +1,8 @@
-import React, { View, ListView, Text, StyleSheet, Image, TouchableHighlight } from 'react-native';
+import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import { View, ListView, Text, StyleSheet, Image, TouchableHighlight } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Color from '../../const/Color';
 import Const from '../../const/Const';
@@ -6,7 +10,7 @@ import { Font, normalize } from '../../const/Font';
 import Mixpanel from '../../util/mixpanel';
 
 
-export default class MyOrderList extends React.Component {
+export default class MyOrderList extends Component {
     constructor(props) {
         super(props);
         let dataSource = new ListView.DataSource({
@@ -71,7 +75,9 @@ export default class MyOrderList extends React.Component {
             <View style={styles.container}>
                 <ListView
                     dataSource={this.state.dataSource}
-                    renderRow={this.renderRow.bind(this)} />
+                    renderRow={this.renderRow.bind(this)}
+                    enableEmptySections={true}
+                />
             </View>
         );
     }

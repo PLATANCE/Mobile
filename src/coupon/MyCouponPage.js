@@ -1,5 +1,9 @@
 'use strict';
-import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image, InteractionManager } from 'react-native';
+import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import { View, ListView, Text, StyleSheet, TouchableHighlight, Image, InteractionManager } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 import Color from '../const/Color';
@@ -16,7 +20,7 @@ import {
 import userInfo from '../util/userInfo';
 
 
-export default class MyCouponPage extends React.Component {
+export default class MyCouponPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -96,8 +100,6 @@ export default class MyCouponPage extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: Const.MARGIN_TOP,
-        backgroundColor: Color.PRIMARY_BACKGROUND,
     },
     content: {
         marginTop: 10,

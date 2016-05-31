@@ -1,13 +1,17 @@
 'use strict';
-import React, { View, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
+import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import { View, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
 import Const from '../const/Const';
 
 
-export default class AddressCoveragePage extends React.Component {
+export default class AddressCoveragePage extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View>
             	<Image style={styles.img} 
                     source={{uri: this.props.url}}/>
             </View>
@@ -18,7 +22,6 @@ export default class AddressCoveragePage extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: Const.MARGIN_TOP,
     },
     img: {
         flex: 1,

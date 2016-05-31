@@ -1,13 +1,37 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mobile">
-
+    <permission
+        android:name="com.plating.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.plating.permission.C2D_MESSAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
     <application
       android:allowBackup="true"
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
       android:theme="@style/AppTheme">
+      <receiver
+        android:name="com.google.android.gms.gcm.GcmReceiver"
+        android:exported="true"
+        android:permission="com.google.android.c2dm.permission.SEND" >
+        <intent-filter>
+          <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+          <category android:name="com.plating" />
+        </intent-filter>
+      </receiver>
+
+      <service android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationRegistrationService"/>
+      <service
+        android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationListenerService"
+        android:exported="false" >
+        <intent-filter>
+          <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+        </intent-filter>
+      </service>
+
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
@@ -25,8 +49,11 @@
         android:label="@string/app_name" />
 
         <meta-data
-        android:name="com.facebook.sdk.ApplicationId"
-        android:value="@string/facebook_app_id" />
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="02d6ee4fd30ec6aaa64fec1f43f2703070972cd5" />
     </application>
 
 </manifest>

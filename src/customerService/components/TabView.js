@@ -1,9 +1,12 @@
 'use strict';
-import React, { View, Text, StyleSheet, TouchableHighlight } from 'react-native';
+import React, {
+    Component,
+} from 'react';
+import { View, Text, StyleSheet, TouchableHighlight } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 
-export default class TabView extends React.Component {
+export default class TabView extends Component {
     render() {
         return (
             <View style={styles.container}>

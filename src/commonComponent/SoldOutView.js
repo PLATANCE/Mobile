@@ -1,5 +1,9 @@
 'use strict';
 import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import {
     View,
     Text,
     StyleSheet,
@@ -10,7 +14,7 @@ import Color from '../const/Color';
 import Const from '../const/Const';
 import { Font, normalize } from '../const/Font';
 
-export default class SoldOutView extends React.Component {
+export default class SoldOutView extends Component {
 
     render() {
         let {

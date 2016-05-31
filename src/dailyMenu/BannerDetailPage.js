@@ -1,10 +1,15 @@
 'use strict';
-import React, { View, Text, StyleSheet, TouchableHighlight, Image, WebView } from 'react-native';
+import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import { View, Text, StyleSheet, TouchableHighlight, Image, WebView } from 'react-native';
 import Const from '../const/Const';
 
-export default class BannerDetailPage extends React.Component {
+export default class BannerDetailPage extends Component {
 
     render() {
+        console.log(this.props);
         return (
             <View style={styles.container} >
                 <WebView style={styles.webView}
@@ -22,7 +27,6 @@ export default class BannerDetailPage extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: Const.MARGIN_TOP,
     },
     webView: {
         flex: 1,

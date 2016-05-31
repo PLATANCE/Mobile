@@ -1,5 +1,9 @@
 'use strict';
 import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import {
     View,
     StyleSheet,
     Image,
@@ -8,7 +12,7 @@ import React, {
 import Color from '../const/Color';
 import Const from '../const/Const';
 
-export default class PlaceholderView extends React.Component {
+export default class PlaceholderView extends Component {
     render() {
         return (
             <View style={styles.container}>
@@ -25,7 +29,6 @@ export default class PlaceholderView extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: Const.MARGIN_TOP,
     },
     img: {
         height: Const.HEIGHT,

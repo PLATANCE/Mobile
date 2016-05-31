@@ -1,5 +1,8 @@
 'use strict';
-import React, { View, Text, StyleSheet, TouchableHighlight, Image, Dimensions, NativeModules, Platform, Alert } from 'react-native';
+import React, {
+    Component,
+} from 'react';
+import { View, Text, StyleSheet, TouchableHighlight, Image, Dimensions, NativeModules, Platform, Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import DeviceInfo from 'react-native-device-info';
 import Color from '../const/Color';
@@ -33,7 +36,7 @@ FacebookManager.getID()
   });*/
 
 
-export default class SignInPage extends React.Component {
+export default class SignInPage extends Component {
     constructor(props) {
         super(props);
     }
@@ -117,6 +120,7 @@ export default class SignInPage extends React.Component {
             })
             .then((json) => {
                 const userIdx = json.user_info.user_idx;
+                const signUpOrLogin = json.from;
                 const name = (param.login_type === 'kakao') ? param.nickname : param.name;
                 const uniqueID = userIdx.toString();
 
@@ -136,11 +140,13 @@ export default class SignInPage extends React.Component {
                     userInfo.idx = parseInt(userIdx);
                 });
                 //console.log(userInfo);
-                Alert.alert(
-                    'Welcome to Plating!',
-                    "신규가입 1만원 할인 쿠폰이 지급되었습니다.\n'내쿠폰함'을 확인해보세요.",
-                );
-                Actions.DrawerPage();
+                if(signUpOrLogin == 'i') {
+                    Alert.alert(
+                        'Welcome to Plating!',
+                        "신규가입 1만원 할인 쿠폰이 지급되었습니다.\n'내쿠폰함'을 확인해보세요.",
+                    );
+                }
+                Actions.drawer({type: 'reset'});
             })
             .catch((error) => {
                 console.warn('signUp Fail!!', error);
@@ -200,10 +206,11 @@ let styles = StyleSheet.create({
     img: {
         width: Const.WIDTH,
         height: Const.HEIGHT * 0.6,
-        resizeMode: 'contain'
+        resizeMode: 'cover'
     },
     contentBox: {
         flex: 1,
+        width: Const.WIDTH,
         backgroundColor: 'white',
         alignItems: 'center',
     },

@@ -1,4 +1,8 @@
-import React, { View, ListView, Text, StyleSheet, Image, TextInput, TouchableHighlight, Alert } from 'react-native';
+import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import { View, ListView, Text, StyleSheet, Image, TextInput, TouchableHighlight, Alert } from 'react-native';
 import StarRating from 'react-native-star-rating';
 import Color from '../../const/Color';
 import Const from '../../const/Const';
@@ -6,7 +10,7 @@ import { Font, normalize } from '../../const/Font';
 import MediaURL from '../../const/MediaURL';
 import RequestURL from '../../const/RequestURL';
 
-export default class WriteReviewList extends React.Component {
+export default class WriteReviewList extends Component {
     constructor(props) {
         super(props);
         let dataSource = new ListView.DataSource({
@@ -132,6 +136,7 @@ export default class WriteReviewList extends React.Component {
                 <ListView
                     dataSource={this.state.dataSource}
                     renderRow={this.renderRow.bind(this)}
+                    enableEmptySections={true}
                 />
             </View>
         );

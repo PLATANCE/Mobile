@@ -1,10 +1,14 @@
 'use strict';
-import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
+import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import { View, ListView, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
 
 import Color from '../const/Color';
 import Const from '../const/Const';
 
-export default class MyPointPage extends React.Component {
+export default class MyPointPage extends Component {
 
     render() {
         return (
@@ -24,7 +28,6 @@ let styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: Const.MARGIN_TOP,
     },
     button: {
         borderColor: Color.PRIMARY_ORANGE,

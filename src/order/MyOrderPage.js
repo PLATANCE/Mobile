@@ -1,5 +1,9 @@
 'use strict';
-import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image, InteractionManager } from 'react-native';
+import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import { View, ListView, Text, StyleSheet, TouchableHighlight, Image, InteractionManager } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 import Color from '../const/Color';
@@ -11,7 +15,7 @@ import PlaceholderView from '../commonComponent/PlaceholderView';
 import userInfo from '../util/userInfo';
 import Mixpanel from '../util/mixpanel';
 
-export default class MyOrderPage extends React.Component {
+export default class MyOrderPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -63,7 +67,7 @@ export default class MyOrderPage extends React.Component {
 
     loadingNoDataImage() {
         return (
-            <TouchableHighlight onPress={Actions.DrawerPage} underlayColor={'transparent'}>
+            <TouchableHighlight onPress={Actions.pop} underlayColor={'transparent'}>
                 <View style={styles.container}>
                     <Image style={styles.img}
                         source={require('./img/no_data.jpg')} />
@@ -95,8 +99,6 @@ export default class MyOrderPage extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Color.PRIMARY_BACKGROUND,
-        marginTop: Const.MARGIN_TOP,
     },
     content: {
         flex: 1,

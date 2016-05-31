@@ -1,5 +1,9 @@
 'use strict';
-import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image, Clipboard, Alert, Linking, LinkingIOS, NativeModules } from 'react-native';
+import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import { View, ListView, Text, StyleSheet, TouchableHighlight, Image, Clipboard, Alert, Linking, LinkingIOS, NativeModules } from 'react-native';
 import Communications from 'react-native-communications';
 
 import Color from '../const/Color';
@@ -13,7 +17,7 @@ import Mixpanel from '../util/mixpanel';
 
 const KakaoManager = NativeModules.KakaoManager;
 
-export default class ReferPage extends React.Component {
+export default class ReferPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -144,7 +148,6 @@ export default class ReferPage extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: Const.MARGIN_TOP,
     },
     imageBox: {
         flex: 8,

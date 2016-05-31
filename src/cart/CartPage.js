@@ -1,6 +1,10 @@
 'use strict';
 
 import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import {
   View,
   Text,
   StyleSheet,
@@ -54,7 +58,7 @@ const PICKER_CUTLERY_DATA = [
   CUTLERY.NO,
 ];
 
-export default class CartPage extends React.Component {
+export default class CartPage extends Component {
   constructor(props) {
     super(props);
     const timeSlotPickerData = this.generateTimeSlotPickerData(props.timeSlotData);
@@ -757,8 +761,6 @@ export default class CartPage extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Color.PRIMARY_BACKGROUND,
-    marginTop: Const.MARGIN_TOP,
     justifyContent: 'center',
   },
   content: {

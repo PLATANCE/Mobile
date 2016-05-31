@@ -1,4 +1,8 @@
-import React, { View, ListView, Text, StyleSheet, Image, TouchableHighlight } from 'react-native';
+import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import { View, ListView, Text, StyleSheet, Image, TouchableHighlight } from 'react-native';
 import Color from '../../const/Color';
 import Const from '../../const/Const';
 import { Font, normalize } from '../../const/Font';
@@ -6,7 +10,7 @@ import MediaURL from '../../const/MediaURL';
 import MenuPriceText from '../../commonComponent/MenuPriceText';
 import _ from 'lodash';
 
-export default class CartMenuList extends React.Component {
+export default class CartMenuList extends Component {
     constructor(props) {
         super(props);
         let dataSource = new ListView.DataSource({
@@ -68,6 +72,7 @@ export default class CartMenuList extends React.Component {
                 <ListView
                     dataSource={this.state.dataSource}
                     renderRow={this.renderRow.bind(this)}
+                    enableEmptySections={true}
                 />
             </View>
         );

@@ -1,4 +1,8 @@
-import React, { View, ListView, Text, StyleSheet, Image, TouchableHighlight, Alert, PixelRatio } from 'react-native';
+import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import { View, ListView, Text, StyleSheet, Image, TouchableHighlight, Alert, PixelRatio } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Color from '../../const/Color';
 import { normalize } from '../../const/Font';
@@ -14,7 +18,7 @@ if(PixelRatio.get() === 2) {
 } else if(PixelRatio.get() === 3) {
     couponImageHeight = 175;
 }
-export default class MyCouponList extends React.Component {
+export default class MyCouponList extends Component {
     constructor(props) {
         super(props);
         let dataSource = new ListView.DataSource({
@@ -118,6 +122,7 @@ export default class MyCouponList extends React.Component {
                 <ListView
                     dataSource={this.state.dataSource}
                     renderRow={this.renderRow.bind(this)}
+                    enableEmptySections={true}
                 />
             </View>
         );

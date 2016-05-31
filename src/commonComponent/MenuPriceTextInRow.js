@@ -1,6 +1,9 @@
 'use strict';
 import React, {
+    Component,
     PropTypes,
+} from 'react';
+import {
     View,
     Text,
     StyleSheet,
@@ -9,7 +12,7 @@ import React, {
 import Color from '../const/Color';
 import { Font, normalize } from '../const/Font';
 
-export default class MenuPriceTextInRow extends React.Component {
+export default class MenuPriceTextInRow extends Component {
     static propTypes = {
         
     };

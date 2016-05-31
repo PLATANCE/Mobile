@@ -1,5 +1,9 @@
 'use strict';
-import React, { View, Text, StyleSheet, WebView, Dimensions } from 'react-native';
+import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import { View, Text, StyleSheet, WebView, Dimensions } from 'react-native';
 
 import Color from '../const/Color';
 import Const from '../const/Const';
@@ -10,7 +14,7 @@ const TERM_URL = 'http://api.plating.co.kr/app/term.html';
 const PRIVACY_URL = 'http://api.plating.co.kr/app/privacy.html';
 
 
-export default class CSPolicyPage extends React.Component {
+export default class CSPolicyPage extends Component {
     constructor(props) {
         super(props);
         if(props.uri && props.page) {
@@ -73,8 +77,6 @@ export default class CSPolicyPage extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Color.PRIMARY_BACKGROUND,
-        marginTop: Const.MARGIN_TOP,
         alignItems: 'center',
     },
     content: {

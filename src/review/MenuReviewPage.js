@@ -1,5 +1,9 @@
 'use strict';
-import React, { View, Text, StyleSheet,ScrollView, InteractionManager } from 'react-native';
+import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import { View, Text, StyleSheet,ScrollView, InteractionManager } from 'react-native';
 
 import Color from '../const/Color';
 import Const from '../const/Const';
@@ -7,7 +11,7 @@ import RequestURL from '../const/RequestURL';
 import MenuReviewList from './components/MenuReviewList';
 import PlaceholderView from '../commonComponent/PlaceholderView';
 
-export default class ReviewPage extends React.Component {
+export default class ReviewPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -58,8 +62,6 @@ export default class ReviewPage extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Color.PRIMARY_BACKGROUND,
-        marginTop: Const.MARGIN_TOP,
     },
     content: {
         flex: 1,

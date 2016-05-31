@@ -1,7 +1,10 @@
 'use strict';
-import React, { View, Text, StyleSheet, TouchableHighlight, TextInput, ScrollView, Alert } from 'react-native';
+import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import { View, Text, StyleSheet, TouchableHighlight, TextInput, ScrollView, Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import Prompt from 'react-native-prompt';
 
 import SearchedAddressList from './components/SearchedAddressList';
 import Color from '../const/Color';
@@ -18,7 +21,7 @@ import {
 } from '../app/actions/CartInfoActions';
 
 
-export default class AddAddressPage extends React.Component {
+export default class AddAddressPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -76,7 +79,6 @@ export default class AddAddressPage extends React.Component {
 
 let styles = StyleSheet.create({
     container: {
-        marginTop: Const.MARGIN_TOP,
         justifyContent: 'center',
     },
     pageTextBox: {

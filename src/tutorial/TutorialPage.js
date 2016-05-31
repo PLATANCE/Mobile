@@ -1,5 +1,8 @@
 'use strict';
-import React, { View, Text, StyleSheet, TouchableHighlight, Image, NativeModules, Platform } from 'react-native';
+import React, {
+    Component,
+} from 'react';
+import { View, Text, StyleSheet, TouchableHighlight, Image, NativeModules, Platform } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Mixpanel from '../util/mixpanel';
 import DeviceInfo from 'react-native-device-info';
@@ -18,7 +21,7 @@ const KakaoManager = NativeModules.KakaoManager,
     FacebookManager = NativeModules.FacebookManager,
     KeychainManager = NativeModules.KeychainManager;
 
-export default class TutorialPage extends React.Component {
+export default class TutorialPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -32,6 +35,7 @@ export default class TutorialPage extends React.Component {
         let kakaoID;
         let autoSignUpID = DeviceInfo.getUniqueID();
 
+        if(platform === 'ios') {
         FacebookManager.getID()
           .then((id) => {facebookID = id; console.log(id);})
           .catch((err) => console.log(err))
@@ -68,7 +72,7 @@ export default class TutorialPage extends React.Component {
                             userInfo.idx = parseInt(userIdx);
                           });
 
-                          Actions.DrawerPage();
+                          Actions.drawer({type: 'reset'});
                           }
                       })
                       .catch((error) => {
@@ -77,6 +81,7 @@ export default class TutorialPage extends React.Component {
                   });
               });
           });
+      }
     }
 
     _onMomentumScrollEnd(e, state, context) {
@@ -113,7 +118,7 @@ export default class TutorialPage extends React.Component {
                             <Text style={Font.DEFAULT_FONT_BLACK}>식재료만큼은 절대 타협하지 않고 좋은 요리만을 만들것을</Text>
                             <Text style={Font.DEFAULT_FONT_BLACK}>플레이팅이 약속합니다.</Text>
                         </View>
-                            <View style={styles.buttonBoxWhite}>
+                        <View style={styles.buttonBoxWhite}>
                         </View>
                     </View>
                 </View>
@@ -174,7 +179,7 @@ let styles = StyleSheet.create({
     img: {
         width: Const.WIDTH,
         height: Const.HEIGHT * 0.6,
-        resizeMode: 'contain',
+        resizeMode: 'cover',
     },
     textBox: {
         width: Const.WIDTH,
@@ -184,9 +189,7 @@ let styles = StyleSheet.create({
         justifyContent: 'center',
     },
     textTopBox: {
-        width: Const.WIDTH,
         flex: 1,
-        backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -201,16 +204,15 @@ let styles = StyleSheet.create({
         marginBottom: normalize(20),
     },
     buttonBoxOrange: {
-        height: 50,
+        height: normalize(50),
         width: Const.WIDTH,
         backgroundColor: Color.PRIMARY_ORANGE,
         justifyContent: 'center',
         alignItems: 'center',
     },
     buttonBoxWhite: {
-        height: 50,
+        height: normalize(50),
         width: Const.WIDTH,
-        backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
     },

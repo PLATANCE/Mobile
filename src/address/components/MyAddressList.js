@@ -1,4 +1,8 @@
 import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import {
   View,
   ListView,
   Text,
@@ -14,7 +18,7 @@ import { Font, normalize } from '../../const/Font';
 import RequestURL from '../../const/RequestURL';
 import Mixpanel from '../../util/mixpanel';
 
-export default class MyAddressList extends React.Component {
+export default class MyAddressList extends Component {
   constructor(props) {
     super(props);
     const dataSource = new ListView.DataSource({
@@ -134,6 +138,7 @@ export default class MyAddressList extends React.Component {
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderRow.bind(this)}
+          enableEmptySections={true}
         />
       </View>
     );

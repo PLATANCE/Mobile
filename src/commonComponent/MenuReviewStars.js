@@ -1,6 +1,9 @@
 'use strict';
 import React, {
+    Component,
     PropTypes,
+} from 'react';
+import {
     View,
     Text,
     StyleSheet,
@@ -11,7 +14,7 @@ import React, {
 import Const from '../const/Const';
 import { Font, normalize } from '../const/Font';
 
-export default class MenuReviewStars extends React.Component {
+export default class MenuReviewStars extends Component {
     static propTypes = {
         
     };

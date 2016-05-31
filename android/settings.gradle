@@ -5,3 +5,13 @@ include ':realm'
 include ':react-native-fbsdk'
 project(':realm').projectDir = new File(rootProject.projectDir, '../node_modules/realm/android')
 project(':react-native-fbsdk').projectDir = new File(settingsDir, '../node_modules/react-native-fbsdk/Android')
+include ':RNMixpanel', ':app'
+project(':RNMixpanel').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-mixpanel/android')
+include ':react-native-push-notification'
+project(':react-native-push-notification').projectDir = file('../node_modules/react-native-push-notification/android')
+include ':react-native-fabric'
+project(':react-native-fabric').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fabric/android')
+
+// react-native-device-info dependency
+include ':react-native-device-info'
+project(':react-native-device-info').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-device-info/android')

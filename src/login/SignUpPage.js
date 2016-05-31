@@ -1,12 +1,15 @@
 'use strict';
-import React, { View, Text, StyleSheet, TouchableHighlight, Image, TextInput } from 'react-native';
+import React, {
+    Component,
+} from 'react';
+import { View, Text, StyleSheet, TouchableHighlight, Image, TextInput } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 import Color from '../const/Color';
 import Const from '../const/Const';
 
 
-export default class SignUpPage extends React.Component {
+export default class SignUpPage extends Component {
     
 
     render() {

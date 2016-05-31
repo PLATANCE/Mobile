@@ -1,9 +1,13 @@
-import React, { Text, View, Component, PropTypes, StyleSheet, Image, TouchableHighlight, AlertIOS, Alert, PixelRatio } from 'react-native';
+import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import { Text, View, StyleSheet, Image, TouchableHighlight, AlertIOS, Alert, PixelRatio } from 'react-native';
+import { DefaultRenderer } from 'react-native-router-flux';
 import Drawer from 'react-native-drawer';
 import Color from '../const/Color';
 import Const from '../const/Const';
 import { Font, normalize } from '../const/Font';
-import Separator from './Separator';
 
 import {
   fetchMyPoint,
@@ -14,6 +18,8 @@ import Modal from 'react-native-modalbox';
 import RequestURL from '../const/RequestURL';
 import userInfo from '../util/userInfo';
 import Mixpanel from '../util/mixpanel';
+
+
 
 class SideDrawerContent extends Component {
     constructor(props) {
@@ -165,31 +171,32 @@ class SideDrawerContent extends Component {
 }
 
 export default class SideDrawer extends Component {
+
     constructor(props) {
         super(props);
     }
 
     render() {
+        const children = this.props.navigationState.children;
         return (
             <Drawer
                 ref="drawer"
-                type="overlay"
+                type="displace"
                 content={<SideDrawerContent />}
                 tapToClose={true}
                 openDrawerOffset={0.3}
                 panCloseMask={0.2}
-                closedDrawerOffset={0}
+                negotiatePan={true}
                 styles={drawerStyles}
-                tweenHandler={(ratio) => ({ main: { opacity: (2 - ratio) / 2 } })} >
+                tweenHandler={(ratio) => ({ main: { opacity: Math.max(0.54, 1-ratio) } })} >
 
-                {React.Children.map(this.props.children, c => React.cloneElement(c, {
-                    route: this.props.route
-                }))}
+                <DefaultRenderer navigationState={children[0]} onNavigate={this.props.onNavigate} />
 
             </Drawer>
         )
     }
 }
+
 var drawerStyles = {
     drawer: {
         backgroundColor: '#ffffff',

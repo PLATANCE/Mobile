@@ -1,5 +1,9 @@
 'use strict';
-import React, { View, ListView, Text, StyleSheet, TouchableHighlight, ScrollView } from 'react-native';
+import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import { View, ListView, Text, StyleSheet, TouchableHighlight, ScrollView } from 'react-native';
 
 import Color from '../const/Color';
 import Const from '../const/Const';
@@ -12,7 +16,7 @@ import {
   changeTextInputComment,
 } from '../app/actions/WriteReviewActions';
 import Mixpanel from '../util/mixpanel';
-export default class WriteReviewPage extends React.Component {
+export default class WriteReviewPage extends Component {
     constructor(props) {
         super(props);
         props.dispatch(fetchWriteReviewList(this.props.orderIdx));
@@ -72,8 +76,6 @@ export default class WriteReviewPage extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Color.PRIMARY_BACKGROUND,
-        marginTop: Const.MARGIN_TOP,
     },
     content: {
         flex: 1,

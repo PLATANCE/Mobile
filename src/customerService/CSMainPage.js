@@ -1,5 +1,9 @@
 'use strict';
-import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
+import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import { View, ListView, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 import Color from '../const/Color';
@@ -8,7 +12,7 @@ import { Font, normalize } from '../const/Font';
 import Mixpanel from '../util/mixpanel';
 
 
-export default class CSMainPage extends React.Component {
+export default class CSMainPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -92,8 +96,6 @@ export default class CSMainPage extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Color.PRIMARY_BACKGROUND,
-        marginTop: Const.MARGIN_TOP,
     },
     content: {
         flex: 1,

@@ -1,6 +1,9 @@
 'use strict';
 import React, {
+    Component,
     PropTypes,
+} from 'react';
+import {
     View,
     Text,
     StyleSheet,
@@ -11,7 +14,7 @@ import React, {
 import Color from '../const/Color';
 import { Font } from '../const/Font';
 
-export default class AddCartButton extends React.Component {
+export default class AddCartButton extends Component {
     render() {
         return (
             <TouchableHighlight style={styles.container} 

@@ -1,6 +1,9 @@
 'use strict';
 import React, {
+    Component,
     PropTypes,
+} from 'react';
+import {
     View,
     Text,
     StyleSheet,
@@ -13,7 +16,7 @@ import { Font, normalize } from '../../const/Font';
 
 import MenuReviewStars from '../../commonComponent/MenuReviewStars';
 
-export default class MenuReviewList extends React.Component {
+export default class MenuReviewList extends Component {
     static propTypes = {
         
     };
@@ -58,7 +61,9 @@ export default class MenuReviewList extends React.Component {
                 <ListView
                     //https://facebook.github.io/react-native/docs/listview.html
                     dataSource={this.state.dataSource}
-                    renderRow={this.renderRow} />
+                    renderRow={this.renderRow}
+                    enableEmptySections={true}
+                />
             </View>
         );
     }

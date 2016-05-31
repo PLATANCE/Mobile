@@ -1,4 +1,7 @@
 import React, {
+    Component,
+} from 'react';
+import {
     View,
     Text,
     Image,
@@ -8,7 +11,7 @@ import React, {
 
 import Color from '../const/Color';
 
-export default class Separator extends React.Component {
+export default class Separator extends Component {
 	render() {
 		return (
 			<View style={styles.separator} />

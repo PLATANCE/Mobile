@@ -1,6 +1,9 @@
 'use strict';
 import React, {
+    Component,
     PropTypes,
+} from 'react';
+import {
     View,
     Text,
     StyleSheet,
@@ -9,9 +12,8 @@ import React, {
 import Color from '../const/Color';
 import { Font, normalize } from '../const/Font';
 import Const from '../const/Const';
-import Modal from 'react-native-modal';
 
-export default class AmountInCart extends React.Component {
+export default class AmountInCart extends Component {
     static propTypes = {
         amount: PropTypes.number.isRequired,
     };

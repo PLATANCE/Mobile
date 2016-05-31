@@ -1,4 +1,7 @@
-import React, { View, ListView, Text, StyleSheet, Image, TouchableHighlight, PixelRatio } from 'react-native';
+import React, {
+    Component,
+} from 'react';
+import { View, ListView, Text, StyleSheet, Image, TouchableHighlight, PixelRatio } from 'react-native';
 import Color from '../../const/Color';
 import Const from '../../const/Const';
 import { Font, normalize } from '../../const/Font';
@@ -14,7 +17,7 @@ import _ from 'lodash';
 
 // to be followed by a tracking event to define the end time
         
-export default class DailyMenuList extends React.Component {
+export default class DailyMenuList extends Component {
     constructor(props) {
         super(props);
         let dataSource = new ListView.DataSource({
@@ -98,12 +101,14 @@ export default class DailyMenuList extends React.Component {
                 <View style={styles.row}>
                     <View style={styles.menuDetailBox}>
                         <Image style={styles.menuImage}
+                            resizeMode='cover'
                             source={{uri: menuURL}} >
                             {contentInnerMenu}
                         </Image>
                         <View style={styles.menuChefBox}>
                             <View style={styles.chefImageBox}>
                                 <Image style={styles.chefImage}
+                                    resizeMode='contain'
                                     source={{uri: chefURL}} /> 
                             </View>
                             <View style={styles.menuChef}>
@@ -153,6 +158,7 @@ export default class DailyMenuList extends React.Component {
                 <ListView
                     dataSource={this.state.dataSource}
                     renderRow={this.renderRow.bind(this)}
+                    enableEmptySections={true}
                 />
             </View>
         );
@@ -180,7 +186,6 @@ let styles = StyleSheet.create({
     },
     menuImage: {
         flex: 1,
-        resizeMode: 'cover',
     },
     amountInCart: {
         height: normalize(40),
@@ -199,7 +204,6 @@ let styles = StyleSheet.create({
     },
     chefImage: {
         flex: 1,
-        resizeMode: 'contain',
     },
     menuChef: {
         flex: 4,

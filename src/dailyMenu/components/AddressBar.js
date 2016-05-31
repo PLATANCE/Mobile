@@ -1,6 +1,9 @@
 'use strict';
 import React, {
+    Component,
     PropTypes,
+} from 'react';
+import {
     View,
     Text,
     StyleSheet,
@@ -15,7 +18,7 @@ import Const from '../../const/Const';
 import { Font, normalize } from '../../const/Font';
 import Mixpanel from '../../util/mixpanel';
 
-export default class AddressBar extends React.Component {
+export default class AddressBar extends Component {
     static propTypes = {
         myAddress: PropTypes.object,
     };

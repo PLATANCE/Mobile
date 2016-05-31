@@ -1,4 +1,8 @@
 import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import {
   View,
   ListView,
   Text,
@@ -14,7 +18,7 @@ import Const from '../const/Const';
 import { normalize } from '../const/Font';
 import Mixpanel from '../util/mixpanel';
 
-export default class CSEnquiryPage extends React.Component {
+export default class CSEnquiryPage extends Component {
   chatKakao() {
     const KakaoManager = NativeModules.KakaoManager;
     KakaoManager.openKakaoTalkToCustomerService();
@@ -62,8 +66,6 @@ export default class CSEnquiryPage extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Color.PRIMARY_BACKGROUND,
-    marginTop: Const.MARGIN_TOP,
   },
   content: {
     flex: 1,

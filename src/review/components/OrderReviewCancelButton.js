@@ -1,6 +1,9 @@
 'use strict';
 import React, {
+    Component,
     PropTypes,
+} from 'react';
+import {
     View,
     Image,
     StyleSheet,
@@ -11,7 +14,7 @@ import Color from '../../const/Color';
 import Const from '../../const/Const';
 import { Font } from '../../const/Font';
 
-export default class OrderReviewCancelButton extends React.Component {
+export default class OrderReviewCancelButton extends Component {
     static propTypes = {
         
     };

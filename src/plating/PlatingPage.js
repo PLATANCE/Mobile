@@ -1,11 +1,15 @@
 'use strict';
-import React, { View, StyleSheet, WebView } from 'react-native';
+import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import { View, StyleSheet, WebView } from 'react-native';
 
 import Color from '../const/Color';
 import Const from '../const/Const';
 import MediaURL from '../const/MediaURL';
 
-export default class PlatingPage extends React.Component {
+export default class PlatingPage extends Component {
 
     render() {
         return (
@@ -25,8 +29,6 @@ export default class PlatingPage extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Color.PRIMARY_BACKGROUND,
-        marginTop: Const.MARGIN_TOP,
     },
     webView: {
         flex: 1,

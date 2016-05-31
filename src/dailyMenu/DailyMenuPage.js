@@ -1,5 +1,8 @@
 'use strict';
-import React, { View, ListView, Text, StyleSheet, TouchableHighlight, Image, ScrollView, Modal, Animated, AsyncStorage, Alert, Linking, Platform, InteractionManager } from 'react-native';
+import React, {
+    Component,
+} from 'react';
+import { View, ListView, Text, StyleSheet, TouchableHighlight, Image, ScrollView, Modal, Animated, AsyncStorage, Alert, Linking, Platform, InteractionManager } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { Crashlytics } from 'react-native-fabric';
 import DeviceInfo from 'react-native-device-info';
@@ -21,13 +24,12 @@ import {
   fetchMyAddress,
 } from '../app/actions/AddressActions';
 
-
 const HEIGHT = Const.HEIGHT;
 const WIDTH = Const.WIDTH;
 const DATE = new Date();
 
 
-export default class DailyMenuPage extends React.Component {
+export default class DailyMenuPage extends Component {
 
     constructor(props) {
         super(props);
@@ -48,6 +50,7 @@ export default class DailyMenuPage extends React.Component {
     
     componentDidMount() {
         //this.fetchDailyMenu();
+        Actions.refresh();
         this.fetchReviewAvailable();
         this.fetchDialog();
         this.fetchCheckUpdate();
@@ -168,7 +171,6 @@ export default class DailyMenuPage extends React.Component {
     }
     render() {
         const { dispatch, cart, myAddress } = this.props;
-        
         const isDialogVisible = this.state.isDialogVisible;
         let dialogView = false;
         if(isDialogVisible) {
@@ -221,17 +223,6 @@ export default class DailyMenuPage extends React.Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: Const.MARGIN_TOP,
-        justifyContent: 'center',
-    },
-    pageCommentBox: {
-        backgroundColor: 'white',
-        alignItems: 'center',
-        height: 30,
-        justifyContent: 'center',
-    },
-    pageCommentText: {
-        color: Color.PRIMARY_ORANGE,
     },
     content: {
         flex: 1,
@@ -239,11 +230,6 @@ let styles = StyleSheet.create({
     },
     menuList: {
         flex: 1,
-    },
-    img: {
-        marginLeft: 10,
-        width: 20,
-        height: 20,
     },
     containerDialog: {
         position: 'absolute',

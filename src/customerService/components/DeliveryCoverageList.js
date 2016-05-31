@@ -1,9 +1,13 @@
-import React, { View, ListView, Text, StyleSheet, Image, TouchableHighlight } from 'react-native';
+import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import { View, ListView, Text, StyleSheet, Image, TouchableHighlight } from 'react-native';
 import Color from '../../const/Color';
 import Const from '../../const/Const';
 import { Font, normalize } from '../../const/Font';
 
-export default class DeliveryCoverageList extends React.Component {
+export default class DeliveryCoverageList extends Component {
     constructor(props) {
         super(props);
         let dataSource = new ListView.DataSource({
@@ -44,6 +48,7 @@ export default class DeliveryCoverageList extends React.Component {
 	        	<ListView
 	        		dataSource={this.state.dataSource}
 	        		renderRow={this.renderRow}
+                    enableEmptySections={true}
 	        	/>
         	</View>
         );

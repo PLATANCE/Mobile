@@ -1,12 +1,16 @@
 'use strict';
-import React, { View, Text, StyleSheet, TouchableHighlight, Image, TextInput } from 'react-native';
+import React, {
+    Component,
+    PropTypes,
+} from 'react';
+import { View, Text, StyleSheet, TouchableHighlight, Image, TextInput } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 import Color from '../const/Color';
 import Const from '../const/Const';
 
 
-export default class LoginPage extends React.Component {
+export default class LoginPage extends Component {
     fbLogin() {
         console.log("facebook login");
     }

@@ -1,6 +1,9 @@
 'use strict';
 import React, {
+    Component,
     PropTypes,
+} from 'react';
+import {
     View,
     Text,
     StyleSheet,
@@ -14,7 +17,7 @@ import Color from '../../const/Color';
 import Const from '../../const/Const';
 import { Font, normalize } from '../../const/Font';
 
-export default class ReviewList extends React.Component {
+export default class ReviewList extends Component {
     static propTypes = {
         
     };
@@ -60,7 +63,9 @@ export default class ReviewList extends React.Component {
                 <ListView style={styles.listView}
                     //https://facebook.github.io/react-native/docs/listview.html
                     dataSource={this.state.dataSource}
-                    renderRow={this.renderRow} />
+                    renderRow={this.renderRow} 
+                    enableEmptySections={true}
+                />
             </View>
         );
     }
