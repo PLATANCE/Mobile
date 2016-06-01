@@ -106,9 +106,7 @@ export default class Routes extends Component {
     //<Route name='DrawerPage' hideNavBar={true} type='replace'
                         //initial={userInfo.isLogin ? true : false} >
     render() {
-        console.log(userInfo.isLogin);
         return (
-            
             <Provider store={store}>
                 <RouterWithRedux getSceneStyle={getSceneStyle}>
                 <Scene key="root" hideNavBar={true} hideTabBar={true}>
@@ -128,7 +126,7 @@ export default class Routes extends Component {
                         component={connect()(SignUpPage)} 
                     />
 
-                    <Scene key='drawer' component={NavigationDrawer} initial={userInfo.isLogin ? true : false}  >
+                    <Scene key='drawer' component={NavigationDrawer} initial={userInfo.isLogin ? true : false} sceneStyle={{backgroundColor: 'white'}} >
                         <Scene key="main" 
                             navigationBarStyle={{backgroundColor: Color.PRIMARY_ORANGE}}
                             titleStyle={{color: 'white'}}
@@ -171,7 +169,6 @@ export default class Routes extends Component {
                                 component={connect()(ChefDetailPage)}
                                 title="CHEF"
                                 backButtonImage={require('../commonComponent/img/back_white.png')}
-                                onRight={()=>this.onCartButtonPressed()} rightButtonImage={require('../commonComponent/img/cart_white.png')} rightButtonIconStyle={styles.image} 
                             />
 
                             <Scene key='MyAddressPage' 
@@ -182,7 +179,8 @@ export default class Routes extends Component {
 
                             <Scene key="AddAddressPage" 
                                 component={connect(AddAddressSelector)(AddAddressPage)}
-                                title="배달 주소 입력" 
+                                title="배달 주소 입력"
+                                sceneStyle={{backgroundColor: 'white'}}
                                 backButtonImage={require('../commonComponent/img/back_white.png')}
                             />
 

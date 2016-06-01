@@ -3,7 +3,7 @@ import React, {
     Component,
     PropTypes,
 } from 'react';
-import { View, Text, StyleSheet, TouchableHighlight, TextInput, ScrollView, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Alert, Image } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 import SearchedAddressList from './components/SearchedAddressList';
@@ -26,13 +26,25 @@ export default class AddAddressPage extends Component {
         super(props);
         this.state = {
             addressList: [],
+            textQuery: '',
         }
     }
     searchAddress(event) {
         let input = event.nativeEvent.text;
         this.fetchSearchedAddressList(input);
     }
+    searchAddressFromButton() {
+        const query = this.state.textQuery;
+        this.fetchSearchedAddressList(query);
+    }
     fetchSearchedAddressList(address) {
+        if(address === '') {
+            Alert.alert(
+                '입력 오류',
+                '검색어를 입력해 주세요. 예) 신사동 123-4'
+            );
+            return;
+        }
         fetch(RequestURL.REQUEST_SEARCHED_ADDRESS_LIST + "query=" + address)
             .then((response) => response.json())
             .then((responseData) => {
@@ -49,10 +61,16 @@ export default class AddAddressPage extends Component {
             })
             .done();
     }
+    updateText(text) {
+        this.setState({
+            textQuery: text,
+        });
+    }
     render() {
         const {
             dispatch,
         } = this.props;
+        const iconOpacityStyle = this.state.textQuery === '' ? {opacity: 0.2} : {opacity: 1};
         return (
             <ScrollView>
                 <View style={styles.container} >
@@ -64,7 +82,17 @@ export default class AddAddressPage extends Component {
     	                <TextInput style={[styles.textInput, Font.DEFAULT_FONT_BLACK]} autoFocus={true} 
                             keyboardType='default' autoCorrect={false} 
                             onSubmitEditing={this.searchAddress.bind(this)}
+                            onChange={(event) => this.updateText(event.nativeEvent.text)}
     					    placeholder='예) 신사동 123-4' />
+                        <TouchableOpacity 
+                            onPress={this.searchAddressFromButton.bind(this)}
+                            activeOpacity={0.7}
+                        >
+                            <View style={[styles.searchIconBox, iconOpacityStyle]}>
+                                <Image style={styles.searchIconImage} 
+                                    source={require('./img/address_input.png')}/>
+                            </View>
+                        </TouchableOpacity>
     				</View>
     				<SearchedAddressList 
                         fetchMyAddressList={ () => dispatch(fetchMyAddressList()) }
@@ -88,20 +116,39 @@ let styles = StyleSheet.create({
     },
     textInputBox: {
         height: normalize(30),
-        backgroundColor: Color.PRIMARY_BACKGROUND,
-        borderColor: Color.PRIMARY_BACKGROUND,
-        overflow: 'hidden',
         marginLeft: normalize(16),
         marginRight: normalize(16),
         marginTop: normalize(10),
+        flexDirection: 'row',
     },
     textInput: {
         flex: 1,
-        marginLeft: normalize(10),
+        paddingLeft: normalize(10),
+        marginRight: normalize(10),
+        backgroundColor: Color.PRIMARY_BACKGROUND,
+        borderColor: Color.PRIMARY_BACKGROUND,
+        borderWidth: 1,
+        borderRadius: 5,
+        overflow: 'hidden',
     },
     addressCoverBox: {
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: normalize(10),
     },
+    searchIconBox: {
+        height: normalize(30),
+        width: normalize(45),
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: Color.PRIMARY_ORANGE,
+        borderColor: Color.PRIMARY_ORANGE,
+        borderWidth: 1,
+        borderRadius: 5,
+        overflow: 'hidden',
+    },
+    searchIconImage: {
+        height: normalize(16),
+        width: normalize(16),
+    }
 });

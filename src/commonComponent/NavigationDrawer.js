@@ -20,7 +20,6 @@ class NavigationDrawer extends Component {
   componentDidMount() {
     this.fetchUserPoint();
     this.fetchMyCoupon();
-    console.log("sdff");
   }
   componentWillReceiveProps(nextProps) {
   }
