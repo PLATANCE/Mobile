@@ -16,23 +16,24 @@ import java.util.List;
 import com.kevinejohn.RNMixpanel.*;
 
 // pushnotification
-import android.content.Intent;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 
 // fabric
 import com.smixx.fabric.FabricPackage;
-import android.os.Bundle;
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 
 // device info
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 
-// facebook sdk
+//facebook sdk
+import com.facebook.FacebookSdk;
+import com.facebook.CallbackManager;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 
 public class MainActivity extends ReactActivity {
     private ReactNativePushNotificationPackage mReactNativePushNotificationPackage;
+    CallbackManager mCallbackManager;
     /**
      * Returns the name of the main component registered from JavaScript.
      * This is used to schedule rendering of the component.
@@ -63,13 +64,16 @@ public class MainActivity extends ReactActivity {
     @Override
     protected List<ReactPackage> getPackages() {
         mReactNativePushNotificationPackage = new ReactNativePushNotificationPackage(this);
+        mCallbackManager = new CallbackManager.Factory().create();
+
         return Arrays.<ReactPackage>asList(
                 new FabricPackage(this),
             new RNMixpanel(),
             new MainReactPackage(),
             new RealmReactPackage(),
             new RNDeviceInfo(),
-            mReactNativePushNotificationPackage
+            mReactNativePushNotificationPackage,
+            new FBSDKPackage(mCallbackManager)
         );
     }
 
@@ -78,5 +82,11 @@ public class MainActivity extends ReactActivity {
         super.onNewIntent(intent);
 
         mReactNativePushNotificationPackage.newIntent(intent);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }

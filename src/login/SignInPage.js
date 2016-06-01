@@ -5,6 +5,7 @@ import React, {
 import { View, Text, StyleSheet, TouchableHighlight, Image, Dimensions, NativeModules, Platform, Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import DeviceInfo from 'react-native-device-info';
+import FBSDK from 'react-native-fbsdk';
 import Color from '../const/Color';
 import Const from '../const/Const';
 import { Font, normalize } from '../const/Font';
@@ -18,23 +19,9 @@ const platform = Platform.OS === 'android' ? 'android' : 'ios';
 
 const KakaoManager = NativeModules.KakaoManager,
     FacebookManager = NativeModules.FacebookManager;
-
-/*
-let facebookID;
-let kakaoID;
-let autoSignUpID = DeviceInfo.getUniqueID();
-FacebookManager.getID()
-  .then((id) => {facebookID = id;})
-  .catch((err) => console.log(err))
-  .then(() => {
-    KakaoManager.getID()
-      .then((id) => {kakaoID = id;})
-      .catch((err) => console.log(err))
-      .then(() => {
-        fetch( test )
-      });
-  });*/
-
+const {
+    LoginManager
+} = FBSDK;
 
 export default class SignInPage extends Component {
     constructor(props) {
@@ -43,27 +30,58 @@ export default class SignInPage extends Component {
     facebookLogin() {
         Mixpanel.trackWithProperties('Click Sign Up', { via: 'Facebook' });
         const signUp = this.signUp;
+        if(platform === 'ios') {
+            FacebookManager.login().then((result) => {
 
-        FacebookManager.login().then((result) => {
+                Mixpanel.trackWithProperties('Sign Up Success', { via: 'Facebook' });
 
-            Mixpanel.trackWithProperties('Sign Up Success', { via: 'Facebook' });
+                const facebookSignUpParams = {
+                    "os_type": "iOS",
+                    "login_type": "fb",
+                    "user_id": result.id,
+                    "name": result.name,
+                    "push_token": PushNotification.deviceToken,
+                    "os_version": DeviceInfo.getSystemVersion(),
+                    "device": DeviceInfo.getModel(),
+                    "email": result.email,
+                };
 
-            const facebookSignUpParams = {
-                "os_type": "iOS",
-                "login_type": "fb",
-                "user_id": result.id,
-                "name": result.name,
-                "push_token": PushNotification.deviceToken,
-                "os_version": DeviceInfo.getSystemVersion(),
-                "device": DeviceInfo.getModel(),
-                "email": result.email,
-            };
+                signUp(facebookSignUpParams);
 
-            signUp(facebookSignUpParams);
-
-        }).catch((err) => {
-            console.log(err);
-        });
+            }).catch((err) => {
+                console.log(err);
+            });
+        } else {
+            LoginManager.logInWithReadPermissions(['public_profile']).then(
+  function(result) {
+    if (result.isCancelled) {
+      alert('Login cancelled');
+    } else {
+      alert('Login success with permissions: '
+        +result.grantedPermissions.toString());
+    }
+  },
+  function(error) {
+    alert('Login fail with error: ' + error);
+  }
+);
+            //alert(platform);
+            //alert(LoginManager);
+            /*
+            LoginManager.logInWithReadPermissions(['public_profile']).then(
+                function(result) {
+                    if(result.isCancelled) {
+                        alert('Login cancelled');
+                    } else {
+                        alert('Login success with permissions : ' + result.grantedPermissions.toString());
+                    }
+                },
+                function(error) {
+                    alert('Login fail with error: ' + error);
+                }
+            );
+            */
+        }
     }
     kakaoLogin() {
         Mixpanel.trackWithProperties('Click Sign Up', { via: 'Kakao' });
