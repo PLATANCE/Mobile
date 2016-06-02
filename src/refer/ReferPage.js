@@ -117,6 +117,10 @@ export default class ReferPage extends Component {
                     <Image style={styles.referImage}
                         source={{uri: url}} />
                 </View>
+                <View style={styles.codeBox}>
+                    <Text style={Font.DEFAULT_FONT_BLACK_BOLD}>친구들에게 나의 플레이팅 고유코드를 공유해보세요!</Text>
+                    <Text style={[Font.DEFAULT_FONT_ORANGE_BOLD, {fontSize: normalize(40)}]}>ab26</Text>
+                </View>
                 <View style={styles.methodBox}>
                     <TouchableHighlight underlayColor={'transparent'} onPress={ () => this.onPressKakao(kakaoContent) } >
                     <View style={styles.method}>
@@ -150,11 +154,19 @@ let styles = StyleSheet.create({
         flex: 1,
     },
     imageBox: {
-        flex: 8,
+        flex: 6,
     },
     referImage: {
         flex: 1,
         resizeMode: 'contain',
+        backgroundColor: 'green',
+    },
+    codeBox: {
+        flex: 2,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: normalize(20),
     },
     arrowImage: {
         width: normalize(30),
