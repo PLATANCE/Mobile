@@ -1,18 +1,8 @@
 PODS:
   - AppsFlyer-SDK (4.4.1)
-  - Bolts (1.7.0):
-    - Bolts/AppLinks (= 1.7.0)
-    - Bolts/Tasks (= 1.7.0)
-  - Bolts/AppLinks (1.7.0):
-    - Bolts/Tasks
-  - Bolts/Tasks (1.7.0)
   - Crashlytics (3.7.0):
     - Fabric (~> 1.6.3)
   - Fabric (1.6.7)
-  - FBSDKCoreKit (4.11.0):
-    - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.11.0):
-    - FBSDKCoreKit
   - Mixpanel (2.9.9):
     - Mixpanel/Mixpanel (= 2.9.9)
   - Mixpanel/Mixpanel (2.9.9)
@@ -21,17 +11,12 @@ DEPENDENCIES:
   - AppsFlyer-SDK
   - Crashlytics
   - Fabric
-  - FBSDKCoreKit
-  - FBSDKLoginKit
   - Mixpanel
 
 SPEC CHECKSUMS:
   AppsFlyer-SDK: 4bf80079a84df2f6d14939e8266c98f0a793c308
-  Bolts: a0058fa3b331c5a1e4402d534f2dae36dbff31e4
   Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
-  FBSDKCoreKit: 686ac982723a14ec9ddb85e2f81235d7706c891b
-  FBSDKLoginKit: bade9fc78277764149ccc5bfaadbf13c83175c6a
   Mixpanel: 818d1940c2d9402453b349545022a86968097f57
 
 COCOAPODS: 0.39.0

@@ -20,14 +20,44 @@ const platform = Platform.OS === 'android' ? 'android' : 'ios';
 const KakaoManager = NativeModules.KakaoManager,
     FacebookManager = NativeModules.FacebookManager;
 const {
-    LoginManager
+    LoginManager,
+    GraphRequest,
+    GraphRequestManager,
 } = FBSDK;
 
 export default class SignInPage extends Component {
     constructor(props) {
         super(props);
     }
+    _responseInfoCallback(error: ?Object, result: ?Object) {
+        if(error) {
+            alert('Error fetching data: ' + error.toString());
+        } else {
+            alert('Success fetching data: ' + result.toString());
+        }
+    }
     facebookLogin() {
+        LoginManager.logInWithReadPermissions(['public_profile'])
+        .then(
+            function(result) {
+                if(result.isCancelled) {
+                    alert('Login cancelled');
+                } else {
+                    // Create a graph request asking for user information with a callback to handle the response.
+                    const infoRequest = new GraphRequest(
+                        '/me',
+                        null,
+                        this._responseInfoCallback,
+                    );
+                    // Start the graph request.
+                    new GraphRequestManager().addRequest(infoRequest).start();
+                }
+            },
+            function(error) {
+                alert('Login fail with error: ' + error);
+            }
+        );
+        /*
         Mixpanel.trackWithProperties('Click Sign Up', { via: 'Facebook' });
         const signUp = this.signUp;
         if(platform === 'ios') {
@@ -53,22 +83,6 @@ export default class SignInPage extends Component {
             });
         } else {
             LoginManager.logInWithReadPermissions(['public_profile']).then(
-  function(result) {
-    if (result.isCancelled) {
-      alert('Login cancelled');
-    } else {
-      alert('Login success with permissions: '
-        +result.grantedPermissions.toString());
-    }
-  },
-  function(error) {
-    alert('Login fail with error: ' + error);
-  }
-);
-            //alert(platform);
-            //alert(LoginManager);
-            /*
-            LoginManager.logInWithReadPermissions(['public_profile']).then(
                 function(result) {
                     if(result.isCancelled) {
                         alert('Login cancelled');
@@ -80,8 +94,8 @@ export default class SignInPage extends Component {
                     alert('Login fail with error: ' + error);
                 }
             );
-            */
         }
+        */
     }
     kakaoLogin() {
         Mixpanel.trackWithProperties('Click Sign Up', { via: 'Kakao' });
