@@ -151,7 +151,8 @@ export default class MenuDetailPage extends Component {
                         </View>
                         <View style={styles.menuImageBox}>
                             <Image style={styles.menuImage}
-                                source={{uri: menuURL}} >
+                                source={{uri: menuURL}}
+                                resizeMode={'cover'} >
                                 {contentInnerMenu}
                             </Image>
                         </View>
@@ -182,7 +183,8 @@ export default class MenuDetailPage extends Component {
                         >
                             <View style={styles.chefBox}>
                                 <Image style={styles.chefImage}
-                                    source={{uri: chefURL}}></Image>
+                                    source={{uri: chefURL}} 
+                                    resizeMode={'contain'}/>
                                 <View style={styles.chefSummaryBox}>
                                     <Text style={[styles.textBlack, {marginBottom: 2}, Font.DEFAULT_FONT_BLACK]}>{menu.name_chef}</Text>
                                     <Text style={Font.DEFAULT_FONT_GRAY}>{menu.career_summ}</Text>
@@ -245,7 +247,6 @@ let styles = StyleSheet.create({
     },
     menuImage: {
         flex: 1,
-        resizeMode: 'cover',
     },
     amountInCart: {
         height: normalize(40),
@@ -287,7 +288,6 @@ let styles = StyleSheet.create({
     chefImage: {
         flex: 2,
         margin: 3,
-        resizeMode: 'contain',
     },
     chefSummaryBox: {
         flex: 6,

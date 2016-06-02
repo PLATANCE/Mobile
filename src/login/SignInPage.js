@@ -26,207 +26,190 @@ const {
 } = FBSDK;
 
 export default class SignInPage extends Component {
-    constructor(props) {
-        super(props);
-    }
-    _responseInfoCallback(error: ?Object, result: ?Object) {
-        if(error) {
-            alert('Error fetching data: ' + error.toString());
+  constructor(props) {
+    super(props);
+  }
+  facebookLogin() {
+    Mixpanel.trackWithProperties('Click Sign Up', { via: 'Facebook' });
+    LoginManager.logInWithReadPermissions(['public_profile'])
+    .then(
+      (result) => {
+        if(result.isCancelled) {
+          alert('Login cancelled');
         } else {
-            alert('Success fetching data: ' + result.toString());
-        }
-    }
-    facebookLogin() {
-        LoginManager.logInWithReadPermissions(['public_profile'])
-        .then(
-            function(result) {
-                if(result.isCancelled) {
-                    alert('Login cancelled');
-                } else {
-                    // Create a graph request asking for user information with a callback to handle the response.
-                    const infoRequest = new GraphRequest(
-                        '/me',
-                        null,
-                        this._responseInfoCallback,
-                    );
-                    // Start the graph request.
-                    new GraphRequestManager().addRequest(infoRequest).start();
-                }
-            },
-            function(error) {
-                alert('Login fail with error: ' + error);
+          // Create response callback.
+          const responseInfoCallback = (error, result) => {
+            if(error) {
+              console.log(error);
+              alert('Error fetching data: ' + error.toString());
+            } else {
+              Mixpanel.trackWithProperties('Sign Up Success', { via: 'Facebook' });
+              const facebookSignUpParams = {
+                "os_type": "iOS",
+                "login_type": "fb",
+                "user_id": result.id,
+                "user_name": result.name,
+                "push_token": PushNotification.deviceToken,
+                "os_version": DeviceInfo.getSystemVersion(),
+                "device": DeviceInfo.getModel(),
+                "email": result.email,
+              };
+              console.log(facebookSignUpParams);
+              this.signUp(facebookSignUpParams);
             }
-        );
-        /*
-        Mixpanel.trackWithProperties('Click Sign Up', { via: 'Facebook' });
-        const signUp = this.signUp;
-        if(platform === 'ios') {
-            FacebookManager.login().then((result) => {
-
-                Mixpanel.trackWithProperties('Sign Up Success', { via: 'Facebook' });
-
-                const facebookSignUpParams = {
-                    "os_type": "iOS",
-                    "login_type": "fb",
-                    "user_id": result.id,
-                    "name": result.name,
-                    "push_token": PushNotification.deviceToken,
-                    "os_version": DeviceInfo.getSystemVersion(),
-                    "device": DeviceInfo.getModel(),
-                    "email": result.email,
-                };
-
-                signUp(facebookSignUpParams);
-
-            }).catch((err) => {
-                console.log(err);
-            });
-        } else {
-            LoginManager.logInWithReadPermissions(['public_profile']).then(
-                function(result) {
-                    if(result.isCancelled) {
-                        alert('Login cancelled');
-                    } else {
-                        alert('Login success with permissions : ' + result.grantedPermissions.toString());
-                    }
-                },
-                function(error) {
-                    alert('Login fail with error: ' + error);
+          }
+          // Create a graph request asking for user email and name with a callback to handle the response
+          const infoRequest = new GraphRequest(
+            '/me',
+            {
+              parameters: {
+                fields: {
+                  string: 'email, name'
                 }
-            );
+              }
+            },
+            responseInfoCallback
+          );
+
+          // Start the graph request.
+          new GraphRequestManager().addRequest(infoRequest).start()
         }
-        */
-    }
-    kakaoLogin() {
-        Mixpanel.trackWithProperties('Click Sign Up', { via: 'Kakao' });
-        const signUp = this.signUp;
+      },
+      function(error) {
+        alert('Login fail with error: ' + error);
+      }
+    );
+  }
+  kakaoLogin() {
+    Mixpanel.trackWithProperties('Click Sign Up', { via: 'Kakao' });
+    const signUp = this.signUp;
 
-        KakaoManager.login().then((result) => {  
+    KakaoManager.login().then((result) => {  
+      let params = {
+        "os_type": "iOS",
+        "login_type": "kakao",
+        "user_id": result.ID,
+        "push_token": PushNotification.deviceToken,
+        "os_version": DeviceInfo.getSystemVersion(),
+        "device": DeviceInfo.getModel(),
+        "nickname": result.properties.nickname,
+        "profile_image": result.properties.profile_image,
+        "thumbnail_image": result.properties.thumbnail_image,
+      };
+      signUp(params);
 
-            let params = {
-                "os_type": "iOS",
-                "login_type": "kakao",
-                "user_id": result.ID,
-                "push_token": PushNotification.deviceToken,
-                "os_version": DeviceInfo.getSystemVersion(),
-                "device": DeviceInfo.getModel(),
-                "nickname": result.properties.nickname,
-                "profile_image": result.properties.profile_image,
-                "thumbnail_image": result.properties.thumbnail_image,
-            };
-            signUp(params);
+      }).catch((err) => {
+        console.log(err);
+      });
+  }
+  autoLogin() {
+    Mixpanel.trackWithProperties('Click Sign Up', { via: 'Auto' });
+    const signUp = this.signUp;
 
-        }).catch((err) => {
-            console.log(err);
-        });
-    }
-    autoLogin() {
-        Mixpanel.trackWithProperties('Click Sign Up', { via: 'Auto' });
-        const signUp = this.signUp;
+    let params = {
+      "os_type": "iOS",
+      "login_type": "auto",
+      "user_id": DeviceInfo.getUniqueID(),
+      "name": "",
+      "push_token": PushNotification.deviceToken,
+      "os_version": DeviceInfo.getSystemVersion(),
+      "device": DeviceInfo.getModel(),
+      "device_name": DeviceInfo.getDeviceName(),
+      "email": "",
+    };
+    signUp(params);
+  }
+  signUp(param) {
+    fetch(RequestURL.REQUEST_FB_SIGN_UP, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(param)
+    })
+    .then((response) => {
+      return response.json()
+    })
+    .then((json) => {
+      console.log(json);
+      const userIdx = json.user_info.user_idx;
+      const signUpOrLogin = json.from;
+      const name = (param.login_type === 'kakao') ? param.nickname : param.user_name;
+      const uniqueID = userIdx.toString();
 
-        let params = {
-                "os_type": "iOS",
-                "login_type": "auto",
-                "user_id": DeviceInfo.getUniqueID(),
-                "name": "",
-                "push_token": PushNotification.deviceToken,
-                "os_version": DeviceInfo.getSystemVersion(),
-                "device": DeviceInfo.getModel(),
-                "device_name": DeviceInfo.getDeviceName(),
-                "email": "",
-            };
-        signUp(params);
-    }
-    signUp(param) {
-        //console.log(`sign up body : ${JSON.stringify(param)}`);
-        fetch(RequestURL.REQUEST_FB_SIGN_UP, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(param)
-            })
-            .then((response) => {
-                return response.json()
-            })
-            .then((json) => {
-                const userIdx = json.user_info.user_idx;
-                const signUpOrLogin = json.from;
-                const name = (param.login_type === 'kakao') ? param.nickname : param.name;
-                const uniqueID = userIdx.toString();
-
-                Mixpanel.createAlias(uniqueID);
-                Mixpanel.identify(uniqueID);
-                Mixpanel.set("$name", uniqueID);
+      Mixpanel.createAlias(uniqueID);
+      Mixpanel.identify(uniqueID);
+      Mixpanel.set("$name", uniqueID);
                 
-                if(param.login_type === 'kakao') {
-                    Mixpanel.trackWithProperties('Sign Up Success', { via: 'Kakao' });
-                } else if(param.login_type === 'fb') {
-                    Mixpanel.trackWithProperties('Sign Up Success', { via: 'Facebook' });
-                } else {
-                    Mixpanel.trackWithProperties('Sign Up Success', { via: 'Auto' });
-                }
+      if(param.login_type === 'kakao') {
+        Mixpanel.trackWithProperties('Sign Up Success', { via: 'Kakao' });
+      } else if(param.login_type === 'fb') {
+        Mixpanel.trackWithProperties('Sign Up Success', { via: 'Facebook' });
+      } else {
+        Mixpanel.trackWithProperties('Sign Up Success', { via: 'Auto' });
+      }
                 
-                realm.write(() => {
-                    userInfo.idx = parseInt(userIdx);
-                });
-                //console.log(userInfo);
-                if(signUpOrLogin == 'i') {
-                    Alert.alert(
-                        'Welcome to Plating!',
-                        "신규가입 1만원 할인 쿠폰이 지급되었습니다.\n'내쿠폰함'을 확인해보세요.",
-                    );
-                }
-                Actions.drawer({type: 'reset'});
-            })
-            .catch((error) => {
-                console.warn('signUp Fail!!', error);
-                Mixpanel.track('Sign Up Fail');
+      realm.write(() => {
+        userInfo.idx = parseInt(userIdx);
+      });
+      
+      if(signUpOrLogin == 'i') {
+        Alert.alert(
+          'Welcome to Plating!',
+          "신규가입 1만원 할인 쿠폰이 지급되었습니다.\n'내쿠폰함'을 확인해보세요.",
+        );
+      }
+      Actions.drawer({type: 'reset'});
+    })
+    .catch((error) => {
+      console.warn('signUp Fail!!', error);
+      Mixpanel.track('Sign Up Fail');
 
-                // TODO
-                // 에러창 띄어야 함.
-            });
-    }
-    render() {
-        return (
-            <View style={styles.container}>
-                <Image style={styles.img}
-                    source={require('../commonComponent/img/login_main.jpg')}/>
-                <View style={styles.contentBox} >
-                    <View style={styles.buttonBox}>
-                        <TouchableHighlight onPress={this.facebookLogin.bind(this)} underlayColor={'transparent'}>
-                            <Image style={styles.button}
-                                source={require('./img/fb.png')} />
-                        </TouchableHighlight>
-                        <TouchableHighlight onPress={this.kakaoLogin.bind(this)} underlayColor={'transparent'}>
-                            <Image style={styles.button}
-                                source={require('./img/kakao.png')} />
-                        </TouchableHighlight>
-                        <TouchableHighlight onPress={this.autoLogin.bind(this)} underlayColor={'transparent'}>
-                            <Text style={[Font.DEFAULT_FONT_ORANGE_UNDERLINE, {fontSize: normalize(14),marginTop: 10,}]}>로그인 없이 시작하기</Text>
-                        </TouchableHighlight>
-                    </View>
-                    <View style={styles.textBox}>
-                        <View style={styles.textBoxRow}>
-                            <Text style={[Font.DEFAULT_FONT_BLACK], {fontSize: normalize(10)}}>회원가입과 동시에 플레이팅의</Text>
-                            <TouchableHighlight onPress={() => Actions.CSPolicyPage({uri: 'http://api.plating.co.kr/app/term.html', page: 'servicePolicy'})} underlayColor={'transparent'}>
-                                <Text style={[Font.DEFAULT_FONT_ORANGE_UNDERLINE, {fontSize: normalize(10)}]}> 서비스 이용약관</Text>
-                            </TouchableHighlight>
-                        </View>
+    });
+  }
 
-                        <View style={styles.textBoxRow}>
-                            <TouchableHighlight onPress={() => Actions.CSPolicyPage({uri: 'http://api.plating.co.kr/app/privacy.html', page: 'privacyPolicy'})} underlayColor={'transparent'}>
-                                <Text style={[Font.DEFAULT_FONT_ORANGE_UNDERLINE, {fontSize: normalize(10),}]}>개인정보 취급방침</Text>
-                            </TouchableHighlight>
-                            <Text style={[Font.DEFAULT_FONT_BLACK], {fontSize: normalize(10)}}>에 동의하시게 됩니다.</Text>
-                        </View>
-                    </View>
-                </View>
+  render() {
+    return (
+      <View style={styles.container}>
+        <Image style={styles.img}
+          source={require('../commonComponent/img/login_main.jpg')}/>
+          <View style={styles.contentBox} >
+          <View style={styles.buttonBox}>
+            <TouchableHighlight
+              onPress={this.facebookLogin.bind(this)}
+              underlayColor={'transparent'}
+            >
+              <Image style={styles.button}
+                source={require('./img/fb.png')} />
+            </TouchableHighlight>
+            <TouchableHighlight onPress={this.kakaoLogin.bind(this)} underlayColor={'transparent'}>
+              <Image style={styles.button}
+                source={require('./img/kakao.png')} />
+            </TouchableHighlight>
+            <TouchableHighlight onPress={this.autoLogin.bind(this)} underlayColor={'transparent'}>
+              <Text style={[Font.DEFAULT_FONT_ORANGE_UNDERLINE, {fontSize: normalize(14),marginTop: 10,}]}>로그인 없이 시작하기</Text>
+            </TouchableHighlight>
+          </View>
+          <View style={styles.textBox}>
+            <View style={styles.textBoxRow}>
+              <Text style={[Font.DEFAULT_FONT_BLACK], {fontSize: normalize(10)}}>회원가입과 동시에 플레이팅의</Text>
+                <TouchableHighlight onPress={() => Actions.CSPolicyPage({uri: 'http://api.plating.co.kr/app/term.html', page: 'servicePolicy'})} underlayColor={'transparent'}>
+                  <Text style={[Font.DEFAULT_FONT_ORANGE_UNDERLINE, {fontSize: normalize(10)}]}> 서비스 이용약관</Text>
+                </TouchableHighlight>
             </View>
 
-        );
-    }
+            <View style={styles.textBoxRow}>
+              <TouchableHighlight onPress={() => Actions.CSPolicyPage({uri: 'http://api.plating.co.kr/app/privacy.html', page: 'privacyPolicy'})} underlayColor={'transparent'}>
+                <Text style={[Font.DEFAULT_FONT_ORANGE_UNDERLINE, {fontSize: normalize(10),}]}>개인정보 취급방침</Text>
+              </TouchableHighlight>
+              <Text style={[Font.DEFAULT_FONT_BLACK], {fontSize: normalize(10)}}>에 동의하시게 됩니다.</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    );
+  }
 }
 
 let styles = StyleSheet.create({
