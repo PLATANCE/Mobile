@@ -3,7 +3,7 @@ import React, {
     Component,
     PropTypes,
 } from 'react';
-import { View, ListView, Text, StyleSheet, TouchableHighlight, Image, Clipboard, Alert, Linking, LinkingIOS, NativeModules } from 'react-native';
+import { View, Text, StyleSheet, TouchableHighlight, Image, Clipboard, Alert, NativeModules } from 'react-native';
 import Communications from 'react-native-communications';
 
 import Color from '../const/Color';
@@ -22,7 +22,8 @@ export default class ReferPage extends Component {
         super(props);
         this.state = {
             userCode: '',
-            url: 'new_refer_top.jpg',
+            //source={{uri: "http://plating.co.kr/app/media/banner/admin_banner_ver2.png?t=" + Math.round(new Date().getTime() / 1000)}} />
+            url: 'new_refer_friend.png?t=' + Math.round(new Date().getTime() / 1000),
             pointPriceKor: '',
             pointPriceNum: '',
             clipboardContent: '',
@@ -94,6 +95,9 @@ export default class ReferPage extends Component {
         Communications.text(url);
         Mixpanel.trackWithProperties('Refer Button', { via: 'SMS' });
     }
+    onBestReviewLayout(e) {
+        console.log(e.nativeEvent.layout);
+    }
     render() {
         /*
             셰프의 요리를 집에서 즐겨요! 지금 플레이팅 앱을 다운받고 첫 주문 5천원 할인 받으세요.
@@ -102,10 +106,9 @@ export default class ReferPage extends Component {
         */
         const userCode = this.state.userCode;
         const url = MediaURL.REFER_URL + this.state.url;
-        const defaultContent = '오늘 저녁 뭐 먹지? 고민은 그만!'
-          + '\n지금 바로 플레이팅 하세요 😄'
-          + '\n[Event] 신규 가입 시,'
-          + '\n1만원 할인 쿠폰 증정!';
+        const defaultContent = '집에서 간편하게 셰프의 요리를 즐겨요!'
+          + '\n지금 플레이팅 앱을 다운받고 첫끼를 무료로 맛보세요!'
+          + '\n[추천 코드: ' + this.state.userCode + ']';
         const clipboardContent = defaultContent
           + '\n다운로드 링크: http://goo.gl/t5lrSL';
 
@@ -113,15 +116,19 @@ export default class ReferPage extends Component {
 
         return (
             <View style={styles.container}>
-                <View style={styles.imageBox}>
+                <View style={styles.imageBox}
+                    onLayout={this.onBestReviewLayout.bind(this)}>
                     <Image style={styles.referImage}
-                        source={{uri: url}} />
+                        source={{uri: url}}
+                        resizeMode={'cover'} />
                 </View>
-                <View style={styles.codeBox}>
-                    <Text style={Font.DEFAULT_FONT_BLACK_BOLD}>친구들에게 나의 플레이팅 고유코드를 공유해보세요!</Text>
-                    <Text style={[Font.DEFAULT_FONT_ORANGE_BOLD, {fontSize: normalize(40)}]}>ab26</Text>
+                <View style={styles.codeBox}
+                    onLayout={this.onBestReviewLayout.bind(this)}>
+                    <Text style={Font.DEFAULT_FONT_BLACK_BOLD}>친구들에게 나의 플레이팅 <Text style={{textDecorationLine: 'underline'}}>고유코드</Text>를 공유해보세요:</Text>
+                    <Text style={[Font.DEFAULT_FONT_ORANGE_BOLD, {fontSize: normalize(40)}]}>{this.state.userCode}</Text>
                 </View>
-                <View style={styles.methodBox}>
+                <View style={styles.methodBox}
+                    onLayout={this.onBestReviewLayout.bind(this)}>
                     <TouchableHighlight underlayColor={'transparent'} onPress={ () => this.onPressKakao(kakaoContent) } >
                     <View style={styles.method}>
                         <Image style={styles.methodImage}
@@ -159,14 +166,20 @@ let styles = StyleSheet.create({
     referImage: {
         flex: 1,
         resizeMode: 'contain',
-        backgroundColor: 'green',
     },
     codeBox: {
         flex: 2,
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
-        margin: normalize(20),
+        marginLeft: normalize(30),
+        marginRight: normalize(30),
+        marginTop: normalize(20),
+        borderColor: '#E4E4E4',
+        borderBottomWidth: 1,
+        borderRightWidth: 1,
+        borderRadius: 5,
+        overflow: 'hidden',
     },
     arrowImage: {
         width: normalize(30),
@@ -194,7 +207,7 @@ let styles = StyleSheet.create({
     },
     methodBox: {
         flex: 2,
-        paddingBottom: 10,
+        paddingBottom: normalize(10),
         paddingLeft: normalize(50),
         paddingRight: normalize(50),
         flexDirection: 'row',

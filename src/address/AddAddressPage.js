@@ -3,7 +3,7 @@ import React, {
     Component,
     PropTypes,
 } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Alert, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Alert, Image, TouchableHighlight } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 import SearchedAddressList from './components/SearchedAddressList';
@@ -99,6 +99,14 @@ export default class AddAddressPage extends Component {
                         fetchMyAddress={ () => dispatch(fetchMyAddress()) }
                         fetchCartInfo={ () => dispatch(fetchCartInfo()) }
                         addressList={this.state.addressList} />
+                    <TouchableHighlight
+                        underlayColor={'transparent'}
+                        onPress={ () => Actions.CSAddressCoveragePage() } 
+                    >
+                        <View style={styles.button}>
+                            <Text style={Font.DEFAULT_FONT_WHITE}>배달 가능한 지역 보기</Text>
+                        </View>
+                    </TouchableHighlight>
                 </View>
             </ScrollView>
         );
@@ -150,5 +158,19 @@ let styles = StyleSheet.create({
     searchIconImage: {
         height: normalize(16),
         width: normalize(16),
-    }
+    },
+    button: {
+        height: normalize(40),
+        borderColor: Color.PRIMARY_ORANGE,
+        backgroundColor: Color.PRIMARY_ORANGE,
+        borderWidth: 1,
+        borderRadius: 5,
+        overflow: 'hidden',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: normalize(20),
+        marginBottom: normalize(20),
+        marginLeft: normalize(16),
+        marginRight: normalize(16),
+    },
 });
