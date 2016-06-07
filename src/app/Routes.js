@@ -29,6 +29,7 @@ import CartPage from '../cart/CartPage';
 import CartSelector from '../cart/CartSelector';
 import AddCardPage from '../cart/AddCardPage';
 import AddCardSelector from '../cart/AddCardSelector';
+import IamPortAddCardPage from '../cart/IamPortAddCardPage';
 import ChefDetailPage from '../chefDetail/ChefDetailPage';
 import ChefDetailSelector from '../chefDetail/ChefDetailSelector';
 import MyAddressPage from '../address/MyAddressPage';
@@ -264,6 +265,12 @@ export default class Routes extends Component {
                             <Scene key="PlatingPage"  
                                 component={connect()(PlatingPage)}
                                 title="PLATING" 
+                                backButtonImage={require('../commonComponent/img/back_white.png')}
+                            />
+                            <Scene key="IamPortAddCardPage"  
+                                component={connect()(IamPortAddCardPage)}
+                                title="IamPortAddCardPage" 
+                                initial={true}
                                 backButtonImage={require('../commonComponent/img/back_white.png')}
                             />
                         </Scene>
