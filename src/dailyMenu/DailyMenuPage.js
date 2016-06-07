@@ -2,7 +2,7 @@
 import React, {
     Component,
 } from 'react';
-import { View, ListView, Text, StyleSheet, TouchableHighlight, Image, ScrollView, Modal, Animated, AsyncStorage, Alert, Linking, Platform, InteractionManager } from 'react-native';
+import { View, ListView, Text, StyleSheet, TouchableHighlight, Image, ScrollView, Modal, Animated, AsyncStorage, Alert, Linking, Platform, InteractionManager, NativeModules } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { Crashlytics } from 'react-native-fabric';
 import DeviceInfo from 'react-native-device-info';
@@ -27,6 +27,9 @@ import {
 const HEIGHT = Const.HEIGHT;
 const WIDTH = Const.WIDTH;
 const DATE = new Date();
+
+const ToastAndroid = NativeModules.ToastAndroid;
+ToastAndroid.show('Awesome', ToastAndroid.SHORT);
 
 
 export default class DailyMenuPage extends Component {

@@ -27,7 +27,6 @@ import io.fabric.sdk.android.Fabric;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 
 //facebook sdk
-import com.facebook.FacebookSdk;
 import com.facebook.CallbackManager;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 
@@ -73,7 +72,8 @@ public class MainActivity extends ReactActivity {
             new RealmReactPackage(),
             new RNDeviceInfo(),
             mReactNativePushNotificationPackage,
-            new FBSDKPackage(mCallbackManager)
+            new FBSDKPackage(mCallbackManager),
+                new AnExampleReactPackage()
         );
     }
 

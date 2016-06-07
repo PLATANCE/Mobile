@@ -4,4 +4,7 @@
 
     <!-- Facebook -->
     <string name="facebook_app_id">1628165434090487</string>
+    <string name="kakao_app_key">35c3983a3275c9d0372965f9aed3b366</string>
+    <string name="kakao_scheme">kakao35c3983a3275c9d0372965f9aed3b366</string>
+    <string name="kakaolink_host">kakaolink</string>
 </resources>

@@ -55,6 +55,12 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="02d6ee4fd30ec6aaa64fec1f43f2703070972cd5" />
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="@string/kakao_app_key" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

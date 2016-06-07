@@ -93,11 +93,15 @@ buildscript {
 
 
 android {
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.mobile"
+        applicationId "com.plating"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
@@ -153,4 +157,10 @@ dependencies {
     compile project(":react-native-device-info")
     compile fileTree(dir: "node_modules/react-native-device-info/android/libs", include: ["*.jar"])
     compile project(':react-native-fbsdk')
+    // KakaoTalk api
+    compile group: 'com.kakao.sdk', name: 'usermgmt', version: project.KAKAO_SDK_VERSION
+    compile group: 'com.kakao.sdk', name: 'auth', version: project.KAKAO_SDK_VERSION
+    compile group: 'com.kakao.sdk', name: 'util', version: project.KAKAO_SDK_VERSION
+    // Kakaolink library
+    compile group: 'com.kakao.sdk', name: 'kakaolink', version: project.KAKAO_SDK_VERSION
 }
