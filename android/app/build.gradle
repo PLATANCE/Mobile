@@ -158,9 +158,6 @@ dependencies {
     compile fileTree(dir: "node_modules/react-native-device-info/android/libs", include: ["*.jar"])
     compile project(':react-native-fbsdk')
     // KakaoTalk api
-    compile group: 'com.kakao.sdk', name: 'usermgmt', version: project.KAKAO_SDK_VERSION
-    compile group: 'com.kakao.sdk', name: 'auth', version: project.KAKAO_SDK_VERSION
-    compile group: 'com.kakao.sdk', name: 'util', version: project.KAKAO_SDK_VERSION
-    // Kakaolink library
-    compile group: 'com.kakao.sdk', name: 'kakaolink', version: project.KAKAO_SDK_VERSION
+    compile group: project.KAKAO_SDK_GROUP, name: 'usermgmt', version: project.KAKAO_SDK_VERSION
+    compile group: project.KAKAO_SDK_GROUP, name: 'auth', version: project.KAKAO_SDK_VERSION
 }

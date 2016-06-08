@@ -28,8 +28,8 @@ const HEIGHT = Const.HEIGHT;
 const WIDTH = Const.WIDTH;
 const DATE = new Date();
 
-const ToastAndroid = NativeModules.ToastAndroid;
-ToastAndroid.show('Awesome', ToastAndroid.SHORT);
+const KakaoLogin = NativeModules.KakaoLogin;
+KakaoLogin.show();
 
 
 export default class DailyMenuPage extends Component {

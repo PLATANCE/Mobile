@@ -2,6 +2,7 @@ package com.mobile;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.facebook.react.ReactActivity;
 import io.realm.react.RealmReactPackage;
@@ -13,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 // mixpanel
+import com.kakao.auth.Session;
 import com.kevinejohn.RNMixpanel.*;
 
 // pushnotification
@@ -68,12 +70,12 @@ public class MainActivity extends ReactActivity {
         return Arrays.<ReactPackage>asList(
                 new FabricPackage(this),
             new RNMixpanel(),
-            new MainReactPackage(),
             new RealmReactPackage(),
             new RNDeviceInfo(),
             mReactNativePushNotificationPackage,
             new FBSDKPackage(mCallbackManager),
-                new AnExampleReactPackage()
+                new KakaoReactPackage(),
+            new MainReactPackage()
         );
     }
 
@@ -88,5 +90,14 @@ public class MainActivity extends ReactActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
+        if(Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

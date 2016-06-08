@@ -11,9 +11,9 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by home on 16. 6. 7..
+ * Created by home on 16. 6. 8..
  */
-public class AnExampleReactPackage implements ReactPackage {
+public class KakaoReactPackage implements ReactPackage {
     @Override
     public List<Class<? extends JavaScriptModule>> createJSModules() {
         return Collections.emptyList();
@@ -27,7 +27,7 @@ public class AnExampleReactPackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
-        modules.add(new ToastModule(reactContext));
+        modules.add(new KakaoModule(reactContext));
         return modules;
     }
 }
