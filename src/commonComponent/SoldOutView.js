@@ -31,7 +31,7 @@ export default class SoldOutView extends Component {
         } else if (stock < 0) {
             return(
                 <View style={styles.containerAlpha}>
-                    <Text style={[styles.textEng, Font.DEFAULT_FONT_WHITE_BOLD]}>주문 마감</Text>
+                    <Text style={[Font.DEFAULT_FONT_WHITE_BOLD, styles.textEng]}>주문 마감</Text>
                     <Text style={[Font.DEFAULT_FONT_WHITE, styles.textKor]}>오늘은 플레이팅 쉬는 날 입니다.</Text>
                 </View>
             );

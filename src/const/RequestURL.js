@@ -52,6 +52,8 @@ const RequestURL = {
     GET_AVAILABLE_POINT: 'http://api.plating.co.kr/policy/get_available_point?', // user_idx, point_input
     SUBMIT_PLACE_ORDER: 'http://api.plating.co.kr/place_order?',   // user_idx, time_slot, menu_d_idx, order_amount, credit_used, point, total_price, pay_method, coupon_idx, include_cutlery
     SUBMIT_PLACE_ORDER_TEST: 'http://api.plating.co.kr/test/place_order_test?',
+    REQUEST_AUTH_NUMBER: 'https://smsauth.plating.co.kr/user/{userIdx}/requestAuthNumber',
+    VALIDATE_AUTH_NUMBER: 'https://smsauth.plating.co.kr/user/{userIdx}/validateAuthNumber',
 
     // sidedrawer
     REQUEST_USER_POINT: 'http://api.plating.co.kr/promo/point?',

@@ -30,6 +30,8 @@ import CartSelector from '../cart/CartSelector';
 import AddCardPage from '../cart/AddCardPage';
 import AddCardSelector from '../cart/AddCardSelector';
 import IamPortAddCardPage from '../cart/IamPortAddCardPage';
+import InputMobilePage from '../cart/InputMobilePage';
+import MobileAuthPage from '../cart/MobileAuthPage';
 import ChefDetailPage from '../chefDetail/ChefDetailPage';
 import ChefDetailSelector from '../chefDetail/ChefDetailSelector';
 import MyAddressPage from '../address/MyAddressPage';
@@ -269,8 +271,17 @@ export default class Routes extends Component {
                             />
                             <Scene key="IamPortAddCardPage"  
                                 component={connect()(IamPortAddCardPage)}
-                                title="IamPortAddCardPage" 
-                                initial={true}
+                                title="IamPortAddCardPage"
+                                backButtonImage={require('../commonComponent/img/back_white.png')}
+                            />
+                            <Scene key="InputMobilePage"  
+                                component={connect()(InputMobilePage)}
+                                title="내 핸드폰 번호"
+                                backButtonImage={require('../commonComponent/img/back_white.png')}
+                            />
+                            <Scene key="MobileAuthPage"  
+                                component={connect()(MobileAuthPage)}
+                                title="번호 인증"
                                 backButtonImage={require('../commonComponent/img/back_white.png')}
                             />
                         </Scene>

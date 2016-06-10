@@ -48,6 +48,10 @@ const CUTLERY = {
   YES: '예',
   NO: '아니요',
 };
+const RECIPIENT = {
+  SELF: '본인',
+  OTHER: '아니요, 지인이 받습니다',
+};
 const PICKER_PAY_METHOD_DATA = [
   PAY_METHOD.ONLINE_CARD,
   PAY_METHOD.OFFLINE_CARD,
@@ -56,6 +60,10 @@ const PICKER_PAY_METHOD_DATA = [
 const PICKER_CUTLERY_DATA = [
   CUTLERY.YES,
   CUTLERY.NO,
+];
+const PICKER_RECIPIENT_DATA = [
+  RECIPIENT.SELF,
+  RECIPIENT.OTHER,
 ];
 
 export default class CartPage extends Component {
@@ -70,6 +78,7 @@ export default class CartPage extends Component {
       selectedCutleryParam: 1,
       selectedPayMethod: PAY_METHOD.ONLINE_CARD,
       selectedPayMethodParam: 1,
+      selectedRecipient: RECIPIENT.SELF,
       totalPrice: 0,
       renderPlaceholderOnly: false,
       cntCoupon: 0,
@@ -196,18 +205,55 @@ export default class CartPage extends Component {
     });
   }
 
+  autoHypenPhone(_str) {
+    const str = _str.replace(/[^0-9]/g, '');
+    let tmp = '';
+    if (str.length < 4) {
+      return str;
+    } else if (str.length < 7) {
+      tmp += str.substr(0, 3);
+      tmp += '-';
+      tmp += str.substr(3);
+      return tmp;
+    } else if (str.length < 11) {
+      tmp += str.substr(0, 3);
+      tmp += '-';
+      tmp += str.substr(3, 3);
+      tmp += '-';
+      tmp += str.substr(6);
+      return tmp;
+    }
+    tmp += str.substr(0, 3);
+    tmp += '-';
+    tmp += str.substr(3, 4);
+    tmp += '-';
+    tmp += str.substr(7);
+    return tmp;
+  }
 
   openAlertMobile() {
-    AlertIOS.prompt('전화 번호', '배달 시, 연락 받으실 전화번호를 입력해주세요.(-제외)\n 예) 01012345678', [
+    AlertIOS.prompt('지인 전화 번호', '받는 분의 전화번호를 입력해주세요.(-제외)\n 예) 01012345678', [
       {
         text: '취소',
         onPress: () => Mixpanel.trackWithProperties('Enter Phone Number', { number: 'none' }),
         style: 'cancel',
       }, {
         text: '확인',
-        onPress: (mobile) => this.submitUserMobile(mobile),
+        onPress: (mobile) => this.setState({
+          selectedRecipient: this.autoHypenPhone(mobile),
+        }),
       },
     ]);
+  }
+
+  setRecipient(selectedItem) {
+    const selectedRecipient = selectedItem[0]
+    if (selectedRecipient === RECIPIENT.SELF) {
+      Mixpanel.trackWithProperties('Choose Recipient', { selected: 'self' });
+    } else if(selectedRecipient === RECIPIENT.OTHER){
+      Mixpanel.trackWithProperties('Choose Recipient', { selected: 'other' });
+      this.openAlertMobile();
+    }
   }
 
   openPickerDeliveryTime() {
@@ -218,6 +264,9 @@ export default class CartPage extends Component {
   }
   openPickerCutlery() {
     this.cutleryPicker.toggle();
+  }
+  openPickerRecipient() {
+    this.recipientPicker.toggle();
   }
 
   openAlertInputPoint() {
@@ -244,35 +293,18 @@ export default class CartPage extends Component {
     return `${commaedPrice}${suffix}`;
   }
 
-  submitUserMobile(mobile) {
-    Mixpanel.trackWithProperties('Enter Phone Number', { number: mobile });
-    const param = {
-      user_idx: userInfo.idx,
-      phone_no: mobile,
-    };
-
-    fetch(RequestURL.SUBMIT_UPDATE_MOBILE, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(param),
-    }).then((response) => response.json()).then((responseData) => {
-      this.props.dispatch(fetchCartInfo(this.props.couponIdx));
-    }).catch((error) => {
-      console.warn(error);
-    }).done();
-  }
   //this.openAlertToConfirmOrder(cart, totalPrice, availablePoint, couponIdx, menuTotalPrice, discountCouponPrice, this.state.selectedTimeSlot, addressInfo, enableOrderButton)}
   openAlertToConfirmOrder(cart, totalPrice, availablePoint, couponIdx, menuTotalPrice, discountCouponPrice, selectedTimeSlot, addressInfo, enableOrderButton, orderButtonText) {
     //console.log(cart, totalPrice, availablePoint, couponIdx, enableOrderButton);
     if (enableOrderButton) {
       const selectedTimeSlot = this.state.selectedTimeSlot;
       const myInfo = this.props.myInfo;
+      console.log(this.props.myInfo.mobile);
+      const recipient = (this.state.selectedRecipient === '본인') ? this.props.myInfo.mobile : this.state.selectedRecipient;
 
       Alert.alert('주문 요약',
       `배달 시간\n ${selectedTimeSlot}\n\n배달 주소\n${addressInfo}` +
+      `\n\n받는 분 전화번호\n${recipient}` + 
       `\n\n최종 결제 금액\n${this.commaPrice(totalPrice, '원')}`, [
         {
           text: '취소',
@@ -280,7 +312,7 @@ export default class CartPage extends Component {
           style: 'cancel',
         }, {
           text: '주문',
-          onPress: () => this.submitPlaceOrder(cart, totalPrice, availablePoint, couponIdx, menuTotalPrice, discountCouponPrice, selectedTimeSlot, addressInfo),
+          onPress: () => this.submitPlaceOrder(cart, totalPrice, availablePoint, couponIdx, menuTotalPrice, discountCouponPrice, selectedTimeSlot, addressInfo, recipient),
         },
       ]);
     } else {
@@ -313,7 +345,7 @@ export default class CartPage extends Component {
   }
 
   // this.submitPlaceOrder(cart, totalPrice, availablePoint, couponIdx, menuTotalPrice, discountCouponPrice, selectedTimeSlot, addressInfo),
-  submitPlaceOrder(cart, totalPrice, point, couponIdx, menuTotalPrice, discountCouponPrice, selectedTimeSlot, addressInfo) {
+  submitPlaceOrder(cart, totalPrice, point, couponIdx, menuTotalPrice, discountCouponPrice, selectedTimeSlot, addressInfo, recipient) {
     let menuDIdxParam = '';
     let menuAmountParam = '';
 
@@ -356,6 +388,7 @@ export default class CartPage extends Component {
       pay_method: this.state.selectedPayMethodParam,
       coupon_idx: couponIdx,
       include_cutlery: this.state.selectedCutleryParam,
+      mobile: recipient,
     };
     
     fetch(RequestURL.SUBMIT_PLACE_ORDER, {
@@ -448,7 +481,6 @@ export default class CartPage extends Component {
       canOrder,
       message,
     } = this.props;
-
     let {
       availablePoint,
     } = this.props;
@@ -457,8 +489,11 @@ export default class CartPage extends Component {
       deliveryAvailable,
       address,
       addressDetail,
-      mobile,
       point,
+    } = myInfo;
+
+    let {
+      mobile
     } = myInfo;
 
     const {
@@ -483,6 +518,7 @@ export default class CartPage extends Component {
     const cardHighlight = (cardNumber === Const.CART_CARD_INPUT_MESSAGE)
       ? Font.DEFAULT_FONT_ORANGE
       : Font.DEFAULT_FONT_BLACK;
+      
 
     // card layout visible
     let cardLayout = false;
@@ -541,6 +577,8 @@ export default class CartPage extends Component {
     // totalPrice
     totalPrice = menuTotalPrice + deliveryFee - availablePoint - discountCouponPrice;
 
+
+
     // enable order button with background color
     let enableOrderButton = true;
     let enableOrderButtonText = '주문하기';
@@ -550,7 +588,8 @@ export default class CartPage extends Component {
     }
     if (mobile === Const.CART_MOBILE_INPUT_MESSAGE) {
       enableOrderButton = false;
-      enableOrderButtonText = Const.CART_MOBILE_INPUT_MESSAGE;
+      enableOrderButtonText = Const.CART_MOBILE_NEW_INPUT_MESSAGE;
+      mobile = Const.CART_MOBILE_NEW_INPUT_MESSAGE;
     }
     if (selectedTimeSlot === Const.CART_DELIVERY_TIME_CLOSED_MESSAGE) {
       enableOrderButton = false;
@@ -569,6 +608,32 @@ export default class CartPage extends Component {
     if(!canOrder) {
       enableOrderButton = false;
       enableOrderButtonText = Const.CART_DELIVERY_TIME_CLOSED_MESSAGE;
+    }
+
+    let mobileLayout;
+    // mobile layout
+    if(mobile === Const.CART_MOBILE_NEW_INPUT_MESSAGE) {
+      mobileLayout = 
+        <TouchableHighlight
+          underlayColor={'transparent'}
+          onPress={() => Actions.InputMobilePage({couponIdx: couponIdx})}
+        >
+          <View style={styles.row}>
+            <Text style={Font.DEFAULT_FONT_BLACK}>내 연락처</Text>
+            <Text style={[styles.data, mobileHighlight]}>{mobile}</Text>
+            <Image
+              style={styles.iconDetailImage}
+              source={require('../commonComponent/img/icon_input.png')}
+            />
+          </View>
+        </TouchableHighlight>
+    } else {
+      mobileLayout = 
+        <View style={styles.row}>
+          <Text style={Font.DEFAULT_FONT_BLACK}>내 연락처</Text>
+          <Text style={[styles.data, mobileHighlight]}>{mobile}</Text>
+          <View style={styles.iconDetailImage} />
+        </View>
     }
 
     const orderBtnBackgroundStyle = (enableOrderButton)
@@ -655,19 +720,21 @@ export default class CartPage extends Component {
               </View>
             </TouchableHighlight>
 
+            {mobileLayout}
+
             <TouchableHighlight
               underlayColor={'transparent'}
-              onPress={() => this.openAlertMobile()}
+              onPress={() => this.openPickerRecipient()}
             >
               <View style={styles.row}>
-                <Text style={Font.DEFAULT_FONT_BLACK}>연락처</Text>
-                <Text style={[styles.data, mobileHighlight]}>{mobile}</Text>
+                <Text style={Font.DEFAULT_FONT_BLACK}>어느 분이 음식을 받습니까?</Text>
+                <Text style={[styles.data, Font.DEFAULT_FONT_BLACK]}>{this.state.selectedRecipient}</Text>
                 <Image
                   style={styles.iconDetailImage}
                   source={require('../commonComponent/img/icon_input.png')}
                 />
               </View>
-            </TouchableHighlight>        
+            </TouchableHighlight>         
 
             <TouchableHighlight
               underlayColor={'transparent'}
@@ -749,6 +816,16 @@ export default class CartPage extends Component {
               pickerData={PICKER_CUTLERY_DATA}
               selectedValue={this.state.selectedCutlery}
               onPickerDone={(pickedValue) => this.setCutlery(pickedValue)}
+            />
+            <Picker
+              ref={(picker) => {this.recipientPicker = picker;}}
+              style={{
+                height: 320,
+                backgroundColor: Color.PRIMARY_BACKGROUND,
+              }}
+              pickerData={PICKER_RECIPIENT_DATA}
+              selectedValue={this.state.selectedRecipient}
+              onPickerDone={(pickedValue) => this.setRecipient(pickedValue)}
             />
             
           </View>

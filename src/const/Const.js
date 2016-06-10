@@ -13,6 +13,7 @@ const Const = {
     HEIGHT: Dimensions.get('window').height,
     CART_ADDRESS_INPUT_MESSAGE: '주소를 입력해주세요',
     CART_MOBILE_INPUT_MESSAGE: '전화번호를 입력해주세요',
+    CART_MOBILE_NEW_INPUT_MESSAGE: '핸드폰 번호를 입력해주세요',
     CART_DELIVERY_TIME_CLOSED_MESSAGE: '선택 가능한 배달 시간이 없습니다.',
     CART_CARD_INPUT_MESSAGE: '카드를 등록해주세요',
     DEVICE_RATIO: deviceRatio,

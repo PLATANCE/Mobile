@@ -74,12 +74,6 @@ export default class IamPortAddCardPage extends Component {
             }
           }
         />
-        <DatePickerIOS 
-          date={new Date()}
-          mode={'date'}
-          onDateChange={(date) => console.log(date)}
-          //timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
-        />
       </View>
     );
   }
