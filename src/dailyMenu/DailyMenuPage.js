@@ -58,12 +58,18 @@ export default class DailyMenuPage extends Component {
             duration: 150,
             toValue: 0,
         }).start();
-        this.fetchDailyMenu(this.props.myAddress);
+    }
+
+    componentWillReceiveProps(nextProps) {        
+        if( nextProps.myAddress !== undefined && this.props.myAddress !== nextProps.myAddress ) {
+            const myAddress = nextProps.myAddress;
+            this.fetchDailyMenu(myAddress);
+        }
     }
 
     fetchDailyMenu(myAddress) {
-        //console.log(`${RequestURL.REQUEST_DAILY_MENU}?area=${area}`);
-        fetch(`${RequestURL.REQUEST_DAILY_MENU}`)
+        const area = myAddress.area;
+        fetch(`${RequestURL.REQUEST_DAILY_MENU}?area=${area}`)
             .then((response) => response.json())
             .then((responseData) => {
                 this.setState({

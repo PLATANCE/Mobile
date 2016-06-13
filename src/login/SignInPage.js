@@ -120,7 +120,6 @@ export default class SignInPage extends Component {
             })
             .then((json) => {
                 const userIdx = json.user_info.user_idx;
-                const signUpOrLogin = json.from;
                 const name = (param.login_type === 'kakao') ? param.nickname : param.name;
                 const uniqueID = userIdx.toString();
 
@@ -139,13 +138,7 @@ export default class SignInPage extends Component {
                 realm.write(() => {
                     userInfo.idx = parseInt(userIdx);
                 });
-                //console.log(userInfo);
-                if(signUpOrLogin == 'i') {
-                    Alert.alert(
-                        'Welcome to Plating!',
-                        "신규가입 1만원 할인 쿠폰이 지급되었습니다.\n'내쿠폰함'을 확인해보세요.",
-                    );
-                }
+                
                 Actions.drawer({type: 'reset'});
             })
             .catch((error) => {

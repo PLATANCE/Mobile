@@ -75,6 +75,7 @@ export default class InputMobilePage extends Component {
           message,
           [
             { text: '확인', onPress: () => { this.clearText(); } },
+            { text: '문의하기', onPress: () => { Actions.CSEnquiryPage(); } },
           ]
         );
       }
@@ -82,6 +83,10 @@ export default class InputMobilePage extends Component {
         Alert.alert(
           '서버 오류',
           message,
+          [
+            { text: '확인', onPress: () => { this.clearText(); } },
+            { text: '문의하기', onPress: () => { Actions.CSEnquiryPage(); } },
+          ]
         );
       }
       if(isSent && !isServerError) {
@@ -102,6 +107,7 @@ export default class InputMobilePage extends Component {
       console.log(this.state.isBlocking);
     });
   }
+
   render() {
     return (
       <View style={styles.container}>

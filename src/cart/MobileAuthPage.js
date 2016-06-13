@@ -14,6 +14,7 @@ import {
 import { Actions } from 'react-native-router-flux';
 import {
   fetchCartInfo,
+  clearCartInfo,
 } from '../app/actions/CartInfoActions';
 import {
   Font, normalize
@@ -21,6 +22,7 @@ import {
 import Color from '../const/Color';
 import RequestURL from '../const/RequestURL';
 import userInfo from '../util/userInfo';
+import realm from '../util/realm';
 import Mixpanel from '../util/mixpanel';
 
 export default class MobileAuthPage extends Component {
@@ -67,15 +69,29 @@ export default class MobileAuthPage extends Component {
           ]
         );
       } else {
-        Alert.alert(
-          '인증 성공',
-          '핸드폰 번호가 성공적으로 인증되었습니다!',
-          [
-            {
-              text: '확인', onPress: () => { this.submitUserMobile(phoneNumber, couponIdx); }
-            }
-          ]
-        );
+        if(!responseData.hasOwnProperty('switchUserIdx')) {
+          Alert.alert(
+            '인증 성공',
+            message,
+            [
+              {
+                text: '확인', onPress: () => { this.submitUserMobile(phoneNumber, couponIdx); }
+              }
+            ]
+          );
+        } else {
+          const switchUserIdx = responseData.switchUserIdx;
+          console.log(switchUserIdx);
+          Alert.alert(
+            '인증 성공(알려드립니다)',
+            message,
+            [
+              {
+                text: '확인', onPress: () => { this.switchUserIdx(switchUserIdx); }
+              }
+            ]
+          );
+        }
       }
     })
     .catch((error)=> {
@@ -85,6 +101,14 @@ export default class MobileAuthPage extends Component {
       );
     })
   }
+
+  switchUserIdx(switchUserIdx) {
+    realm.write(() => { userInfo.idx = parseInt(switchUserIdx); });
+    this.props.dispatch(clearCartInfo());
+    Actions.DailyMenuPage({type: 'reset'});
+    Actions.CartPage();
+  }
+
   submitUserMobile(phoneNumber, couponIdx) {
     Mixpanel.trackWithProperties('Enter Phone Number', { number: phoneNumber });
     const param = {
@@ -137,8 +161,9 @@ export default class MobileAuthPage extends Component {
               }
             }
           }
-        />
+        />        
       </View>
+
     );
   }
 }

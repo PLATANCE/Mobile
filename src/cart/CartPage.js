@@ -247,9 +247,13 @@ export default class CartPage extends Component {
   }
 
   setRecipient(selectedItem) {
+    console.log(selectedItem);
     const selectedRecipient = selectedItem[0]
     if (selectedRecipient === RECIPIENT.SELF) {
       Mixpanel.trackWithProperties('Choose Recipient', { selected: 'self' });
+      this.setState({
+        selectedRecipient: RECIPIENT.SELF
+      });
     } else if(selectedRecipient === RECIPIENT.OTHER){
       Mixpanel.trackWithProperties('Choose Recipient', { selected: 'other' });
       this.openAlertMobile();
@@ -824,7 +828,7 @@ export default class CartPage extends Component {
                 backgroundColor: Color.PRIMARY_BACKGROUND,
               }}
               pickerData={PICKER_RECIPIENT_DATA}
-              selectedValue={this.state.selectedRecipient}
+              selectedValue={(this.state.selectedRecipient === '본인') ? RECIPIENT.SELF : RECIPIENT.OTHER}
               onPickerDone={(pickedValue) => this.setRecipient(pickedValue)}
             />
             
