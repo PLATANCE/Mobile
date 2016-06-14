@@ -60,14 +60,34 @@ export default class DailyMenuPage extends Component {
         }).start();
     }
 
-    componentWillReceiveProps(nextProps) {        
+    componentWillReceiveProps(nextProps) {
+        if( nextProps.myAddress === undefined ) {
+            this.fetchDailyMenu();
+        }
         if( nextProps.myAddress !== undefined && this.props.myAddress !== nextProps.myAddress ) {
             const myAddress = nextProps.myAddress;
-            this.fetchDailyMenu(myAddress);
+            this.fetchDailyMenuWithArea(myAddress);
         }
     }
 
-    fetchDailyMenu(myAddress) {
+    fetchDailyMenu() {
+        console.log("fetchDailyMenu");
+        fetch(`${RequestURL.REQUEST_DAILY_MENU}`)
+        .then((response) => response.json())
+        .then((responseData) => {
+            this.setState({
+                menus: responseData
+            });
+        })
+        .catch((error)=> {
+            console.warn(error);
+        })
+        .done();
+    }
+
+    fetchDailyMenuWithArea(myAddress) {
+        console.log("fetchDailyMenuWithArea");
+        console.log(myAddress.area);
         const area = myAddress.area;
         fetch(`${RequestURL.REQUEST_DAILY_MENU}?area=${area}`)
             .then((response) => response.json())
