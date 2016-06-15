@@ -7,6 +7,8 @@ import android.util.Log;
 import com.facebook.react.ReactActivity;
 import io.realm.react.RealmReactPackage;
 import com.facebook.react.ReactPackage;
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.shell.MainReactPackage;
 
 
@@ -14,7 +16,14 @@ import java.util.Arrays;
 import java.util.List;
 
 // mixpanel
+import com.kakao.auth.AuthType;
+import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
+import com.kakao.network.ErrorResult;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.MeResponseCallback;
+import com.kakao.usermgmt.response.model.UserProfile;
+import com.kakao.util.exception.KakaoException;
 import com.kevinejohn.RNMixpanel.*;
 
 // pushnotification
@@ -35,6 +44,7 @@ import com.facebook.reactnative.androidsdk.FBSDKPackage;
 public class MainActivity extends ReactActivity {
     private ReactNativePushNotificationPackage mReactNativePushNotificationPackage;
     CallbackManager mCallbackManager;
+
     /**
      * Returns the name of the main component registered from JavaScript.
      * This is used to schedule rendering of the component.
@@ -82,7 +92,6 @@ public class MainActivity extends ReactActivity {
     @Override
     protected void onNewIntent (Intent intent) {
         super.onNewIntent(intent);
-
         mReactNativePushNotificationPackage.newIntent(intent);
     }
 
@@ -90,10 +99,6 @@ public class MainActivity extends ReactActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
-        if(Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
-            return;
-        }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

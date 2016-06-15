@@ -81,23 +81,24 @@ export default class SignInPage extends Component {
     );
   }
   kakaoLogin() {
-    Mixpanel.trackWithProperties('Click Sign Up', { via: 'Kakao' });
-    const signUp = this.signUp;
+    
+      Mixpanel.trackWithProperties('Click Sign Up', { via: 'Kakao' });
+      const signUp = this.signUp;
 
-    KakaoManager.login().then((result) => {  
-      let params = {
-        "os_type": "iOS",
-        "login_type": "kakao",
-        "user_id": result.ID,
-        "push_token": PushNotification.deviceToken,
-        "os_version": DeviceInfo.getSystemVersion(),
-        "device": DeviceInfo.getModel(),
-        "nickname": result.properties.nickname,
-        "profile_image": result.properties.profile_image,
-        "thumbnail_image": result.properties.thumbnail_image,
-      };
-      signUp(params);
-
+      KakaoManager.login().then((result) => {  
+        let params = {
+          "os_type": "iOS",
+          "login_type": "kakao",
+          "user_id": result.ID,
+          "push_token": PushNotification.deviceToken,
+          "os_version": DeviceInfo.getSystemVersion(),
+          "device": DeviceInfo.getModel(),
+          "nickname": result.properties.nickname,
+          "profile_image": result.properties.profile_image,
+          "thumbnail_image": result.properties.thumbnail_image,
+        };
+        console.log(params);
+        signUp(params);
       }).catch((err) => {
         console.log(err);
       });

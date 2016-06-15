@@ -28,10 +28,6 @@ const HEIGHT = Const.HEIGHT;
 const WIDTH = Const.WIDTH;
 const DATE = new Date();
 
-const KakaoLogin = NativeModules.KakaoLogin;
-KakaoLogin.show();
-
-
 export default class DailyMenuPage extends Component {
 
     constructor(props) {

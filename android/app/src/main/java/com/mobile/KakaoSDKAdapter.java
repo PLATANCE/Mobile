@@ -13,6 +13,7 @@ import com.kakao.auth.KakaoAdapter;
  * Created by Rooney on 16. 6. 8..
  */
 public class KakaoSDKAdapter extends KakaoAdapter {
+
     @Override
     public ISessionConfig getSessionConfig() {
         return new ISessionConfig() {
