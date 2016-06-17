@@ -29,7 +29,8 @@ import CartPage from '../cart/CartPage';
 import CartSelector from '../cart/CartSelector';
 import AddCardPage from '../cart/AddCardPage';
 import AddCardSelector from '../cart/AddCardSelector';
-import IamPortAddCardPage from '../cart/IamPortAddCardPage';
+import IamPortAddCardPage from '../card/IamPortAddCardPage';
+import IamPortAddCardSelector from '../card/IamPortAddCardSelector';
 import InputMobilePage from '../cart/InputMobilePage';
 import MobileAuthPage from '../cart/MobileAuthPage';
 import ChefDetailPage from '../chefDetail/ChefDetailPage';
@@ -270,7 +271,8 @@ export default class Routes extends Component {
                                 backButtonImage={require('../commonComponent/img/back_white.png')}
                             />
                             <Scene key="IamPortAddCardPage"  
-                                component={connect()(IamPortAddCardPage)}
+                                component={connect(IamPortAddCardSelector)(IamPortAddCardPage)}
+                                initial={true}
                                 title="IamPortAddCardPage"
                                 backButtonImage={require('../commonComponent/img/back_white.png')}
                             />

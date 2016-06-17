@@ -13,7 +13,6 @@ const cartReducer = function(state = {
     switch (action.type) {
         case CartActions.ADD_ITEM_TO_CART:
             {
-
                 const cart = state.cart;
                 const cartItem = action.cartItem;
                 const enable = action.enable;

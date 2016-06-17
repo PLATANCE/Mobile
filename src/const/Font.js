@@ -68,4 +68,9 @@ export const Font = StyleSheet.create({
         color: Color.PRIMARY_GRAY,
         textDecorationLine: 'line-through',
     },
+    CARD_REGIST_FONT_BLACK: {
+        fontSize: normalize(16),
+        color: Color.PRIMARY_BLACK,
+        fontWeight: 'bold',
+    },
 });

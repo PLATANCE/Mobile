@@ -9,6 +9,7 @@ import SideInfoReducer from './SideInfoReducer';
 import WriteReviewReducer from './WriteReviewReducer';
 import mixpanelReducer from './mixpanelReducer';
 import CustomerServiceReducer from './CustomerServiceReducer';
+import CardReducer from './CardReducer';
 
 const Reducers = combineReducers({
   CartReducers,
@@ -18,6 +19,7 @@ const Reducers = combineReducers({
 	WriteReviewReducer,
 	mixpanelReducer,
 	CustomerServiceReducer,
+	CardReducer,
 });
 
 export default Reducers;
