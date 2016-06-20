@@ -63,6 +63,12 @@ const cardReducer = function(state = initialState, action) {
 			});
   	}
 
+  	case CardActions.INITIAL_BIRTH: {
+  		return Object.assign({}, state,  {
+  			birth : []
+  		});
+  	}
+
   	case CardActions.SET_AGREED: {
   		console.log("SET_AGREED:", action.isAgreed);
   		const index = action.index;

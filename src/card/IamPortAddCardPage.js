@@ -21,6 +21,7 @@ import {
   setCardNumber,
   setExpiry,
   setBirth,
+  initialBirth,
   setPasswordPre2Digit,
   setAgreed,
   getCardInfo,
@@ -43,6 +44,7 @@ export default class IamPortAddCardPage extends Component {
     this.setState({
       selectedIndex
     });
+    this.props.dispatch(initialBirth());
   }
 
   sendDataToServer() {
@@ -224,7 +226,7 @@ export default class IamPortAddCardPage extends Component {
           <View style={styles.rowRight}>
             <TextInput
               ref='monthExpiry'
-              style={[styles.default, { width: normalize(37) }]}
+              style={[styles.default, { width: normalize(39) }]}
               maxLength={2}
               placeholder={'mm'}
               keyboardType={'number-pad'}
