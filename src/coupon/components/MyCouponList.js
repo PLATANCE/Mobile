@@ -2,7 +2,7 @@ import React, {
     Component,
     PropTypes,
 } from 'react';
-import { View, ListView, Text, StyleSheet, Image, TouchableHighlight, Alert, PixelRatio } from 'react-native';
+import { View, ListView, Text, StyleSheet, Image, TouchableHighlight, Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Color from '../../const/Color';
 import { normalize } from '../../const/Font';
@@ -12,12 +12,6 @@ import RequestURL from '../../const/RequestURL';
 import Mixpanel from '../../util/mixpanel';
 import userInfo from '../../util/userInfo';
 
-const couponImageHeight = 0;
-if(PixelRatio.get() === 2) {
-    couponImageHeight = 150;
-} else if(PixelRatio.get() === 3) {
-    couponImageHeight = 175;
-}
 export default class MyCouponList extends Component {
     constructor(props) {
         super(props);
@@ -37,7 +31,22 @@ export default class MyCouponList extends Component {
         }
     }
     fetchCouponAvailble(idx) {
-        if(this.props.disable) {
+        const {
+            cart,
+            pointWillUse,
+            fetchCartInfo,
+            onSetCouponWillUse,
+            disable,
+        } = this.props;
+
+        let cartTotalPrice = 0;
+        for (const menuIdx in cart) {
+            if (cart.hasOwnProperty(menuIdx)) {
+                cartTotalPrice += cart[menuIdx].altPrice * cart[menuIdx].amount;
+            }
+        }
+
+        if(disable) {
             Mixpanel.trackWithProperties('Choose Coupon', { couponIdx: idx });
             let cart = this.props.cart;
             let menuIdxParam = '';
@@ -78,8 +87,11 @@ export default class MyCouponList extends Component {
                             {
                               text: '확인',
                               onPress: () => {
-                                this.props.fetchCartInfo(couponIdx);
-                                this.props.onUseCoupon(couponIdx, discountCouponPrice);
+                                fetchCartInfo(couponIdx);
+                                const pointInput = cartTotalPrice > discountCouponPrice ? pointWillUse : cartTotalPrice - discountCouponPrice;
+                                console.log(cartTotalPrice > discountCouponPrice);
+                                console.log(pointInput);
+                                onSetCouponWillUse(couponIdx, discountCouponPrice, pointInput);
                                 Actions.pop();
                               },
                             },

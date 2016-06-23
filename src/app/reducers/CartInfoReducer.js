@@ -1,17 +1,24 @@
 import {
   CartInfoActions,
 } from '../actions/CartInfoActions';
+import Const from '../../const/Const';
 
 const defaultCartInfoState = {
   timeSlotData: [],
   myInfo: {},
   cardNumber: '',
   deliveryFee: 0,
-  couponIdx: 0,
-  discountCouponPrice: 0,
-  availablePoint: 0,
+  myCouponCount: 0,
+  couponIdxWillUse: 0,
+  couponPriceWillUse: 0,
+  pointWillUse: 0,
   canOrder: false,
   message: '',
+  canImmediateDelivery: false,
+  selectedTimeSlot: {},
+  selectedPayMethod: 1,
+  selectedRecipient: '본인',
+  selectedCutlery: 0,
 };
 function cartInfoReducer(state = Object.assign({}, defaultCartInfoState), action) {
   switch (action.type) {
@@ -35,8 +42,15 @@ function cartInfoReducer(state = Object.assign({}, defaultCartInfoState), action
             timeSlot: timeSlot.time_slot,
           });
         });
+        let selectedTimeSlot = state.selectedTimeSlot;
+        if (timeSlotData.length === 0) {
+          selectedTimeSlot = {idx: -1, timeSlot: Const.CART_DELIVERY_TIME_CLOSED_MESSAGE};
+        } else {
+          selectedTimeSlot = timeSlotData[0];
+        }
         const canOrder = cartInfo.can_order;
         const message = cartInfo.message;
+        const canImmediateDelivery = cartInfo.can_immediate_delivery;
         return Object.assign({}, state, {
           timeSlotData,
           myInfo,
@@ -44,25 +58,65 @@ function cartInfoReducer(state = Object.assign({}, defaultCartInfoState), action
           deliveryFee,
           canOrder,
           message,
+          canImmediateDelivery,
+          selectedTimeSlot,
         });
       }
-      case CartInfoActions.USE_COUPON: {
-        const couponIdx = action.couponIdx;
-        const discountCouponPrice = action.discountCouponPrice;
+    case CartInfoActions.RECEIVE_MY_COUPON_COUNT:
+    {
+      const myCouponCount = action.myCouponCount;
+      return Object.assign({}, state, {
+        myCouponCount,
+      })
+    }
+    case CartInfoActions.SET_COUPON_WILL_USE:
+    {
+        const couponIdxWillUse = action.couponIdxWillUse;
+        const couponPriceWillUse = action.couponPriceWillUse;
+        let pointWillUse = action.pointWillUse;
         return Object.assign({}, state, {
-          couponIdx,
-          discountCouponPrice,
+          couponIdxWillUse,
+          couponPriceWillUse,
+          pointWillUse,
         })
-      }
-      case CartInfoActions.SET_AVAILABLE_POINT: {
-        const availablePoint = action.availablePoint;
+    }
+    case CartInfoActions.SET_POINT_WILL_USE:
+    {
+        const pointWillUse = action.pointWillUse;
         return Object.assign({}, state, {
-          availablePoint,
+          pointWillUse,
         })
-      }
-      case CartInfoActions.CLEAR_CART_INFO: {
-        return Object.assign({}, defaultCartInfoState);
-      }
+    }
+    case CartInfoActions.SET_SELECTED_TIME_SLOT:
+    {
+        const selectedTimeSlotIdxInArray = action.selectedTimeSlotIdxInArray;
+        const timeSlotData = state.timeSlotData
+        selectedTimeSlot = timeSlotData[selectedTimeSlotIdxInArray];
+        return Object.assign({}, state, {
+          selectedTimeSlot,
+        })
+    }
+    case CartInfoActions.SET_SELECTED_PAY_METHOD: {
+      const selectedPayMethod = action.selectedPayMethod;
+      return Object.assign({}, state, {
+        selectedPayMethod
+      });
+    }
+    case CartInfoActions.SET_SELECTED_RECIPIENT: {
+      const selectedRecipient = action.selectedRecipient;
+      return Object.assign({}, state, {
+        selectedRecipient
+      });
+    }
+    case CartInfoActions.SET_SELECTED_CUTLERY: {
+      const selectedCutlery = action.selectedCutlery;
+      return Object.assign({}, state, {
+        selectedCutlery
+      });
+    }
+    case CartInfoActions.CLEAR_CART_INFO: {
+      return Object.assign({}, defaultCartInfoState);
+    }
     default:
       return state;
   }

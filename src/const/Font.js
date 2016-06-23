@@ -16,6 +16,10 @@ export const Font = StyleSheet.create({
         fontSize: normalize(14),
         color: Color.PRIMARY_ORANGE,
     },
+    BLUR_FONT_ORANGE: {
+        fontSize: normalize(14),
+        color: Color.PRIMARY_ORANGE_BLUR,
+    },
     DEFAULT_FONT_GRAY: {
         fontSize: normalize(14),
         color: Color.PRIMARY_GRAY,

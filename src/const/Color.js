@@ -1,5 +1,6 @@
 const Color = {
     PRIMARY_ORANGE: '#E27149',
+    PRIMARY_ORANGE_BLUR: 'rgba(226, 113, 73, 0.5)',
     PRIMARY_BLACK: '#555555',
     PRIMARY_GRAY: '#898989',
     PRIMARY_GRAY_BUTTON: '#e0e0e0',

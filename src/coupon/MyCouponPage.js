@@ -12,7 +12,7 @@ import MyCouponList from './components/MyCouponList';
 import RequestURL from '../const/RequestURL';
 import PlaceholderView from '../commonComponent/PlaceholderView';
 import {
-  useCoupon,
+  setCouponWillUse,
 } from '../app/actions/CartInfoActions';
 import {
   fetchCartInfo,
@@ -74,7 +74,11 @@ export default class MyCouponPage extends Component {
             disable,
             cart,
             dispatch,
+            couponIdxWillUse,
+            couponPriceWillUse,
+            pointWillUse,
         } = this.props;
+
         if(!this.state.renderPlaceholderOnly) {
             return this.renderPlaceholderView();
         }
@@ -87,9 +91,10 @@ export default class MyCouponPage extends Component {
                     <MyCouponList
                       coupons={this.state.coupons}
                       cart={cart}
+                      pointWillUse={pointWillUse}
                       disable={disable}
-                      onUseCoupon={(couponIdx, discountCouponPrice) => dispatch(useCoupon(couponIdx, discountCouponPrice))}
-                      fetchCartInfo={(couponIdx) => dispatch(fetchCartInfo(couponIdx))}
+                      onSetCouponWillUse={(couponIdxWillUse, couponPriceWillUse, pointWillUse) => dispatch(setCouponWillUse(couponIdxWillUse, couponPriceWillUse, pointWillUse))}
+                      fetchCartInfo={(couponIdxWillUse) => dispatch(fetchCartInfo(couponIdxWillUse))}
                     />
                 </View>
             </View>

@@ -272,7 +272,6 @@ export default class Routes extends Component {
                             />
                             <Scene key="IamPortAddCardPage"  
                                 component={connect(IamPortAddCardSelector)(IamPortAddCardPage)}
-                                initial={true}
                                 title="IamPortAddCardPage"
                                 backButtonImage={require('../commonComponent/img/back_white.png')}
                             />
