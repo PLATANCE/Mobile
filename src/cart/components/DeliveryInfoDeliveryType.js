@@ -10,33 +10,27 @@ import Color from '../../const/Color';
 export default class DeliveryInfoDeliveryType extends Component {
   props: {
     canImmediateDelivery: boolean;
+    isImmediateDeliveryChecked: boolean;
   };
-  constructor(props) {
-    super(props);
-    this.state = {
-      isChecked: true
-    };
-  }
-  
+
   render() {
     const {
       canImmediateDelivery,
+      isImmediateDeliveryChecked,
+      onSetDeliveryTypeCheck,
     } = this.props;
-    const {
-      isChecked,
-    } = this.state;
 
-    const checkedStyle = (isChecked) ? styles.checkedBtnStyle : styles.unCheckedBtnStyle;
-    const checkedTextStyle = (isChecked) ? Font.DEFAULT_FONT_WHITE : Font.DEFAULT_FONT_ORANGE;
-    const checkedImage = (isChecked) ? 
+    const checkedStyle = (isImmediateDeliveryChecked) ? styles.checkedBtnStyle : styles.unCheckedBtnStyle;
+    const checkedTextStyle = (isImmediateDeliveryChecked) ? Font.DEFAULT_FONT_WHITE : Font.DEFAULT_FONT_ORANGE;
+    const checkedImage = (isImmediateDeliveryChecked) ? 
       <Image style={[styles.iconInCheckBtn, { marginRight: normalize(5) }]} 
         source={require('../img/thunder_icon.png')}
         resizeMode={'contain'}/>
       :
       false;
-    const unCheckedStyle = (isChecked) ? styles.unCheckedBtnStyle : styles.checkedBtnStyle;
-    const unCheckedTextStyle = (isChecked) ? Font.DEFAULT_FONT_ORANGE : Font.DEFAULT_FONT_WHITE;
-    const unCheckedImage = (isChecked) ? 
+    const unCheckedStyle = (isImmediateDeliveryChecked) ? styles.unCheckedBtnStyle : styles.checkedBtnStyle;
+    const unCheckedTextStyle = (isImmediateDeliveryChecked) ? Font.DEFAULT_FONT_ORANGE : Font.DEFAULT_FONT_WHITE;
+    const unCheckedImage = (isImmediateDeliveryChecked) ? 
       false
       :
       <Image style={[styles.iconInCheckBtn, { marginRight: normalize(5) }]} 
@@ -49,7 +43,7 @@ export default class DeliveryInfoDeliveryType extends Component {
           <TouchableOpacity
             activeOpacity={1}
             style={[styles.checkBtn, { marginRight: normalize(2) }, checkedStyle]}
-            onPress={() => this.setState({ isChecked: !isChecked })}
+            onPress={() => onSetDeliveryTypeCheck(!isImmediateDeliveryChecked)}
           >
             {checkedImage}
             <Text style={checkedTextStyle}>즉시 배달</Text>
@@ -58,7 +52,7 @@ export default class DeliveryInfoDeliveryType extends Component {
           <TouchableOpacity
             activeOpacity={1}
             style={[styles.checkBtn, { marginLeft: normalize(2) }, unCheckedStyle]}
-            onPress={() => this.setState({ isChecked: !isChecked })}
+            onPress={() => onSetDeliveryTypeCheck(!isImmediateDeliveryChecked)}
           >
             {unCheckedImage}
             <Text style={unCheckedTextStyle}>예약 배달</Text>

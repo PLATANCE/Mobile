@@ -55,6 +55,7 @@ import {
   setSelectedPayMethod,
   setSelectedRecipient,
   setSelectedCutlery,
+  setDeliveryTypeCheck,
 } from '../app/actions/CartInfoActions';
 import Mixpanel from '../util/mixpanel';
 
@@ -176,6 +177,8 @@ export default class CartPage extends Component {
       couponIdx,
       selectedRecipient,
       selectedCutlery,
+      immediateDeliveryTime,
+      isImmediateDeliveryChecked,
     } = this.props;
 
     const {
@@ -202,6 +205,15 @@ export default class CartPage extends Component {
     if(pickerDatas.length === 0) {
       pickerDatas.push(Const.CART_DELIVERY_TIME_CLOSED_MESSAGE);
     }
+
+    const immediateDeliveryInfoType = canImmediateDelivery ? 
+      <DeliveryInfoDeliveryType
+        canImmediateDelivery={canImmediateDelivery}
+        isImmediateDeliveryChecked={isImmediateDeliveryChecked}
+        onSetDeliveryTypeCheck={ (isImmediateDeliveryChecked) => dispatch(setDeliveryTypeCheck(isImmediateDeliveryChecked))}
+      />
+      :
+      false;
 
     const deliveryInfoCard = selectedPayMethod === 1 ? 
       <DeliveryInfoCard 
@@ -248,19 +260,21 @@ export default class CartPage extends Component {
             couponPriceWillUse={couponPriceWillUse}
           />
           <View style={styles.separatorWithMargin15} />
-        
-          <DeliveryInfoDeliveryType
-            canImmediateDelivery={canImmediateDelivery}
-          />
 
-          <DeliveryInfoDeliveryTime
-            selectedTimeSlot={selectedTimeSlot}
-            onTogglePicker={() => this.toggleDeliveryTime()}
-          />
+          {immediateDeliveryInfoType}
+
           <DeliveryInfoAddress
             address={address}
             addressDetail={addressDetail}
           />
+
+          <DeliveryInfoDeliveryTime
+            selectedTimeSlot={selectedTimeSlot}
+            immediateDeliveryTime={immediateDeliveryTime}
+            isImmediateDeliveryChecked={isImmediateDeliveryChecked}
+            onTogglePicker={() => this.toggleDeliveryTime()}
+          />
+          
           <View style={styles.separatorWithMargin15} />
 
           <DeliveryInfoPaymentType

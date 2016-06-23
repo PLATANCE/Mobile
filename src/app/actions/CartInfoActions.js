@@ -15,6 +15,7 @@ export const CartInfoActions = {
   SET_SELECTED_CUTLERY: 'SET_SELECTED_CUTLERY',
   CLEAR_CART_INFO: 'CLEAR_CART_INFO',
   RECEIVE_MY_COUPON_COUNT: 'RECEIVE_MY_COUPON_COUNT',
+  SET_DELIVERY_TYPE_CHECKED: 'SET_DELIVERY_TYPE_CHECKED',
 };
 
 export function receiveCartInfo(cartInfo) {
@@ -78,6 +79,13 @@ export function setSelectedCutlery(selectedCutlery) {
   return {
     type: CartInfoActions.SET_SELECTED_CUTLERY,
     selectedCutlery,
+  }
+}
+
+export function setDeliveryTypeCheck(isImmediateDeliveryChecked) {
+  return {
+    type: CartInfoActions.SET_DELIVERY_TYPE_CHECKED,
+    isImmediateDeliveryChecked,
   }
 }
 

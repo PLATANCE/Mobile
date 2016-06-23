@@ -14,11 +14,13 @@ const defaultCartInfoState = {
   pointWillUse: 0,
   canOrder: false,
   message: '',
-  canImmediateDelivery: false,
   selectedTimeSlot: {},
   selectedPayMethod: 1,
   selectedRecipient: '본인',
   selectedCutlery: 0,
+  canImmediateDelivery: false,
+  immediateDeliveryTime: '',
+  isImmediateDeliveryChecked: true,
 };
 function cartInfoReducer(state = Object.assign({}, defaultCartInfoState), action) {
   switch (action.type) {
@@ -51,6 +53,7 @@ function cartInfoReducer(state = Object.assign({}, defaultCartInfoState), action
         const canOrder = cartInfo.can_order;
         const message = cartInfo.message;
         const canImmediateDelivery = cartInfo.can_immediate_delivery;
+        const immediateDeliveryTime = cartInfo.immediate_delivery_time;
         return Object.assign({}, state, {
           timeSlotData,
           myInfo,
@@ -60,6 +63,7 @@ function cartInfoReducer(state = Object.assign({}, defaultCartInfoState), action
           message,
           canImmediateDelivery,
           selectedTimeSlot,
+          immediateDeliveryTime,
         });
       }
     case CartInfoActions.RECEIVE_MY_COUPON_COUNT:
@@ -112,6 +116,12 @@ function cartInfoReducer(state = Object.assign({}, defaultCartInfoState), action
       const selectedCutlery = action.selectedCutlery;
       return Object.assign({}, state, {
         selectedCutlery
+      });
+    }
+    case CartInfoActions.SET_DELIVERY_TYPE_CHECKED: {
+      const isImmediateDeliveryChecked = action.isImmediateDeliveryChecked;
+      return Object.assign({}, state, {
+        isImmediateDeliveryChecked
       });
     }
     case CartInfoActions.CLEAR_CART_INFO: {

@@ -14,13 +14,18 @@ import Color from '../../const/Color';
 export default class DeliveryInfoDeliveryTime extends Component {
   props: {
     selectedTimeSlot: Object;
+    immediateDeliveryTime: string;
+    isImmediateDeliveryChecked: boolean;
   };
 
   render() {
     const {
       selectedTimeSlot,
+      immediateDeliveryTime,
+      isImmediateDeliveryChecked,
       onTogglePicker,
     } = this.props;
+
     const {
       idx, timeSlot
     } = selectedTimeSlot;
@@ -33,20 +38,29 @@ export default class DeliveryInfoDeliveryTime extends Component {
         </View>
       );
     } else {
-      return (
-        <TouchableOpacity
-          activeOpacity={1}
-          onPress={ () => onTogglePicker() }
-        >
+      if(isImmediateDeliveryChecked) {
+        return (
           <View style={styles.container}>
             <Text style={Font.DEFAULT_FONT_BLACK}>배달 시간</Text>
-            <Text style={[styles.data, Font.DEFAULT_FONT_BLACK]}>{timeSlot}</Text>
-            <Image style={styles.iconDetailImage}
-              source={require('../../commonComponent/img/icon_input.png')}
-            />
+            <Text style={[styles.data, Font.DEFAULT_FONT_BLACK, { paddingRight: 15 }]}>{immediateDeliveryTime}</Text>
           </View>
-        </TouchableOpacity>
-      );
+        );
+      } else {
+        return (
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={ () => onTogglePicker() }
+          >
+            <View style={styles.container}>
+              <Text style={Font.DEFAULT_FONT_BLACK}>배달 시간</Text>
+              <Text style={[styles.data, Font.DEFAULT_FONT_BLACK]}>{timeSlot}</Text>
+              <Image style={styles.iconDetailImage}
+                source={require('../../commonComponent/img/icon_input.png')}
+              />
+            </View>
+          </TouchableOpacity>
+        );
+      }
     }
   }
 }
