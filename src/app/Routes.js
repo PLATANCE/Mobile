@@ -79,7 +79,7 @@ initMixpanel(store);
 const getSceneStyle = function (props) {
   return {
     flex: 1,
-    marginTop: props.hideNavBar ? 0 : 64,
+    marginTop: props.hideNavBar ? 0 : Platform.OS === 'ios' || Platform.Version > 19 ? 64 : 44,
     backgroundColor: Color.PRIMARY_BACKGROUND,
   };
 }
