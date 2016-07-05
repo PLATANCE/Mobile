@@ -30,7 +30,6 @@ import Mixpanel from '../util/mixpanel';
 
 import { addItemToCart } from '../app/actions/CartActions';
 
-
 export default class MenuDetailPage extends Component {
     constructor(props) {
         super(props);

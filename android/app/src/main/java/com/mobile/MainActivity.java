@@ -85,7 +85,8 @@ public class MainActivity extends ReactActivity {
             mReactNativePushNotificationPackage,
             new FBSDKPackage(mCallbackManager),
                 new KakaoReactPackage(),
-            new MainReactPackage()
+            new MainReactPackage(),
+                new AlertReactPackage()
         );
     }
 
