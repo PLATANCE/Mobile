@@ -6,7 +6,7 @@ import {
 } from 'react-native-router-flux';
 
 function writeReviewReducer(state = {
-  reviews: {},
+  reviews: [],
   orderIdx: 0,
 }, action) {
   switch (action.type) {

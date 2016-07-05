@@ -45,26 +45,27 @@ export default class OrderDetailPage extends Component {
         const menus = this.state.menus;
         const orderIdx = order.order_idx;
         let orderedMenuList = [];
-        let reviewButtonText;
-        let reviewButtonSubText;
-        let reviewButtonStyle;
         menus.forEach(menu => {
             let menuName = menu.name_menu;
             let menuNameKor = menuName.split('.')[0];
             let menuNameEng = menuName.split('.')[1];
             orderedMenuList.push(<OrderedMenu key={menu.idx} name={menuNameKor} foreignName={menuNameEng} amount={menu.amount} />);
         })
-
+        const timeSlot = order.time_slot === 'instantDelivery' ? '즉시 배달' : order.time_slot
         const reviewIsAvailable = (order.review_status != 1) ? true : false;
-        if(reviewIsAvailable) {
-            reviewButtonText = '리뷰를 남겨주세요 :)';
-            reviewButtonSubText = '추첨을 통해 무료 시식권을 드립니다 :) ';
-            reviewButtonStyle = { backgroundColor: Color.PRIMARY_ORANGE, borderColor: Color.PRIMARY_ORANGE }
-        } else {
-            reviewButtonText = '리뷰를 남겨주셔서 감사합니다.';
-            reviewButtonSubText = '앞으로도 더욱 좋은 음식으로 보답하겠습니다.';
-            reviewButtonStyle = { backgroundColor: Color.PRIMARY_GRAY, borderColor: Color.PRIMARY_GRAY }
-        }
+        const reviewButtonText = reviewIsAvailable ?
+        '리뷰를 남겨주세요 :)'
+        :
+        '리뷰를 남겨주셔서 감사합니다.';
+        const reviewButtonSubText = reviewIsAvailable ?
+        '추첨을 통해 무료 시식권을 드립니다 :)'
+        :
+        '앞으로도 더욱 좋은 음식으로 보답하겠습니다.';
+        const reviewButtonStyle = reviewIsAvailable ?
+        { backgroundColor: Color.PRIMARY_ORANGE, borderColor: Color.PRIMARY_ORANGE }
+        :
+        { backgroundColor: Color.PRIMARY_GRAY, borderColor: Color.PRIMARY_GRAY };
+        
         return (
             <View style={styles.container}>
                 <View style={styles.content} >
@@ -79,7 +80,7 @@ export default class OrderDetailPage extends Component {
                         </View>
                         <View style={styles.orderInfoRow}>
                             <Text style={Font.DEFAULT_FONT_BLACK_BOLD}>배달 시간</Text>
-                            <Text style={[styles.rightText, Font.DEFAULT_FONT_BLACK]}>{order.time_slot}</Text>
+                            <Text style={[styles.rightText, Font.DEFAULT_FONT_BLACK]}>{timeSlot}</Text>
                         </View>
                     </View>
                     <TouchableHighlight

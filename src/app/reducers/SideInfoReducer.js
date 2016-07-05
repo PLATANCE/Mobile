@@ -3,22 +3,14 @@ import {
 } from '../actions/SideInfoActions';
 
 function sideInfoReducer(state = {
-  myPoint: 0,
-  countOfMyCoupon: 0,
+  open: false,
 }, action) {
   switch (action.type) {
-    case SideInfoActions.RECEIVE_MY_POINT:
+    case SideInfoActions.CHANGE_DRAWER_STATUS:
       {
-        const myPoint = action.myPoint;
+        const open = action.open;
         return Object.assign({}, state, {
-          myPoint: myPoint.point,
-        });
-      }
-    case SideInfoActions.RECEIVE_MY_COUPON:
-      {
-        const myCoupon = action.myCoupon;
-        return Object.assign({}, state, {
-          countOfMyCoupon: myCoupon.length,
+          open,
         });
       }
     default:

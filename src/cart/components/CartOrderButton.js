@@ -33,6 +33,8 @@ export default class CartOrderButton extends Component {
       pointWillUse,
       couponPriceWillUse,
       selectedPayMethod,
+      isImmediateDeliveryChecked,
+      immediateDeliveryTime,
     } = this.props;
     
     const {
@@ -40,6 +42,8 @@ export default class CartOrderButton extends Component {
       address,
       addressDetail,
     } = myInfo;
+
+    let mixpanelProperties = {};
 
     // menu total price
     let cartTotalPrice = 0;
@@ -51,11 +55,13 @@ export default class CartOrderButton extends Component {
     const recipient = (selectedRecipient === '본인') ? mobile : selectedRecipient;
     const discountPrice = pointWillUse + couponPriceWillUse;
     const totalPrice = cartTotalPrice - discountPrice;
-
+    const deliveryTime = isImmediateDeliveryChecked ? immediateDeliveryTime : selectedTimeSlot.timeSlot;
     if(enable) {
+      mixpanelProperties = { success: true };
+      Mixpanel.trackWithProperties('Place Order', mixpanelProperties);
       Alert.alert(
         '주문 요약',
-        `배달 시간\n ${selectedTimeSlot.timeSlot}\n\n배달 주소\n${address} ${addressDetail}` + 
+        `배달 시간\n ${deliveryTime}\n\n배달 주소\n${address} ${addressDetail}` + 
         `\n\n받는 분 전화번호\n${recipient}` + 
         `\n\n총 결제 금액\n${commaPrice(totalPrice, '원')}`, 
         [
@@ -70,7 +76,9 @@ export default class CartOrderButton extends Component {
         ]
       );
     } else {
+      mixpanelProperties = { success: false, cause: btnText };
       Alert.alert(btnText);
+      Mixpanel.trackWithProperties('Place Order', mixpanelProperties);
     }
   }
 
@@ -85,8 +93,10 @@ export default class CartOrderButton extends Component {
       selectedCutlery,
       selectedRecipient,
       myInfo,
+      isImmediateDeliveryChecked,
       onClearCartInfo,
       onClearCart,
+      onFetchCartInfo,
     } = this.props;
 
     
@@ -100,6 +110,9 @@ export default class CartOrderButton extends Component {
     let countOfSide = 0;
     let countOfBeverage = 0;
 
+    // object for mixpanel properties
+    let mixpanelProperties = {};
+    
     for (const menuIdx in cart) {
       if (cart.hasOwnProperty(menuIdx)) {
         menuDIdxParam += `${cart[menuIdx].menuDIdx}|`
@@ -132,9 +145,11 @@ export default class CartOrderButton extends Component {
       }
     }
 
+    //const time_slot = isImmediateDeliveryChecked ? 999 : selectedTimeSlot.idx;
+
     const param = {
       user_idx: userInfo.idx,
-      time_slot: selectedTimeSlot.idx,
+      time_slot,
       total_price: totalPrice,
       menu_d_idx: menuDIdxParam,
       order_amount: menuAmountParam,
@@ -142,6 +157,7 @@ export default class CartOrderButton extends Component {
       pay_method: selectedPayMethod,
       coupon_idx: couponIdxWillUse,
       include_cutlery: selectedCutlery,
+      instant_delivery: isImmediateDeliveryChecked,
       mobile,
     };
 
@@ -154,12 +170,19 @@ export default class CartOrderButton extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(param),
-    }).then((response) => response.json()).then((responseData) => {
+    })
+    .then((response) => response.json())
+    .then((responseData) => {
       const status = responseData.status;
       switch (status) {
         case 'fail_to_pay': {
           const description = responseData.description;
           Alert.alert('주문 실패', description);
+          if(responseData.error) {
+            mixpanelProperties = { error: true, error_cause: error.toString() }
+          } else {
+            mixpanelProperties = { error: true, error_cause: description }
+          }
         } break;
         case 'oos': {
           const outOfStockList = responseData.oos_list;
@@ -171,13 +194,12 @@ export default class CartOrderButton extends Component {
             }
           });
           Alert.alert('재고 부족', `아래 항목에 대한 재고가 부족합니다.\n\n${outOfStockMessage}`);
-          Mixpanel.increment('Purchase Count', 1);
+          mixpanelProperties = { error: true, error_cause: outOfStockMessage }
         } break;
         case 'done': {
           const orderIdx = responseData.order_idx;
           const description = responseData.description;
           onClearCart();
-          success = true;
           Alert.alert('주문 성공', `${description}\n주문내역을 확인하세요 :)`, [
             {
               text: '주문 확인',
@@ -187,31 +209,34 @@ export default class CartOrderButton extends Component {
             },
           ]);
           onClearCartInfo();
+          onFetchCartInfo(0);
           // mixpanel people property
           Mixpanel.increment('Purchase Count', 1);
           Mixpanel.increment('Total Purchase Amount', cartTotalPrice);
           Mixpanel.increment('Total Paid Amount', totalPrice);
           Mixpanel.increment('Discount Used', pointWillUse);
+          mixpanelProperties = {
+            error: false,
+            totalPrice: cartTotalPrice,
+            discount: pointWillUse + couponPriceWillUse,
+            totalPaid: totalPrice,
+            orderCount: countOfMenu,
+            mainCount: countOfMain,
+            sideCount: countOfSide,
+            bevCount: countOfBeverage,
+            timeSlot: selectedTimeSlot.idx,
+            address: `${myInfo.address} ${myInfo.addressDetail}`,
+          }; 
         } break;
         default:
           break;
       }
-      Mixpanel.trackWithProperties('Confirm Order', {
-        success,
-        totalPrice: cartTotalPrice,
-        discount: pointWillUse + couponPriceWillUse,
-        totalPaid: totalPrice,
-        orderCount: countOfMenu,
-        mainCount: countOfMain,
-        sideCount: countOfSide,
-        bevCount: countOfBeverage,
-        timeSlot: selectedTimeSlot.idx,
-        address: `${myInfo.address} ${myInfo.addressDetail}`,
-      })
+      Mixpanel.trackWithProperties('Confirm Order', mixpanelProperties);
     }).catch((error) => {
       console.warn(error);
+      mixpanelProperties = { error: true, error_cause: error.toString() }
+      Mixpanel.trackWithProperties('Confirm Order', mixpanelProperties);
     });
-    
   }
 
   render() {

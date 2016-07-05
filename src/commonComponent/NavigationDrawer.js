@@ -1,70 +1,69 @@
 import React, { Component, PropTypes } from 'react';
 import Drawer from 'react-native-drawer';
-import { DefaultRenderer } from 'react-native-router-flux';
+import { DefaultRenderer, Actions } from 'react-native-router-flux';
 import RequestURL from '../const/RequestURL';
 import userInfo from '../util/userInfo';
 import SideView from './SideView';
+import {
+  fetchCartInfo,
+  fetchMyCouponCount,
+} from '../app/actions/CartInfoActions';
+import {
+  changeDrawerStatus,
+} from '../app/actions/SideInfoActions';
 
 const propTypes = {
   navigationState: PropTypes.object,
 };
 
 class NavigationDrawer extends Component {
+
   constructor(props) {
     super(props);
+    props.dispatch(fetchCartInfo(props.couponIdxWillUse));
+    props.dispatch(fetchMyCouponCount());
     this.state = {
-      point: 0,
-      cntCoupon: 0,
+      open: false,
     };
   }
-  componentDidMount() {
-    this.fetchUserPoint();
-    this.fetchMyCoupon();
-  }
+
   componentWillReceiveProps(nextProps) {
-  }
-  fetchUserPoint() {
-    const userIdx = userInfo.idx;
-    fetch(RequestURL.REQUEST_USER_POINT + 'user_idx=' + userIdx)
-      .then((response) => response.json())
-      .then((responseData) => {
-        if(responseData) {
-          this.setState({
-            point: responseData.point,
-          });
-        }
-      })
-      .catch((error)=> {
-        console.warn(error);
-      })
+    const {
+      dispatch,
+      couponIdxWillUse,
+      open,
+    } = this.props;
+    if(nextProps.open !== open && nextProps.open) {
+      dispatch(fetchCartInfo(couponIdxWillUse));
+      dispatch(fetchMyCouponCount());
     }
-  fetchMyCoupon() {
-    const userIdx = userInfo.idx;
-    fetch(RequestURL.REQUEST_MY_COUPON_LIST + 'user_idx=' + userIdx)
-    .then((response) => response.json())
-    .then((responseData) => {
-      this.setState({
-        cntCoupon: responseData.length,
-      });
-    })
-    .catch((error)=> {
-      console.warn(error);
-    })
-    
   }
+
   render() {
-    const children = this.props.navigationState.children;
-    const point = this.state.point;
-    const cntCoupon = this.state.cntCoupon;
+    const state = this.props.navigationState;
+    const children = state.children;
+    const {
+      myInfo,
+      myCouponCount,
+      dispatch,
+      couponIdxWillUse,
+      open,
+    } = this.props;
+    
+    const {
+      point,
+    } = myInfo;
 
     return (
       <Drawer
         ref="navigation"
         type="displace"
-        content={<SideView point={point} cntCoupon={cntCoupon} fetchUserPoint={() => this.fetchUserPoint()}/>}
+        onOpen={ () => dispatch(changeDrawerStatus(!open)) }
+        onClose={ () => dispatch(changeDrawerStatus(!open)) }
+        content={<SideView point={point} cntCoupon={myCouponCount} onFetchCartInfo={() => dispatch(fetchCartInfo(couponIdxWillUse))}/>}
         tapToClose
         openDrawerOffset={0.3}
-        panCloseMask={0.2}
+        panCloseMask={0.3}
         negotiatePan
         tweenHandler={(ratio) => ({
           main: { opacity: Math.max(0.54, 1 - ratio) },

@@ -29,6 +29,11 @@ export default class WriteReviewList extends Component {
             })
         }
     }
+
+    getRowLayout(layout) {
+        console.log(layout);
+    }
+
     submitReview(orderDIdx, enableButton) {
         const {
             orderIdx,
@@ -87,7 +92,8 @@ export default class WriteReviewList extends Component {
             { borderColor: Color.PRIMARY_GRAY, backgroundColor: Color.PRIMARY_GRAY } : 
             { borderColor: Color.PRIMARY_ORANGE, backgroundColor: Color.PRIMARY_ORANGE };
         return (
-            <View style={styles.row}>
+            <View style={styles.row}
+                onLayout={(event) => this.getRowLayout(event.nativeEvent.layout)}>
                 <View style={styles.menuBox}>
                     <Image style={styles.menuImage}
                         source={{uri: menuURL}}/>
@@ -108,8 +114,10 @@ export default class WriteReviewList extends Component {
                         </View>
                     </View>
                 </View>
-                <View style={styles.reviewBox}>
-                    <TextInput style={[styles.textInput, Font.DEFAULT_FONT_BLACK]} 
+                <View style={styles.reviewBox} >
+                    <TextInput
+                        ref='textinput'
+                        style={[styles.textInput, Font.DEFAULT_FONT_BLACK]} 
                         keyboardType="default" 
                         autoCorrect={false}
                         value={rowData.comment}

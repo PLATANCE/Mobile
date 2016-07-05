@@ -37,6 +37,8 @@ export default class MyOrderList extends Component {
             changeEditReviewProperty
         } = this.props;
         
+        const timeSlot = rowData.time_slot === 'instantDelivery' ? `즉시 배달(주문시간:${rowData.request_time})` : rowData.time_slot;
+        
         return (   
             <TouchableHighlight 
                 onPress={() => Actions.OrderDetailPage({ orderIdx: orderIdx })} 
@@ -49,7 +51,7 @@ export default class MyOrderList extends Component {
                         <Text style={Font.DEFAULT_FONT_BLACK}>{rowData.address_detail}</Text>
                     </View>
                     <View style={styles.footerBox}>
-                        <Text style={Font.DEFAULT_FONT_BLACK}>{rowData.time_slot}</Text>
+                        <Text style={Font.DEFAULT_FONT_BLACK}>{timeSlot}</Text>
                         <View style={styles.buttonBox}>
                             <View style={[styles.buttonWhite, { marginRight: 10 }]}>
                                 <Text style={Font.DEFAULT_FONT_BLACK}>상세 보기</Text>

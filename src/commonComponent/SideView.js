@@ -138,34 +138,34 @@ const SideView = (props, context) => {
   }
 
   function submitCode(code) {
-  Mixpanel.trackWithProperties('Enter Promo Code', { entered: true, code: code });
-  const param = 'user_idx=' + userInfo.idx + '&code=' + code;
+    Mixpanel.trackWithProperties('Enter Promo Code', { entered: true, code: code });
+    const param = 'user_idx=' + userInfo.idx + '&code=' + code;
 
-  fetch(RequestURL.SUBMIT_POINT_REGISTER + param)
-  .then((response) => response.json())
-  .then((responseData) => {
-    if(responseData.isValidCode) {
-      Alert.alert(
-        responseData.title,
-        responseData.message,
+    fetch(RequestURL.SUBMIT_POINT_REGISTER + param)
+    .then((response) => response.json())
+    .then((responseData) => {
+      if(responseData.isValidCode) {
+        Alert.alert(
+          responseData.title,
+          responseData.message,
+          [
+            { text: '확인', onPress: () => props.onFetchCartInfo() }
+          ]
+        );
+      } else {
+        Alert.alert(
+          responseData.title,
+          responseData.message,
         [
-          { text: '확인', onPress: () => props.fetchUserPoint() }
+          { text: '확인' }
         ]
-      );
-    } else {
-      Alert.alert(
-        responseData.title,
-        responseData.message,
-      [
-        { text: '확인' }
-      ]
-      );
-    }
+        );
+      }
     })
-  .catch((error) => {
-    console.warn(error);
-  })
-}
+    .catch((error) => {
+      console.warn(error);
+    })
+  }
   return (
     <View style={styles.container}>
       <View style={styles.headerBox}>
@@ -194,8 +194,8 @@ const SideView = (props, context) => {
           <Image style={styles.footerImage}
             source={require('./img/invite_friend.png')} />
           <View style={styles.footerTextBox}>
-            <Text style={[Font.DEFAULT_FONT_WHITE, { textDecorationLine: 'underline', fontSize: normalize(20) }]}>친구 초대하기</Text>
-            <Text style={Font.DEFAULT_FONT_WHITE}>무료로 식사하기</Text>
+            <Text style={[Font.DEFAULT_FONT_WHITE, { textDecorationLine: 'underline', fontSize: normalize(20) }]}>무료로 식사하세요</Text>
+            <Text style={Font.DEFAULT_FONT_WHITE}>친구 초대하기</Text>
           </View>
         </View>
       </TouchableHighlight>

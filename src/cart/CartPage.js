@@ -91,7 +91,7 @@ export default class CartPage extends Component {
     this.state = {
       renderPlaceholderOnly: false
     };
-    props.dispatch(fetchCartInfo(props.couponIdx));
+    props.dispatch(fetchCartInfo(props.couponIdxWillUse));
     props.dispatch(fetchMyCouponCount());
   }
 
@@ -179,6 +179,8 @@ export default class CartPage extends Component {
       selectedCutlery,
       immediateDeliveryTime,
       isImmediateDeliveryChecked,
+      isImmediateDeliverySupported,
+      messageImmediateDelivery,
     } = this.props;
 
     const {
@@ -206,10 +208,11 @@ export default class CartPage extends Component {
       pickerDatas.push(Const.CART_DELIVERY_TIME_CLOSED_MESSAGE);
     }
 
-    const immediateDeliveryInfoType = canImmediateDelivery ? 
+    const immediateDeliveryInfoType = isImmediateDeliverySupported ?
       <DeliveryInfoDeliveryType
         canImmediateDelivery={canImmediateDelivery}
         isImmediateDeliveryChecked={isImmediateDeliveryChecked}
+        messageImmediateDelivery={messageImmediateDelivery}
         onSetDeliveryTypeCheck={ (isImmediateDeliveryChecked) => dispatch(setDeliveryTypeCheck(isImmediateDeliveryChecked))}
       />
       :
@@ -235,12 +238,17 @@ export default class CartPage extends Component {
         <ScrollView
           style={styles.scrollview}
           showsVerticalScrollIndicator={false} >
-          <View style={styles.separatorWithMargin15} />
+          <View style={styles.separatorWithMargin20} />
           {cartItems}
-          <View style={styles.separatorWithMargin15} />
+
+
+          <View style={styles.separatorWithMargin20} />
           <PaymentInfoCartTotal cart={cart} />
+
           <View style={styles.separatorWithMargin1} />
+
           <PaymentInfoDeliveryFee deliveryFee={deliveryFee} />
+
           <PaymentInfoPoint
             cart={cart}
             myPoint={point}
@@ -248,34 +256,46 @@ export default class CartPage extends Component {
             pointWillUse={pointWillUse}
             onSetPointWillUse={(pointInput) => dispatch(setPointWillUse(pointInput))}
           />
+
           <PaymentInfoCoupon
             myCouponCount={myCouponCount}
             couponPriceWillUse={couponPriceWillUse}
             onSetPointWillUse={() => dispatch(setPointWillUse(point))}
           />
+
           <View style={styles.separatorWithMargin1} />
+
           <PaymentInfoTotal
             cart={cart}
             pointWillUse={pointWillUse}
             couponPriceWillUse={couponPriceWillUse}
           />
-          <View style={styles.separatorWithMargin15} />
 
-          {immediateDeliveryInfoType}
+          <View style={styles.separatorWithMargin20} />
+
+          <DeliveryInfoRecipient
+            selectedRecipient={selectedRecipient}
+            onTogglePicker={ () => this.toggleRecipient() }
+          />
 
           <DeliveryInfoAddress
             address={address}
             addressDetail={addressDetail}
           />
 
+
+          {immediateDeliveryInfoType}
+
+
           <DeliveryInfoDeliveryTime
             selectedTimeSlot={selectedTimeSlot}
             immediateDeliveryTime={immediateDeliveryTime}
             isImmediateDeliveryChecked={isImmediateDeliveryChecked}
+            canImmediateDelivery={canImmediateDelivery}
             onTogglePicker={() => this.toggleDeliveryTime()}
           />
           
-          <View style={styles.separatorWithMargin15} />
+          <View style={styles.separatorWithMargin20} />
 
           <DeliveryInfoPaymentType
             selectedPayMethod={selectedPayMethod}
@@ -290,16 +310,13 @@ export default class CartPage extends Component {
             mobile={mobile}
             couponIdxWillUse={couponIdxWillUse}
           />
-          <DeliveryInfoRecipient
-            selectedRecipient={selectedRecipient}
-            onTogglePicker={ () => this.toggleRecipient() }
-          />
-          <View style={styles.separatorWithMargin15} />
+          
+          <View style={styles.separatorWithMargin20} />
           <DeliveryInfoCutlery
             selectedCutlery={selectedCutlery}
             onTogglePicker={ () => this.toggleCutlery() }
           />
-          <View style={styles.separatorWithMargin15} />
+          <View style={styles.separatorWithMargin20} />
           <CartOrderButton
             cart={cart}
             myInfo={myInfo}
@@ -312,8 +329,11 @@ export default class CartPage extends Component {
             selectedPayMethod={selectedPayMethod}
             cardNumber={cardNumber}
             selectedCutlery={selectedCutlery}
+            isImmediateDeliveryChecked={isImmediateDeliveryChecked}
+            immediateDeliveryTime={immediateDeliveryTime}
             onClearCartInfo={ () => dispatch(clearCartInfo()) }
             onClearCart={ () => dispatch(clearCart()) }
+            onFetchCartInfo={ (couponIdxWillUse) => dispatch(fetchCartInfo(couponIdxWillUse))}
           />
           <Picker
             ref={(picker) => {this.timeSlotPicker = picker;}}
@@ -386,8 +406,8 @@ const styles = StyleSheet.create({
   scrollview: {
     flex: 1,
   },
-  separatorWithMargin15: {
-    marginTop: 15,
+  separatorWithMargin20: {
+    marginTop: 20,
   },
   separatorWithMargin1: {
     marginTop: 1,

@@ -10,6 +10,8 @@ import WriteReviewReducer from './WriteReviewReducer';
 import mixpanelReducer from './mixpanelReducer';
 import CustomerServiceReducer from './CustomerServiceReducer';
 import CardReducer from './CardReducer';
+import GlobalReducer from './GlobalReducer';
+import DailyMenuReducer from './DailyMenuReducer';
 
 const Reducers = combineReducers({
   CartReducers,
@@ -20,6 +22,8 @@ const Reducers = combineReducers({
 	mixpanelReducer,
 	CustomerServiceReducer,
 	CardReducer,
+	GlobalReducer,
+	DailyMenuReducer,
 });
 
 export default Reducers;

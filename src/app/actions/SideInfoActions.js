@@ -5,6 +5,7 @@ import userInfo from '../../util/userInfo';
 export const SideInfoActions = {
   RECEIVE_MY_POINT: 'RECEIVE_MY_POINT',
   RECEIVE_MY_COUPON: 'RECEIVE_MY_COUPON',
+  CHANGE_DRAWER_STATUS: 'CHANGE_DRAWER_STATUS',
 };
 
 export function receiveMyPoint(myPoint) {
@@ -21,6 +22,12 @@ export function receiveMyCoupon(myCoupon) {
   };
 }
 
+export function changeDrawerStatus(open) {
+  return {
+    type: SideInfoActions.CHANGE_DRAWER_STATUS,
+    open,
+  }
+}
 
 export function fetchMyPoint() {
   return (dispatch) => {

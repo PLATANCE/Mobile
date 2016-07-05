@@ -3,7 +3,7 @@ import React, {
     Component,
     PropTypes,
 } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 import { Font, normalize } from '../../const/Font';
 import Color from '../../const/Color';
 
@@ -18,6 +18,7 @@ export default class DeliveryInfoDeliveryType extends Component {
       canImmediateDelivery,
       isImmediateDeliveryChecked,
       onSetDeliveryTypeCheck,
+      messageImmediateDelivery,
     } = this.props;
 
     const checkedStyle = (isImmediateDeliveryChecked) ? styles.checkedBtnStyle : styles.unCheckedBtnStyle;
@@ -30,7 +31,7 @@ export default class DeliveryInfoDeliveryType extends Component {
       false;
     const unCheckedStyle = (isImmediateDeliveryChecked) ? styles.unCheckedBtnStyle : styles.checkedBtnStyle;
     const unCheckedTextStyle = (isImmediateDeliveryChecked) ? Font.DEFAULT_FONT_ORANGE : Font.DEFAULT_FONT_WHITE;
-    const unCheckedImage = (isImmediateDeliveryChecked) ? 
+    const unCheckedImage = (isImmediateDeliveryChecked) ?
       false
       :
       <Image style={[styles.iconInCheckBtn, { marginRight: normalize(5) }]} 
@@ -65,7 +66,7 @@ export default class DeliveryInfoDeliveryType extends Component {
           <TouchableOpacity
             activeOpacity={1}
             style={[styles.checkBtn, { marginRight: normalize(2) }]}
-
+            onPress={ () => Alert.alert('알림', messageImmediateDelivery) }
           >
             <Text style={Font.BLUR_FONT_ORANGE}>즉시 배달</Text>
           </TouchableOpacity>
@@ -91,6 +92,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     padding: normalize(16),
+    marginTop: 20,
   },
   checkBtn: {
     flex: 1,

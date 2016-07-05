@@ -18,6 +18,7 @@ import MenuReviewStars from '../commonComponent/MenuReviewStars';
 import AddCartButton from '../commonComponent/AddCartButton';
 import MenuPriceText from '../commonComponent/MenuPriceText';
 import AmountInCart from '../commonComponent/AmountInCart';
+import SoldOutView from '../commonComponent/SoldOutView';
 import PageComment from '../commonComponent/PageComment';
 import PlaceholderView from '../commonComponent/PlaceholderView';
 import ReviewList from './components/ReviewList';
@@ -94,48 +95,26 @@ export default class MenuDetailPage extends Component {
     }
 
     render() {
-        const { dispatch, cart, menuIdx, menuDIdx } = this.props;
-        const menu = this.state.menu;
-        let _scrollView: ScrollView;
-        let menuURL;
-        let chefURL;
-        let contentInnerMenu = false;
-        let addButtonEnable;
-
-        // place holder
         if(!this.state.renderPlaceholderOnly) {
             return this.renderPlaceholderView();
         }
+        const { dispatch, cart, menuIdx, menuDIdx, stock, isEvent } = this.props;
+        const {
+            menu
+        } = this.state;
+        let _scrollView: ScrollView;
+        let contentInnerMenu = false;
+        const isSoldOut = (stock <= 0) ? true : false;
+        const amount = cart[menuIdx] ? cart[menuIdx].amount : 0;
 
-        if(menu){
-            const stock = this.props.stock;
-            menuURL = MediaURL.MENU_URL + menu.image_url_menu;
-            chefURL = MediaURL.CHEF_URL + menu.image_url_chef;
-            let isSoldOut = (stock == 0 || stock < 0) ? true : false;
-            addButtonEnable = (stock != 0) ? true : false;
-            
-            if(isSoldOut) {
-                if(stock == 0) {
-                    contentInnerMenu = <View style={styles.menuImageAlpha}>
-                                    <Text style={[Font.DEFAULT_FONT_WHITE_BOLD, styles.textEng]}>SOLD OUT</Text>
-                                    <Text style={[Font.DEFAULT_FONT_WHITE, styles.textKor]}>금일 메뉴가 매진 되었습니다.</Text>
-                                </View>;
-                } else if(stock < 0) {
-                    contentInnerMenu = <View style={styles.menuImageAlpha}>
-                                    <Text style={[Font.DEFAULT_FONT_WHITE_BOLD, styles.textEng]}>주문 마감</Text>
-                                    <Text style={[Font.DEFAULT_FONT_WHITE, styles.textKor]}>오늘은 플레이팅 쉬는 날 입니다.</Text>
-                                </View>;
-                }
-                
-            } else if(cart[menu.idx] && cart[menu.idx].amount > 0){
-
-                const amount = cart[menu.idx].amount;
-                contentInnerMenu = <View style={styles.amountInCart}>
-                                        <AmountInCart amount={amount}/>
-                                    </View>;
-            }
-        }
+        const menuURL = MediaURL.MENU_URL + menu.image_url_menu;
+        const chefURL = MediaURL.CHEF_URL + menu.image_url_chef;
         
+        if(isSoldOut) {
+            contentInnerMenu = <SoldOutView stock={stock} isEvent={isEvent} />
+        } else {
+            contentInnerMenu = <AmountInCart amount={amount} isEvent={isEvent}/>
+        }
 
         return (
 
@@ -173,7 +152,7 @@ export default class MenuDetailPage extends Component {
                                 <MenuPriceText originalPrice={menu.price} sellingPrice={menu.alt_price}/>
                             </View>
                             <View style={styles.cartButtonBox}>
-                                <AddCartButton addItemToCart={ () => dispatch(addItemToCart(menuDIdx, menuIdx, menu.price, menu.alt_price, menu.image_url_menu, menu.name_menu, menu.name_menu_eng, addButtonEnable)) } />
+                                <AddCartButton addItemToCart={ () => dispatch(addItemToCart(menuDIdx, menuIdx, menu.price, menu.alt_price, menu.image_url_menu, menu.name_menu, menu.name_menu_eng, !isSoldOut)) } />
                             </View>
                         </View>
                         <TouchableHighlight 

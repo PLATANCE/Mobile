@@ -16,6 +16,7 @@ export default class DeliveryInfoDeliveryTime extends Component {
     selectedTimeSlot: Object;
     immediateDeliveryTime: string;
     isImmediateDeliveryChecked: boolean;
+    canImmediateDelivery: boolean;
   };
 
   render() {
@@ -23,6 +24,7 @@ export default class DeliveryInfoDeliveryTime extends Component {
       selectedTimeSlot,
       immediateDeliveryTime,
       isImmediateDeliveryChecked,
+      canImmediateDelivery,
       onTogglePicker,
     } = this.props;
 
@@ -38,7 +40,7 @@ export default class DeliveryInfoDeliveryTime extends Component {
         </View>
       );
     } else {
-      if(isImmediateDeliveryChecked) {
+      if(isImmediateDeliveryChecked && canImmediateDelivery) {
         return (
           <View style={styles.container}>
             <Text style={Font.DEFAULT_FONT_BLACK}>배달 시간</Text>

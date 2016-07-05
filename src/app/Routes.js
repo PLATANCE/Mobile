@@ -3,9 +3,9 @@ import React, {
     Component,
     PropTypes,
 } from 'react';
-import { AppRegistry, Navigator, StyleSheet, Text, View, Image, TouchableHighlight, Platform, Alert } from 'react-native';
+import { AppRegistry, Navigator, StyleSheet, Text, View, Image, TouchableHighlight, Platform, Alert, AppState } from 'react-native';
 
-import { Router, Schema, Animations, TabBar, Actions, Scene } from 'react-native-router-flux';
+import { Router, Schema, Animations, TabBar, Actions, Scene, Reducer } from 'react-native-router-flux';
 import { Provider, connect } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux'
 import Reducers from './reducers';
@@ -14,6 +14,7 @@ import thunk from 'redux-thunk'
 import Color from '../const/Color';
 import Const from '../const/Const';
 import NavigationDrawer from '../commonComponent/NavigationDrawer';
+import NavigationDrawerSelector from '../commonComponent/NavigationDrawerSelector';
 import TabView from '../customerService/components/TabView';
 
 import TutorialPage from '../tutorial/TutorialPage';
@@ -68,6 +69,10 @@ import PlatingPage from '../plating/PlatingPage';
 import userInfo from '../util/userInfo';
 import Mixpanel, { initMixpanel } from '../util/mixpanel';
 
+import {
+    fetchDailyMenu
+} from './actions/DailyMenuActions';
+
 const RouterWithRedux = connect()(Router);
 const store = compose(
     applyMiddleware(thunk)
@@ -83,11 +88,36 @@ const getSceneStyle = function (props) {
     backgroundColor: Color.PRIMARY_BACKGROUND,
   };
 }
+const reducerCreate = params => {
+    const defaultReducer = Reducer(params);
+    return (state, action) => {
+        //console.log("ACTION:", action);
+        return defaultReducer(state, action);
+    }
+};
 
 export default class Routes extends Component {
 
     constructor(props) {
         super(props);
+    }
+
+    componentDidMount() {
+        AppState.addEventListener('change', this.handleAppStateChange);
+    }
+
+    componentWillUnMount() {
+        AppState.removeEventListener('change', this.handleAppStateChange);
+    }
+
+    handleAppStateChange() {
+        const appState = AppState.currentState;
+        const {
+            myAddress
+        } = store.getState().AddressReducer;
+        if (appState === 'active') {
+            store.dispatch(fetchDailyMenu(myAddress));
+        }
     }
    
     onCartButtonPressed() {
@@ -112,7 +142,7 @@ export default class Routes extends Component {
     render() {
         return (
             <Provider store={store}>
-                <RouterWithRedux getSceneStyle={getSceneStyle}>
+                <RouterWithRedux getSceneStyle={getSceneStyle} createReducer={reducerCreate}>
                 <Scene key="root" hideNavBar={true} hideTabBar={true}>
                     <Scene key="TutorialPage" 
                         hideNavBar={true}
@@ -130,160 +160,139 @@ export default class Routes extends Component {
                         component={connect()(SignUpPage)} 
                     />
 
-                    <Scene key='drawer' component={NavigationDrawer} initial={userInfo.isLogin ? true : false} sceneStyle={{backgroundColor: 'white'}} >
+                    <Scene key='drawer' component={connect(NavigationDrawerSelector)(NavigationDrawer)} initial={userInfo.isLogin ? true : false} sceneStyle={{backgroundColor: 'white'}} >
                         <Scene key="main" 
                             navigationBarStyle={{backgroundColor: Color.PRIMARY_ORANGE}}
                             titleStyle={{color: 'white'}}
+                            backButtonImage={require('../commonComponent/img/back_white.png')}
                             drawerImage={require('../commonComponent/img/drawer_white.png')}
-                            leftButtonIconStyle={{width: 20, height: 20}}
+                            leftButtonIconStyle={styles.image} 
                         >
                             
                             <Scene key="DailyMenuPage" 
                                 component={connect(DailyMenuSelector)(DailyMenuPage)}
                                 title="TODAY'S MENU"
-                                onRight={()=>this.onCartButtonPressed()} rightButtonImage={require('../commonComponent/img/cart_white.png')} rightButtonIconStyle={styles.image} 
+                                onRight={()=>this.onCartButtonPressed()}
+                                rightButtonImage={require('../commonComponent/img/cart_white.png')} 
+                                rightButtonIconStyle={styles.image} 
                             />
 
                             <Scene key="CartPage" 
                                 component={connect(CartSelector)(CartPage)}
-                                title="CART"
-                                backButtonImage={require('../commonComponent/img/back_white.png')}
+                                title="장바구니"
                             />
 
                             <Scene key="MenuDetailPage" 
                                 component={connect(MenuDetailSelector)(MenuDetailPage)}
                                 title="TODAY'S MENU" 
-                                backButtonImage={require('../commonComponent/img/back_white.png')}
                                 onRight={()=>this.onCartButtonPressed()} rightButtonImage={require('../commonComponent/img/cart_white.png')} rightButtonIconStyle={styles.image} 
                             />
 
                             <Scene key="BannerDetailPage"
                                 component={connect(BannerDetailSelector)(BannerDetailPage)}
                                 title="배너 상세보기" 
-                                backButtonImage={require('../commonComponent/img/back_white.png')}
                             />
 
                             <Scene key="AddCardPage" 
                                 component={connect(AddCardSelector)(AddCardPage)} 
                                 title="카드 등록"
-                                backButtonImage={require('../commonComponent/img/back_white.png')}
                             />
 
                             <Scene key="ChefDetailPage"
                                 component={connect()(ChefDetailPage)}
                                 title="CHEF"
-                                backButtonImage={require('../commonComponent/img/back_white.png')}
                             />
 
                             <Scene key='MyAddressPage' 
                                 component={connect(MyAddressSelector)(MyAddressPage)}
                                 title="배달 주소"
-                                backButtonImage={require('../commonComponent/img/back_white.png')}
                             />
 
                             <Scene key="AddAddressPage" 
                                 component={connect(AddAddressSelector)(AddAddressPage)}
                                 title="배달 주소 입력"
                                 sceneStyle={{backgroundColor: 'white'}}
-                                backButtonImage={require('../commonComponent/img/back_white.png')}
                             />
 
                             <Scene key="AddressCoveragePage" 
                                 component={connect(AddressCoverageSelector)(AddressCoveragePage)}
                                 title="배달 가능 지역"
-                                backButtonImage={require('../commonComponent/img/back_white.png')}
                             />
 
                             <Scene key="ReferPage" 
                                 component={connect(ReferSelector)(ReferPage)}
                                 title="친구 초대" 
-                                backButtonImage={require('../commonComponent/img/back_white.png')}
                             />
 
                             <Scene key="MyPointPage" 
                                 component={connect(MyPointSelector)(MyPointPage)}
                                 title="포인트 조회" 
-                                backButtonImage={require('../commonComponent/img/back_white.png')}
                             />
 
                             <Scene key="MyCouponPage" 
                                 component={connect(MyCouponSelector)(MyCouponPage)}
                                 title="내 쿠폰" 
-                                backButtonImage={require('../commonComponent/img/back_white.png')}
                             />
 
                             <Scene key="MyOrderPage" 
                                 component={connect()(MyOrderPage)}
                                 title="주문 내역" 
-                                backButtonImage={require('../commonComponent/img/back_white.png')}
                             />
 
                             <Scene key="OrderDetailPage" 
                                 component={connect()(OrderDetailPage)}
                                 title="주문 상세 보기" 
-                                backButtonImage={require('../commonComponent/img/back_white.png')}
                             />
 
                             <Scene key="MenuReviewPage"  
                                 component={connect()(MenuReviewPage)}
-                                title="REVIEW" 
-                                backButtonImage={require('../commonComponent/img/back_white.png')}
+                                title="REVIEW"
                             />
 
-                            <Scene key="WriteReviewPage"  
+                            <Scene key="WriteReviewPage"
                                 component={connect(WriteReviewSelector)(WriteReviewPage)}
-                                title="리뷰 남기기" 
-                                backButtonImage={require('../commonComponent/img/back_white.png')}
+                                title="리뷰 남기기"
                             />
 
                             <Scene key="CSMainPage"  
                                 component={connect(CSMainSelector)(CSMainPage)}
-                                title="고객 센터" 
-                                backButtonImage={require('../commonComponent/img/back_white.png')}
+                                title="고객 센터"
                             />
 
                             <Scene key="CSAddressCoveragePage"  
                                 component={connect(CSAddressCoverageSelector)(CSAddressCoveragePage)}
-                                title="고객 센터" 
-                                backButtonImage={require('../commonComponent/img/back_white.png')}
+                                title="고객 센터"
                             />
 
                             <Scene key="CSFAQPage"  
                                 component={connect(CSFAQSelector)(CSFAQPage)}
-                                title="고객 센터" 
-                                backButtonImage={require('../commonComponent/img/back_white.png')}
+                                title="고객 센터"
                             />
 
                             <Scene key="CSEnquiryPage"  
                                 component={connect()(CSEnquiryPage)}
-                                title="고객 센터" 
-                                backButtonImage={require('../commonComponent/img/back_white.png')}
+                                title="고객 센터"
                             />
 
                             <Scene key="CSPolicyPage"  
                                 component={connect()(CSPolicyPage)}
-                                title="고객 센터" 
-                                backButtonImage={require('../commonComponent/img/back_white.png')}
+                                title="고객 센터"
                             />
                             <Scene key="PlatingPage"  
                                 component={connect()(PlatingPage)}
-                                title="PLATING" 
-                                backButtonImage={require('../commonComponent/img/back_white.png')}
+                                title="PLATING"
                             />
                             <Scene key="IamPortAddCardPage"  
                                 component={connect(IamPortAddCardSelector)(IamPortAddCardPage)}
                                 title="IamPortAddCardPage"
-                                backButtonImage={require('../commonComponent/img/back_white.png')}
                             />
                             <Scene key="InputMobilePage"  
                                 component={connect()(InputMobilePage)}
                                 title="내 핸드폰 번호"
-                                backButtonImage={require('../commonComponent/img/back_white.png')}
                             />
                             <Scene key="MobileAuthPage"  
                                 component={connect()(MobileAuthPage)}
                                 title="번호 인증"
-                                backButtonImage={require('../commonComponent/img/back_white.png')}
                             />
                         </Scene>
                     </Scene>
