@@ -91,8 +91,11 @@ export default class ReferPage extends Component {
       Mixpanel.trackWithProperties('Refer Button', { via: 'Kakao' });
     }
     onPressMMS(content) {
-        const url = Platform.OS !== 'ios' ? content : '&body=' + content ;
-        Platform.OS !== 'ios' ? CommunicationsAndroid.text(url) : Communications.text(url);
+        if(Platform.OS === 'ios') {
+            Communications.text('&body=' + content);
+        }  else {
+            CommunicationsAndroid.text(content)
+        }
         Mixpanel.trackWithProperties('Refer Button', { via: 'SMS' });
     }
     render() {

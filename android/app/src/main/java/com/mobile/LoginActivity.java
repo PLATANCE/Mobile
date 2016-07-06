@@ -24,7 +24,6 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
         Session.getCurrentSession().checkAndImplicitOpen();
@@ -41,6 +40,9 @@ public class LoginActivity extends Activity {
                 @Override
                 public void onSessionClosed(ErrorResult errorResult) {
                     Log.d("MainActivity", "onSessionClosed:" + errorResult.toString());
+                    Intent intent = new Intent();
+                    setResult(RESULT_CANCELED, intent);
+                    finish();
                 }
 
                 @Override
@@ -65,15 +67,18 @@ public class LoginActivity extends Activity {
         @Override
         public void onSessionOpenFailed(KakaoException exception) {
             Log.d("MainActivity", "onSessionOpenFailed");
+            Intent intent = new Intent();
+            setResult(RESULT_CANCELED, intent);
+            finish();
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
             return;
         }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

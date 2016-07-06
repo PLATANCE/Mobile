@@ -20,10 +20,15 @@ import com.facebook.react.uimanager.IllegalViewOperationException;
 import com.kakao.auth.AuthType;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
+import com.kakao.kakaolink.AppActionBuilder;
+import com.kakao.kakaolink.AppActionInfoBuilder;
+import com.kakao.kakaolink.KakaoLink;
+import com.kakao.kakaolink.KakaoTalkLinkMessageBuilder;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.MeResponseCallback;
 import com.kakao.usermgmt.response.model.UserProfile;
+import com.kakao.util.KakaoParameterException;
 import com.kakao.util.exception.KakaoException;
 import com.mobile.LoginActivity;
 
@@ -33,25 +38,18 @@ import java.util.Map;
  * Created by Rooney on 16. 6. 7..
  */
 public class KakaoModule extends ReactContextBaseJavaModule implements ActivityEventListener {
-    private static final int REQUEST_CODE = 467801;
 
-    private ISessionCallback mKakaocallback;
+    private static final int REQUEST_CODE = 467801;
     private Promise mPromise;
+
     public KakaoModule(ReactApplicationContext reactContext) {
         super(reactContext);
-
-        // Add the listener for 'onActivityResult'
         reactContext.addActivityEventListener(this);
     }
 
     @Override
     public String getName() {
         return "KakaoManager";
-    }
-
-    @ReactMethod
-    public void toast() {
-        Toast.makeText(getReactApplicationContext(), "12345", Toast.LENGTH_SHORT).show();
     }
 
     @ReactMethod
@@ -65,15 +63,34 @@ public class KakaoModule extends ReactContextBaseJavaModule implements ActivityE
         }
         mPromise = promise;
         try {
-            //Session.getCurrentSession().open(AuthType.KAKAO_TALK, getCurrentActivity());
             final Intent intent = new Intent(currentActivity, LoginActivity.class);
             currentActivity.startActivityForResult(intent, REQUEST_CODE);
         } catch (Exception e) {
             mPromise.reject("E_FAILED_TO_SHOW_DATA", e.toString());
             Log.d("MainActivity", "E_FAILED_TO_SHOW_DATA" + e.toString());
-            e = null;
+            mPromise = null;
         }
+    }
 
+    @ReactMethod
+    public void openKakaoTalkAppLink(String title, String content) {
+        Activity currentActivity = getCurrentActivity();
+        try {
+            KakaoLink kakaoLink = KakaoLink.getKakaoLink(currentActivity);
+            final KakaoTalkLinkMessageBuilder kakaoTalkLinkMessageBuilder = kakaoLink.createKakaoTalkLinkMessageBuilder();
+            kakaoTalkLinkMessageBuilder.addText(content);
+            kakaoTalkLinkMessageBuilder.addAppButton(title,
+                    new AppActionBuilder().addActionInfo(AppActionInfoBuilder.createAndroidActionInfoBuilder()
+                            .setMarketParam("referrer=kakaotalklink")
+                            .build())
+                            .addActionInfo(AppActionInfoBuilder.createiOSActionInfoBuilder()
+                                    .build())
+                            .setUrl("http://www.plating.co.kr") // PC 카카오톡 에서 사용하게 될 웹사이트 주소
+                            .build());
+            kakaoLink.sendMessage(kakaoTalkLinkMessageBuilder, currentActivity);
+        } catch (KakaoParameterException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
