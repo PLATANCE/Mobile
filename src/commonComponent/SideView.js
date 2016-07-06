@@ -140,10 +140,9 @@ const SideView = (props, context) => {
       AlertAndroid.prompt(
         '코드 등록',
         '등록하신 코드는 포인트 혹은 쿠폰으로 전환되어 결제할 때 사용됩니다.',
-        [
-          { text: '취소', onPress: () => Mixpanel.trackWithProperties('Enter Promo Code', { entered: false }) },
-          { text: '등록', onPress: (code) => alert(code) },
-        ]
+        '취소',
+        '등록', 
+        (code) => { submitCode(code) },
       );
     }
   }

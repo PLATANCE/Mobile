@@ -36,7 +36,7 @@ public class AlertModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void prompt(final String title, final String message, final ReadableArray buttonConfig) {
+    public void prompt(String title, String message, String negativeText, String positiveText, final Callback positiveCallback) {
 
         final InputMethodManager inputMethodManager = (InputMethodManager) getReactApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         AlertDialog.Builder builder = new AlertDialog.Builder(getCurrentActivity());
@@ -48,26 +48,21 @@ public class AlertModule extends ReactContextBaseJavaModule {
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
 
-        ReadableMap negativeButton = buttonConfig.getMap(0);
-        ReadableMap positiveButton = buttonConfig.getMap(1);
-        
-
         // Set up the buttons
-        builder.setPositiveButton(positiveButton.getString("text"), new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(positiveText, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String m_Text = input.getText().toString();
                 Toast.makeText(getReactApplicationContext(), m_Text, Toast.LENGTH_SHORT).show();
                 inputMethodManager.hideSoftInputFromWindow(input.getWindowToken(), 0);
-                callback.invoke(m_Text);
+                positiveCallback.invoke(m_Text);
                 //mPromise.resolve(m_Text);
             }
         });
-        builder.setNegativeButton(negativeButton.getString("text"), new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(negativeText, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 inputMethodManager.hideSoftInputFromWindow(input.getWindowToken(), 0);
-                //callback.invoke();
                 dialog.cancel();
             }
         });

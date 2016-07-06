@@ -14,6 +14,7 @@ import {
   Alert,
   AlertIOS,
   InteractionManager,
+  Platform,
 } from 'react-native';
 import Picker from 'react-native-picker';
 import { Actions } from 'react-native-router-flux';
@@ -38,6 +39,7 @@ import {
 
 import userInfo from '../util/userInfo';
 import Mixpanel from '../util/mixpanel';
+import AlertAndroid from '../commonComponent/AlertAndroid';
 
 const PAY_METHOD = {
   ONLINE_CARD: '카드',
@@ -198,16 +200,26 @@ export default class CartPage extends Component {
 
 
   openAlertMobile() {
-    AlertIOS.prompt('전화 번호', '배달 시, 연락 받으실 전화번호를 입력해주세요.(-제외)\n 예) 01012345678', [
-      {
-        text: '취소',
-        onPress: () => Mixpanel.trackWithProperties('Enter Phone Number', { number: 'none' }),
-        style: 'cancel',
-      }, {
-        text: '확인',
-        onPress: (mobile) => this.submitUserMobile(mobile),
-      },
-    ]);
+    if(Platform.OS === 'ios') {
+      AlertIOS.prompt('전화 번호', '배달 시, 연락 받으실 전화번호를 입력해주세요.(-제외)\n 예) 01012345678', [
+        {
+          text: '취소',
+          onPress: () => Mixpanel.trackWithProperties('Enter Phone Number', { number: 'none' }),
+          style: 'cancel',
+        }, {
+          text: '확인',
+          onPress: (mobile) => this.submitUserMobile(mobile),
+        },
+      ]);
+    } else {
+      AlertAndroid.prompt(
+        '전화 번호',
+        '배달 시, 연락 받으실 전화번호를 입력해주세요.(-제외)\n 예) 01012345678',
+        '취소',
+        '확인',
+        (mobile) => this.submitUserMobile(mobile),
+      );
+    }
   }
 
   openPickerDeliveryTime() {
@@ -221,16 +233,26 @@ export default class CartPage extends Component {
   }
 
   openAlertInputPoint() {
-    AlertIOS.prompt('포인트 입력', '적용할 포인트를 입력해 주세요. ex)10000', [
-      {
-        text: '취소',
-        onPress: () => console.log('포인트 취소 입력'),
-        style: 'cancel',
-      }, {
-        text: '확인',
-        onPress: (pointInput) => this.setAvailablePoint(pointInput),
-      },
-    ]);
+    if(Platform.OS === 'ios') {
+      AlertIOS.prompt('포인트 입력', '적용할 포인트를 입력해 주세요. ex)10000', [
+        {
+          text: '취소',
+          onPress: () => console.log('포인트 취소 입력'),
+          style: 'cancel',
+        }, {
+          text: '확인',
+          onPress: (pointInput) => this.setAvailablePoint(pointInput),
+        },
+      ]);
+    } else {
+      AlertAndroid.prompt(
+        '포인트 입력',
+        '적용할 포인트를 입력해 주세요. ex)10000',
+        '취소',
+        '확인',
+        (pointInput) => this.setAvailablePoint(pointInput),
+      );
+    }
   }
 
   setAvailablePoint(pointInput) {
