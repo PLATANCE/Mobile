@@ -2,7 +2,7 @@ import React, {
     Component,
     PropTypes,
 } from 'react';
-import { View, ListView, Text, StyleSheet, TouchableHighlight, AlertIOS, Alert, Image } from 'react-native';
+import { View, ListView, Text, StyleSheet, TouchableHighlight, AlertIOS, Alert, Image, Platform } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Color from '../../const/Color';
 import Const from '../../const/Const';
@@ -11,6 +11,7 @@ import RequestURL from '../../const/RequestURL';
 import Separator from '../../commonComponent/Separator';
 import userInfo from '../../util/userInfo';
 import Mixpanel from '../../util/mixpanel';
+import AlertAndroid from '../../commonComponent/AlertAndroid';
 
 export default class SearchedAddressList extends Component {
     constructor(props) {
@@ -33,14 +34,24 @@ export default class SearchedAddressList extends Component {
     }
     openAlertAddressDetail(title, message, jibunAddress, roadNameAddress, deliveryAvailable, area, reservationType, latitude, longitude) {
         Mixpanel.track('Choose Address from Result');
-        AlertIOS.prompt(
-            title,
-            message,
-            [
-                { text: '취소', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-                { text: '등록', onPress: (addressDetail) => this.submitDeliveryAddress(jibunAddress, roadNameAddress, addressDetail, deliveryAvailable, area, reservationType, latitude, longitude) },
-            ],
-        );
+        if(Platform.OS === 'ios') {
+            AlertIOS.prompt(
+                title,
+                message,
+                [
+                    { text: '취소', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+                    { text: '등록', onPress: (addressDetail) => this.submitDeliveryAddress(jibunAddress, roadNameAddress, addressDetail, deliveryAvailable, area, reservationType, latitude, longitude) },
+                ],
+            );    
+        } else {
+            AlertAndroid.prompt(
+                title,
+                message,
+                '취소',
+                '등록',
+                (addressDetail) => { this.submitDeliveryAddress(jibunAddress, roadNameAddress, addressDetail, deliveryAvailable, area, reservationType, latitude, longitude) },
+            )
+        }       
     }
     
     submitDeliveryAddress(jibunAddress, roadNameAddress, addressDetail, deliveryAvailable, area, reservationType, latitude, longitude) {
