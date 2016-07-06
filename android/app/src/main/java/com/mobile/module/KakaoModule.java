@@ -1,4 +1,4 @@
-package com.mobile;
+package com.mobile.module;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -25,6 +25,7 @@ import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.MeResponseCallback;
 import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.exception.KakaoException;
+import com.mobile.LoginActivity;
 
 import java.util.Map;
 

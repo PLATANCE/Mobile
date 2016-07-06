@@ -1,4 +1,4 @@
-package com.mobile;
+package com.mobile.module;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -25,7 +25,7 @@ import java.util.Map;
  * Created by Rooney on 16. 7. 5..
  */
 public class AlertModule extends ReactContextBaseJavaModule {
-    private Callback callback;
+
     public AlertModule(ReactApplicationContext reactContext) {
         super(reactContext);
     }
@@ -53,10 +53,8 @@ public class AlertModule extends ReactContextBaseJavaModule {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String m_Text = input.getText().toString();
-                Toast.makeText(getReactApplicationContext(), m_Text, Toast.LENGTH_SHORT).show();
                 inputMethodManager.hideSoftInputFromWindow(input.getWindowToken(), 0);
                 positiveCallback.invoke(m_Text);
-                //mPromise.resolve(m_Text);
             }
         });
         builder.setNegativeButton(negativeText, new DialogInterface.OnClickListener() {

@@ -2,13 +2,10 @@ package com.mobile;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.facebook.react.ReactActivity;
 import io.realm.react.RealmReactPackage;
 import com.facebook.react.ReactPackage;
-import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.shell.MainReactPackage;
 
 
@@ -16,20 +13,15 @@ import java.util.Arrays;
 import java.util.List;
 
 // mixpanel
-import com.kakao.auth.AuthType;
-import com.kakao.auth.ISessionCallback;
-import com.kakao.auth.Session;
-import com.kakao.network.ErrorResult;
-import com.kakao.usermgmt.UserManagement;
-import com.kakao.usermgmt.callback.MeResponseCallback;
-import com.kakao.usermgmt.response.model.UserProfile;
-import com.kakao.util.exception.KakaoException;
 import com.kevinejohn.RNMixpanel.*;
 
 // pushnotification
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 
 // fabric
+import com.mobile.reactpackage.AlertReactPackage;
+import com.mobile.reactpackage.CommunicationReactPackage;
+import com.mobile.reactpackage.KakaoReactPackage;
 import com.smixx.fabric.FabricPackage;
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
@@ -86,7 +78,8 @@ public class MainActivity extends ReactActivity {
             new FBSDKPackage(mCallbackManager),
                 new KakaoReactPackage(),
             new MainReactPackage(),
-                new AlertReactPackage()
+                new AlertReactPackage(),
+                new CommunicationReactPackage()
         );
     }
 
