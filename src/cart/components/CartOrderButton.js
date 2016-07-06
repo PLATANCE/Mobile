@@ -257,7 +257,7 @@ export default class CartOrderButton extends Component {
 
     const isAddressValidated = address === Const.CART_ADDRESS_INPUT_MESSAGE ? false : true;
     const isMobileValidated = mobile === Const.CART_MOBILE_INPUT_MESSAGE ? false : true;
-    const isCardNumberValidated = (selectedPayMethod === 0 && cardNumber === Const.CART_CARD_INPUT_MESSAGE) ? false : true;
+    const isCardNumberValidated = (selectedPayMethod === 1 && cardNumber === Const.CART_CARD_INPUT_MESSAGE) ? false : true;
     const isTimeSlotValidated = selectedTimeSlot.timeSlot === Const.CART_DELIVERY_TIME_CLOSED_MESSAGE ? false : true;
     const isDeliveryAvailableValidated = deliveryAvailable === 0 ? false : true;
     const isCanOrderValidated = canOrder === false ? false : true;
