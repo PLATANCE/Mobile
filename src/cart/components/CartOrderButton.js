@@ -145,7 +145,7 @@ export default class CartOrderButton extends Component {
       }
     }
 
-    //const time_slot = isImmediateDeliveryChecked ? 999 : selectedTimeSlot.idx;
+    const time_slot = isImmediateDeliveryChecked ? 999 : selectedTimeSlot.idx;
 
     const param = {
       user_idx: userInfo.idx,
