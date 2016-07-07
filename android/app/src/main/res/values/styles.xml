@@ -4,9 +4,5 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
     </style>
-    <style name="Theme.WelcomeActivity" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/intro_0</item>
-        <item name="android:windowFullscreen">true</item>
-    </style>
 
 </resources>
