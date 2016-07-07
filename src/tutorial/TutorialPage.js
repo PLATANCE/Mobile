@@ -104,7 +104,6 @@ export default class TutorialPage extends Component {
         return (
             <Swiper style={styles.wrapper} index={this.state.pageIndex} loop={false} onMomentumScrollEnd ={this._onMomentumScrollEnd.bind(this)} 
                 showsPagination={this.state.showsPagination}>
-                
                 <View style={styles.slide}>
                     <Image style={styles.img} 
                         source={require('./img/tutorial_1.jpg')}/>
@@ -209,6 +208,7 @@ let styles = StyleSheet.create({
         backgroundColor: Color.PRIMARY_ORANGE,
         justifyContent: 'center',
         alignItems: 'center',
+        marginBottom: Platform.OS === 'ios' ? 0 : 25,
     },
     buttonBoxWhite: {
         height: normalize(50),

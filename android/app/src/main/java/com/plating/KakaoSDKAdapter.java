@@ -1,4 +1,4 @@
-package com.mobile;
+package com.plating;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,7 +8,6 @@ import com.kakao.auth.AuthType;
 import com.kakao.auth.IApplicationConfig;
 import com.kakao.auth.ISessionConfig;
 import com.kakao.auth.KakaoAdapter;
-import com.mobile.MyApplication;
 
 /**
  * Created by Rooney on 16. 6. 8..

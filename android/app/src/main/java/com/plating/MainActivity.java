@@ -1,4 +1,4 @@
-package com.mobile;
+package com.plating;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,9 +19,9 @@ import com.kevinejohn.RNMixpanel.*;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 
 // fabric
-import com.mobile.reactpackage.AlertReactPackage;
-import com.mobile.reactpackage.CommunicationReactPackage;
-import com.mobile.reactpackage.KakaoReactPackage;
+import com.plating.reactpackage.AlertReactPackage;
+import com.plating.reactpackage.CommunicationReactPackage;
+import com.plating.reactpackage.KakaoReactPackage;
 import com.smixx.fabric.FabricPackage;
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;

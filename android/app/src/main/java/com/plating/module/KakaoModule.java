@@ -1,14 +1,11 @@
-package com.mobile.module;
+package com.plating.module;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageInstaller;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.facebook.CallbackManager;
 import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
@@ -16,23 +13,12 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.uimanager.IllegalViewOperationException;
-import com.kakao.auth.AuthType;
-import com.kakao.auth.ISessionCallback;
-import com.kakao.auth.Session;
 import com.kakao.kakaolink.AppActionBuilder;
 import com.kakao.kakaolink.AppActionInfoBuilder;
 import com.kakao.kakaolink.KakaoLink;
 import com.kakao.kakaolink.KakaoTalkLinkMessageBuilder;
-import com.kakao.network.ErrorResult;
-import com.kakao.usermgmt.UserManagement;
-import com.kakao.usermgmt.callback.MeResponseCallback;
-import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.KakaoParameterException;
-import com.kakao.util.exception.KakaoException;
-import com.mobile.LoginActivity;
-
-import java.util.Map;
+import com.plating.LoginActivity;
 
 /**
  * Created by Rooney on 16. 6. 7..

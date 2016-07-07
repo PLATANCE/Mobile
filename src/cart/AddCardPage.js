@@ -64,6 +64,33 @@ export default class AddCardPage extends Component {
             alert(url);
         }
     }
+    onNavigationStateChange(navState) {
+        const {
+            dispatch,
+        } = this.props;
+        const url = navState.url;
+        const loading = navState.loading;
+        if(url.indexOf('bk_len') != -1 && !loading) {
+            const cardResultNumber = parseInt(url.substring(url.length - 2, url.length));
+            if(cardResultNumber === 40) {
+                Alert.alert(
+                    '카드 등록 성공!',
+                    '결제를 진행해 주세요 :)',
+                    [
+                        { text: 'OK', onPress: () => { Actions.pop(); this.props.dispatch(fetchCartInfo(this.props.couponIdx)); } }
+                    ]
+                );
+            } else {
+                Alert.alert(
+                    '카드 등록 실패!',
+                    '카드 정보를 다시 한번 확인해주세요 :)',
+                    [
+                        { text: 'OK', onPress: () => { Actions.pop() } }
+                    ]
+                );
+            }
+        }
+    }
     /*
      * http://inilite.inicis.com/inibill/inibill_card.jsp?
      * mid=plating001
@@ -118,6 +145,7 @@ export default class AddCardPage extends Component {
                     decelerationRate="normal"
                     startInLoadingState={true}
                     onShouldStartLoadWithRequest={this.onShouldStartLoadWithRequest.bind(this)}
+                    onNavigationStateChange={this.onNavigationStateChange.bind(this)}
                 />
             </View>
         );

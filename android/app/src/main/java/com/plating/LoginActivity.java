@@ -1,4 +1,4 @@
-package com.mobile;
+package com.plating;
 
 import android.app.Activity;
 import android.content.Intent;

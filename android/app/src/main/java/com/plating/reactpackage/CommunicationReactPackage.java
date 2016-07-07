@@ -1,12 +1,11 @@
-package com.mobile.reactpackage;
+package com.plating.reactpackage;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
-import com.mobile.module.AlertModule;
-import com.mobile.module.CommunicationModule;
+import com.plating.module.CommunicationModule;
 
 import java.util.ArrayList;
 import java.util.Collections;
