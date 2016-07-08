@@ -72,7 +72,9 @@ export default class AddAddressPage extends Component {
         } = this.props;
         const iconOpacityStyle = this.state.textQuery === '' ? {opacity: 0.2} : {opacity: 1};
         return (
-            <ScrollView>
+            <ScrollView
+                keyboardShouldPersistTaps={true}
+            >
                 <View style={styles.container} >
                     <View style={styles.pageTextBox} >
                         <Text style={Font.DEFAULT_FONT_BLACK_BOLD}>주소 입력 (동 + 지번)</Text>

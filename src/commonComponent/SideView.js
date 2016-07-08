@@ -2,7 +2,7 @@ import React, {
     Component,
     PropTypes,
 } from 'react';
-import { Text, View, StyleSheet, Image, TouchableHighlight, AlertIOS, Alert, PixelRatio } from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableHighlight, AlertIOS, Alert, Platform } from 'react-native';
 import { DefaultRenderer } from 'react-native-router-flux';
 import Drawer from 'react-native-drawer';
 import Color from '../const/Color';
@@ -12,6 +12,7 @@ import { Actions } from 'react-native-router-flux';
 import RequestURL from '../const/RequestURL';
 import userInfo from '../util/userInfo';
 import Mixpanel from '../util/mixpanel';
+import AlertAndroid from './AlertAndroid';
 
 const contextTypes = {
   drawer: React.PropTypes.object,
@@ -96,7 +97,6 @@ const SideView = (props, context) => {
   const cntCoupon = props.cntCoupon;
   const cntCouponText = (cntCoupon > 0) ? '(' + cntCoupon + ')' : '';
 
-
   const rowInfo = [
     { text: "내 쿠폰함 ", cnt: cntCouponText, image: require('./img/icon_left_coupon.png'), action: () => { drawer.close(); Actions.MyCouponPage({ disable: false }), Mixpanel.track('View My Coupons') } },
     { text: "주문 내역", image: require('./img/icon_left_order.png'), action: () => { drawer.close(); Actions.MyOrderPage(); Mixpanel.track('View Order History') } },
@@ -127,14 +127,24 @@ const SideView = (props, context) => {
   }
 
   function openCodeDialog() {
-    AlertIOS.prompt(
-      '코드 등록',
-      '등록하신 코드는 포인트 혹은 쿠폰으로 전환되어 결제할 때 사용됩니다.',
-      [
-        { text: '취소', onPress: () => Mixpanel.trackWithProperties('Enter Promo Code', { entered: false }) },
-        { text: '등록', onPress: (code) => submitCode(code) },
-      ]
-    );
+    if(Platform.OS === 'ios') { 
+      AlertIOS.prompt(
+        '코드 등록',
+        '등록하신 코드는 포인트 혹은 쿠폰으로 전환되어 결제할 때 사용됩니다.',
+        [
+          { text: '취소', onPress: () => Mixpanel.trackWithProperties('Enter Promo Code', { entered: false }) },
+          { text: '등록', onPress: (code) => submitCode(code) },
+        ]
+      );
+    } else {
+      AlertAndroid.prompt(
+        '코드 등록',
+        '등록하신 코드는 포인트 혹은 쿠폰으로 전환되어 결제할 때 사용됩니다.',
+        '취소',
+        '등록', 
+        (code) => { submitCode(code) },
+      );
+    }
   }
 
   function submitCode(code) {

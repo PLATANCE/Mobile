@@ -3,7 +3,7 @@ import React, {
     Component,
     PropTypes,
 } from 'react';
-import { View, Text, StyleSheet, TouchableHighlight, Image, Clipboard, Alert, NativeModules } from 'react-native';
+import { View, ListView, Text, StyleSheet, TouchableHighlight, Image, Clipboard, Alert, Platform, NativeModules } from 'react-native';
 import Communications from 'react-native-communications';
 
 import Color from '../const/Color';
@@ -14,6 +14,7 @@ import RequestURL from '../const/RequestURL';
 
 import userInfo from '../util/userInfo';
 import Mixpanel from '../util/mixpanel';
+import CommunicationsAndroid from '../commonComponent/CommunicationsAndroid';
 
 const KakaoManager = NativeModules.KakaoManager;
 
@@ -91,8 +92,11 @@ export default class ReferPage extends Component {
       Mixpanel.trackWithProperties('Refer Button', { via: 'Kakao' });
     }
     onPressMMS(content) {
-        const url = '&body=' + content;
-        Communications.text(url);
+        if(Platform.OS === 'ios') {
+            Communications.text('&body=' + content);
+        }  else {
+            CommunicationsAndroid.text(content)
+        }
         Mixpanel.trackWithProperties('Refer Button', { via: 'SMS' });
     }
     onBestReviewLayout(e) {

@@ -3,7 +3,7 @@ import React, {
     Component,
     PropTypes,
 } from 'react';
-import { View, Text, StyleSheet, WebView, Alert} from 'react-native';
+import { View, Text, StyleSheet, WebView, Alert, Platform} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import sha256 from 'sha256';
 import Const from '../const/Const';
@@ -35,10 +35,44 @@ export default class AddCardPage extends Component {
     onShouldStartLoadWithRequest(event) {
         const url = event.url;
         //console.log(url);
-        if(url.indexOf('jscall:') != -1) {
-            console.log(url + url.indexOf('jscall:'))
-            const isSuccess = url.split('?')[1];
-            if(isSuccess === 'success') {
+        if(Platform.OS === 'ios') {
+            if(url.indexOf('jscall:') != -1) {
+                console.log(url + url.indexOf('jscall:'))
+                const isSuccess = url.split('?')[1];
+                if(isSuccess === 'success') {
+                    Alert.alert(
+                        '카드 등록 성공!',
+                        '결제를 진행해 주세요 :)',
+                        [
+                            { text: 'OK', onPress: () => { Actions.pop(); this.props.dispatch(fetchCartInfo(this.props.couponIdx)); } }
+                        ]
+                    );
+                } else {
+                    Alert.alert(
+                        '카드 등록 실패!',
+                        '카드 정보를 다시 한번 확인해주세요 :)',
+                        [
+                            { text: 'OK', onPress: () => { Actions.pop() } }
+                        ]
+
+                    );
+                }
+                return false;
+            }
+            return true;
+        } else {
+            alert(url);
+        }
+    }
+    onNavigationStateChange(navState) {
+        const {
+            dispatch,
+        } = this.props;
+        const url = navState.url;
+        const loading = navState.loading;
+        if(url.indexOf('bk_len') != -1 && !loading) {
+            const cardResultNumber = parseInt(url.substring(url.length - 2, url.length));
+            if(cardResultNumber === 40) {
                 Alert.alert(
                     '카드 등록 성공!',
                     '결제를 진행해 주세요 :)',
@@ -53,12 +87,9 @@ export default class AddCardPage extends Component {
                     [
                         { text: 'OK', onPress: () => { Actions.pop() } }
                     ]
-
                 );
             }
-            return false;
         }
-        return true;
     }
     /*
      * http://inilite.inicis.com/inibill/inibill_card.jsp?
@@ -83,7 +114,7 @@ export default class AddCardPage extends Component {
         const goodName = '플레이팅 카드등록';
         const price = 0;
         const orderId = new Date().getTime() + '_' + userIdx;
-        const returnUrl = 'http://api.plating.co.kr/payResult_iOS';
+        const returnUrl = Platform.OS === 'ios' ? 'http://api.plating.co.kr/payResult_iOS' : 'http://api.plating.co.kr/payResult';
         const timeStamp = this.YYYYMMDDHHMMSS(new Date());
         const period = '';
         const pNoti = userIdx;
@@ -114,6 +145,7 @@ export default class AddCardPage extends Component {
                     decelerationRate="normal"
                     startInLoadingState={true}
                     onShouldStartLoadWithRequest={this.onShouldStartLoadWithRequest.bind(this)}
+                    onNavigationStateChange={this.onNavigationStateChange.bind(this)}
                 />
             </View>
         );

@@ -31,7 +31,11 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
+<<<<<<< HEAD
 	<string>201</string>
+=======
+	<string>193</string>
+>>>>>>> feature/react-native-fbsdk
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
