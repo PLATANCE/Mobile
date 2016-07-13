@@ -81,13 +81,21 @@ const store = compose(
 initMixpanel(store);
 
 // define this based on the styles/dimensions you use
-const getSceneStyle = function (props) {
-  return {
+const getSceneStyle = (/* NavigationSceneRendererProps */ props, computedProps) => {
+  const style = {
     flex: 1,
-    marginTop: props.hideNavBar ? 0 : Platform.OS === 'ios' || Platform.Version > 19 ? 64 : 44,
     backgroundColor: Color.PRIMARY_BACKGROUND,
+    shadowColor: null,
+    shadowOffset: null,
+    shadowOpacity: null,
+    shadowRadius: null,
   };
-}
+  if (computedProps.isActive) {
+    style.marginTop = computedProps.hideNavBar ? 0 : Platform.OS === 'ios' || Platform.Version > 19 ? 64 : 44;
+  }
+  return style;
+};
+
 const reducerCreate = params => {
     const defaultReducer = Reducer(params);
     return (state, action) => {
@@ -119,26 +127,7 @@ export default class Routes extends Component {
             store.dispatch(fetchDailyMenu(myAddress));
         }
     }
-   
-    onCartButtonPressed() {
-        const {
-            cart,
-        } = store.getState().CartReducers;
-            
-        if(Object.keys(cart).length == 0) {
-            Mixpanel.trackWithProperties('Show Cart', { success: false });
-            Alert.alert(
-                '장바구니가 비어있습니다.',
-                '오늘 드실 플레이팅 요리를 추가해주세요.'
-            );
-        } else {
-            Mixpanel.trackWithProperties('Show Cart', { success: true });
-            Actions.CartPage();
-        }
-    }
-    //<Route name="SignInPage"  hideNavBar={true} initial={userInfo.isLogin ? false : true} component={connect()(SignInPage)} />
-    //<Route name='DrawerPage' hideNavBar={true} type='replace'
-                        //initial={userInfo.isLogin ? true : false} >
+
     render() {
         return (
             <Provider store={store}>
@@ -157,7 +146,7 @@ export default class Routes extends Component {
 
                     <Scene key="SignUpPage" 
                         hideNavBar={true}
-                        component={connect()(SignUpPage)} 
+                        component={connect()(SignUpPage)}
                     />
 
                     <Scene key='drawer' component={connect(NavigationDrawerSelector)(NavigationDrawer)} initial={userInfo.isLogin ? true : false} sceneStyle={{backgroundColor: 'white'}} >
@@ -172,9 +161,6 @@ export default class Routes extends Component {
                             <Scene key="DailyMenuPage" 
                                 component={connect(DailyMenuSelector)(DailyMenuPage)}
                                 title="TODAY'S MENU"
-                                onRight={()=>this.onCartButtonPressed()}
-                                rightButtonImage={require('../commonComponent/img/cart_white.png')} 
-                                rightButtonIconStyle={styles.image} 
                             />
 
                             <Scene key="CartPage" 
@@ -185,7 +171,6 @@ export default class Routes extends Component {
                             <Scene key="MenuDetailPage" 
                                 component={connect(MenuDetailSelector)(MenuDetailPage)}
                                 title="TODAY'S MENU" 
-                                onRight={()=>this.onCartButtonPressed()} rightButtonImage={require('../commonComponent/img/cart_white.png')} rightButtonIconStyle={styles.image} 
                             />
 
                             <Scene key="BannerDetailPage"
@@ -278,18 +263,22 @@ export default class Routes extends Component {
                                 component={connect()(CSPolicyPage)}
                                 title="고객 센터"
                             />
+
                             <Scene key="PlatingPage"  
                                 component={connect()(PlatingPage)}
                                 title="PLATING"
                             />
+
                             <Scene key="IamPortAddCardPage"  
                                 component={connect(IamPortAddCardSelector)(IamPortAddCardPage)}
-                                title="IamPortAddCardPage"
+                                title="카드 등록"
                             />
+
                             <Scene key="InputMobilePage"  
                                 component={connect()(InputMobilePage)}
                                 title="내 핸드폰 번호"
                             />
+
                             <Scene key="MobileAuthPage"  
                                 component={connect()(MobileAuthPage)}
                                 title="번호 인증"
@@ -297,28 +286,8 @@ export default class Routes extends Component {
                         </Scene>
                     </Scene>
                 </Scene>
-                    
-{/*}
-                    <Scene key="tabbar">
-                        <Scene key="tab"footer={TabBar} hideNavBar={true} tabBarStyle={{borderTopColor:'#00bb00',borderTopWidth:1,backgroundColor:'white'}}>
-                            <Scene key="tab1" schema="tab" title="Tab #1" >
-                                <Scene>
-                                    <Scene key="tab1_1" component={TabView} title="Tab #1_1" />
-                                    <Scene key="tab1_2" component={TabView} title="Tab #1_2" />
-                                </Scene>
-                            </Scene>
-                        </Scene>
-                    </Scene>
-*/}  
-                    
-
-              
-                </RouterWithRedux>
-                
-          
-            </Provider>
-            
-            
+                </RouterWithRedux> 
+            </Provider>  
         );
     }
 }

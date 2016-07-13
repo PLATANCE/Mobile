@@ -76,8 +76,8 @@ const PAY_METHOD_DATA = [
   PAY_METHOD.OFFLINE_CASH,
 ];
 const CUTLERY_DATA = [
-  CUTLERY.YES,
   CUTLERY.NO,
+  CUTLERY.YES,
 ];
 const RECIPIENT_DATA = [
   RECIPIENT.SELF,
@@ -191,6 +191,8 @@ export default class CartPage extends Component {
       mobile,
     } = myInfo;
     
+    console.log("selectedCutlery:" + selectedCutlery);
+
     var cartItems = Object.keys(cart).map((idx) => (
       <CartItem
         key={idx}

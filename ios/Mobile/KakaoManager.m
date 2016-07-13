@@ -55,10 +55,10 @@ RCT_EXPORT_METHOD(openKakaoTalkAppLink : (NSString *)title label : (NSString *)l
     KakaoTalkLinkAction *androidLinkAction = [KakaoTalkLinkAction createAppAction:KakaoTalkLinkActionOSPlatformAndroid devicetype:KakaoTalkLinkActionDeviceTypePhone execparam:nil];
     
     KakaoTalkLinkObject *appLink = [KakaoTalkLinkObject createAppButton:title actions:@[iosLinkAction, androidLinkAction]];
-    
+    KakaoTalkLinkObject *image = [KakaoTalkLinkObject createImage:@"https://developers.kakao.com/assets/img/link_sample.jpg" width:138 height:80];
     KakaoTalkLinkObject *linkLabel = [KakaoTalkLinkObject createLabel:label];
     
-    [KOAppCall openKakaoTalkAppLink:@[linkLabel, appLink]];
+    [KOAppCall openKakaoTalkAppLink:@[image, linkLabel, appLink]];
   });
 }
 

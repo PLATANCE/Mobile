@@ -22,7 +22,7 @@ export default class DeliveryInfoCard extends Component {
     return (
       <TouchableOpacity
         activeOpacity={1}
-        onPress={ () => Actions.AddCardPage() }
+        onPress={ () => Actions.IamPortAddCardPage() }
       >
         <View style={styles.container}>
           <Text style={Font.DEFAULT_FONT_BLACK}>신용/체크카드</Text>

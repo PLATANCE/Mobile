@@ -31,7 +31,7 @@
     "react-native-picker": "^3.0.4",
     "react-native-push-notification": "^1.0.2",
     "react-native-radio-button-classic": "0.0.5",
-    "react-native-router-flux": "aksonov/react-native-router-flux#0.26-wip",
+    "react-native-router-flux": "^3.31.0",
     "react-native-simple-modal": "^3.0.0",
     "react-native-simple-radio-button": "^1.4.0",
     "react-native-star-rating": "github:djchie/react-native-star-rating",

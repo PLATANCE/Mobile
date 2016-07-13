@@ -179,6 +179,7 @@ export default class CartOrderButton extends Component {
           const description = responseData.description;
           Alert.alert('주문 실패', description);
           if(responseData.error) {
+            const error = responseData.error;
             mixpanelProperties = { error: true, error_cause: error.toString() }
           } else {
             mixpanelProperties = { error: true, error_cause: description }

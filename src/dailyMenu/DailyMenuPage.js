@@ -11,6 +11,7 @@ import DailyMenuItem from './components/DailyMenuItem';
 import AddressBar from './components/AddressBar';
 import Banner from './components/Banner';
 import PageComment from '../commonComponent/PageComment';
+import CartButtonInBottom from '../commonComponent/CartButtonInBottom';
 import Color from '../const/Color';
 import Const from '../const/Const';
 import { Font, normalize } from '../const/Font';
@@ -209,13 +210,13 @@ export default class DailyMenuPage extends Component {
     ));
     return (
       <View style={styles.container}>
-        <PageComment text='메인 메뉴는 당일 조리, 당일 배송 됩니다' />
+        <AddressBar myAddress={myAddress} />
         <View style={styles.content}>
           <ScrollView>
             <Banner style={styles.banner}/>
             {dailyMenuItems}
           </ScrollView>
-          <AddressBar myAddress={myAddress} />
+          <CartButtonInBottom cart={cart}/>
         </View>
         {dialogView}
       </View>

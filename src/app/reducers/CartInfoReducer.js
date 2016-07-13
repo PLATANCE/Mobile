@@ -17,7 +17,7 @@ const defaultCartInfoState = {
   selectedTimeSlot: {},
   selectedPayMethod: 1,
   selectedRecipient: '본인',
-  selectedCutlery: 0,
+  selectedCutlery: 1,
   isImmediateDeliverySupported: false,
   canImmediateDelivery: false,
   immediateDeliveryTime: '',

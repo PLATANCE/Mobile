@@ -8,11 +8,9 @@ import {
   Text,
   StyleSheet,
   TextInput,
-  DatePickerAndroid,
-  DatePickerIOS,
-  SegmentedControlIOS,
   TouchableOpacity,
-  Image, 
+  Image,
+  Alert,
 } from 'react-native';
 import {
   fetchCartInfo,
@@ -28,8 +26,9 @@ import {
 } from '../app/actions/CardActions';
 import { Font, normalize } from '../const/Font';
 import Color from '../const/Color';
-import PersonalBirthView from './PersonalBirthView';
-import CompanyBirthView from './CompanyBirthView';
+import PersonalBirthView from './components/PersonalBirthView';
+import CompanyBirthView from './components/CompanyBirthView';
+import userInfo from '../util/userInfo';
 
 
 export default class IamPortAddCardPage extends Component {  
@@ -49,24 +48,64 @@ export default class IamPortAddCardPage extends Component {
 
   sendDataToServer() {
     const {
+      cardInfo,
+    } = this.props;
+    if(!this.isEnableRegist(cardInfo)) {
+      Alert.alert(
+        '알림',
+        '카드 정보를 모두 입력해주세요.',
+      );
+      return false;
+    }
+    const {
       cardNumber,
       expiry,
       birth,
       passwordPre2Digit,
       isAgreed,
-    } = this.props.cardInfo;
+    } = cardInfo;
+
     let cardNumberParam = '';
     let expiryParam = '';
     let birthParam = '';
+
     for(let index in cardNumber) {
-      cardNumberParam += cardNumber[index];
+      cardNumberParam += cardNumber[index] + '-';
     }
-    for(let index in expiry) {
-      expiryParam += expiry[index];
-    }
+    cardNumberParam = cardNumberParam.substring(0, cardNumberParam.length - 1);
+    expiryParam = expiry[1] + '-' + expiry[0];
+
     for(let index in birth) {
       birthParam += birth[index];
     }
+
+    const param = {
+      cardNumber: cardNumberParam,
+      expiry: expiryParam,
+      birth: birthParam,
+      passwordPre2Digit: passwordPre2Digit,
+      userIdx: userInfo.idx,
+    };
+
+    console.log(param);
+    /*
+    fetch(RequestURL.CREATE_BILL_KEY, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(param),
+    })
+    .then((response) => response.json())
+    .then((responseData) => {
+      const code = responseData.code;
+      const status = responseData.status;
+      const message = responseData.message;
+    }).catch((error) => {
+      console.warn(error);
+    });
+    */
   }
 
   isEnableRegist(cardInfo) {

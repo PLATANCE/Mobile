@@ -10,8 +10,7 @@ import Mixpanel from '../../util/mixpanel';
 import MenuReviewStars from '../../commonComponent/MenuReviewStars';
 import MenuPriceTextInRow from '../../commonComponent/MenuPriceTextInRow';
 import AddCartButton from '../../commonComponent/AddCartButton';
-import AmountInCart from '../../commonComponent/AmountInCart';
-import SoldOutView from '../../commonComponent/SoldOutView';
+import MenuInfo from '../../commonComponent/MenuInfo';
 import { Actions } from 'react-native-router-flux';
 import _ from 'lodash';
 
@@ -49,6 +48,7 @@ export default class DailyMenuItem extends Component {
       review_count,
       price,
       alt_price,
+      is_new,
     } = menu;
     
     let amount = 0;
@@ -64,13 +64,7 @@ export default class DailyMenuItem extends Component {
     let menuURL = MediaURL.MENU_URL + image_url_menu;
     let chefURL = MediaURL.CHEF_URL + image_url_chef;
     let isSoldOut = stock <= 0 ? true : false;
-    let contentInnerMenu = false;
-
-    if(isSoldOut) {
-      contentInnerMenu = <SoldOutView stock={menu.stock} isEvent={is_event} />
-    } else {
-      contentInnerMenu = <AmountInCart amount={amount} isEvent={is_event}/>
-    }
+    const menuInfo = <MenuInfo stock={menu.stock} isEvent={is_event} isNew={is_new}/>;
     
     return (
       <TouchableHighlight
@@ -82,7 +76,7 @@ export default class DailyMenuItem extends Component {
             <Image style={styles.menuImage}
               resizeMode='cover'
               source={{uri: menuURL}} >
-              {contentInnerMenu}
+              {menuInfo}
             </Image>
             <View style={styles.menuChefBox}>
               <View style={styles.chefImageBox}>
@@ -111,15 +105,13 @@ export default class DailyMenuItem extends Component {
             
             <View style={styles.cartButtonBox}>
               <View style={[styles.menuButton, {marginRight: 5}]} >
-                <Text style={Font.DEFAULT_FONT_BLACK}>메뉴보기</Text>
+                <Text style={Font.DEFAULT_FONT_BLACK}>더보기</Text>
               </View>
               <TouchableHighlight
                 underlayColor={Color.PRIMARY_ORANGE} 
                 onPress={ () => addItemToCart(idx, menu_idx, price, alt_price, image_url_menu, menuNameKor, menuNameEng, !isSoldOut) } >
                 <View style={styles.cartButton}>
-                  <Image style={styles.cartPlusImage}
-                    source={require('../../commonComponent/img/icon_plus.png')}/>
-                  <Text style={[Font.DEFAULT_FONT_WHITE, {marginLeft: normalize(3)}]}>추가하기</Text>
+                  <Text style={Font.DEFAULT_FONT_WHITE}>담기</Text>
                 </View>
               </TouchableHighlight>
             </View>

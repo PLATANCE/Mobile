@@ -17,10 +17,10 @@ import { Actions } from 'react-native-router-flux';
 import MenuReviewStars from '../commonComponent/MenuReviewStars';
 import AddCartButton from '../commonComponent/AddCartButton';
 import MenuPriceText from '../commonComponent/MenuPriceText';
-import AmountInCart from '../commonComponent/AmountInCart';
-import SoldOutView from '../commonComponent/SoldOutView';
+import MenuInfo from '../commonComponent/MenuInfo';
 import PageComment from '../commonComponent/PageComment';
 import PlaceholderView from '../commonComponent/PlaceholderView';
+import CartButtonInBottom from '../commonComponent/CartButtonInBottom';
 import ReviewList from './components/ReviewList';
 import Color from '../const/Color';
 import Const from '../const/Const';
@@ -102,18 +102,12 @@ export default class MenuDetailPage extends Component {
             menu
         } = this.state;
         let _scrollView: ScrollView;
-        let contentInnerMenu = false;
         const isSoldOut = (stock <= 0) ? true : false;
+        const menuInfo = <MenuInfo stock={stock} isEvent={isEvent} isNew={menu.is_new}/>;
         const amount = cart[menuIdx] ? cart[menuIdx].amount : 0;
 
         const menuURL = MediaURL.MENU_URL + menu.image_url_menu;
         const chefURL = MediaURL.CHEF_URL + menu.image_url_chef;
-        
-        if(isSoldOut) {
-            contentInnerMenu = <SoldOutView stock={stock} isEvent={isEvent} />
-        } else {
-            contentInnerMenu = <AmountInCart amount={amount} isEvent={isEvent}/>
-        }
 
         return (
 
@@ -131,7 +125,7 @@ export default class MenuDetailPage extends Component {
                             <Image style={styles.menuImage}
                                 source={{uri: menuURL}}
                                 resizeMode={'cover'} >
-                                {contentInnerMenu}
+                                {menuInfo}
                             </Image>
                         </View>
                         <View style={styles.reviewPriceBox}>
@@ -198,6 +192,7 @@ export default class MenuDetailPage extends Component {
                         </TouchableHighlight>
                     </View>
                 </ScrollView>
+                <CartButtonInBottom cart={cart}/>
             </View>
 
         );

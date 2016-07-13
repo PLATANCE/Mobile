@@ -7,12 +7,12 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Font, normalize } from '../../const/Font';
 
 const CUTLERY = {
-  YES: '예',
   NO: '아니요',
+  YES: '예',
 };
 const CUTLERY_DATA = [
-  CUTLERY.YES,
   CUTLERY.NO,
+  CUTLERY.YES,
 ];
 
 export default class DeliveryInfoCutlery extends Component {

@@ -99,9 +99,7 @@ export default class ReferPage extends Component {
         }
         Mixpanel.trackWithProperties('Refer Button', { via: 'SMS' });
     }
-    onBestReviewLayout(e) {
-        console.log(e.nativeEvent.layout);
-    }
+
     render() {
         /*
             셰프의 요리를 집에서 즐겨요! 지금 플레이팅 앱을 다운받고 첫 주문 5천원 할인 받으세요.
@@ -120,8 +118,7 @@ export default class ReferPage extends Component {
 
         return (
             <View style={styles.container}>
-                <View style={styles.imageBox}
-                    onLayout={this.onBestReviewLayout.bind(this)}>
+                <View style={styles.imageBox}>
                     <Image style={styles.referImage}
                         source={{uri: url}}
                         resizeMode={'cover'} />

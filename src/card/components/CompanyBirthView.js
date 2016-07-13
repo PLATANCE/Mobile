@@ -8,8 +8,8 @@ import {
   StyleSheet,
   TextInput,
 } from 'react-native';
-import { Font, normalize } from '../const/Font';
-import Color from '../const/Color';
+import { Font, normalize } from '../../const/Font';
+import Color from '../../const/Color';
 
 export default class CompanyBirthView extends Component {
 	render() {
