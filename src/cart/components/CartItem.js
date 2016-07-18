@@ -1,9 +1,9 @@
 'use strict';
 import React, {
-    Component,
-    PropTypes,
+  Component,
+  PropTypes,
 } from 'react';
-import { View, Text, StyleSheet, Image, TouchableHighlight } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import Color from '../../const/Color';
 import Const from '../../const/Const';
 import { Font, normalize } from '../../const/Font';
@@ -11,8 +11,8 @@ import MediaURL from '../../const/MediaURL';
 import MenuPriceText from '../../commonComponent/MenuPriceText';
 
 export default class CartItem extends Component {
-  props: {
-    item: Object;
+  static propTypes = {
+    item: PropTypes.object.isRequired,
   };
 
   render() {
@@ -45,6 +45,24 @@ export default class CartItem extends Component {
           <View style={styles.priceBox}>
             <MenuPriceText originalPrice={price} sellingPrice={altPrice} align={{textAlign: 'left'}}/>
             <View style={styles.setAmountBox}>
+              <TouchableOpacity
+                onPress={ () => onDecreaseItemFromCart(menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng) }  
+              >
+                <View style={styles.button}>
+                  <Text style={Font.DEFAULT_FONT_WHITE}>-</Text>
+                </View>
+              </TouchableOpacity>
+              <View style={styles.amountTextView}>
+                <Text style={Font.DEFAULT_FONT_BLACK}>{amount}</Text>
+              </View>
+              <TouchableOpacity
+                onPress={ () => onAddItemToCart(menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng, true) }  
+              >
+                <View style={styles.button}>
+                  <Text style={Font.DEFAULT_FONT_WHITE}>+</Text>
+                </View>
+              </TouchableOpacity>
+            {/*
               <TouchableHighlight underlayColor={'transparent'}
                 onPress={ () => onDecreaseItemFromCart(menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng) }  
               >
@@ -58,6 +76,7 @@ export default class CartItem extends Component {
                 <Image style={styles.iconImage}
                   source={require('../img/icon_plus.png')}/>
               </TouchableHighlight>
+              */}
             </View>
           </View>
         </View>
@@ -66,16 +85,18 @@ export default class CartItem extends Component {
   }
 }
 
+const WIDTH = 25;
+
 let styles = StyleSheet.create({
   container: {
-    height: normalize(100),
     flexDirection: 'row',
-    padding: normalize(16),
+    padding: normalize(12),
     backgroundColor: 'white',
     flex: 1,
   },
   menuImage: {
     width: normalize(80),
+    height: normalize(80),
     resizeMode: 'cover',
   },
   menuInfoBox: {
@@ -87,18 +108,26 @@ let styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   setAmountBox: {
+    flex: 1,
     flexDirection: 'row',
-    flex: 1,
-    alignSelf: 'center',
     alignItems: 'center',
+    justifyContent: 'flex-end',
   },
-  amountText: {
-    flex: 1,
-    textAlign: 'center',
+  button: {
+    width: WIDTH,
+    height: WIDTH,
+    backgroundColor: Color.PRIMARY_ORANGE,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: Color.PRIMARY_ORANGE,
+    overflow: 'hidden',
   },
-  iconImage: {
-    width: normalize(25),
-    height: normalize(25),
-    resizeMode: 'contain',
+  amountTextView: {
+    width: 40,
+    height: WIDTH,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

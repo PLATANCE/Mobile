@@ -1,3 +1,4 @@
 export default (state) => ({
-	cardInfo: state.CardReducer
+	cardInfo: state.CardReducer,
+	couponIdxWillUse: state.CartInfoReducer.couponIdxWillUse,
 });

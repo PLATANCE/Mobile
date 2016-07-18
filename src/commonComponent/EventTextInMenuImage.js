@@ -1,13 +1,13 @@
 'use strict';
 import React, {
-    Component,
-    PropTypes,
+  Component,
+  PropTypes,
 } from 'react';
 import {
-    View,
-    Text,
-    StyleSheet,
-    Image,
+  View,
+  Text,
+  StyleSheet,
+  Image,
 } from 'react-native';
 
 import Color from '../const/Color';
@@ -29,7 +29,7 @@ export default class EventTextInMenuImage extends Component {
     if(!isEvent && !isNew) {
       return false;
     }
-    const eventText = isEvent ? '이벤트욤!!' : '새로운 메뉴욤!!';
+    const eventText = isEvent ? 'EVENT' : 'NEW';
     return (
       <View style={styles.container}>
         <Text style={[Font.DEFAULT_FONT_WHITE, { fontSize: normalize(16) }]}>{eventText}</Text>
@@ -40,7 +40,7 @@ export default class EventTextInMenuImage extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    height: 40,
+    height: 24,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: Color.PRIMARY_YELLOW,

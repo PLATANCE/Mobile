@@ -33,8 +33,8 @@ export default class CartOrderButton extends Component {
       pointWillUse,
       couponPriceWillUse,
       selectedPayMethod,
-      isImmediateDeliveryChecked,
-      immediateDeliveryTime,
+      isInstantDeliveryChecked,
+      instantDeliveryEstimatedArrivalTime,
     } = this.props;
     
     const {
@@ -55,7 +55,7 @@ export default class CartOrderButton extends Component {
     const recipient = (selectedRecipient === '본인') ? mobile : selectedRecipient;
     const discountPrice = pointWillUse + couponPriceWillUse;
     const totalPrice = cartTotalPrice - discountPrice;
-    const deliveryTime = isImmediateDeliveryChecked ? immediateDeliveryTime : selectedTimeSlot.timeSlot;
+    const deliveryTime = isInstantDeliveryChecked ? instantDeliveryEstimatedArrivalTime : selectedTimeSlot.timeSlot;
     if(enable) {
       mixpanelProperties = { success: true };
       Mixpanel.trackWithProperties('Place Order', mixpanelProperties);
@@ -93,7 +93,7 @@ export default class CartOrderButton extends Component {
       selectedCutlery,
       selectedRecipient,
       myInfo,
-      isImmediateDeliveryChecked,
+      isInstantDeliveryChecked,
       onClearCartInfo,
       onClearCart,
       onFetchCartInfo,
@@ -145,7 +145,7 @@ export default class CartOrderButton extends Component {
       }
     }
 
-    const time_slot = isImmediateDeliveryChecked ? 999 : selectedTimeSlot.idx;
+    const time_slot = isInstantDeliveryChecked ? 999 : selectedTimeSlot.idx;
 
     const param = {
       user_idx: userInfo.idx,
@@ -157,8 +157,9 @@ export default class CartOrderButton extends Component {
       pay_method: selectedPayMethod,
       coupon_idx: couponIdxWillUse,
       include_cutlery: selectedCutlery,
-      instant_delivery: isImmediateDeliveryChecked,
+      instant_delivery: isInstantDeliveryChecked,
       mobile,
+      versionUpdated: true,
     };
 
     console.log(param);

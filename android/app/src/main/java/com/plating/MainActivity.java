@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.facebook.react.ReactActivity;
+import com.kevinejohn.RNMixpanel.RNMixpanel;
+import com.magus.fblogin.FacebookLoginPackage;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import io.realm.react.RealmReactPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -78,6 +81,9 @@ public class MainActivity extends ReactActivity {
             new FBSDKPackage(mCallbackManager),
                 new KakaoReactPackage(),
             new MainReactPackage(),
+            new RNMixpanel(),
+            new FacebookLoginPackage(),
+            new RNDeviceInfo(),
                 new AlertReactPackage(),
                 new CommunicationReactPackage()
         );

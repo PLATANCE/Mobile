@@ -20,13 +20,19 @@ import MediaURL from '../const/MediaURL';
 import Mixpanel from '../util/mixpanel';
 import userInfo from '../util/userInfo';
 
-import { addItemToCart } from '../app/actions/CartActions';
+import {
+  addItemToCart,
+  decreaseItemFromCart,
+} from '../app/actions/CartActions';
 import {
   fetchMyAddress,
 } from '../app/actions/AddressActions';
 import {
   fetchDailyMenu,
 } from '../app/actions/DailyMenuActions';
+import {
+  fetchCartInfoWithChangingCartStatus,
+} from '../app/actions/CartInfoActions';
 
 const HEIGHT = Const.HEIGHT;
 const WIDTH = Const.WIDTH;
@@ -38,7 +44,7 @@ export default class DailyMenuPage extends Component {
   constructor(props) {
     super(props);
     props.dispatch(fetchMyAddress());
-    props.dispatch(fetchDailyMenu(props.myAddress));
+    //props.dispatch(fetchDailyMenu(props.myAddress));
     this.state = {
       offset: new Animated.Value(-HEIGHT),
       isDialogVisible: false,
@@ -65,6 +71,8 @@ export default class DailyMenuPage extends Component {
   componentWillReceiveProps(nextProps) {
     const {
       dispatch,
+      cart,
+      couponIdxWillUse,
     } = this.props;
     
     // 내 주소 state가 바뀌면 fetchDailyMenu 호출
@@ -75,6 +83,11 @@ export default class DailyMenuPage extends Component {
     // DailyMenuPage로 오면 fetchDailyMenu 호출
     if (nextProps.scene.name !== this.props.scene.name && nextProps.scene.name === this.props.name) {
       dispatch(fetchDailyMenu(this.props.myAddress));
+    }
+
+    // cart 바뀔때마다 fetchCartInfo 호출
+    if (nextProps.cart !== cart) {
+      dispatch(fetchCartInfoWithChangingCartStatus(nextProps.cart));
     }
   }
 
@@ -205,6 +218,7 @@ export default class DailyMenuPage extends Component {
         key={index}
         menu={menu}
         addItemToCart={ (menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng, enable) => dispatch(addItemToCart(menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng, enable)) }
+        decreaseItemFromCart={(menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng) => dispatch(decreaseItemFromCart(menuDIdx, menuIdx, price, altPrice, imageUrlMenu, menuNameKor, menuNameEng)) }
         cart={cart}
       />
     ));

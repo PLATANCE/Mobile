@@ -9,21 +9,20 @@ import MediaURL from '../../const/MediaURL';
 import Mixpanel from '../../util/mixpanel';
 import MenuReviewStars from '../../commonComponent/MenuReviewStars';
 import MenuPriceTextInRow from '../../commonComponent/MenuPriceTextInRow';
+import ChangableAddCartButton from '../../commonComponent/ChangableAddCartButton';
 import AddCartButton from '../../commonComponent/AddCartButton';
 import MenuInfo from '../../commonComponent/MenuInfo';
 import { Actions } from 'react-native-router-flux';
 import _ from 'lodash';
-
-// to be followed by a tracking event to define the end time
         
 export default class DailyMenuItem extends Component {
   constructor(props) {
     super(props);
   }
 
-  moveToMenuDetailPage(menuIdx, menuDIdx, stock, menuNameKor, isEvent) {
+  moveToMenuDetailPage(menuIdx, menuDIdx, stock, menuNameKor, isEvent, isNew) {
     const promo = (isEvent) ? true : false;
-    Actions.MenuDetailPage({ menuIdx: menuIdx, menuDIdx: menuDIdx, stock: stock, isEvent });
+    Actions.MenuDetailPage({ menuIdx: menuIdx, menuDIdx: menuDIdx, stock: stock, isEvent, isNew: isNew });
     Mixpanel.track('(Screen) Daily Menu List');
     Mixpanel.trackWithProperties('Show Menu Detail', { menu: menuNameKor, promo: promo });
   }
@@ -31,6 +30,7 @@ export default class DailyMenuItem extends Component {
   render() {
     const {
       addItemToCart,
+      decreaseItemFromCart,
       menu,
       cart,
     } = this.props;
@@ -68,7 +68,7 @@ export default class DailyMenuItem extends Component {
     
     return (
       <TouchableHighlight
-        onPress={ () => this.moveToMenuDetailPage(menu_idx, idx, stock, menuNameKor, is_event) }
+        onPress={ () => this.moveToMenuDetailPage(menu_idx, idx, stock, menuNameKor, is_event, is_new) }
         underlayColor={'transparent'}
       >
         <View style={styles.row}>
@@ -104,16 +104,15 @@ export default class DailyMenuItem extends Component {
             </View>
             
             <View style={styles.cartButtonBox}>
-              <View style={[styles.menuButton, {marginRight: 5}]} >
+              <View style={[styles.menuButton, {marginRight: normalize(15)}]} >
                 <Text style={Font.DEFAULT_FONT_BLACK}>더보기</Text>
               </View>
-              <TouchableHighlight
-                underlayColor={Color.PRIMARY_ORANGE} 
-                onPress={ () => addItemToCart(idx, menu_idx, price, alt_price, image_url_menu, menuNameKor, menuNameEng, !isSoldOut) } >
-                <View style={styles.cartButton}>
-                  <Text style={Font.DEFAULT_FONT_WHITE}>담기</Text>
-                </View>
-              </TouchableHighlight>
+              <ChangableAddCartButton
+                cart={cart}
+                menuIdx={menu_idx}
+                onAddItemToCart={() => addItemToCart(idx, menu_idx, price, alt_price, image_url_menu, menuNameKor, menuNameEng, !isSoldOut)}
+                onDecreaseItemFromCart={() => decreaseItemFromCart(idx, menu_idx, price, alt_price, image_url_menu, menuNameKor, menuNameEng)}
+              />
             </View>
           </View>
           <View style={styles.marginBox}>
@@ -210,7 +209,7 @@ let styles = StyleSheet.create({
         justifyContent: 'flex-end',
     },
     menuButton: {
-        width: normalize(70),
+        width: normalize(60),
         height: normalize(35),
         backgroundColor: 'white',
         alignItems: 'center',
@@ -220,23 +219,6 @@ let styles = StyleSheet.create({
         borderColor: Color.PRIMARY_GRAY,
         overflow: 'hidden',
         marginRight: 0,
-    },
-    cartButton: {
-        width: normalize(70),
-        height: normalize(35),
-        flexDirection: 'row',
-        backgroundColor: Color.PRIMARY_ORANGE,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderWidth: 1,
-        borderRadius: 5,
-        borderColor: Color.PRIMARY_ORANGE,
-        overflow: 'hidden',
-        marginRight: 0,
-    },
-    cartPlusImage: {
-        width: normalize(10),
-        height: normalize(10),
     },
     marginBox: {
         height: normalize(6),

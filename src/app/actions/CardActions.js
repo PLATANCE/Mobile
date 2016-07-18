@@ -5,7 +5,8 @@ export const CardActions = {
   	INITIAL_BIRTH: 'INITIAL_BIRTH',
   	SET_PASSWORD_PRE_TWO_DIGIT: 'SET_PASSWORD_PRE_TWO_DIGIT',
   	SET_AGREED: 'SET_AGREED',
-  	GET_CARD_INFO: 'GET_CARD_INFO'
+  	GET_CARD_INFO: 'GET_CARD_INFO',
+  	CLEAR_CARD_INFO: 'CLEAR_CARD_INFO',
 };
 
 export const setCardNumber = (cardNumber, index) => ({
@@ -43,4 +44,8 @@ export const setAgreed = (isAgreed) => ({
 
 export const getCardInfo = () => ({
 	type: CardActions.GET_CARD_INFO,
+});
+
+export const clearCardInfo = () => ({
+	type: CardActions.CLEAR_CARD_INFO,
 });

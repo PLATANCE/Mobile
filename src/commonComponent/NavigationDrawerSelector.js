@@ -5,4 +5,5 @@ export default (state) => ({
     myCouponCount: state.CartInfoReducer.myCouponCount,
     couponIdxWillUse: state.CartInfoReducer.couponIdxWillUse,
     open: state.SideInfoReducer.open,
+    cart: state.CartReducers.cart,
 });

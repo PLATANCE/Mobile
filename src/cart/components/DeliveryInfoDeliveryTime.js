@@ -14,17 +14,17 @@ import Color from '../../const/Color';
 export default class DeliveryInfoDeliveryTime extends Component {
   props: {
     selectedTimeSlot: Object;
-    immediateDeliveryTime: string;
-    isImmediateDeliveryChecked: boolean;
-    canImmediateDelivery: boolean;
+    instantDeliveryEstimatedArrivalTime: string;
+    isInstantDeliveryChecked: boolean;
+    instantDeliveryAvailable: boolean;
   };
 
   render() {
     const {
       selectedTimeSlot,
-      immediateDeliveryTime,
-      isImmediateDeliveryChecked,
-      canImmediateDelivery,
+      instantDeliveryEstimatedArrivalTime,
+      isInstantDeliveryChecked,
+      instantDeliveryAvailable,
       onTogglePicker,
     } = this.props;
 
@@ -40,11 +40,11 @@ export default class DeliveryInfoDeliveryTime extends Component {
         </View>
       );
     } else {
-      if(isImmediateDeliveryChecked && canImmediateDelivery) {
+      if(isInstantDeliveryChecked && instantDeliveryAvailable) {
         return (
           <View style={styles.container}>
             <Text style={Font.DEFAULT_FONT_BLACK}>배달 시간</Text>
-            <Text style={[styles.data, Font.DEFAULT_FONT_BLACK, { paddingRight: 15 }]}>{immediateDeliveryTime}</Text>
+            <Text style={[styles.data, Font.DEFAULT_FONT_BLACK, { paddingRight: 15 }]}>{instantDeliveryEstimatedArrivalTime}</Text>
           </View>
         );
       } else {

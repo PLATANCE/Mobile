@@ -18,11 +18,11 @@ const defaultCartInfoState = {
   selectedPayMethod: 1,
   selectedRecipient: '본인',
   selectedCutlery: 1,
-  isImmediateDeliverySupported: false,
-  canImmediateDelivery: false,
-  immediateDeliveryTime: '',
-  isImmediateDeliveryChecked: true,
-  messageImmediateDelivery: '',
+  instantDeliverySupport: false,
+  instantDeliveryAvailable: false,
+  instantDeliveryEstimatedArrivalTime: '',
+  isInstantDeliveryChecked: true,
+  instantDeliveryUnavailableMessage: '',
 };
 function cartInfoReducer(state = Object.assign({}, defaultCartInfoState), action) {
   switch (action.type) {
@@ -50,15 +50,17 @@ function cartInfoReducer(state = Object.assign({}, defaultCartInfoState), action
         if (timeSlotData.length === 0) {
           selectedTimeSlot = {idx: -1, timeSlot: Const.CART_DELIVERY_TIME_CLOSED_MESSAGE};
         } else {
-          selectedTimeSlot = timeSlotData[0];
+          if(Object.keys(selectedTimeSlot).length === 0) {
+            selectedTimeSlot = timeSlotData[0];
+          }
         }
         const canOrder = cartInfo.can_order;
         const message = cartInfo.message;
-        const canImmediateDelivery = cartInfo.can_immediate_delivery;
-        const isImmediateDeliverySupported = cartInfo.is_immediate_delivery_supported;
-        const isImmediateDeliveryChecked = canImmediateDelivery;
-        const immediateDeliveryTime = cartInfo.immediate_delivery_time;
-        const messageImmediateDelivery = cartInfo.message_immediate_delivery;
+        const instantDeliveryAvailable = cartInfo.instant_delivery_available;
+        const instantDeliverySupport = cartInfo.instant_delivery_support;
+        const isInstantDeliveryChecked = state.isInstantDeliveryChecked ? instantDeliveryAvailable :state.isInstantDeliveryChecked;
+        const instantDeliveryEstimatedArrivalTime = cartInfo.instant_delivery_estimated_arrival_time;
+        const instantDeliveryUnavailableMessage = cartInfo.instant_delivery_unavailable_message;
         
         return Object.assign({}, state, {
           timeSlotData,
@@ -67,12 +69,12 @@ function cartInfoReducer(state = Object.assign({}, defaultCartInfoState), action
           deliveryFee,
           canOrder,
           message,
-          canImmediateDelivery,
+          instantDeliveryAvailable,
           selectedTimeSlot,
-          immediateDeliveryTime,
-          isImmediateDeliverySupported,
-          isImmediateDeliveryChecked,
-          messageImmediateDelivery,
+          instantDeliveryEstimatedArrivalTime,
+          instantDeliverySupport,
+          isInstantDeliveryChecked,
+          instantDeliveryUnavailableMessage,
         });
       }
     case CartInfoActions.RECEIVE_MY_COUPON_COUNT:
@@ -128,9 +130,9 @@ function cartInfoReducer(state = Object.assign({}, defaultCartInfoState), action
       });
     }
     case CartInfoActions.SET_DELIVERY_TYPE_CHECKED: {
-      const isImmediateDeliveryChecked = action.isImmediateDeliveryChecked;
+      const isInstantDeliveryChecked = action.isInstantDeliveryChecked;
       return Object.assign({}, state, {
-        isImmediateDeliveryChecked
+        isInstantDeliveryChecked
       });
     }
     case CartInfoActions.CLEAR_CART_INFO: {

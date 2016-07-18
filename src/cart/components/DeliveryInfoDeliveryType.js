@@ -9,42 +9,42 @@ import Color from '../../const/Color';
 
 export default class DeliveryInfoDeliveryType extends Component {
   props: {
-    canImmediateDelivery: boolean;
-    isImmediateDeliveryChecked: boolean;
+    instantDeliveryAvailable: boolean;
+    isInstantDeliveryChecked: boolean;
   };
 
   render() {
     const {
-      canImmediateDelivery,
-      isImmediateDeliveryChecked,
+      instantDeliveryAvailable,
+      isInstantDeliveryChecked,
       onSetDeliveryTypeCheck,
-      messageImmediateDelivery,
+      instantDeliveryUnavailableMessage,
     } = this.props;
 
-    const checkedStyle = (isImmediateDeliveryChecked) ? styles.checkedBtnStyle : styles.unCheckedBtnStyle;
-    const checkedTextStyle = (isImmediateDeliveryChecked) ? Font.DEFAULT_FONT_WHITE : Font.DEFAULT_FONT_ORANGE;
-    const checkedImage = (isImmediateDeliveryChecked) ? 
+    const checkedStyle = (isInstantDeliveryChecked) ? styles.checkedBtnStyle : styles.unCheckedBtnStyle;
+    const checkedTextStyle = (isInstantDeliveryChecked) ? Font.DEFAULT_FONT_WHITE : Font.DEFAULT_FONT_ORANGE;
+    const checkedImage = (isInstantDeliveryChecked) ? 
       <Image style={[styles.iconInCheckBtn, { marginRight: normalize(5) }]} 
         source={require('../img/thunder_icon.png')}
         resizeMode={'contain'}/>
       :
       false;
-    const unCheckedStyle = (isImmediateDeliveryChecked) ? styles.unCheckedBtnStyle : styles.checkedBtnStyle;
-    const unCheckedTextStyle = (isImmediateDeliveryChecked) ? Font.DEFAULT_FONT_ORANGE : Font.DEFAULT_FONT_WHITE;
-    const unCheckedImage = (isImmediateDeliveryChecked) ?
+    const unCheckedStyle = (isInstantDeliveryChecked) ? styles.unCheckedBtnStyle : styles.checkedBtnStyle;
+    const unCheckedTextStyle = (isInstantDeliveryChecked) ? Font.DEFAULT_FONT_ORANGE : Font.DEFAULT_FONT_WHITE;
+    const unCheckedImage = (isInstantDeliveryChecked) ?
       false
       :
       <Image style={[styles.iconInCheckBtn, { marginRight: normalize(5) }]} 
         source={require('../img/clock_icon.png')}
         resizeMode={'contain'}/>;
 
-    if(canImmediateDelivery) {
+    if(instantDeliveryAvailable) {
       return (
         <View style={styles.container}>
           <TouchableOpacity
             activeOpacity={1}
             style={[styles.checkBtn, { marginRight: normalize(2) }, checkedStyle]}
-            onPress={() => onSetDeliveryTypeCheck(!isImmediateDeliveryChecked)}
+            onPress={() => onSetDeliveryTypeCheck(!isInstantDeliveryChecked)}
           >
             {checkedImage}
             <Text style={checkedTextStyle}>즉시 배달</Text>
@@ -53,7 +53,7 @@ export default class DeliveryInfoDeliveryType extends Component {
           <TouchableOpacity
             activeOpacity={1}
             style={[styles.checkBtn, { marginLeft: normalize(2) }, unCheckedStyle]}
-            onPress={() => onSetDeliveryTypeCheck(!isImmediateDeliveryChecked)}
+            onPress={() => onSetDeliveryTypeCheck(!isInstantDeliveryChecked)}
           >
             {unCheckedImage}
             <Text style={unCheckedTextStyle}>예약 배달</Text>
@@ -66,7 +66,7 @@ export default class DeliveryInfoDeliveryType extends Component {
           <TouchableOpacity
             activeOpacity={1}
             style={[styles.checkBtn, { marginRight: normalize(2) }]}
-            onPress={ () => Alert.alert('알림', messageImmediateDelivery) }
+            onPress={ () => Alert.alert('알림', instantDeliveryUnavailableMessage) }
           >
             <Text style={Font.BLUR_FONT_ORANGE}>즉시 배달</Text>
           </TouchableOpacity>

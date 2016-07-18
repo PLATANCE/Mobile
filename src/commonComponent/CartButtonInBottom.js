@@ -17,9 +17,10 @@ import { Font, normalize } from '../const/Font';
 import Mixpanel from '../util/mixpanel';
 
 export default class CartButtonInBottom extends Component {
-	props: {
-		cart: Object;
-	};
+  static propTypes = {
+    cart: PropTypes.object.isRequired,
+  };
+
 	onCartButtonPressed() {
     const {
     	cart,
@@ -41,6 +42,10 @@ export default class CartButtonInBottom extends Component {
   	const {
   		cart,
   	} = this.props;
+
+    if(Object.keys(cart).length == 0) {
+      return false;
+    }
 
   	return (
   		<View style={styles.container}>

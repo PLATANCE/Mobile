@@ -485,7 +485,7 @@ export default class CartPage extends Component {
       cardNumber,
       canOrder,
       message,
-      canImmediateDelivery,
+      instantDeliveryAvailable,
     } = this.props;
     let {
       availablePoint,
@@ -584,12 +584,11 @@ export default class CartPage extends Component {
     totalPrice = menuTotalPrice + deliveryFee - availablePoint - discountCouponPrice;
 
 
-    // immediate delivery
-    console.log(canImmediateDelivery);
-    const immediateCheckedStyle = (canImmediateDelivery) ? styles.checkedBtnStyle : styles.unCheckedBtnStyle;
-    const immediateUnCheckedStyle = (canImmediateDelivery) ? styles.unCheckedBtnStyle : styles.checkedBtnStyle;
-    const immediateCheckedTextStyle = (canImmediateDelivery) ? Font.DEFAULT_FONT_WHITE : Font.DEFAULT_FONT_ORANGE;
-    const immediateUnCheckedTextStyle = (canImmediateDelivery) ? Font.DEFAULT_FONT_ORANGE : Font.DEFAULT_FONT_WHITE;
+    // instant delivery
+    const instantCheckedStyle = (instantDeliveryAvailable) ? styles.checkedBtnStyle : styles.unCheckedBtnStyle;
+    const instantUnCheckedStyle = (instantDeliveryAvailable) ? styles.unCheckedBtnStyle : styles.checkedBtnStyle;
+    const instantCheckedTextStyle = (instantDeliveryAvailable) ? Font.DEFAULT_FONT_WHITE : Font.DEFAULT_FONT_ORANGE;
+    const instantUnCheckedTextStyle = (instantDeliveryAvailable) ? Font.DEFAULT_FONT_ORANGE : Font.DEFAULT_FONT_WHITE;
 
     // enable order button with background color
     let enableOrderButton = true;
@@ -717,20 +716,20 @@ export default class CartPage extends Component {
             <View style={[styles.row, styles.rowMarginTop15]} >
               <TouchableOpacity
                 activeOpacity={1}
-                style={[styles.checkBtn, { marginRight: normalize(2) }, immediateCheckedStyle]}
+                style={[styles.checkBtn, { marginRight: normalize(2) }, instantCheckedStyle]}
               >
                 <Image style={[styles.iconInCheckBtn, { marginRight: normalize(2) }]} 
                   source={require('./img/thunder_icon.png')}/>
-                <Text style={immediateCheckedTextStyle}>즉시 배달</Text>
+                <Text style={instantCheckedTextStyle}>즉시 배달</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 activeOpacity={1}
-                style={[styles.checkBtn, { marginLeft: normalize(2) }, immediateUnCheckedStyle]}
+                style={[styles.checkBtn, { marginLeft: normalize(2) }, instantUnCheckedStyle]}
               >
                 <Image style={[styles.iconInCheckBtn, { marginRight: normalize(2) }]} 
                   source={require('./img/clock_icon.png')}
                   resizeMode={'contain'}/>
-                <Text style={immediateUnCheckedTextStyle}>예약 배달</Text>
+                <Text style={instantUnCheckedTextStyle}>예약 배달</Text>
               </TouchableOpacity>
             </View>
             

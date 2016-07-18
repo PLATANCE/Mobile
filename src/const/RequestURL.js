@@ -47,12 +47,13 @@ const RequestURL = {
     REQUEST_COUPON_AVAILABLE: 'http://api.plating.co.kr/coupon/coupon_available?',   // user_idx POST
     
     // cart
-    REQUEST_CART_INFO: 'http://api.plating.co.kr/cart_info?', // user_idx
+    REQUEST_CART_INFO: 'http://api.plating.co.kr/cart_info_update_with_iamport?', // user_idx
     SUBMIT_UPDATE_MOBILE: 'http://api.plating.co.kr/update_info?', // user_idx, phone_no
     GET_AVAILABLE_POINT: 'http://api.plating.co.kr/policy/get_available_point?', // user_idx, point_input
-    SUBMIT_PLACE_ORDER: 'http://api.plating.co.kr/place_order?',   // user_idx, time_slot, menu_d_idx, order_amount, credit_used, point, total_price, pay_method, coupon_idx, include_cutlery
+    SUBMIT_PLACE_ORDER: 'http://api.plating.co.kr/place_order_update_with_iamport?',   // user_idx, time_slot, menu_d_idx, order_amount, credit_used, point, total_price, pay_method, coupon_idx, include_cutlery
     REQUEST_AUTH_NUMBER: 'https://smsauth.plating.co.kr/user/{userIdx}/requestAuthNumber',
     VALIDATE_AUTH_NUMBER: 'https://smsauth.plating.co.kr/user/{userIdx}/validateAuthNumber',
+    CREATE_BILL_KEY: 'https://iamport.plating.co.kr/createBillKey',
 
     // sidedrawer
     REQUEST_USER_POINT: 'http://api.plating.co.kr/promo/point?',

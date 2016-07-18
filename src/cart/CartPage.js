@@ -170,17 +170,17 @@ export default class CartPage extends Component {
       cardNumber,
       canOrder,
       message,
-      canImmediateDelivery,
+      instantDeliveryAvailable,
       pointWillUse,
       selectedTimeSlot,
       selectedPayMethod,
       couponIdx,
       selectedRecipient,
       selectedCutlery,
-      immediateDeliveryTime,
-      isImmediateDeliveryChecked,
-      isImmediateDeliverySupported,
-      messageImmediateDelivery,
+      instantDeliveryEstimatedArrivalTime,
+      isInstantDeliveryChecked,
+      instantDeliverySupport,
+      instantDeliveryUnavailableMessage,
     } = this.props;
 
     const {
@@ -190,8 +190,6 @@ export default class CartPage extends Component {
       point,
       mobile,
     } = myInfo;
-    
-    console.log("selectedCutlery:" + selectedCutlery);
 
     var cartItems = Object.keys(cart).map((idx) => (
       <CartItem
@@ -210,12 +208,12 @@ export default class CartPage extends Component {
       pickerDatas.push(Const.CART_DELIVERY_TIME_CLOSED_MESSAGE);
     }
 
-    const immediateDeliveryInfoType = isImmediateDeliverySupported ?
+    const instantDeliveryInfoType = instantDeliverySupport ?
       <DeliveryInfoDeliveryType
-        canImmediateDelivery={canImmediateDelivery}
-        isImmediateDeliveryChecked={isImmediateDeliveryChecked}
-        messageImmediateDelivery={messageImmediateDelivery}
-        onSetDeliveryTypeCheck={ (isImmediateDeliveryChecked) => dispatch(setDeliveryTypeCheck(isImmediateDeliveryChecked))}
+        instantDeliveryAvailable={instantDeliveryAvailable}
+        isInstantDeliveryChecked={isInstantDeliveryChecked}
+        instantDeliveryUnavailableMessage={instantDeliveryUnavailableMessage}
+        onSetDeliveryTypeCheck={ (isInstantDeliveryChecked) => dispatch(setDeliveryTypeCheck(isInstantDeliveryChecked))}
       />
       :
       false;
@@ -286,14 +284,14 @@ export default class CartPage extends Component {
           />
 
 
-          {immediateDeliveryInfoType}
+          {instantDeliveryInfoType}
 
 
           <DeliveryInfoDeliveryTime
             selectedTimeSlot={selectedTimeSlot}
-            immediateDeliveryTime={immediateDeliveryTime}
-            isImmediateDeliveryChecked={isImmediateDeliveryChecked}
-            canImmediateDelivery={canImmediateDelivery}
+            instantDeliveryEstimatedArrivalTime={instantDeliveryEstimatedArrivalTime}
+            isInstantDeliveryChecked={isInstantDeliveryChecked}
+            instantDeliveryAvailable={instantDeliveryAvailable}
             onTogglePicker={() => this.toggleDeliveryTime()}
           />
           
@@ -331,8 +329,8 @@ export default class CartPage extends Component {
             selectedPayMethod={selectedPayMethod}
             cardNumber={cardNumber}
             selectedCutlery={selectedCutlery}
-            isImmediateDeliveryChecked={isImmediateDeliveryChecked}
-            immediateDeliveryTime={immediateDeliveryTime}
+            isInstantDeliveryChecked={isInstantDeliveryChecked}
+            instantDeliveryEstimatedArrivalTime={instantDeliveryEstimatedArrivalTime}
             onClearCartInfo={ () => dispatch(clearCartInfo()) }
             onClearCart={ () => dispatch(clearCart()) }
             onFetchCartInfo={ (couponIdxWillUse) => dispatch(fetchCartInfo(couponIdxWillUse))}

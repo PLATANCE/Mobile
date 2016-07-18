@@ -87,6 +87,11 @@ const cardReducer = function(state = initialState, action) {
 			});
   	}
 
+    case CardActions.CLEAR_CARD_INFO: {
+      console.log("CLEAR_CARD_INFO");
+      return Object.assign({}, initialState);
+    }
+
     default:
     	return state;
    }    

@@ -5,6 +5,7 @@ export default (state) => ({
     myAddress: state.AddressReducer.myAddress,
     dailyMenu: state.DailyMenuReducer.dailyMenu,
     scene: state.GlobalReducer.scene,
+    couponIdxWillUse: state.CartInfoReducer.couponIdxWillUse,
 });
 
 

@@ -16,7 +16,7 @@ export default class PlatingPage extends Component {
             <View style={styles.container}>
                 <WebView style={styles.webView}
                     automaticallyAdjustContentInsets={false}
-                    source={{uri: "http://www.plating.co.kr/admin/what_is_plating.php"}}
+                    source={{uri: "http://plating.co.kr/admin/what_is_plating.php"}}
                     javaScriptEnabled={true}
                     domStorageEnabled={true}
                     decelerationRate="normal"

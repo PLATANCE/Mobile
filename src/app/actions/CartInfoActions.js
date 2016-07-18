@@ -82,17 +82,49 @@ export function setSelectedCutlery(selectedCutlery) {
   }
 }
 
-export function setDeliveryTypeCheck(isImmediateDeliveryChecked) {
+export function setDeliveryTypeCheck(isInstantDeliveryChecked) {
   return {
     type: CartInfoActions.SET_DELIVERY_TYPE_CHECKED,
-    isImmediateDeliveryChecked,
+    isInstantDeliveryChecked,
   }
 }
 
 export function fetchCartInfo(couponIdx) {
+  console.log(`${RequestURL.REQUEST_CART_INFO}user_idx=${1708}&coupon_idx=${couponIdx}`);
   return (dispatch) => {
     const userIdx = userInfo.idx;
     return fetch(`${RequestURL.REQUEST_CART_INFO}user_idx=${userIdx}&coupon_idx=${couponIdx}`)
+      .then((response) => response.json())
+      .then((json) => dispatch(receiveCartInfo(json)))
+      .catch((error) => console.warn(error));
+  };
+}
+
+export function fetchCartInfoWithChangingCartStatus(cart) {
+  const userIdx = userInfo.idx;
+  if(Object.keys(cart).length == 0) {
+    console.log(`${RequestURL.REQUEST_CART_INFO}user_idx=${1708}`);
+    return (dispatch) => {
+      return fetch(`${RequestURL.REQUEST_CART_INFO}user_idx=${userIdx}`)
+        .then((response) => response.json())
+        .then((json) => dispatch(receiveCartInfo(json)))
+        .catch((error) => console.warn(error));
+    };
+  }
+
+  let menuIdx = '';
+  let quantity = '';
+  
+  Object.keys(cart).map((idx) => {
+    menuIdx += idx + '|';
+    quantity += cart[idx].amount + '|';
+  });
+  menuIdx = menuIdx.substring(0, menuIdx.length - 1);
+  quantity = quantity.substring(0, quantity.length - 1);
+
+  console.log(`${RequestURL.REQUEST_CART_INFO}user_idx=${userIdx}&menu_idx=${menuIdx}&quantity=${quantity}`);
+  return (dispatch) => {
+    return fetch(`${RequestURL.REQUEST_CART_INFO}user_idx=${userIdx}&menu_idx=${menuIdx}&quantity=${quantity}`)
       .then((response) => response.json())
       .then((json) => dispatch(receiveCartInfo(json)))
       .catch((error) => console.warn(error));

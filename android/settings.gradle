@@ -1,6 +1,12 @@
 rootProject.name = 'Mobile'
 
 include ':app'
+include ':react-native-mixpanel'
+project(':react-native-mixpanel').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-mixpanel/android')
+include ':react-native-facebook-login'
+project(':react-native-facebook-login').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-facebook-login/android')
+include ':react-native-device-info'
+project(':react-native-device-info').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-device-info/android')
 include ':realm'
 include ':react-native-fbsdk'
 project(':realm').projectDir = new File(rootProject.projectDir, '../node_modules/realm/android')

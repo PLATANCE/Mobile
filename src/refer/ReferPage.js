@@ -123,13 +123,11 @@ export default class ReferPage extends Component {
                         source={{uri: url}}
                         resizeMode={'cover'} />
                 </View>
-                <View style={styles.codeBox}
-                    onLayout={this.onBestReviewLayout.bind(this)}>
+                <View style={styles.codeBox} >
                     <Text style={Font.DEFAULT_FONT_BLACK_BOLD}>친구들에게 나의 플레이팅 <Text style={{textDecorationLine: 'underline'}}>고유코드</Text>를 공유해보세요:</Text>
                     <Text style={[Font.DEFAULT_FONT_ORANGE_BOLD, {fontSize: normalize(40)}]}>{this.state.userCode}</Text>
                 </View>
-                <View style={styles.methodBox}
-                    onLayout={this.onBestReviewLayout.bind(this)}>
+                <View style={styles.methodBox} >
                     <TouchableHighlight underlayColor={'transparent'} onPress={ () => this.onPressKakao(kakaoContent) } >
                     <View style={styles.method}>
                         <Image style={styles.methodImage}

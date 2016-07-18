@@ -1,13 +1,13 @@
 'use strict';
 import React, {
-    Component,
-    PropTypes,
+  Component,
+  PropTypes,
 } from 'react';
 import {
-    View,
-    Text,
-    StyleSheet,
-    Image,
+  View,
+  Text,
+  StyleSheet,
+  Image,
 } from 'react-native';
 
 import EventTextInMenuImage from './EventTextInMenuImage';

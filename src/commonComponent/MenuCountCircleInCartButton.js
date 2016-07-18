@@ -33,7 +33,7 @@ export default class MenuCountCircleInCartButton extends Component {
 
   	return (
     	<View style={styles.container}>
-    		<Text style={Font.DEFAULT_FONT_ORANGE}>{menuCount}</Text>
+    		<Text style={[Font.DEFAULT_FONT_ORANGE, { fontSize: normalize(12) }]}>{menuCount}</Text>
     	</View>
     );
 	}

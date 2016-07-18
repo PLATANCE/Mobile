@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  ScrollView,
 } from 'react-native';
 import {
   fetchCartInfo,
@@ -23,12 +24,16 @@ import {
   setPasswordPre2Digit,
   setAgreed,
   getCardInfo,
+  clearCardInfo,
 } from '../app/actions/CardActions';
+import { Actions } from 'react-native-router-flux';
 import { Font, normalize } from '../const/Font';
 import Color from '../const/Color';
 import PersonalBirthView from './components/PersonalBirthView';
 import CompanyBirthView from './components/CompanyBirthView';
+import RequestURL from '../const/RequestURL';
 import userInfo from '../util/userInfo';
+
 
 
 export default class IamPortAddCardPage extends Component {  
@@ -36,6 +41,7 @@ export default class IamPortAddCardPage extends Component {
     super(props);
     this.state = {
       selectedIndex: 0,
+      isFetching: false,
     };
   }
 
@@ -49,6 +55,8 @@ export default class IamPortAddCardPage extends Component {
   sendDataToServer() {
     const {
       cardInfo,
+      dispatch,
+      couponIdxWillUse,
     } = this.props;
     if(!this.isEnableRegist(cardInfo)) {
       Alert.alert(
@@ -88,7 +96,9 @@ export default class IamPortAddCardPage extends Component {
     };
 
     console.log(param);
-    /*
+    this.setState({
+      isFetching: true,
+    });
     fetch(RequestURL.CREATE_BILL_KEY, {
       method: 'POST',
       headers: {
@@ -99,17 +109,38 @@ export default class IamPortAddCardPage extends Component {
     })
     .then((response) => response.json())
     .then((responseData) => {
+      this.setState({
+        isFetching: false,
+      });
       const code = responseData.code;
-      const status = responseData.status;
       const message = responseData.message;
+      const response = responseData.response;
+      console.log(code);
+      console.log(message);
+      console.log(response);
+      if (code === 200) {
+        Alert.alert(
+          '카드 등록 성공!',
+          '결제를 진행해 주세요 :)',
+          [
+            { text: 'OK', onPress: () => { dispatch(fetchCartInfo(couponIdxWillUse)); dispatch(clearCardInfo()); Actions.pop();  } }
+          ]
+        );
+      } else if (code === 400) {
+        Alert.alert(
+          '카드 등록 실패!',
+          message,
+          [
+            { text: 'OK', onPress: () => { dispatch(clearCardInfo()); Actions.pop(); } }
+          ]
+        );
+      }
     }).catch((error) => {
       console.warn(error);
     });
-    */
   }
 
   isEnableRegist(cardInfo) {
-    console.log(cardInfo);
     const {
       cardNumber,
       expiry,
@@ -118,7 +149,8 @@ export default class IamPortAddCardPage extends Component {
       isAgreed,
     } = cardInfo;
     const {
-      selectedIndex
+      selectedIndex,
+      isFetching,
     } = this.state;
 
     // check cardNumber
@@ -142,6 +174,9 @@ export default class IamPortAddCardPage extends Component {
     }
     if(!isAgreed) {
       return isAgreed;
+    }
+    if(isFetching) {
+      return false;
     }
     return true;
   }
@@ -175,7 +210,7 @@ export default class IamPortAddCardPage extends Component {
       { borderColor: Color.PRIMARY_ORANGE, borderWidth: 1 };
 
     const checkView = isAgreed ? 
-      <Image style={{width: 10, height: 10}} source={require('../commonComponent/img/cart_white.png')} />
+      <Image style={{width: 10, height: 10}} source={require('../commonComponent/img/check_box.png')} />
       :
       false;
 
@@ -183,6 +218,10 @@ export default class IamPortAddCardPage extends Component {
 
     return (
       <View style={styles.container}>
+        <ScrollView
+          keyboardShouldPersistTaps={true}
+          keyboardDismissMode={'on-drag'}
+        >
         <View style={styles.row} >
           <Text style={Font.DEFAULT_FONT_BLACK}>카드번호</Text>
           <View style={styles.rowRight}>
@@ -191,11 +230,11 @@ export default class IamPortAddCardPage extends Component {
               style={styles.default}
               maxLength={4}
               autoFocus={true}
-              keyboardType={'number-pad'}
+              keyboardType='numeric'
               onChangeText={ (text) => { 
                   if(text.length == 4) {
                     this.refs.cardNumberSecond.focus();
-                    dispatch(setCardNumber(text, 0));
+                    dispatch(setCardNumber(text, 0));   
                   }
                 }
               }
@@ -204,7 +243,7 @@ export default class IamPortAddCardPage extends Component {
               style={[styles.default, { marginLeft: normalize(5) }]}
               ref='cardNumberSecond'
               maxLength={4}
-              keyboardType={'number-pad'}
+              keyboardType={'numeric'}
               onChangeText={ (text) => {
                   if (text.length === 4) { 
                     this.refs.cardNumberThird.focus();
@@ -217,7 +256,7 @@ export default class IamPortAddCardPage extends Component {
               style={[styles.default, { marginLeft: normalize(5) }]}
               ref='cardNumberThird'  
               maxLength={4}
-              keyboardType={'number-pad'}
+              keyboardType={'numeric'}
               onChangeText={ (text) => {
                   if (text.length === 4) { 
                     this.refs.cardNumberFourth.focus();
@@ -230,7 +269,7 @@ export default class IamPortAddCardPage extends Component {
               style={[styles.default, { marginLeft: normalize(5) }]}
               ref='cardNumberFourth'
               maxLength={4}
-              keyboardType={'number-pad'}
+              keyboardType={'numeric'}
               onChangeText={ (text) => {
                   if (text.length === 4) { 
                     this.refs.passWord.focus();
@@ -248,7 +287,7 @@ export default class IamPortAddCardPage extends Component {
               ref='passWord'
               style={[styles.default, { width: normalize(37) }]}
               maxLength={2}
-              keyboardType={'number-pad'}
+              keyboardType={'numeric'}
               onChangeText={ (text) => {
                   if (text.length == 2) {
                     this.refs.monthExpiry.focus();
@@ -268,7 +307,7 @@ export default class IamPortAddCardPage extends Component {
               style={[styles.default, { width: normalize(39) }]}
               maxLength={2}
               placeholder={'mm'}
-              keyboardType={'number-pad'}
+              keyboardType={'numeric'}
               onChangeText={ (text) => {
                   if (text.length == 2) {
                     this.refs.yearExpiry.focus();
@@ -284,7 +323,7 @@ export default class IamPortAddCardPage extends Component {
               style={styles.default}
               maxLength={4}
               placeholder={'yyyy'}
-              keyboardType={'number-pad'}
+              keyboardType={'numeric'}
               onChangeText={ (text) => {
                   if (text.length == 4) {
                     dispatch(setExpiry(text, 1));
@@ -326,10 +365,6 @@ export default class IamPortAddCardPage extends Component {
           </View>
         </TouchableOpacity>
 
-        <View style={[styles.row, { backgroundColor: Color.PRIMARY_BACKGROUND }]}>
-          <Text style={[Font.DEFAULT_FONT_ORANGE_UNDERLINE, { fontSize: normalize(12) }]}>정기과금 이용약관</Text>
-        </View>
-
         <View style={styles.registBtnArea}>
           <TouchableOpacity
             underlayColor={'transparent'}
@@ -340,6 +375,7 @@ export default class IamPortAddCardPage extends Component {
             </View>
           </TouchableOpacity>
         </View>
+        </ScrollView>
       </View>
     );
   }
@@ -371,7 +407,7 @@ const styles = StyleSheet.create({
   },
   default: {
     height: 26,
-    width: normalize(50),
+    width: normalize(53),
     borderWidth: 1,
     borderColor: Color.PRIMARY_BLACK,
     borderRadius: 3,
@@ -391,6 +427,7 @@ const styles = StyleSheet.create({
   registBtnArea: {
     flex: 1,
     justifyContent: 'flex-end',
+    marginTop: 20,
   },
   btn: {
     flex: 1,
