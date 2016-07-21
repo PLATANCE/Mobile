@@ -14,7 +14,7 @@ export default class BannerDetailPage extends Component {
             <View style={styles.container} >
                 <WebView style={styles.webView}
                     automaticallyAdjustContentInsets={false}
-                    source={{uri: "http://www.plating.co.kr/admin/admin_banner_main.php"}}
+                    source={{uri: "http://plating.co.kr/admin/admin_banner_main.php"}}
                     javaScriptEnabled={true}
                     domStorageEnabled={true}
                     decelerationRate="normal"

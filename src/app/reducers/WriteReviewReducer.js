@@ -30,7 +30,6 @@ function writeReviewReducer(state = {
             review.rating = rating;
           }
         })
-
         return Object.assign({}, state, {
           reviews,
         });
@@ -45,7 +44,7 @@ function writeReviewReducer(state = {
             review.comment = comment;
           }
         })
-
+        console.log(reviews);
         return Object.assign({}, state, {
           reviews,
         });

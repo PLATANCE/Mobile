@@ -19,6 +19,7 @@ export default class ChangableAddCartButton extends Component {
   static propTypes = {
     cart: PropTypes.object.isRequired,
     menuIdx: PropTypes.number.isRequired,
+    stock: PropTypes.number.isRequired,
   };
 
   render() {
@@ -28,6 +29,7 @@ export default class ChangableAddCartButton extends Component {
       onAddItemToCart,
       onDecreaseItemFromCart,
       style,
+      stock,
     } = this.props;
 
     let shouldChanged = false;
@@ -59,17 +61,31 @@ export default class ChangableAddCartButton extends Component {
               <Text style={Font.DEFAULT_FONT_WHITE}>+</Text>
             </View>
           </TouchableOpacity>
-      </View>
+        </View>
       )
     }
-    return (
-      <View style={[styles.container, style]}>
-        <TouchableOpacity
-            onPress={() => onAddItemToCart()}>
+    if(stock > 0) {
+      return (
+        <View style={[styles.container, style]}>
+          <TouchableOpacity
+            onPress={() => onAddItemToCart()}
+          >
             <View style={styles.button}>
               <Text style={Font.DEFAULT_FONT_WHITE}>담기</Text>
             </View>
           </TouchableOpacity>
+        </View>
+      );
+    }
+    return (
+      <View style={[styles.container, style]}>
+        <TouchableOpacity
+          activeOpacity={1}
+        >
+        <View style={[styles.button, { backgroundColor: Color.PRIMARY_GRAY_BUTTON, borderColor: Color.PRIMARY_GRAY_BUTTON }]}>
+          <Text style={Font.DEFAULT_FONT_WHITE}>담기</Text>
+        </View>
+        </TouchableOpacity>
       </View>
     );
   }

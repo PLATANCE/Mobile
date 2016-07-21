@@ -7,7 +7,7 @@ const RequestURL = {
     SUBMIT_POINT_REGISTER: 'http://api.plating.co.kr/promo/register?', // user_idx, code
 
     // dailyMenu
-    REQUEST_DAILY_MENU: 'http://api.plating.co.kr/daily_menu_t',
+    REQUEST_DAILY_MENU: 'http://api.plating.co.kr/daily_menu',
     REQUEST_MY_ADDRESS: 'http://api.plating.co.kr/user/get_address?',
     REQUEST_REVIEW_AVAILABLE: 'http://api.plating.co.kr/review/isAvailable?', // user_idx
     REQUEST_DIALOG: 'http://api.plating.co.kr/dialog/get_dialog',

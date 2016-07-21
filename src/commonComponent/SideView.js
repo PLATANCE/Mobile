@@ -159,7 +159,7 @@ const SideView = (props, context) => {
           responseData.title,
           responseData.message,
           [
-            { text: '확인', onPress: () => props.onFetchCartInfo() }
+            { text: '확인', onPress: () => { props.onFetchCartInfo(); props.onFetchMyCouponCount } }
           ]
         );
       } else {

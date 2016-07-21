@@ -60,7 +60,14 @@ class NavigationDrawer extends Component {
         type="displace"
         onOpen={ () => dispatch(changeDrawerStatus(!open)) }
         onClose={ () => dispatch(changeDrawerStatus(!open)) }
-        content={<SideView point={point} cntCoupon={myCouponCount} onFetchCartInfo={() => dispatch(fetchCartInfo(couponIdxWillUse))}/>}
+        content={
+          <SideView
+            point={point}
+            cntCoupon={myCouponCount}
+            onFetchCartInfo={ () => dispatch(fetchCartInfo(couponIdxWillUse)) }
+            onFetchMyCouponCount={ () => dispatch(fetchMyCouponCount()) }
+          />
+        }
         tapToClose
         openDrawerOffset={0.3}
         panCloseMask={0.3}

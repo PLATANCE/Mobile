@@ -70,7 +70,6 @@ export default class IamPortAddCardPage extends Component {
       expiry,
       birth,
       passwordPre2Digit,
-      isAgreed,
     } = cardInfo;
 
     let cardNumberParam = '';
@@ -81,7 +80,7 @@ export default class IamPortAddCardPage extends Component {
       cardNumberParam += cardNumber[index] + '-';
     }
     cardNumberParam = cardNumberParam.substring(0, cardNumberParam.length - 1);
-    expiryParam = expiry[1] + '-' + expiry[0];
+    expiryParam = '20' + expiry[1] + '-' + expiry[0];
 
     for(let index in birth) {
       birthParam += birth[index];
@@ -96,9 +95,11 @@ export default class IamPortAddCardPage extends Component {
     };
 
     console.log(param);
+
     this.setState({
       isFetching: true,
     });
+    
     fetch(RequestURL.CREATE_BILL_KEY, {
       method: 'POST',
       headers: {
@@ -115,9 +116,7 @@ export default class IamPortAddCardPage extends Component {
       const code = responseData.code;
       const message = responseData.message;
       const response = responseData.response;
-      console.log(code);
-      console.log(message);
-      console.log(response);
+
       if (code === 200) {
         Alert.alert(
           '카드 등록 성공!',
@@ -146,7 +145,6 @@ export default class IamPortAddCardPage extends Component {
       expiry,
       birth,
       passwordPre2Digit,
-      isAgreed,
     } = cardInfo;
     const {
       selectedIndex,
@@ -172,9 +170,6 @@ export default class IamPortAddCardPage extends Component {
         return false;
       }
     }
-    if(!isAgreed) {
-      return isAgreed;
-    }
     if(isFetching) {
       return false;
     }
@@ -189,9 +184,6 @@ export default class IamPortAddCardPage extends Component {
       dispatch,
       cardInfo,
     } = this.props;
-    const {
-      isAgreed,
-    } = cardInfo;
 
     //console.log(cardInfo);
     const view = selectedIndex ? 
@@ -203,17 +195,6 @@ export default class IamPortAddCardPage extends Component {
     const unCheckedCardStyle = selectedIndex ? styles.checkedCard : styles.unCheckedCard;
     const checkedCardTextStyle = selectedIndex ? Font.DEFAULT_FONT_ORANGE : Font.DEFAULT_FONT_WHITE;
     const unCheckedCardTextStyle = selectedIndex ? Font.DEFAULT_FONT_WHITE : Font.DEFAULT_FONT_ORANGE;
-
-    const style = isAgreed ? 
-      { backgroundColor: Color.PRIMARY_ORANGE }
-      :
-      { borderColor: Color.PRIMARY_ORANGE, borderWidth: 1 };
-
-    const checkView = isAgreed ? 
-      <Image style={{width: 10, height: 10}} source={require('../commonComponent/img/check_box.png')} />
-      :
-      false;
-
     const buttonStyle = this.isEnableRegist(cardInfo) ? styles.enableBtn : styles.disableBtn;
 
     return (
@@ -320,17 +301,16 @@ export default class IamPortAddCardPage extends Component {
             <Text style={[Font.DEFAULT_FONT_BLACK, { marginLeft: normalize(5), marginRight: normalize(5) }]}>/</Text>
             <TextInput
               ref='yearExpiry'
-              style={styles.default}
-              maxLength={4}
-              placeholder={'yyyy'}
+              style={[styles.default, { width: normalize(39) }]}
+              maxLength={2}
+              placeholder={'yy'}
               keyboardType={'numeric'}
               onChangeText={ (text) => {
-                  if (text.length == 4) {
+                  if (text.length == 2) {
                     dispatch(setExpiry(text, 1));
                   }             
                 }
               }
-              
             />
           </View>
         </View>
@@ -353,17 +333,12 @@ export default class IamPortAddCardPage extends Component {
         
         {view}
 
-        <TouchableOpacity
-          style={[styles.row, { marginTop: normalize(20)}]}
-          activeOpacity={0.8}
-          onPress={ () => dispatch(setAgreed(!isAgreed)) }>
-          <Text style={Font.DEFAULT_FONT_BLACK}>아래 약관 내용에 모두 동의합니다.</Text>
-          <View style={styles.rowRight}>
-            <View style={[styles.checkBox, style]}>
-              {checkView}
-            </View>
-          </View>
-        </TouchableOpacity>
+        <View style={styles.infoText}>
+          <Text style={Font.DEFAULT_FONT_GRAY_BOLD}>Notice</Text>
+          <Text style={[Font.DEFAULT_FONT_GRAY, { marginTop: normalize(5) }]}>∙ 고객님의 카드정보는 나이스정보통신㈜을 통해 암호화되어 관리되며 플레이팅은 일체 저장하지 않습니다.</Text>
+          <Text style={Font.DEFAULT_FONT_GRAY}>∙ 결제는 고객님의 동의 하에서만 진행됩니다.</Text>
+          <Text style={Font.DEFAULT_FONT_GRAY}>∙ 등록한 카드 외에 캡틴(라이더)과 만나서 카드결제, 현금결제가 가능합니다.</Text>
+        </View>
 
         <View style={styles.registBtnArea}>
           <TouchableOpacity
@@ -406,7 +381,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   default: {
-    height: 26,
+    height: normalize(26),
     width: normalize(53),
     borderWidth: 1,
     borderColor: Color.PRIMARY_BLACK,
@@ -427,11 +402,11 @@ const styles = StyleSheet.create({
   registBtnArea: {
     flex: 1,
     justifyContent: 'flex-end',
-    marginTop: 20,
+    marginTop: normalize(50),
   },
   btn: {
     flex: 1,
-    height: 26,
+    height: normalize(26),
     borderWidth: 1,
     borderRadius: 5,
     justifyContent: 'center',
@@ -439,7 +414,7 @@ const styles = StyleSheet.create({
     borderColor: Color.PRIMARY_ORANGE,
   },
   registBtn: {
-    height: 40,
+    height: normalize(40),
     borderWidth: 1,
     borderRadius: 5,
     overflow: 'hidden',
@@ -467,5 +442,10 @@ const styles = StyleSheet.create({
   enableBtn: {
     backgroundColor: Color.PRIMARY_ORANGE,
     borderColor: Color.PRIMARY_ORANGE,
+  },
+  infoText: {
+    marginTop: normalize(20),
+    marginLeft: normalize(16),
+    marginRight: normalize(16),
   },
 });

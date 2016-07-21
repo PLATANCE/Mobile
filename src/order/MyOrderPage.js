@@ -70,7 +70,7 @@ export default class MyOrderPage extends Component {
             <TouchableHighlight onPress={Actions.pop} underlayColor={'transparent'}>
                 <View style={styles.container}>
                     <Image style={styles.img}
-                        source={require('./img/no_data.jpg')} />
+                        source={require('./img/no_order_data.jpg')} />
                 </View>
             </TouchableHighlight>
         );

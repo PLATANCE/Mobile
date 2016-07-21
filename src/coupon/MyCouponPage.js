@@ -64,7 +64,7 @@ export default class MyCouponPage extends Component {
             <TouchableHighlight onPress={Actions.ReferPage} underlayColor={'transparent'}>
                 <View style={styles.container}>
                     <Image style={styles.img}
-                        source={require('../order/img/no_data.png')} />
+                        source={require('../order/img/no_coupon_data.png')} />
                 </View>
             </TouchableHighlight>
         );

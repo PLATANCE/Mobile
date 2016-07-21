@@ -47,6 +47,11 @@ export const Font = StyleSheet.create({
         color: Color.PRIMARY_ORANGE,
         fontWeight: 'bold',
     },
+    DEFAULT_FONT_GRAY_BOLD: {
+        fontSize: normalize(14),
+        color: Color.PRIMARY_GRAY,
+        fontWeight: 'bold',
+    },
     DEFAULT_FONT_BLACK_UNDERLINE: {
         fontSize: normalize(14),
         color: Color.PRIMARY_BLACK,

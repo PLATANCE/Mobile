@@ -12,28 +12,34 @@ import RequestURL from '../../const/RequestURL';
 
 export default class WriteReviewItem extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      itemRating: 0,
+    };
+  }
+
   submitReview(orderDIdx, enableButton) {
     const {
       orderIdx,
       reviews,
       onFetchWriteReviewList,
     } = this.props;
-    let rating;
     let comment;
     reviews.forEach((review) => {
       if(orderDIdx === review.idx) {
-        rating = review.rating;
         comment = review.comment;
       }
     })
     const param = {
       order_idx: orderIdx,
       order_d_idx: orderDIdx,
-      rating: rating,
+      rating: this.state.itemRating,
       comment: comment,
     };
     console.log(param);
-      if(enableButton) {
+
+    if(enableButton) {
       fetch(RequestURL.SUBMIT_WRITE_REVIEW, {
         method: 'POST',
         headers: {
@@ -48,11 +54,14 @@ export default class WriteReviewItem extends Component {
           '소중한 의견 감사합니다.',
         );
         onFetchWriteReviewList();
+        this.setState({
+          itemRating: 0,
+        });
       })
       .catch((error) => {
         console.warn(error);
       });
-      }
+    }
   }   
     
 
@@ -64,12 +73,17 @@ export default class WriteReviewItem extends Component {
       onChangeSubmitProperty
     } = this.props;
 
+    const {
+      itemRating,
+    } = this.state;
+    
     const orderDIdx = item.idx;
     const menuName = item.name_menu;
     const menuNameKor = menuName.split('.')[0];
     const menuNameEng = menuName.split('.')[1];
     const menuURL = MediaURL.MENU_URL + item.image_url_menu;
     const rating = item.rating;
+    
     const enableButton = (rating > 0) ? false : true;
     const enableButtonBackground = (rating > 0) ? 
       { borderColor: Color.PRIMARY_GRAY, backgroundColor: Color.PRIMARY_GRAY }
@@ -90,10 +104,11 @@ export default class WriteReviewItem extends Component {
                 ref={(rating) => {this.rating = rating;}}
                 disabled={!enableButton}
                 maxStars={5}
-                rating={rating}
+                rating={rating > 0 ? rating : itemRating}
                 starColor={'#FFD057'}
                 starSize={35}
-                selectedStar={(rating) => onChangeStarRating(orderDIdx, rating)}
+                selectedStar={(rating) => { this.setState({ itemRating: rating })} }
+                //selectedStar={(rating) => { onChangeStarRating(orderDIdx, rating); this.setState({itemRating: rating})} }
               />
             </View>
           </View>

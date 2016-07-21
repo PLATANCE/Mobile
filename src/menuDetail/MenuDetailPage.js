@@ -187,6 +187,7 @@ export default class MenuDetailPage extends Component {
                   style={ { marginLeft: normalize(10) } }
                   onAddItemToCart={ () => dispatch(addItemToCart(menuDIdx, menuIdx, price, alt_price, image_url_menu, name_menu, name_menu_eng, !isSoldOut)) }
                   onDecreaseItemFromCart={ () => dispatch(decreaseItemFromCart(menuDIdx, menuIdx, price, alt_price, image_url_menu, name_menu, name_menu_eng)) }
+                  stock={stock}
                 />
               </View>
             </View>

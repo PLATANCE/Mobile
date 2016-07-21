@@ -64,7 +64,7 @@ export default class DailyMenuItem extends Component {
     let menuURL = MediaURL.MENU_URL + image_url_menu;
     let chefURL = MediaURL.CHEF_URL + image_url_chef;
     let isSoldOut = stock <= 0 ? true : false;
-    const menuInfo = <MenuInfo stock={menu.stock} isEvent={is_event} isNew={is_new}/>;
+    const menuInfo = <MenuInfo stock={stock} isEvent={is_event} isNew={is_new}/>;
     
     return (
       <TouchableHighlight
@@ -112,6 +112,7 @@ export default class DailyMenuItem extends Component {
                 menuIdx={menu_idx}
                 onAddItemToCart={() => addItemToCart(idx, menu_idx, price, alt_price, image_url_menu, menuNameKor, menuNameEng, !isSoldOut)}
                 onDecreaseItemFromCart={() => decreaseItemFromCart(idx, menu_idx, price, alt_price, image_url_menu, menuNameKor, menuNameEng)}
+                stock={stock}
               />
             </View>
           </View>

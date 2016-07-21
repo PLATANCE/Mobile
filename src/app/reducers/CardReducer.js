@@ -7,7 +7,6 @@ const initialState = {
    	expiry: [],
    	birth: [],
    	passwordPre2Digit: '',
-   	isAgreed: false,
 }
 
 const cardReducer = function(state = initialState, action) {
@@ -67,16 +66,6 @@ const cardReducer = function(state = initialState, action) {
   		return Object.assign({}, state,  {
   			birth : []
   		});
-  	}
-
-  	case CardActions.SET_AGREED: {
-  		console.log("SET_AGREED:", action.isAgreed);
-  		const index = action.index;
-  		const isAgreed = action.isAgreed;
-  		
-  		return Object.assign({}, state, {
-        isAgreed
-			});
   	}
   	
   	case CardActions.GET_CARD_INFO: {

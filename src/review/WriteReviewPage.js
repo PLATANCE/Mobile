@@ -66,13 +66,6 @@ export default class WriteReviewPage extends Component {
 
     console.log(reviews);
     
-    /*
-    reviews.map((review, idx) => {
-      console.log(review);
-      console.log(idx);
-    });
-    */
-    
     var writeReviewItems = reviews.map((review, index) => (
       <WriteReviewItem
         key={index}
@@ -85,7 +78,6 @@ export default class WriteReviewPage extends Component {
         onChangeSubmitProperty={ () => this.changeSubmitProperty() }
       />
     ));
-    
     
     return (
       <View style={styles.container}>
