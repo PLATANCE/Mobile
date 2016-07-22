@@ -23,6 +23,19 @@ export default class CartOrderButton extends Component {
     couponIdxWillUse: number;
     couponPriceWillUse: number;
   };
+
+  getCartTotalPrice() {
+    const {
+      cart
+    } = this.props;
+    let cartTotalPrice = 0;
+    for (const menuIdx in cart) {
+      if (cart.hasOwnProperty(menuIdx)) {
+        cartTotalPrice += cart[menuIdx].altPrice * cart[menuIdx].amount;
+      }
+    }
+    return cartTotalPrice;
+  }
   
   showOrderInfo(enable, btnText) {
     const {
@@ -45,16 +58,9 @@ export default class CartOrderButton extends Component {
 
     let mixpanelProperties = {};
 
-    // menu total price
-    let cartTotalPrice = 0;
-    for (const menuIdx in cart) {
-      if (cart.hasOwnProperty(menuIdx)) {
-        cartTotalPrice += cart[menuIdx].altPrice * cart[menuIdx].amount;
-      }
-    }
     const recipient = (selectedRecipient === '본인') ? mobile : selectedRecipient;
     const discountPrice = pointWillUse + couponPriceWillUse;
-    const totalPrice = cartTotalPrice - discountPrice;
+    const totalPrice = this.getCartTotalPrice() - discountPrice;
     const deliveryTime = isInstantDeliveryChecked ? instantDeliveryEstimatedArrivalTime : selectedTimeSlot.timeSlot;
     if(enable) {
       mixpanelProperties = { success: true };
@@ -138,13 +144,6 @@ export default class CartOrderButton extends Component {
 
     const mobile = selectedRecipient === '본인' ? myInfo.mobile : selectedRecipient;
 
-    let cartTotalPrice = 0;
-    for (const menuIdx in cart) {
-      if (cart.hasOwnProperty(menuIdx)) {
-        cartTotalPrice += cart[menuIdx].altPrice * cart[menuIdx].amount;
-      }
-    }
-
     const time_slot = isInstantDeliveryChecked ? 999 : selectedTimeSlot.idx;
 
     const param = {
@@ -160,6 +159,8 @@ export default class CartOrderButton extends Component {
       instant_delivery: isInstantDeliveryChecked,
       mobile,
       versionUpdated: true,
+      coupon_price_will_use: couponPriceWillUse,
+      cart_total_price: this.getCartTotalPrice(),
     };
 
     console.log(param);
@@ -214,12 +215,12 @@ export default class CartOrderButton extends Component {
           onFetchCartInfo(0);
           // mixpanel people property
           Mixpanel.increment('Purchase Count', 1);
-          Mixpanel.increment('Total Purchase Amount', cartTotalPrice);
+          Mixpanel.increment('Total Purchase Amount', this.getCartTotalPrice());
           Mixpanel.increment('Total Paid Amount', totalPrice);
           Mixpanel.increment('Discount Used', pointWillUse);
           mixpanelProperties = {
             error: false,
-            totalPrice: cartTotalPrice,
+            totalPrice: this.getCartTotalPrice(),
             discount: pointWillUse + couponPriceWillUse,
             totalPaid: totalPrice,
             orderCount: countOfMenu,

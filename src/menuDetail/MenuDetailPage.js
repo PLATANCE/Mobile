@@ -22,7 +22,7 @@ import MenuInfo from '../commonComponent/MenuInfo';
 import PageComment from '../commonComponent/PageComment';
 import PlaceholderView from '../commonComponent/PlaceholderView';
 import CartButtonInBottom from '../commonComponent/CartButtonInBottom';
-import ReviewList from './components/ReviewList';
+import MenuReviewItem from '../review/components/MenuReviewItem';
 import Color from '../const/Color';
 import Const from '../const/Const';
 import { Font, normalize } from '../const/Font';
@@ -146,6 +146,13 @@ export default class MenuDetailPage extends Component {
     const menuURL = MediaURL.MENU_URL + image_url_menu;
     const chefURL = MediaURL.CHEF_URL + image_url_chef;
 
+    var reviewItems = reviews.map((review) => (
+      <MenuReviewItem
+        key={review.idx}
+        review={review}
+      />
+    ));
+
     return (
       <View style={styles.container}>
         <PageComment text="모든 메인메뉴는 전자렌지 조리용입니다."/>
@@ -225,9 +232,10 @@ export default class MenuDetailPage extends Component {
               onLayout={this.onBestReviewLayout.bind(this)}
               style={styles.reviewListBox}
             >
-              <ReviewList 
-                reviews={reviews}
-              />
+              <View style={styles.headerBox}>
+                <Text style={[Font.DEFAULT_FONT_BLACK, styles.headerText]}>BEST 리뷰</Text>
+              </View>
+              {reviewItems}
             </View>
             <TouchableHighlight 
               onPress={ () => this.moveToMenuReviewPage('Show More Reviews', menuIdx, name_menu) } 
@@ -369,5 +377,13 @@ let styles = StyleSheet.create({
     },
     menuImageNotAlpha: {
         backgroundColor: 'transparent',
-    }
+    },
+    headerBox: {
+        backgroundColor: 'white',
+        padding: normalize(10),
+    },
+    headerText: {
+        textAlign: 'center',
+        fontSize: normalize(18),
+    },
 });

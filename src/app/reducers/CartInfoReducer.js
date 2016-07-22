@@ -50,9 +50,7 @@ function cartInfoReducer(state = Object.assign({}, defaultCartInfoState), action
         if (timeSlotData.length === 0) {
           selectedTimeSlot = {idx: -1, timeSlot: Const.CART_DELIVERY_TIME_CLOSED_MESSAGE};
         } else {
-          if(Object.keys(selectedTimeSlot).length === 0) {
-            selectedTimeSlot = timeSlotData[0];
-          }
+          selectedTimeSlot = timeSlotData[0];
         }
         const canOrder = cartInfo.can_order;
         const message = cartInfo.message;
