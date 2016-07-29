@@ -224,8 +224,6 @@ export default class MenuDetailPage extends Component {
               <Text style={[styles.textBlack, Font.DEFAULT_FONT_BLACK]}>{story}{'\n'}</Text>
               <Text style={[styles.textOrange, Font.DEFAULT_FONT_ORANGE]}>Ingredients</Text>
               <Text style={[styles.textBlack, Font.DEFAULT_FONT_BLACK]}>{ingredients}{'\n'}</Text>
-              <Text style={[styles.textOrange, Font.DEFAULT_FONT_ORANGE]}>Calories</Text>
-              <Text style={[styles.textBlack, Font.DEFAULT_FONT_BLACK]}>{calories}Kcal</Text>
             </View>
             <View
               ref='bestReview'

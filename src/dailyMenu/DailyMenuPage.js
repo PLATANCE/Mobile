@@ -1,16 +1,24 @@
-'use strict';
 import React, {
-    Component,
+  Component,
 } from 'react';
-import { View, ListView, Text, StyleSheet, TouchableHighlight, Image, ScrollView, Modal, Animated, AsyncStorage, Alert, Linking, Platform, InteractionManager, RefreshControl } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableHighlight,
+  Image,
+  ScrollView,
+  Animated,
+  AsyncStorage,
+  Alert,
+  Platform,
+} from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { Crashlytics } from 'react-native-fabric';
 import DeviceInfo from 'react-native-device-info';
 import Communications from 'react-native-communications';
 import DailyMenuItem from './components/DailyMenuItem';
 import AddressBar from './components/AddressBar';
 import Banner from './components/Banner';
-import PageComment from '../commonComponent/PageComment';
 import CartButtonInBottom from '../commonComponent/CartButtonInBottom';
 import Color from '../const/Color';
 import Const from '../const/Const';
@@ -35,7 +43,6 @@ import {
 } from '../app/actions/CartInfoActions';
 
 const HEIGHT = Const.HEIGHT;
-const WIDTH = Const.WIDTH;
 const DATE = new Date();
 
 
@@ -43,46 +50,51 @@ export default class DailyMenuPage extends Component {
 
   constructor(props) {
     super(props);
-    props.dispatch(fetchMyAddress());
-    //props.dispatch(fetchDailyMenu(props.myAddress));
+    const { dispatch } = props;
+    dispatch(fetchMyAddress());
     this.state = {
       offset: new Animated.Value(-HEIGHT),
       isDialogVisible: false,
       dialogImageURL: '',
       redirect: 0,
       isRefreshing: false,
-    }
-    if(userInfo.isLogin) 
+    };
+    if (userInfo.isLogin) {
       Mixpanel.track('Log In Success');
-      
+    }
     Mixpanel.timeEvent('(Screen) Daily Menu List');
   }
 
   componentDidMount() {
-        this.fetchReviewAvailable();
-        this.fetchDialog();
-        this.fetchCheckUpdate();
-        Animated.timing(this.state.offset, {
-            duration: 150,
-            toValue: 0,
-        }).start();
+    const { props } = this;
+    const { myAddress, dispatch } = props;
+    dispatch(fetchDailyMenu(myAddress));
+    this.fetchReviewAvailable();
+    this.fetchDialog();
+    this.fetchCheckUpdate();
+    Animated.timing(this.state.offset, {
+      duration: 150,
+      toValue: 0,
+    }).start();
   }
 
   componentWillReceiveProps(nextProps) {
+    const { props } = this;
     const {
       dispatch,
       cart,
-      couponIdxWillUse,
-    } = this.props;
-    
+      myAddress,
+      scene,
+      name,
+    } = props;
     // 내 주소 state가 바뀌면 fetchDailyMenu 호출
-    if (this.props.myAddress !== nextProps.myAddress ) {
+    if (myAddress !== nextProps.myAddress) {
       dispatch(fetchDailyMenu(nextProps.myAddress));
     }
 
     // DailyMenuPage로 오면 fetchDailyMenu 호출
-    if (nextProps.scene.name !== this.props.scene.name && nextProps.scene.name === this.props.name) {
-      dispatch(fetchDailyMenu(this.props.myAddress));
+    if (nextProps.scene.name !== scene.name && nextProps.scene.name === name) {
+      dispatch(fetchDailyMenu(myAddress));
     }
 
     // cart 바뀔때마다 fetchCartInfo 호출
@@ -95,12 +107,12 @@ export default class DailyMenuPage extends Component {
     fetch(RequestURL.REQUEST_REVIEW_AVAILABLE + 'user_idx=' + userInfo.idx)
     .then((response) => response.json())
     .then((responseData) => {
-      if(responseData.available == 'true') {
+      if (responseData.available == 'true') {
         Actions.WriteReviewPage({ orderIdx: responseData.order_idx, autoPopUp: true, })
       }
-    }).catch((error)=> {
+    }).catch((error) => {
       console.warn(error);
-    })
+    });
   }
 
   fetchDialog() {

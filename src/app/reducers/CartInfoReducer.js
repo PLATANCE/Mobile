@@ -28,6 +28,7 @@ function cartInfoReducer(state = Object.assign({}, defaultCartInfoState), action
   switch (action.type) {
     case CartInfoActions.RECEIVE_CART_INFO:
       {
+        console.log('RECEIVE_CART_INFO');
         const cartInfo = action.cartInfo;
         const receivedMyInfo = cartInfo.my_info;
         const myInfo = {

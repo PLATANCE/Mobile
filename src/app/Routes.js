@@ -70,8 +70,11 @@ import userInfo from '../util/userInfo';
 import Mixpanel, { initMixpanel } from '../util/mixpanel';
 
 import {
-    fetchDailyMenu
+    fetchDailyMenu,
 } from './actions/DailyMenuActions';
+import {
+    fetchCartInfo,
+} from './actions/CartInfoActions';
 
 const RouterWithRedux = connect()(Router);
 const store = compose(
@@ -121,10 +124,18 @@ export default class Routes extends Component {
     handleAppStateChange() {
         const appState = AppState.currentState;
         const {
-            myAddress
-        } = store.getState().AddressReducer;
+            AddressReducer,
+            CartInfoReducer,
+        } = store.getState();
+        const {
+            myAddress,
+        } = AddressReducer;
+        const {
+            couponIdxWillUse,
+        } = CartInfoReducer;
         if (appState === 'active') {
             store.dispatch(fetchDailyMenu(myAddress));
+            store.dispatch(fetchCartInfo(couponIdxWillUse));
         }
     }
 
