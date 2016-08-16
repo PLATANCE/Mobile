@@ -44,7 +44,7 @@ export function setCouponWillUse(couponIdxWillUse, couponPriceWillUse, pointWill
     couponIdxWillUse,
     couponPriceWillUse,
     pointWillUse,
-  }
+  };
 }
 
 export function setPointWillUse(pointWillUse) {
@@ -90,9 +90,9 @@ export function setDeliveryTypeCheck(isInstantDeliveryChecked) {
 }
 
 export function fetchCartInfo(couponIdx) {
-  console.log(`${RequestURL.REQUEST_CART_INFO}user_idx=${1708}&coupon_idx=${couponIdx}`);
   return (dispatch) => {
     const userIdx = userInfo.idx;
+    console.log(`${RequestURL.REQUEST_CART_INFO}user_idx=${userIdx}&coupon_idx=${couponIdx}`);
     return fetch(`${RequestURL.REQUEST_CART_INFO}user_idx=${userIdx}&coupon_idx=${couponIdx}`)
       .then((response) => response.json())
       .then((json) => dispatch(receiveCartInfo(json)))

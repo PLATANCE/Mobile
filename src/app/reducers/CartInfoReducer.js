@@ -84,16 +84,16 @@ function cartInfoReducer(state = Object.assign({}, defaultCartInfoState), action
       })
     }
     case CartInfoActions.SET_COUPON_WILL_USE:
-    {
+      {
         const couponIdxWillUse = action.couponIdxWillUse;
         const couponPriceWillUse = action.couponPriceWillUse;
-        let pointWillUse = action.pointWillUse;
+        const pointWillUse = action.pointWillUse;
         return Object.assign({}, state, {
           couponIdxWillUse,
           couponPriceWillUse,
           pointWillUse,
-        })
-    }
+        });
+      }
     case CartInfoActions.SET_POINT_WILL_USE:
     {
         const pointWillUse = action.pointWillUse;

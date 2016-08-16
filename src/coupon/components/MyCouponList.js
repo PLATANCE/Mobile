@@ -34,6 +34,8 @@ export default class MyCouponList extends Component {
         const {
             cart,
             pointWillUse,
+            couponIdxWillUse,
+            couponPriceWillUse,
             fetchCartInfo,
             onSetCouponWillUse,
             disable,
@@ -88,10 +90,7 @@ export default class MyCouponList extends Component {
                               text: '확인',
                               onPress: () => {
                                 fetchCartInfo(couponIdx);
-                                const pointInput = cartTotalPrice > discountCouponPrice ? pointWillUse : cartTotalPrice - discountCouponPrice;
-                                console.log(cartTotalPrice > discountCouponPrice);
-                                console.log(pointInput);
-                                onSetCouponWillUse(couponIdx, discountCouponPrice, pointInput);
+                                onSetCouponWillUse(cart, couponIdx, discountCouponPrice);
                                 Actions.pop();
                               },
                             },
@@ -102,7 +101,7 @@ export default class MyCouponList extends Component {
                         '쿠폰 사용 불가',
                         message,
                         [
-                            {text: '확인', onPress: () => Actions.pop()},
+                            { text: '확인', onPress: () => Actions.pop()},
                         ]
                     );
                 }

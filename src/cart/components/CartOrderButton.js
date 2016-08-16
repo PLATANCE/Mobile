@@ -250,6 +250,9 @@ export default class CartOrderButton extends Component {
       cart,
       selectedPayMethod,
       cardNumber,
+      pointWillUse,
+      couponPriceWillUse,
+      deliveryFee,
     } = this.props;
     
     const {
@@ -264,11 +267,13 @@ export default class CartOrderButton extends Component {
     const isTimeSlotValidated = selectedTimeSlot.timeSlot === Const.CART_DELIVERY_TIME_CLOSED_MESSAGE ? false : true;
     const isDeliveryAvailableValidated = deliveryAvailable === 0 ? false : true;
     const isCanOrderValidated = canOrder === false ? false : true;
+    const totalPrice = this.getCartTotalPrice() - pointWillUse - couponPriceWillUse - deliveryFee;
+    const totalPriceValidated = totalPrice < 0 ? false : true;
     
     let btnText;
     let btnStyle;
     let isBtnEnable = false;
-    if(isAddressValidated && isMobileValidated && isTimeSlotValidated && isCardNumberValidated && isDeliveryAvailableValidated && isCanOrderValidated) {
+    if(isAddressValidated && isMobileValidated && isTimeSlotValidated && isCardNumberValidated && isDeliveryAvailableValidated && isCanOrderValidated && totalPriceValidated) {
       btnText = '주문하기';
       btnStyle = styles.buttonEnableStyle;
       isBtnEnable = true;
@@ -290,6 +295,9 @@ export default class CartOrderButton extends Component {
       }
       if(!isAddressValidated) {
         btnText = Const.CART_ADDRESS_INPUT_MESSAGE;
+      }
+      if (!totalPriceValidated) {
+        btnText = Const.PLEASE_RE_APPLY_POINT_OR_COUPON;
       }
       btnStyle = styles.buttonDisableStyle;
     }

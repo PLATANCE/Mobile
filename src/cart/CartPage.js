@@ -100,11 +100,11 @@ export default class CartPage extends Component {
     if (Object.keys(nextProps.cart).length === 0) {
       return Actions.pop();
     }
-    
+
     InteractionManager.runAfterInteractions(() => {
       this.setState({
         renderPlaceholderOnly: true,
-      })
+      });
     });
   }
 
@@ -113,7 +113,7 @@ export default class CartPage extends Component {
       <PlaceholderView />
     );
   }
-  
+
   toggleDeliveryTime() {
     this.timeSlotPicker.toggle();
   }
@@ -152,7 +152,7 @@ export default class CartPage extends Component {
     tmp += str.substr(7);
     return tmp;
   }
-  
+
   render() {
     // place holder
     if(!this.state.renderPlaceholderOnly) {
@@ -218,8 +218,8 @@ export default class CartPage extends Component {
       :
       false;
 
-    const deliveryInfoCard = selectedPayMethod === 1 ? 
-      <DeliveryInfoCard 
+    const deliveryInfoCard = selectedPayMethod === 1 ?
+      <DeliveryInfoCard
         cardNumber={cardNumber}
       />
       :
@@ -259,8 +259,8 @@ export default class CartPage extends Component {
 
           <PaymentInfoCoupon
             myCouponCount={myCouponCount}
+            cart={cart}
             couponPriceWillUse={couponPriceWillUse}
-            onSetPointWillUse={() => dispatch(setPointWillUse(point))}
           />
 
           <View style={styles.separatorWithMargin1} />
@@ -268,6 +268,7 @@ export default class CartPage extends Component {
           <PaymentInfoTotal
             cart={cart}
             pointWillUse={pointWillUse}
+            deliveryFee={deliveryFee}
             couponPriceWillUse={couponPriceWillUse}
           />
 
@@ -323,6 +324,7 @@ export default class CartPage extends Component {
             selectedTimeSlot={selectedTimeSlot}
             canOrder={canOrder}
             selectedRecipient={selectedRecipient}
+            deliveryFee={deliveryFee}
             pointWillUse={pointWillUse}
             couponIdxWillUse={couponIdxWillUse}
             couponPriceWillUse={couponPriceWillUse}

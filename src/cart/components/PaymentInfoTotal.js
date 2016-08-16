@@ -12,6 +12,7 @@ export default class PaymentInfoTotal extends Component {
     cart: Object;
     pointWillUse: number;
     couponPriceWillUse: number;
+    deliveryFee: number;
   };
   
   render() {
@@ -19,6 +20,7 @@ export default class PaymentInfoTotal extends Component {
       cart,
       pointWillUse,
       couponPriceWillUse,
+      deliveryFee,
     } = this.props;
     
     // menu total price
@@ -29,7 +31,7 @@ export default class PaymentInfoTotal extends Component {
       }
     }
 
-    const totalPrice = cartTotalPrice - pointWillUse - couponPriceWillUse;
+    const totalPrice = cartTotalPrice - pointWillUse - couponPriceWillUse - deliveryFee;
     return (
       <View style={styles.container}>
         <Text style={Font.DEFAULT_FONT_BLACK_BOLD}>총 결제액</Text>
