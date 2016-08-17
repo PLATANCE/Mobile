@@ -9,7 +9,7 @@ import { Router, Schema, Animations, TabBar, Actions, Scene, Reducer } from 'rea
 import { Provider, connect } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux'
 import Reducers from './reducers';
-import thunk from 'redux-thunk'
+import thunk from 'redux-thunk';
 
 import Color from '../const/Color';
 import Const from '../const/Const';

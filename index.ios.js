@@ -2,9 +2,10 @@
  * Sample React Native App
  * https://github.com/facebook/react-native
  */
-'use strict';
-
-import React, { AppRegistry } from 'react-native';
+import { AppRegistry } from 'react-native';
+import codePush from 'react-native-code-push';
 import Routes from './src/app/Routes';
 
-AppRegistry.registerComponent('Mobile', () => Routes);
+const codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
+
+AppRegistry.registerComponent('Mobile', () => codePush(codePushOptions)(Routes));

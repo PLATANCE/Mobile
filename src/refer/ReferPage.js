@@ -24,7 +24,7 @@ export default class ReferPage extends Component {
         this.state = {
             userCode: '',
             //source={{uri: "http://plating.co.kr/app/media/banner/admin_banner_ver2.png?t=" + Math.round(new Date().getTime() / 1000)}} />
-            url: 'new_refer_friend.png?t=' + Math.round(new Date().getTime() / 1000),
+            refer_image: 'new_refer_friend.png?t=' + Math.round(new Date().getTime() / 1000),
             pointPriceKor: '',
             pointPriceNum: '',
             clipboardContent: '',
@@ -102,20 +102,20 @@ export default class ReferPage extends Component {
 
     render() {
         /*
-            셰프의 요리를 집에서 즐겨요! 지금 플레이팅 앱을 다운받고 첫 주문 5천원 할인 받으세요.
-            다운로드 링크: http://goo.gl/t5lrSL
-            추천인 코드: {코드}
-        */
-        const userCode = this.state.userCode;
-        const url = MediaURL.REFER_URL + this.state.url;
-        const defaultContent = '집에서 간편하게 셰프의 요리를 즐겨요!'
-          + '\n지금 플레이팅 앱을 다운받고 첫끼를 무료로 맛보세요!'
-          + '\n[추천 코드: ' + this.state.userCode + ']';
-        const clipboardContent = defaultContent
-          + '\n다운로드 링크: http://goo.gl/t5lrSL';
-
-        const kakaoContent = defaultContent;
-
+         *  클립보드는 추천 + 다운로드
+         *  나머지는 추천
+         */
+        const { userCode, refer_image } = this.state;
+        const url = MediaURL.REFER_URL + refer_image;
+        const clipboardContent = '집에서 간편하게 셰프의 요리를 즐기는 방법-'
+          + '\n1. 지금 플레이팅 앱을 다운받고 주문하세요.'
+          + '\n[다운로드 링크: http://goo.gl/t5lrSL]'
+          + '\n2. 친구 고유코드를 입력하면 5,000원 할인!'
+          + '\n[추천 코드: ' + userCode + ']';
+        const kakaoContent = '집에서 간편하게 셰프의 요리를 즐기는 방법-'
+          + '\n1. 지금 플레이팅 앱을 다운받고 주문하세요.'
+          + '\n2. 친구 고유코드를 입력하면 5,000원 할인!'
+          + '\n[추천 코드: ' + userCode + ']';
         return (
             <View style={styles.container}>
                 <View style={styles.imageBox}>
