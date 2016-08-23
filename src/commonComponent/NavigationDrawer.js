@@ -4,6 +4,7 @@ import { DefaultRenderer, Actions } from 'react-native-router-flux';
 import RequestURL from '../const/RequestURL';
 import userInfo from '../util/userInfo';
 import SideView from './SideView';
+import PushNotification from '../app/PushNotification';
 import {
   fetchCartInfo,
   fetchMyCouponCount,
@@ -22,6 +23,7 @@ class NavigationDrawer extends Component {
     super(props);
     props.dispatch(fetchCartInfo(props.couponIdxWillUse));
     props.dispatch(fetchMyCouponCount());
+    PushNotification.setApplicationIconBadgeNumber(props.myCouponCount);
     this.state = {
       open: false,
     };
@@ -36,6 +38,7 @@ class NavigationDrawer extends Component {
     if(nextProps.open !== open && nextProps.open) {
       dispatch(fetchCartInfo(couponIdxWillUse));
       dispatch(fetchMyCouponCount());
+      PushNotification.setApplicationIconBadgeNumber(nextProps.myCouponCount);
     }
   }
 

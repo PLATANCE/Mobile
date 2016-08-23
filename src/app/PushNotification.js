@@ -19,3 +19,5 @@ PushNotification.configure({
     // ANDROID ONLY: (optional) GCM Sender ID. 
     //senderID: "YOUR GCM SENDER ID"
 });
+
+export default PushNotification;
