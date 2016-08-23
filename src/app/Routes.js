@@ -146,12 +146,13 @@ export default class Routes extends Component {
                 <Scene key="root" hideNavBar={true} hideTabBar={true}>
                     <Scene key="TutorialPage" 
                         hideNavBar={true}
-                        initial={userInfo.isLogin ? false : true}
+                        //initial={userInfo.isLogin ? false : true}
                         component={connect()(TutorialPage)} 
                     />  
 
                     <Scene key="SignInPage" 
                         hideNavBar={true}
+                        initial={userInfo.isLogin ? false : true}
                         component={connect()(SignInPage)} 
                     />
 
