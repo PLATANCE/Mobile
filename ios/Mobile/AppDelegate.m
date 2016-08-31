@@ -86,7 +86,7 @@
   [[UIApplication sharedApplication] registerForRemoteNotificationTypes:myTypes];
 #endif
   
-  [[AppsFlyerTracker sharedTracker] trackAppLaunch];
+  
   [AppsFlyerTracker sharedTracker].delegate = self;
 
   return YES;
@@ -112,6 +112,7 @@
   NSLog(@"applicationDidBecomeActive called");
   [KOSession handleDidBecomeActive];
   [FBSDKAppEvents activateApp];
+  [[AppsFlyerTracker sharedTracker] trackAppLaunch];
 
   // Track Installs, updates & sessions(app opens) (You must include this API to enable tracking)
   
@@ -175,6 +176,10 @@
 }
 -(void)onConversionDataRequestFailure:(NSError *) error {
     NSLog(@"%@",error);
+}
+
+- (void) onAppOpenAttribution:(NSDictionary*) installData {
+  NSLog(@"attribution: %@",installData);
 }
 @end
 
